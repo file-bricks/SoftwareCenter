@@ -1,0 +1,14 @@
+{
+  "app_name": "SoftwareCenter",
+  "publisher": "CN=LukasGeiger",
+  "publisher_display": "Lukas Geiger",
+  "identity_name": "LukasGeiger.SoftwareCenter",
+  "version": "1.0.0.0",
+  "description": "Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Uebersicht installierter Software.",
+  "executable": "SoftwareCenter.exe",
+  "capabilities": "internetClient",
+  "category": "Utilities & Tools",
+  "age_rating": "3+",
+  "privacy_url": "https://github.com/lukisch/SoftwareCenter",
+  "support_url": "https://github.com/lukisch/SoftwareCenter/issues"
+}
