@@ -2,9 +2,7 @@
 
 Ein leichtgewichtiger, plattformuebergreifender Desktop-Organizer fuer Software-Verknuepfungen mit Tab-basierter Kategorisierung.
 
-A lightweight, cross-platform desktop organizer for managing software shortcuts with tab-based categorization.
-
-## Funktionen / Features
+## Funktionen
 
 - **Tab-Organisation** - Programme in benennbare, verschiebbare Tabs gruppieren
 - **Drag & Drop** - Dateien per Drag & Drop hinzufuegen
@@ -14,18 +12,18 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Cross-Platform** - Windows, macOS und Linux
 - **Native Icons** - Automatische Anzeige der System-Anwendungsicons
 
-## Installation
-
-### Voraussetzungen / Requirements
+## Voraussetzungen
 
 - Python 3.10+
 - PySide6
+
+## Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Starten / Run
+## Starten
 
 ```bash
 python SoftwareCenter.py
@@ -33,7 +31,7 @@ python SoftwareCenter.py
 
 Unter Windows auch per `START.bat` oder der vorkompilierten `SoftwareCenter.exe` aus den [Releases](https://github.com/lukisch/SoftwareCenter/releases).
 
-## Verwendung / Usage
+## Verwendung
 
 | Aktion | Anleitung |
 |--------|-----------|
@@ -43,7 +41,7 @@ Unter Windows auch per `START.bat` oder der vorkompilierten `SoftwareCenter.exe`
 | Programme starten | Doppelklick oder Rechtsklick > Oeffnen/Starten |
 | Eintraege entfernen | Rechtsklick > Loeschen (entfernt nur die Verknuepfung) |
 
-## EXE erstellen / Build
+## EXE erstellen
 
 ```bash
 pip install pyinstaller
@@ -52,7 +50,7 @@ pyinstaller --onefile --windowed --icon=icon.ico --name=SoftwareCenter SoftwareC
 
 Die EXE liegt anschliessend in `dist/`.
 
-## Technik / Tech Stack
+## Technik
 
 | Komponente | Technologie |
 |------------|------------|
@@ -61,12 +59,71 @@ Die EXE liegt anschliessend in `dist/`.
 | Speicherung | QSettings (Windows Registry / INI) |
 | Codeumfang | ~350 Zeilen |
 
-## Lizenz / License
+---
 
-Dieses Projekt steht unter der [MIT-Lizenz](LICENSE).
+## English
 
-**Hinweis:** Diese Anwendung verwendet [PySide6](https://doc.qt.io/qtforpython-6/), lizenziert unter LGPLv3. PySide6 wird dynamisch gelinkt und ist nicht in diesem Repository enthalten.
+A lightweight, cross-platform desktop organizer for managing software shortcuts with tab-based categorization.
 
-This project is licensed under the [MIT License](LICENSE).
+### Features
 
-**Note:** This application uses [PySide6](https://doc.qt.io/qtforpython-6/), licensed under LGPLv3. PySide6 is dynamically linked and not included in this repository.
+- **Tab Organization** - Group programs into renamable, movable tabs
+- **Drag & Drop** - Add files via drag and drop
+- **Two View Modes** - Tiles (large icons) and list
+- **Auto Save** - Tabs, contents, and window position are persisted
+- **Context Menu** - Right-click to open or remove
+- **Cross-Platform** - Windows, macOS, and Linux
+- **Native Icons** - Automatic display of system application icons
+
+### Requirements
+
+- Python 3.10+
+- PySide6
+
+### Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+### Run
+
+```bash
+python SoftwareCenter.py
+```
+
+On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` from the [Releases](https://github.com/lukisch/SoftwareCenter/releases).
+
+### Usage
+
+| Action | Instructions |
+|--------|-------------|
+| Add programs | Drag files (EXE, scripts, etc.) into the window |
+| Organize tabs | Toolbar > "New Tab", double-click to rename |
+| Switch view | Toolbar > Tiles / List |
+| Launch programs | Double-click or right-click > Open/Start |
+| Remove entries | Right-click > Delete (removes shortcut only) |
+
+### Build Executable
+
+```bash
+pip install pyinstaller
+pyinstaller --onefile --windowed --icon=icon.ico --name=SoftwareCenter SoftwareCenter.py
+```
+
+The EXE will be in `dist/`.
+
+### Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| Language | Python 3.10+ |
+| GUI Framework | PySide6 (Qt for Python) |
+| Storage | QSettings (Windows Registry / INI) |
+| Code Size | ~350 lines |
+
+## License
+
+[MIT](LICENSE)
+
+**Hinweis / Note:** Diese Anwendung verwendet / This application uses [PySide6](https://doc.qt.io/qtforpython-6/), lizenziert unter / licensed under LGPLv3. PySide6 wird dynamisch gelinkt / is dynamically linked.
