@@ -1,22 +1,20 @@
 # SoftwareCenter
 
-Ein leichtgewichtiger, plattformuebergreifender Desktop-Organizer fuer Software-Verknuepfungen mit Tab-basierter Kategorisierung.
-
 A lightweight, cross-platform desktop organizer for managing software shortcuts with tab-based categorization.
 
-## Funktionen / Features
+## Features
 
-- **Tab-Organisation** - Programme in benennbare, verschiebbare Tabs gruppieren
-- **Drag & Drop** - Dateien per Drag & Drop hinzufuegen
-- **Zwei Ansichtsmodi** - Kacheln (grosse Icons) und Liste
-- **Automatische Speicherung** - Tabs, Inhalte und Fensterposition bleiben erhalten
-- **Kontextmenue** - Rechtsklick zum Oeffnen oder Entfernen
-- **Cross-Platform** - Windows, macOS und Linux
-- **Native Icons** - Automatische Anzeige der System-Anwendungsicons
+- **Tab Organization** - Group programs into renamable, rearrangeable tabs
+- **Drag & Drop** - Add files via drag & drop
+- **Two View Modes** - Tiles (large icons) and list
+- **Auto-Save** - Tabs, contents, and window position are preserved
+- **Context Menu** - Right-click to open or remove
+- **Cross-Platform** - Windows, macOS, and Linux
+- **Native Icons** - Automatic display of system application icons
 
 ## Installation
 
-### Voraussetzungen / Requirements
+### Requirements
 
 - Python 3.10+
 - PySide6
@@ -25,48 +23,48 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 pip install -r requirements.txt
 ```
 
-### Starten / Run
+### Run
 
 ```bash
 python SoftwareCenter.py
 ```
 
-Unter Windows auch per `START.bat` oder der vorkompilierten `SoftwareCenter.exe` aus den [Releases](https://github.com/lukisch/SoftwareCenter/releases).
+On Windows, also via `START.bat` or the precompiled `SoftwareCenter.exe` from the [Releases](https://github.com/lukisch/SoftwareCenter/releases).
 
-## Verwendung / Usage
+## Usage
 
-| Aktion | Anleitung |
-|--------|-----------|
-| Programme hinzufuegen | Dateien (EXE, Skripte etc.) ins Fenster ziehen |
-| Tabs organisieren | Toolbar > "Neuer Tab", Doppelklick zum Umbenennen |
-| Ansicht wechseln | Toolbar > Kacheln / Liste |
-| Programme starten | Doppelklick oder Rechtsklick > Oeffnen/Starten |
-| Eintraege entfernen | Rechtsklick > Loeschen (entfernt nur die Verknuepfung) |
+| Action | Instructions |
+|--------|-------------|
+| Add programs | Drag files (EXE, scripts, etc.) into the window |
+| Organize tabs | Toolbar > "New Tab", double-click to rename |
+| Switch view | Toolbar > Tiles / List |
+| Launch programs | Double-click or right-click > Open/Run |
+| Remove entries | Right-click > Delete (removes only the shortcut) |
 
-## EXE erstellen / Build
+## Build Executable
 
 ```bash
 pip install pyinstaller
 pyinstaller --onefile --windowed --icon=icon.ico --name=SoftwareCenter SoftwareCenter.py
 ```
 
-Die EXE liegt anschliessend in `dist/`.
+The EXE will be located in `dist/`.
 
-## Technik / Tech Stack
+## Tech Stack
 
-| Komponente | Technologie |
-|------------|------------|
-| Sprache | Python 3.10+ |
-| GUI-Framework | PySide6 (Qt for Python) |
-| Speicherung | QSettings (Windows Registry / INI) |
-| Codeumfang | ~350 Zeilen |
+| Component | Technology |
+|-----------|-----------|
+| Language | Python 3.10+ |
+| GUI Framework | PySide6 (Qt for Python) |
+| Storage | QSettings (Windows Registry / INI) |
+| Codebase | ~350 lines |
 
-## Lizenz / License
-
-Dieses Projekt steht unter der [MIT-Lizenz](LICENSE).
-
-**Hinweis:** Diese Anwendung verwendet [PySide6](https://doc.qt.io/qtforpython-6/), lizenziert unter LGPLv3. PySide6 wird dynamisch gelinkt und ist nicht in diesem Repository enthalten.
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
 **Note:** This application uses [PySide6](https://doc.qt.io/qtforpython-6/), licensed under LGPLv3. PySide6 is dynamically linked and not included in this repository.
+
+---
+
+Deutsche Version: [README.de.md](README.de.md)
