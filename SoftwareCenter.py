@@ -240,6 +240,7 @@ class MainWindow(QMainWindow):
         if ok:
             name = name.strip() or "Neuer Tab"
             self.add_new_tab(name)
+            self.save_settings()  # BUG 6: Settings nach Tab-Erstellung sofort speichern
 
     def on_rename_tab(self, index: int):
         if index < 0:
@@ -249,6 +250,7 @@ class MainWindow(QMainWindow):
         if ok:
             name = name.strip() or current_name
             self.tabs.setTabText(index, name)
+            self.save_settings()  # BUG 6: Settings nach Umbenennung sofort speichern
 
     def on_rename_tab_action(self):
         idx = self.tabs.currentIndex()
@@ -260,6 +262,7 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Nicht möglich", "Der letzte Tab kann nicht geschlossen werden.")
             return
         self.tabs.removeTab(index)
+        self.save_settings()  # BUG 6: Settings nach Tab-Schließen sofort speichern
 
     def set_current_view(self, mode: str):
         page = self.current_page()
@@ -270,6 +273,7 @@ class MainWindow(QMainWindow):
             self.act_view_tiles.setChecked(True)
         else:
             self.act_view_list.setChecked(True)
+        self.save_settings()
 
     # ----- Speicherfunktion -----
     def save_settings(self):
@@ -336,6 +340,7 @@ class MainWindow(QMainWindow):
             page = self.current_page()
             if page:
                 page.add_paths(paths)
+            self.save_settings()
             event.acceptProposedAction()
         else:
             event.ignore()
