@@ -81,3 +81,36 @@ App Launcher, Desktop Organizer, Software Manager, Program Starter, Tab Organize
 
 ### Category
 Productivity / Utilities
+
+---
+
+## Store Submission Metadata
+
+| Field | Value |
+|---|---|
+| Publisher CN | CN=52596601-BAB4-4F3F-B182-E8F3F273B202 |
+| Publisher Display | Geiger |
+| Identity Name | Geiger.SoftwareCenter |
+| Version | 1.0.0.0 |
+| Age Rating | 3+ |
+| Price | Free |
+| Privacy Policy URL | https://github.com/file-bricks/SoftwareCenter/blob/master/PRIVACY_POLICY.md |
+| Support URL | https://github.com/file-bricks/SoftwareCenter/issues |
+| Capabilities | (none) |
+
+## Store Readiness Checklist
+
+- [x] EXE built (dist/SoftwareCenter.exe, ~44 MB)
+- [x] store_package.json -- publisher CN + URLs corrected
+- [x] releases/windowsstore/store_settings.json -- publisher CN + URLs corrected
+- [x] PRIVACY_POLICY.md created (EN + DE)
+- [x] StoreAssets generated (store_package/SoftwareCenter/icons/)
+- [x] store_assets/ -- legacy icons (Square44x44, Square150x150, Square310x310, Wide310x150)
+- [x] LICENSE present
+- [x] THIRD_PARTY_LICENSES.txt present
+- [x] No hardcoded paths in source code
+- [x] No debug print statements
+- [x] PySide6 (LGPL) -- license compatible with Store distribution
+- [ ] Screenshots -- FEHLEN (mindestens 1 Screenshot erforderlich fuer Store-Submission)
+- [ ] MSIX package -- noch nicht erstellt (braucht Code-Signing-Zertifikat + makeappx)
+- [ ] Code-Signing (.pfx) -- noch nicht konfiguriert in store_settings.json
