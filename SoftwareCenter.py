@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""SoftwareCenter - Desktop-Organizer fuer Software-Verknuepfungen."""
+"""SoftwareCenter - Desktop-Organizer für Software-Verknuepfungen."""
 
 __version__ = "1.0.0"
 
@@ -347,6 +347,9 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
+    icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.ico")
+    if os.path.exists(icon_path):
+        app.setWindowIcon(QIcon(icon_path))
     win = MainWindow()
     win.show()
     sys.exit(app.exec())

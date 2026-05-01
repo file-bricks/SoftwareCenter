@@ -2,6 +2,8 @@
 
 Ein leichtgewichtiger, plattformuebergreifender Desktop-Organizer fuer Software-Verknuepfungen mit Tab-basierter Kategorisierung.
 
+![SoftwareCenter Hauptfenster](README/screenshots/main.png)
+
 ## Funktionen
 
 - **Tab-Organisation** - Programme in benennbare, verschiebbare Tabs gruppieren
@@ -11,6 +13,8 @@ Ein leichtgewichtiger, plattformuebergreifender Desktop-Organizer fuer Software-
 - **Kontextmenue** - Rechtsklick zum Oeffnen oder Entfernen
 - **Cross-Platform** - Windows, macOS und Linux
 - **Native Icons** - Automatische Anzeige der System-Anwendungsicons
+- **Persistente Oberfläche** - Tabs, Fenstergröße und Ansichtsmodus werden via QSettings gespeichert
+- **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 
 ## Voraussetzungen
 
@@ -29,7 +33,7 @@ pip install -r requirements.txt
 python SoftwareCenter.py
 ```
 
-Unter Windows auch per `START.bat` oder der vorkompilierten `SoftwareCenter.exe` aus den [Releases](https://github.com/lukisch/SoftwareCenter/releases).
+Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist jetzt zusätzlich `build_exe.bat` vorhanden.
 
 ## Verwendung
 
@@ -44,11 +48,13 @@ Unter Windows auch per `START.bat` oder der vorkompilierten `SoftwareCenter.exe`
 ## EXE erstellen
 
 ```bash
-pip install pyinstaller
-pyinstaller --onefile --windowed --icon=icon.ico --name=SoftwareCenter SoftwareCenter.py
+build_exe.bat
+
+# oder direkt
+python -m PyInstaller --noconfirm --clean SoftwareCenter.spec
 ```
 
-Die EXE liegt anschliessend in `dist/`.
+Die EXE liegt anschließend in `dist/SoftwareCenter.exe` und wird durch `build_exe.bat` zusätzlich nach `SoftwareCenter.exe` im Projektwurzelverzeichnis kopiert.
 
 ## Technik
 
