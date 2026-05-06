@@ -3,38 +3,38 @@
 ## Deutsch
 
 ### Kurzbeschreibung (max 100 Zeichen)
-Desktop-Organizer: Programme in Tabs gruppieren, per Drag & Drop hinzufuegen, sofort starten.
+Desktop-Organizer: Programme in Tabs gruppieren, per Drag & Drop hinzufügen, sofort starten.
 
 ### Beschreibung (max 10.000 Zeichen)
-SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre Software-Sammlung bringt. Statt sich durch verschachtelte Startmenue-Ordner oder ueberfuellte Desktops zu kaempfen, organisieren Sie Ihre Programme in uebersichtlichen Tabs -- genau so, wie es fuer Ihren Workflow passt.
+SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre Software-Sammlung bringt. Statt sich durch verschachtelte Startmenü-Ordner oder überfüllte Desktops zu kämpfen, organisieren Sie Ihre Programme in übersichtlichen Tabs -- genau so, wie es für Ihren Workflow passt.
 
 **Kernfunktionen:**
 
 - Tab-basierte Organisation: Erstellen Sie beliebig viele Tabs und benennen Sie diese nach Ihren Kategorien (z.B. "Entwicklung", "Grafik", "Office"). Tabs lassen sich per Drag & Drop umsortieren.
 
-- Zwei Ansichtsmodi: Wechseln Sie zwischen einer Kachel-Ansicht mit grossen Icons fuer schnellen visuellen Zugriff und einer kompakten Listenansicht fuer grosse Sammlungen.
+- Zwei Ansichtsmodi: Wechseln Sie zwischen einer Kachel-Ansicht mit großen Icons für schnellen visuellen Zugriff und einer kompakten Listenansicht für große Sammlungen.
 
-- Drag & Drop: Ziehen Sie EXE-Dateien, Skripte oder beliebige Programm-Verknuepfungen einfach ins Fenster -- fertig. Keine umstaendliche Konfiguration noetig.
+- Drag & Drop: Ziehen Sie EXE-Dateien, Skripte oder beliebige Programm-Verknüpfungen einfach ins Fenster -- fertig. Keine umständliche Konfiguration nötig.
 
 - Native System-Icons: SoftwareCenter zeigt automatisch die Original-Icons Ihrer Anwendungen an, damit Sie Programme sofort wiedererkennen.
 
-- Automatische Speicherung: Ihre gesamte Organisation -- Tabs, Inhalte, Fensterposition und Ansichtsmodus -- wird automatisch gespeichert und beim naechsten Start wiederhergestellt.
+- Automatische Speicherung: Ihre gesamte Organisation -- Tabs, Inhalte, Fensterposition und Ansichtsmodus -- wird automatisch gespeichert und beim nächsten Start wiederhergestellt.
 
-- Kontextmenue: Per Rechtsklick Programme starten oder Eintraege entfernen (nur die Verknuepfung wird entfernt, nie das Programm selbst).
+- Kontextmenü: Per Rechtsklick Programme starten oder Einträge entfernen (nur die Verknüpfung wird entfernt, nie das Programm selbst).
 
-**Fuer wen ist SoftwareCenter?**
+**Für wen ist SoftwareCenter?**
 
 - Power-User mit vielen installierten Programmen
 - Entwickler, die zwischen verschiedenen Tools wechseln
-- Jeden, der eine schnelle, aufgeraeumte Alternative zum Windows-Startmenue sucht
+- Jeden, der eine schnelle, aufgeräumte Alternative zum Windows-Startmenü sucht
 
 **Technische Details:**
 
-- Minimaler Ressourcenverbrauch (~350 Zeilen Code)
+- Minimaler Ressourcenverbrauch (~360 Zeilen Code)
 - Keine Cloud-Anbindung, keine Telemetrie -- Ihre Daten bleiben lokal
-- Einstellungen werden in der Windows Registry (QSettings) gespeichert
+- Einstellungen werden lokal per QSettings gespeichert
 
-### Schluesselwoerter
+### Schlüsselwörter
 App Launcher, Desktop Organizer, Software Verwaltung, Programmstarter, Tab Organizer, Schnellstart, Shortcut Manager, Drag and Drop, App Manager
 
 ### Kategorie
@@ -72,9 +72,9 @@ SoftwareCenter is a lightweight desktop organizer that brings order to your soft
 
 **Technical Details:**
 
-- Minimal resource usage (~350 lines of code)
+- Minimal resource usage (~360 lines of code)
 - No cloud connection, no telemetry -- your data stays local
-- Settings stored in Windows Registry (QSettings)
+- Settings are stored locally via QSettings
 
 ### Keywords
 App Launcher, Desktop Organizer, Software Manager, Program Starter, Tab Organizer, Quick Launch, Shortcut Manager, Drag and Drop, App Manager
@@ -96,13 +96,13 @@ Productivity / Utilities
 | Price | Free |
 | Privacy Policy URL | https://github.com/file-bricks/SoftwareCenter/blob/master/PRIVACY_POLICY.md |
 | Support URL | https://github.com/file-bricks/SoftwareCenter/issues |
-| Capabilities | (none) |
+| Capabilities | runFullTrust |
 
 ## Store Readiness Checklist
 
 - [x] EXE built (dist/SoftwareCenter.exe, ~44 MB)
 - [x] store_package.json -- publisher CN + URLs corrected
-- [x] releases/windowsstore/store_settings.json -- publisher CN + URLs corrected
+- [x] releases/windowsstore/store_settings.json -- publisher CN + URLs corrected (local build settings, not tracked)
 - [x] PRIVACY_POLICY.md created (EN + DE)
 - [x] StoreAssets generated (store_package/SoftwareCenter/icons/)
 - [x] store_assets/ -- legacy icons (Square44x44, Square150x150, Square310x310, Wide310x150)
@@ -111,6 +111,6 @@ Productivity / Utilities
 - [x] No hardcoded paths in source code
 - [x] No debug print statements
 - [x] PySide6 (LGPL) -- license compatible with Store distribution
-- [ ] Screenshots -- FEHLEN (mindestens 1 Screenshot erforderlich fuer Store-Submission)
+- [x] Screenshot vorhanden (`README/screenshots/main.png`)
 - [ ] MSIX package -- noch nicht erstellt (braucht Code-Signing-Zertifikat + makeappx)
 - [ ] Code-Signing (.pfx) -- noch nicht konfiguriert in store_settings.json

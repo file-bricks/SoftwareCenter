@@ -12,6 +12,11 @@ __pycache__/
 .eggs/
 dist/
 build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
 # ---- Virtuelle Umgebungen ----
 venv/
@@ -34,6 +39,7 @@ _USER/
 credentials.json
 client_secret*.json
 token.json
+*.pfx
 *.pem
 *.key
 keyring/
@@ -45,6 +51,12 @@ releases/
 *.msix
 *.appx
 *.spec
+*.log
+*.tmp
+*.bak
+*.db
+*.sqlite
+*.sqlite3
 
 # ---- IDE & Editoren ----
 .claude/

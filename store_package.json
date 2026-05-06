@@ -4,7 +4,7 @@
   "publisher_display": "Geiger",
   "identity_name": "Geiger.SoftwareCenter",
   "version": "1.0.0.0",
-  "description": "Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Uebersicht installierter Software.",
+  "description": "Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Übersicht installierter Software.",
   "executable": "SoftwareCenter.exe",
   "capabilities": "runFullTrust",
   "category": "Utilities & Tools",

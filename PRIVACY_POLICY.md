@@ -1,7 +1,7 @@
-# Privacy Policy / Datenschutzerklarung
+# Privacy Policy / Datenschutzerklärung
 
-**SoftwareCenter** — published by Geiger
-Last updated: 2026-03-13
+**SoftwareCenter** — published by file-bricks
+Last updated: 2026-05-07
 
 ---
 
@@ -43,16 +43,16 @@ https://github.com/file-bricks/SoftwareCenter/issues
 
 ## Deutsch
 
-### Uberblick
+### Überblick
 
-SoftwareCenter ist eine vollstandig offline arbeitende Desktop-Anwendung. Es werden keinerlei personenbezogene Daten erhoben, gespeichert, ubertragen oder weitergegeben.
+SoftwareCenter ist eine vollständig offline arbeitende Desktop-Anwendung. Es werden keinerlei personenbezogene Daten erhoben, gespeichert, übertragen oder weitergegeben.
 
 ### Datenerhebung
 
 **Es werden keine Daten gesammelt.** Diese Anwendung:
 
-- Erfasst keinerlei personliche Informationen
-- Ubertragt keine Daten uber das Internet
+- Erfasst keinerlei persönliche Informationen
+- Überträgt keine Daten über das Internet
 - Verwendet keine Analyse-, Absturzberichts- oder Telemetrie-Funktionen
 - Verwendet keine Cookies oder Tracking-Technologien
 - Erfordert keine Registrierung oder Anmeldung
@@ -60,17 +60,17 @@ SoftwareCenter ist eine vollstandig offline arbeitende Desktop-Anwendung. Es wer
 
 ### Lokale Speicherung
 
-SoftwareCenter speichert Ihre Einstellungen (Tab-Namen, Verknupfungspfade, Fensterposition, Ansichtsmodus) ausschliesslich in der **Windows-Registrierung** unter dem Schlussel `HKCU\Software\LukasGeiger\SoftwareCenter`. Diese Daten verlassen Ihr Gerat niemals.
+SoftwareCenter speichert Ihre Einstellungen (Tab-Namen, Verknüpfungspfade, Fensterposition, Ansichtsmodus) ausschließlich lokal. Unter Windows nutzt die Anwendung die **Windows-Registrierung** unter dem Schlüssel `HKCU\Software\LukasGeiger\SoftwareCenter`; unter macOS/Linux nutzt Qt die jeweilige lokale QSettings-Ablage. Diese Daten verlassen Ihr Gerät niemals.
 
 ### Drittanbieter-Dienste
 
-SoftwareCenter integriert keine Dienste von Drittanbietern und ist von keinen abhangig.
+SoftwareCenter integriert keine Dienste von Drittanbietern und ist von keinen abhängig.
 
-### Anderungen dieser Richtlinie
+### Änderungen dieser Richtlinie
 
-Sollte sich diese Richtlinie in einer kunftigen Version andern, werden Nutzer uber das Changelog der App informiert.
+Sollte sich diese Richtlinie in einer künftigen Version ändern, werden Nutzer über das Changelog der App informiert.
 
 ### Kontakt
 
-Bei Fragen zu dieser Datenschutzerklarung offnen Sie bitte ein Issue unter:
+Bei Fragen zu dieser Datenschutzerklärung öffnen Sie bitte ein Issue unter:
 https://github.com/file-bricks/SoftwareCenter/issues

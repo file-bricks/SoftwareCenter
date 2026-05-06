@@ -1,20 +1,21 @@
 # SoftwareCenter
 
-Ein leichtgewichtiger, plattformuebergreifender Desktop-Organizer fuer Software-Verknuepfungen mit Tab-basierter Kategorisierung.
+Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-Verknüpfungen mit Tab-basierter Kategorisierung.
 
 ![SoftwareCenter Hauptfenster](README/screenshots/main.png)
 
 ## Funktionen
 
 - **Tab-Organisation** - Programme in benennbare, verschiebbare Tabs gruppieren
-- **Drag & Drop** - Dateien per Drag & Drop hinzufuegen
-- **Zwei Ansichtsmodi** - Kacheln (grosse Icons) und Liste
+- **Drag & Drop** - Dateien per Drag & Drop hinzufügen
+- **Zwei Ansichtsmodi** - Kacheln (große Icons) und Liste
 - **Automatische Speicherung** - Tabs, Inhalte und Fensterposition bleiben erhalten
-- **Kontextmenue** - Rechtsklick zum Oeffnen oder Entfernen
+- **Kontextmenü** - Rechtsklick zum Öffnen oder Entfernen
 - **Cross-Platform** - Windows, macOS und Linux
 - **Native Icons** - Automatische Anzeige der System-Anwendungsicons
 - **Persistente Oberfläche** - Tabs, Fenstergröße und Ansichtsmodus werden via QSettings gespeichert
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
+- **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
 
 ## Voraussetzungen
 
@@ -33,17 +34,17 @@ pip install -r requirements.txt
 python SoftwareCenter.py
 ```
 
-Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist jetzt zusätzlich `build_exe.bat` vorhanden.
+Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist zusätzlich `build_exe.bat` vorhanden.
 
 ## Verwendung
 
 | Aktion | Anleitung |
 |--------|-----------|
-| Programme hinzufuegen | Dateien (EXE, Skripte etc.) ins Fenster ziehen |
+| Programme hinzufügen | Dateien (EXE, Skripte etc.) ins Fenster ziehen |
 | Tabs organisieren | Toolbar > "Neuer Tab", Doppelklick zum Umbenennen |
 | Ansicht wechseln | Toolbar > Kacheln / Liste |
-| Programme starten | Doppelklick oder Rechtsklick > Oeffnen/Starten |
-| Eintraege entfernen | Rechtsklick > Loeschen (entfernt nur die Verknuepfung) |
+| Programme starten | Doppelklick oder Rechtsklick > Öffnen/Starten |
+| Einträge entfernen | Rechtsklick > Löschen (entfernt nur die Verknüpfung) |
 
 ## EXE erstellen
 
@@ -56,6 +57,16 @@ python -m PyInstaller --noconfirm --clean SoftwareCenter.spec
 
 Die EXE liegt anschließend in `dist/SoftwareCenter.exe` und wird durch `build_exe.bat` zusätzlich nach `SoftwareCenter.exe` im Projektwurzelverzeichnis kopiert.
 
+## Qualitätssicherung
+
+```bash
+python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
+python -m json.tool locales/translations.json
+python -m json.tool store_package.json
+```
+
+Die GitHub Actions führen diese Smoke-Checks ebenfalls aus. Build-Artefakte wie `SoftwareCenter.exe`, `build/`, `dist/`, `releases/` und lokale Aufgaben-/Testdateien bleiben per `.gitignore` außerhalb des Repos.
+
 ## Technik
 
 | Komponente | Technologie |
@@ -63,7 +74,7 @@ Die EXE liegt anschließend in `dist/SoftwareCenter.exe` und wird durch `build_e
 | Sprache | Python 3.10+ |
 | GUI-Framework | PySide6 (Qt for Python) |
 | Speicherung | QSettings (Windows Registry / INI) |
-| Codeumfang | ~350 Zeilen |
+| Codeumfang | ~360 Zeilen |
 
 ---
 
@@ -98,7 +109,7 @@ pip install -r requirements.txt
 python SoftwareCenter.py
 ```
 
-On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` from the [Releases](https://github.com/lukisch/SoftwareCenter/releases).
+On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` from the [Releases](https://github.com/file-bricks/SoftwareCenter/releases).
 
 ### Usage
 
@@ -114,10 +125,20 @@ On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` fr
 
 ```bash
 pip install pyinstaller
-pyinstaller --onefile --windowed --icon=icon.ico --name=SoftwareCenter SoftwareCenter.py
+python -m PyInstaller --noconfirm --clean SoftwareCenter.spec
 ```
 
-The EXE will be in `dist/`.
+The EXE will be in `dist/SoftwareCenter.exe`. On Windows, `build_exe.bat` also copies it to the project root for local use.
+
+### Quality Checks
+
+```bash
+python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
+python -m json.tool locales/translations.json
+python -m json.tool store_package.json
+```
+
+GitHub Actions runs these smoke checks. Build artifacts and local task/test files are ignored and should not be committed.
 
 ### Tech Stack
 
@@ -126,7 +147,7 @@ The EXE will be in `dist/`.
 | Language | Python 3.10+ |
 | GUI Framework | PySide6 (Qt for Python) |
 | Storage | QSettings (Windows Registry / INI) |
-| Code Size | ~350 lines |
+| Code Size | ~360 lines |
 
 ## License
 
@@ -138,7 +159,7 @@ The EXE will be in `dist/`.
 
 ## Haftung / Liability
 
-Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gelten die Haftungsausschlüsse aus GPL-3.0 / MIT / Apache-2.0 §§ 15–16 (je nach gewählter Lizenz).
+Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gelten die Haftungsausschlüsse der MIT-Lizenz.
 
 Nutzung auf eigenes Risiko. Keine Wartungszusage, keine Verfügbarkeitsgarantie, keine Gewähr für Fehlerfreiheit oder Eignung für einen bestimmten Zweck.
 

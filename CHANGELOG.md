@@ -2,15 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-05-07
+
+### Changed
+- README, contributing guide, privacy policy, and release notes refreshed for the `file-bricks/SoftwareCenter` GitHub repository.
+- Documented local smoke checks and clarified that build artifacts stay out of version control.
+- Store listing metadata refreshed for current screenshots, capability metadata, and local QSettings wording.
+
+### Added
+- GitHub Actions smoke-test workflow for Python syntax and JSON metadata validation.
+
 ## [1.0.0] - 2026-02-28
 
 ### Added
-- Tab-basierte Organisation von Software-Verknuepfungen
-- Drag & Drop zum Hinzufuegen von Dateien
+- Tab-basierte Organisation von Software-Verknüpfungen
+- Drag & Drop zum Hinzufügen von Dateien
 - Kachel- und Listenansicht
-- Kontextmenue (Oeffnen/Starten, Loeschen)
+- Kontextmenü (Öffnen/Starten, Löschen)
 - Persistente Speicherung von Tabs, Inhalten und Fensterposition
-- Tab-Verwaltung (erstellen, umbenennen, schliessen, verschieben)
-- Cross-Platform-Unterstuetzung (Windows, macOS, Linux)
-- Native System-Icons fuer Anwendungen
+- Tab-Verwaltung (erstellen, umbenennen, schließen, verschieben)
+- Cross-Platform-Unterstützung (Windows, macOS, Linux)
+- Native System-Icons für Anwendungen
 - Anwendungs-Icon

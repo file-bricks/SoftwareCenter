@@ -18,19 +18,19 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           issue-message: |
-            Welcome! 👋 Thanks for opening your first issue in this repository.
+            Welcome! Thanks for opening your first issue in this repository.
 
             We'll review it as soon as possible. In the meantime:
             - Check if there's a similar issue already open
             - Add as much detail as possible (steps to reproduce, expected behavior, environment)
 
-            If you'd like to contribute a fix, PRs are always welcome!
+            If you'd like to contribute a fix, PRs are always welcome.
           pr-message: |
-            Welcome! 👋 Thanks for your first pull request in this repository.
+            Welcome! Thanks for your first pull request in this repository.
 
             A maintainer will review it soon. Please make sure:
             - [ ] Your changes are tested
             - [ ] Documentation is updated if needed
             - [ ] The PR description explains what and why
 
-            Thanks for contributing!
+            Thanks for contributing.
