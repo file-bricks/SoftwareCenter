@@ -14,6 +14,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Cross-Platform** - Windows, macOS und Linux
 - **Native Icons** - Automatische Anzeige der System-Anwendungsicons
 - **macOS-App-Bundles** - `.app`-Programme lassen sich per Drag & Drop hinzufügen
+- **Linux-Desktop-Starter** - `.desktop`-Launcher werden mit ihrem App-Namen angezeigt und korrekt gestartet
 - **Persistente Oberfläche** - Tabs, Fenstergröße und Ansichtsmodus werden via QSettings gespeichert
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
@@ -41,7 +42,7 @@ Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist zus�
 
 | Aktion | Anleitung |
 |--------|-----------|
-| Programme hinzufügen | Dateien, Verknüpfungen oder unter macOS `.app`-Bundles ins Fenster ziehen |
+| Programme hinzufügen | Dateien, Verknüpfungen, unter macOS `.app`-Bundles oder unter Linux `.desktop`-Starter ins Fenster ziehen |
 | Tabs organisieren | Toolbar > "Neuer Tab", Doppelklick zum Umbenennen |
 | Ansicht wechseln | Toolbar > Kacheln / Liste |
 | Programme starten | Doppelklick oder Rechtsklick > Öffnen/Starten |
@@ -94,6 +95,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Cross-Platform** - Windows, macOS, and Linux
 - **Native Icons** - Automatic display of system application icons
 - **macOS App Bundles** - Drag and drop `.app` applications directly into the organizer
+- **Linux Desktop Launchers** - `.desktop` entries show their app name and launch via their desktop command
 
 ### Requirements
 
@@ -118,7 +120,7 @@ On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` fr
 
 | Action | Instructions |
 |--------|-------------|
-| Add programs | Drag files, shortcuts, or `.app` bundles on macOS into the window |
+| Add programs | Drag files, shortcuts, `.app` bundles on macOS, or `.desktop` launchers on Linux into the window |
 | Organize tabs | Toolbar > "New Tab", double-click to rename |
 | Switch view | Toolbar > Tiles / List |
 | Launch programs | Double-click or right-click > Open/Start |

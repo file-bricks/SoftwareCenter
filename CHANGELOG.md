@@ -10,10 +10,12 @@ All notable changes to this project will be documented in this file.
 - Store listing metadata refreshed for current screenshots, capability metadata, and local QSettings wording.
 - View toggles now stay in sync when switching tabs, and the last active tab is restored on startup.
 - macOS `.app` bundles are now accepted as launch targets via drag and drop, matching the documented cross-platform scope.
+- Linux `.desktop` launchers now show their declared app name and start via their `Exec` command instead of being treated like generic files.
 
 ### Added
 - GitHub Actions smoke-test workflow for Python syntax and JSON metadata validation.
 - Regression tests for tab/view state restoration and macOS `.app` bundle support.
+- Regression tests for Linux `.desktop` launchers (display name and command execution).
 
 ## [1.0.0] - 2026-02-28
 

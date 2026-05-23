@@ -99,6 +99,49 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
                 finally:
                     window.close()
 
+    def test_linux_desktop_entries_use_translated_name(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            desktop_file = Path(tmpdir) / "org.example.editor.desktop"
+            desktop_file.write_text(
+                "[Desktop Entry]\n"
+                "Type=Application\n"
+                "Name=Editor\n"
+                "Name[de]=Texteditor\n"
+                "Exec=/usr/bin/editor %U\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(module.sys, "platform", "linux"):
+                window = MainWindow()
+                try:
+                    page = window.current_page()
+                    self.assertIsNotNone(page)
+                    page.add_paths([str(desktop_file)])
+
+                    self.assertEqual(page.list.count(), 1)
+                    item = page.list.item(0)
+                    self.assertEqual(item.text(), "Texteditor")
+                    self.assertEqual(item.data(module.Qt.UserRole), str(desktop_file))
+                finally:
+                    window.close()
+
+    def test_linux_desktop_entries_launch_exec_command(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            desktop_file = Path(tmpdir) / "org.example.editor.desktop"
+            desktop_file.write_text(
+                "[Desktop Entry]\n"
+                "Type=Application\n"
+                "Name=Editor\n"
+                "Exec=/usr/bin/editor --new-window %U\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(module.sys, "platform", "linux"), \
+                 mock.patch.object(module.subprocess, "Popen") as popen:
+                module.open_file(str(desktop_file))
+
+            popen.assert_called_once_with(["/usr/bin/editor", "--new-window"])
+
 
 if __name__ == "__main__":
     unittest.main()

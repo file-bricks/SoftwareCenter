@@ -3,17 +3,71 @@
 
 __version__ = "1.0.0"
 
+import configparser
 import os
-import sys
-import platform
+import shlex
 import subprocess
-from PySide6.QtCore import Qt, QSize, QUrl, QFileInfo, Signal, QSettings
-from PySide6.QtGui import QAction, QActionGroup, QIcon, QDesktopServices
+import sys
+from PySide6.QtCore import Qt, QSize, QFileInfo, Signal, QSettings
+from PySide6.QtGui import QAction, QActionGroup, QIcon
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QListWidget,
     QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
     QMessageBox, QMenu
 )
+
+def is_linux_desktop_entry(path: str) -> bool:
+    return sys.platform.startswith("linux") and os.path.isfile(path) and path.lower().endswith(".desktop")
+
+def read_desktop_entry(path: str) -> dict[str, str]:
+    parser = configparser.ConfigParser(interpolation=None, strict=False)
+    parser.optionxform = str
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            parser.read_file(handle)
+    except (OSError, configparser.Error, UnicodeDecodeError):
+        return {}
+    if not parser.has_section("Desktop Entry"):
+        return {}
+    return {key: value for key, value in parser.items("Desktop Entry")}
+
+def desktop_entry_display_name(path: str) -> str | None:
+    entry = read_desktop_entry(path)
+    if not entry:
+        return None
+
+    for key in ("Name[de_DE]", "Name[de]", "Name"):
+        value = entry.get(key)
+        if value:
+            return value.strip()
+    return None
+
+def desktop_entry_icon(path: str) -> QIcon | None:
+    entry = read_desktop_entry(path)
+    icon_name = entry.get("Icon", "").strip()
+    if not icon_name:
+        return None
+
+    if os.path.isabs(icon_name) and os.path.exists(icon_name):
+        return QIcon(icon_name)
+
+    icon = QIcon.fromTheme(icon_name)
+    if not icon.isNull():
+        return icon
+    return None
+
+def desktop_entry_exec_command(path: str) -> list[str] | None:
+    entry = read_desktop_entry(path)
+    exec_line = entry.get("Exec", "").strip()
+    if not exec_line:
+        return None
+
+    cleaned = []
+    for token in shlex.split(exec_line, posix=True):
+        if token.startswith("%"):
+            continue
+        cleaned.append(token.replace("%%", "%"))
+    return cleaned or None
 
 def is_supported_launch_target(path: str) -> bool:
     if os.path.isfile(path):
@@ -30,7 +84,13 @@ def open_file(path: str) -> None:
         elif sys.platform == "darwin":
             subprocess.Popen(["open", path])
         else:
-            if os.access(path, os.X_OK):
+            if is_linux_desktop_entry(path):
+                command = desktop_entry_exec_command(path)
+                if command:
+                    subprocess.Popen(command)
+                else:
+                    subprocess.Popen(["xdg-open", path])
+            elif os.access(path, os.X_OK):
                 subprocess.Popen([path])
             else:
                 subprocess.Popen(["xdg-open", path])
@@ -129,8 +189,12 @@ class SoftwareListWidget(QListWidget):
 
     def _add_item(self, path: str):
         info = QFileInfo(path)
-        icon = self._icon_provider.icon(info)
-        name = os.path.splitext(os.path.basename(path))[0]
+        icon = desktop_entry_icon(path) if is_linux_desktop_entry(path) else None
+        if icon is None or icon.isNull():
+            icon = self._icon_provider.icon(info)
+        name = desktop_entry_display_name(path) if is_linux_desktop_entry(path) else None
+        if not name:
+            name = os.path.splitext(os.path.basename(path))[0]
         item = QListWidgetItem(icon, name)
         item.setToolTip(path)
         item.setData(Qt.UserRole, path)
