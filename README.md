@@ -13,6 +13,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Kontextmenü** - Rechtsklick zum Öffnen oder Entfernen
 - **Cross-Platform** - Windows, macOS und Linux
 - **Native Icons** - Automatische Anzeige der System-Anwendungsicons
+- **macOS-App-Bundles** - `.app`-Programme lassen sich per Drag & Drop hinzufügen
 - **Persistente Oberfläche** - Tabs, Fenstergröße und Ansichtsmodus werden via QSettings gespeichert
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
@@ -40,7 +41,7 @@ Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist zus�
 
 | Aktion | Anleitung |
 |--------|-----------|
-| Programme hinzufügen | Dateien (EXE, Skripte etc.) ins Fenster ziehen |
+| Programme hinzufügen | Dateien, Verknüpfungen oder unter macOS `.app`-Bundles ins Fenster ziehen |
 | Tabs organisieren | Toolbar > "Neuer Tab", Doppelklick zum Umbenennen |
 | Ansicht wechseln | Toolbar > Kacheln / Liste |
 | Programme starten | Doppelklick oder Rechtsklick > Öffnen/Starten |
@@ -63,6 +64,7 @@ Die EXE liegt anschließend in `dist/SoftwareCenter.exe` und wird durch `build_e
 python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
 python -m json.tool locales/translations.json
 python -m json.tool store_package.json
+python -m pytest -q
 ```
 
 Die GitHub Actions führen diese Smoke-Checks ebenfalls aus. Build-Artefakte wie `SoftwareCenter.exe`, `build/`, `dist/`, `releases/` und lokale Aufgaben-/Testdateien bleiben per `.gitignore` außerhalb des Repos.
@@ -91,6 +93,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Context Menu** - Right-click to open or remove
 - **Cross-Platform** - Windows, macOS, and Linux
 - **Native Icons** - Automatic display of system application icons
+- **macOS App Bundles** - Drag and drop `.app` applications directly into the organizer
 
 ### Requirements
 
@@ -115,7 +118,7 @@ On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` fr
 
 | Action | Instructions |
 |--------|-------------|
-| Add programs | Drag files (EXE, scripts, etc.) into the window |
+| Add programs | Drag files, shortcuts, or `.app` bundles on macOS into the window |
 | Organize tabs | Toolbar > "New Tab", double-click to rename |
 | Switch view | Toolbar > Tiles / List |
 | Launch programs | Double-click or right-click > Open/Start |
@@ -136,6 +139,7 @@ The EXE will be in `dist/SoftwareCenter.exe`. On Windows, `build_exe.bat` also c
 python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
 python -m json.tool locales/translations.json
 python -m json.tool store_package.json
+python -m pytest -q
 ```
 
 GitHub Actions runs these smoke checks. Build artifacts and local task/test files are ignored and should not be committed.

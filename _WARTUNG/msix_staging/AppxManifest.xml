@@ -14,7 +14,7 @@
     <DisplayName>SoftwareCenter</DisplayName>
     <PublisherDisplayName>Geiger</PublisherDisplayName>
     <Logo>icons\Square150x150Logo.png</Logo>
-    <Description>Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Uebersicht installierter Software.</Description>
+    <Description>Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Übersicht installierter Software.</Description>
   </Properties>
 
   <Dependencies>
@@ -34,7 +34,7 @@
                  EntryPoint="Windows.FullTrustApplication">
 
       <uap:VisualElements DisplayName="SoftwareCenter"
-                          Description="Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Uebersicht installierter Software."
+                          Description="Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Übersicht installierter Software."
                           BackgroundColor="transparent"
                           Square150x150Logo="icons\Square150x150Logo.png"
                           Square44x44Logo="icons\Square44x44Logo.png">

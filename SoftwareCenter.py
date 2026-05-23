@@ -15,6 +15,11 @@ from PySide6.QtWidgets import (
     QMessageBox, QMenu
 )
 
+def is_supported_launch_target(path: str) -> bool:
+    if os.path.isfile(path):
+        return True
+    return sys.platform == "darwin" and path.lower().endswith(".app") and os.path.isdir(path)
+
 def open_file(path: str) -> None:
     if not os.path.exists(path):
         QMessageBox.warning(None, "Datei nicht gefunden", f"Pfad existiert nicht:\n{path}")
@@ -82,7 +87,7 @@ class SoftwareListWidget(QListWidget):
         for url in urls:
             if url.isLocalFile():
                 p = url.toLocalFile()
-                if os.path.isfile(p):
+                if is_supported_launch_target(p):
                     paths.append(p)
         if paths:
             self.add_paths(paths)
@@ -111,9 +116,7 @@ class SoftwareListWidget(QListWidget):
 
     def add_paths(self, paths: list[str]):
         for path in paths:
-            if not os.path.exists(path):
-                continue
-            if self._has_path(path):
+            if not is_supported_launch_target(path) or self._has_path(path):
                 continue
             self._add_item(path)
 
@@ -184,7 +187,7 @@ class TabPage(QWidget):
             self.list.remove_paths(paths)
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, settings: QSettings | None = None):
         super().__init__()
         self.setWindowTitle("SoftwareCenter")
         self.resize(1000, 640)
@@ -192,10 +195,11 @@ class MainWindow(QMainWindow):
         icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.ico")
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
-        self.settings = QSettings("LukasGeiger", "SoftwareCenter")
+        self.settings = settings or QSettings("LukasGeiger", "SoftwareCenter")
         self.tabs = QTabWidget(movable=True, tabsClosable=True)
         self.tabs.tabCloseRequested.connect(self.on_close_tab)
         self.tabs.tabBarDoubleClicked.connect(self.on_rename_tab)
+        self.tabs.currentChanged.connect(self._sync_view_actions)
         self.setCentralWidget(self.tabs)
         self._build_toolbar()
         self.load_settings()
@@ -226,6 +230,21 @@ class MainWindow(QMainWindow):
     def current_page(self) -> TabPage | None:
         w = self.tabs.currentWidget()
         return w if isinstance(w, TabPage) else None
+
+    def _sync_view_actions(self, index: int | None = None):
+        page = self.current_page()
+        if not page:
+            return
+
+        is_tiles = page.view_mode == "tiles"
+        self.act_view_tiles.blockSignals(True)
+        self.act_view_list.blockSignals(True)
+        try:
+            self.act_view_tiles.setChecked(is_tiles)
+            self.act_view_list.setChecked(not is_tiles)
+        finally:
+            self.act_view_tiles.blockSignals(False)
+            self.act_view_list.blockSignals(False)
 
     def add_new_tab(self, name: str | None = None, view_mode="tiles", paths=None):
         page = TabPage()
@@ -269,10 +288,7 @@ class MainWindow(QMainWindow):
         if not page:
             return
         page.set_view_mode(mode)
-        if mode == "tiles":
-            self.act_view_tiles.setChecked(True)
-        else:
-            self.act_view_list.setChecked(True)
+        self._sync_view_actions()
         self.save_settings()
 
     # ----- Speicherfunktion -----
@@ -280,6 +296,7 @@ class MainWindow(QMainWindow):
         settings = self.settings
         settings.setValue("geometry", self.saveGeometry())
         settings.setValue("windowState", self.saveState())
+        settings.setValue("current_tab", self.tabs.currentIndex())
         settings.beginWriteArray("tabs")
         for i in range(self.tabs.count()):
             settings.setArrayIndex(i)
@@ -295,6 +312,12 @@ class MainWindow(QMainWindow):
             self.restoreGeometry(settings.value("geometry"))
         if settings.value("windowState"):
             self.restoreState(settings.value("windowState"))
+        current_tab = settings.value("current_tab", -1)
+        if isinstance(current_tab, str):
+            try:
+                current_tab = int(current_tab)
+            except ValueError:
+                current_tab = -1
 
         size = settings.beginReadArray("tabs")
         if size > 0:
@@ -307,9 +330,14 @@ class MainWindow(QMainWindow):
                 if isinstance(paths, str):  # falls als einzelner String gespeichert
                     paths = [paths]
                 self.add_new_tab(name, view_mode, paths)
+            if isinstance(current_tab, int) and 0 <= current_tab < self.tabs.count():
+                self.tabs.setCurrentIndex(current_tab)
+            elif self.tabs.count() > 0:
+                self.tabs.setCurrentIndex(0)
         else:
             self.add_new_tab("Allgemein")
         settings.endArray()
+        self._sync_view_actions()
 
     def closeEvent(self, event):
         self.save_settings()
@@ -334,7 +362,7 @@ class MainWindow(QMainWindow):
         for url in urls:
             if url.isLocalFile():
                 p = url.toLocalFile()
-                if os.path.isfile(p):
+                if is_supported_launch_target(p):
                     paths.append(p)
         if paths:
             page = self.current_page()

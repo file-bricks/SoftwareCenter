@@ -2,15 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-05-07
+## [Unreleased] - 2026-05-23
 
 ### Changed
 - README, contributing guide, privacy policy, and release notes refreshed for the `file-bricks/SoftwareCenter` GitHub repository.
 - Documented local smoke checks and clarified that build artifacts stay out of version control.
 - Store listing metadata refreshed for current screenshots, capability metadata, and local QSettings wording.
+- View toggles now stay in sync when switching tabs, and the last active tab is restored on startup.
+- macOS `.app` bundles are now accepted as launch targets via drag and drop, matching the documented cross-platform scope.
 
 ### Added
 - GitHub Actions smoke-test workflow for Python syntax and JSON metadata validation.
+- Regression tests for tab/view state restoration and macOS `.app` bundle support.
 
 ## [1.0.0] - 2026-02-28
 
