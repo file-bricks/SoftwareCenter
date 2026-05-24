@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - GitHub Actions smoke-test workflow for Python syntax and JSON metadata validation.
 - Regression tests for tab/view state restoration and macOS `.app` bundle support.
 - Regression tests for Linux `.desktop` launchers (display name and command execution).
+- Portierungsplan für Desktop, Web/PWA und Mobil-Companion mit Austauschformat `softwarecenter-profile-v1.json`.
 
 ## [1.0.0] - 2026-02-28
 
