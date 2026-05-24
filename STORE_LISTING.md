@@ -111,6 +111,8 @@ Productivity / Utilities
 - [x] No hardcoded paths in source code
 - [x] No debug print statements
 - [x] PySide6 (LGPL) -- license compatible with Store distribution
-- [x] Screenshot vorhanden (`README/screenshots/main.png`)
-- [ ] MSIX package -- noch nicht erstellt (braucht Code-Signing-Zertifikat + makeappx)
+- [x] README-Screenshot vorhanden (`README/screenshots/main.png`)
+- [ ] Store-Screenshot-Set erstellen: mindestens 3-4 Bilder in Store-Auflösung (z. B. Hauptfenster, Tab-Organisation, Kachelansicht, Listenansicht)
+- [x] MSIX package vorhanden (`releases/SoftwareCenter.msix`, Stand 2026-03-13)
 - [ ] Code-Signing (.pfx) -- noch nicht konfiguriert in store_settings.json
+- [ ] WACK-Test und manuelles Store-Testprotokoll noch nicht dokumentiert
