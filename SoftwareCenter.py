@@ -4,17 +4,23 @@
 __version__ = "1.0.0"
 
 import configparser
+import json
 import os
 import shlex
 import subprocess
 import sys
+from datetime import datetime, timezone
 from PySide6.QtCore import Qt, QSize, QFileInfo, Signal, QSettings
 from PySide6.QtGui import QAction, QActionGroup, QIcon
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QListWidget,
     QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
-    QMessageBox, QMenu
+    QMessageBox, QMenu, QFileDialog
 )
+
+PROFILE_FORMAT = "softwarecenter-profile-v1"
+PROFILE_FORMAT_VERSION = 1
+ENTRY_METADATA_ROLE = Qt.UserRole + 1
 
 def is_linux_desktop_entry(path: str) -> bool:
     return sys.platform.startswith("linux") and os.path.isfile(path) and path.lower().endswith(".desktop")
@@ -73,6 +79,116 @@ def is_supported_launch_target(path: str) -> bool:
     if os.path.isfile(path):
         return True
     return sys.platform == "darwin" and path.lower().endswith(".app") and os.path.isdir(path)
+
+def default_entry_label(path: str) -> str:
+    name = desktop_entry_display_name(path) if is_linux_desktop_entry(path) else None
+    if name:
+        return name
+    basename = os.path.basename(path.rstrip("\\/"))
+    label, _ext = os.path.splitext(basename)
+    return label or basename or path
+
+def detect_entry_kind(path: str) -> str:
+    lower_path = path.lower()
+    if lower_path.endswith(".url"):
+        return "url"
+    if lower_path.endswith(".lnk"):
+        return "windows_shortcut"
+    if lower_path.endswith(".app"):
+        return "mac_app"
+    if lower_path.endswith(".desktop"):
+        return "linux_desktop"
+    if lower_path.endswith((".bat", ".cmd", ".ps1", ".sh", ".py")):
+        return "script"
+    if os.path.isfile(path):
+        return "file"
+    return "unknown"
+
+def normalize_entry(entry: str | dict) -> dict | None:
+    if isinstance(entry, str):
+        path = entry.strip()
+        label = None
+        kind = None
+        notes = None
+    elif isinstance(entry, dict):
+        raw_path = entry.get("path", "")
+        path = raw_path.strip() if isinstance(raw_path, str) else str(raw_path).strip()
+        label = entry.get("label")
+        kind = entry.get("kind")
+        notes = entry.get("notes")
+    else:
+        return None
+
+    if not path:
+        return None
+
+    if label is not None:
+        label = str(label).strip() or None
+    if kind is not None:
+        kind = str(kind).strip() or None
+    if notes is not None:
+        notes = str(notes).strip() or None
+
+    return {
+        "path": path,
+        "label": label or default_entry_label(path),
+        "kind": kind or detect_entry_kind(path),
+        "notes": notes,
+    }
+
+def profile_export_data(window: "MainWindow") -> dict:
+    tabs = []
+    for index in range(window.tabs.count()):
+        page = window.tabs.widget(index)
+        tabs.append(
+            {
+                "name": window.tabs.tabText(index),
+                "view_mode": page.view_mode,
+                "entries": page.list.get_all_entries(),
+            }
+        )
+    return {
+        "format": PROFILE_FORMAT,
+        "format_version": PROFILE_FORMAT_VERSION,
+        "app_version": __version__,
+        "source_platform": sys.platform,
+        "exported_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "current_tab": max(window.tabs.currentIndex(), 0),
+        "tabs": tabs,
+    }
+
+def validate_profile_payload(payload: dict) -> list[dict]:
+    if not isinstance(payload, dict):
+        raise ValueError("Das Profil ist kein JSON-Objekt.")
+
+    payload_format = payload.get("format")
+    payload_version = payload.get("format_version")
+    if payload_format != PROFILE_FORMAT or payload_version != PROFILE_FORMAT_VERSION:
+        raise ValueError("Unbekanntes Profilformat.")
+
+    raw_tabs = payload.get("tabs")
+    if not isinstance(raw_tabs, list) or not raw_tabs:
+        raise ValueError("Das Profil enthält keine Tabs.")
+
+    tabs = []
+    for raw_tab in raw_tabs:
+        if not isinstance(raw_tab, dict):
+            continue
+        name = str(raw_tab.get("name") or "Tab").strip() or "Tab"
+        view_mode = "list" if str(raw_tab.get("view_mode")).strip().lower() == "list" else "tiles"
+        entries = []
+        raw_entries = raw_tab.get("entries", [])
+        if not isinstance(raw_entries, list):
+            raw_entries = []
+        for raw_entry in raw_entries:
+            normalized = normalize_entry(raw_entry)
+            if normalized:
+                entries.append(normalized)
+        tabs.append({"name": name, "view_mode": view_mode, "entries": entries})
+
+    if not tabs:
+        raise ValueError("Das Profil enthält keine lesbaren Tabs.")
+    return tabs
 
 def open_file(path: str) -> None:
     if not os.path.exists(path):
@@ -175,10 +291,18 @@ class SoftwareListWidget(QListWidget):
         open_file(path)
 
     def add_paths(self, paths: list[str]):
-        for path in paths:
-            if not is_supported_launch_target(path) or self._has_path(path):
+        self.add_entries(paths)
+
+    def add_entries(self, entries: list[str | dict]):
+        for entry in entries:
+            normalized = normalize_entry(entry)
+            if not normalized:
                 continue
-            self._add_item(path)
+            if isinstance(entry, str) and not is_supported_launch_target(normalized["path"]):
+                continue
+            if self._has_path(normalized["path"]):
+                continue
+            self._add_item(normalized)
 
     def _has_path(self, path: str) -> bool:
         for i in range(self.count()):
@@ -187,17 +311,18 @@ class SoftwareListWidget(QListWidget):
                 return True
         return False
 
-    def _add_item(self, path: str):
+    def _add_item(self, entry: dict):
+        path = entry["path"]
         info = QFileInfo(path)
         icon = desktop_entry_icon(path) if is_linux_desktop_entry(path) else None
         if icon is None or icon.isNull():
             icon = self._icon_provider.icon(info)
-        name = desktop_entry_display_name(path) if is_linux_desktop_entry(path) else None
-        if not name:
-            name = os.path.splitext(os.path.basename(path))[0]
+        name = entry["label"]
         item = QListWidgetItem(icon, name)
-        item.setToolTip(path)
+        notes = entry.get("notes")
+        item.setToolTip(f"{path}\n\nNotizen: {notes}" if notes else path)
         item.setData(Qt.UserRole, path)
+        item.setData(ENTRY_METADATA_ROLE, entry)
         self.addItem(item)
 
     def remove_paths(self, paths: list[str]):
@@ -213,10 +338,31 @@ class SoftwareListWidget(QListWidget):
     def get_all_paths(self) -> list[str]:
         return [self.item(i).data(Qt.UserRole) for i in range(self.count())]
 
+    def get_all_entries(self) -> list[dict]:
+        entries = []
+        for i in range(self.count()):
+            item = self.item(i)
+            metadata = item.data(ENTRY_METADATA_ROLE)
+            if isinstance(metadata, dict):
+                entries.append(normalize_entry(metadata))
+            else:
+                entries.append(
+                    normalize_entry(
+                        {
+                            "path": item.data(Qt.UserRole),
+                            "label": item.text(),
+                            "kind": detect_entry_kind(item.data(Qt.UserRole)),
+                            "notes": None,
+                        }
+                    )
+                )
+        return [entry for entry in entries if entry]
+
     def set_all_paths(self, paths: list[str]):
-        for p in paths:
-            if os.path.exists(p):
-                self._add_item(p)
+        self.add_entries(paths)
+
+    def set_all_entries(self, entries: list[str | dict]):
+        self.add_entries(entries)
 
 class TabPage(QWidget):
     def __init__(self, parent=None):
@@ -238,6 +384,9 @@ class TabPage(QWidget):
 
     def add_paths(self, paths: list[str]):
         self.list.add_paths(paths)
+
+    def add_entries(self, entries: list[str | dict]):
+        self.list.add_entries(entries)
 
     def on_request_delete(self, paths: list[str]):
         if not paths:
@@ -265,8 +414,18 @@ class MainWindow(QMainWindow):
         self.tabs.tabBarDoubleClicked.connect(self.on_rename_tab)
         self.tabs.currentChanged.connect(self._sync_view_actions)
         self.setCentralWidget(self.tabs)
+        self._build_menu()
         self._build_toolbar()
         self.load_settings()
+
+    def _build_menu(self):
+        file_menu = self.menuBar().addMenu("Datei")
+        self.act_export_profile = QAction("Profil exportieren", self)
+        self.act_import_profile = QAction("Profil importieren", self)
+        self.act_export_profile.triggered.connect(self.export_profile)
+        self.act_import_profile.triggered.connect(self.import_profile)
+        file_menu.addAction(self.act_export_profile)
+        file_menu.addAction(self.act_import_profile)
 
     def _build_toolbar(self):
         tb = QToolBar("Hauptleiste")
@@ -290,6 +449,9 @@ class MainWindow(QMainWindow):
         self.act_view_list.triggered.connect(lambda: self.set_current_view("list"))
         tb.addAction(self.act_view_tiles)
         tb.addAction(self.act_view_list)
+        tb.addSeparator()
+        tb.addAction(self.act_export_profile)
+        tb.addAction(self.act_import_profile)
 
     def current_page(self) -> TabPage | None:
         w = self.tabs.currentWidget()
@@ -310,13 +472,80 @@ class MainWindow(QMainWindow):
             self.act_view_tiles.blockSignals(False)
             self.act_view_list.blockSignals(False)
 
-    def add_new_tab(self, name: str | None = None, view_mode="tiles", paths=None):
+    def add_new_tab(self, name: str | None = None, view_mode="tiles", paths=None, entries=None):
         page = TabPage()
         page.set_view_mode(view_mode)
-        if paths:
+        if entries:
+            page.list.set_all_entries(entries)
+        elif paths:
             page.list.set_all_paths(paths)
         idx = self.tabs.addTab(page, name or "Neuer Tab")
         self.tabs.setCurrentIndex(idx)
+
+    def export_profile(self):
+        default_name = os.path.join(os.path.expanduser("~"), f"{PROFILE_FORMAT}.json")
+        target, _selected_filter = QFileDialog.getSaveFileName(
+            self,
+            "Profil exportieren",
+            default_name,
+            "JSON-Dateien (*.json)",
+        )
+        if not target:
+            return
+        try:
+            with open(target, "w", encoding="utf-8") as handle:
+                json.dump(profile_export_data(self), handle, ensure_ascii=False, indent=2)
+                handle.write("\n")
+        except OSError as exc:
+            QMessageBox.critical(self, "Export fehlgeschlagen", f"Profil konnte nicht gespeichert werden:\n{exc}")
+            return
+        QMessageBox.information(self, "Export abgeschlossen", f"Profil gespeichert:\n{target}")
+
+    def import_profile(self):
+        source, _selected_filter = QFileDialog.getOpenFileName(
+            self,
+            "Profil importieren",
+            "",
+            "JSON-Dateien (*.json)",
+        )
+        if not source:
+            return
+        replace = QMessageBox.question(
+            self,
+            "Profil importieren",
+            "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
+        )
+        if replace != QMessageBox.Yes:
+            return
+        try:
+            with open(source, "r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+            self.apply_profile_payload(payload)
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            QMessageBox.critical(self, "Import fehlgeschlagen", f"Profil konnte nicht importiert werden:\n{exc}")
+            return
+        QMessageBox.information(self, "Import abgeschlossen", f"Profil geladen:\n{source}")
+
+    def apply_profile_payload(self, payload: dict):
+        tabs = validate_profile_payload(payload)
+        current_tab = payload.get("current_tab", 0)
+        if not isinstance(current_tab, int):
+            try:
+                current_tab = int(current_tab)
+            except (TypeError, ValueError):
+                current_tab = 0
+
+        self.tabs.clear()
+        for tab in tabs:
+            self.add_new_tab(tab["name"], tab["view_mode"], entries=tab["entries"])
+
+        if 0 <= current_tab < self.tabs.count():
+            self.tabs.setCurrentIndex(current_tab)
+        elif self.tabs.count() > 0:
+            self.tabs.setCurrentIndex(0)
+
+        self._sync_view_actions()
+        self.save_settings()
 
     def on_new_tab(self):
         name, ok = QInputDialog.getText(self, "Neuer Tab", "Tab-Name:")
@@ -367,6 +596,7 @@ class MainWindow(QMainWindow):
             page = self.tabs.widget(i)
             settings.setValue("name", self.tabs.tabText(i))
             settings.setValue("view_mode", page.view_mode)
+            settings.setValue("entries_json", json.dumps(page.list.get_all_entries(), ensure_ascii=False))
             settings.setValue("paths", page.list.get_all_paths())
         settings.endArray()
 
@@ -390,10 +620,19 @@ class MainWindow(QMainWindow):
                 settings.setArrayIndex(i)
                 name = settings.value("name", "Tab")
                 view_mode = settings.value("view_mode", "tiles")
+                entries_json = settings.value("entries_json", "")
                 paths = settings.value("paths", [])
+                entries = []
+                if isinstance(entries_json, str) and entries_json.strip():
+                    try:
+                        loaded_entries = json.loads(entries_json)
+                    except json.JSONDecodeError:
+                        loaded_entries = []
+                    if isinstance(loaded_entries, list):
+                        entries = loaded_entries
                 if isinstance(paths, str):  # falls als einzelner String gespeichert
                     paths = [paths]
-                self.add_new_tab(name, view_mode, paths)
+                self.add_new_tab(name, view_mode, paths=paths, entries=entries)
             if isinstance(current_tab, int) and 0 <= current_tab < self.tabs.count():
                 self.tabs.setCurrentIndex(current_tab)
             elif self.tabs.count() > 0:

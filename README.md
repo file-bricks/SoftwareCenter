@@ -16,6 +16,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **macOS-App-Bundles** - `.app`-Programme lassen sich per Drag & Drop hinzufügen
 - **Linux-Desktop-Starter** - `.desktop`-Launcher werden mit ihrem App-Namen angezeigt und korrekt gestartet
 - **Persistente Oberfläche** - Tabs, Fenstergröße und Ansichtsmodus werden via QSettings gespeichert
+- **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und spätere Web/PWA-Companions
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
 
@@ -47,6 +48,8 @@ Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist zus�
 | Ansicht wechseln | Toolbar > Kacheln / Liste |
 | Programme starten | Doppelklick oder Rechtsklick > Öffnen/Starten |
 | Einträge entfernen | Rechtsklick > Löschen (entfernt nur die Verknüpfung) |
+| Profil exportieren | `Datei > Profil exportieren` oder Toolbar-Aktion |
+| Profil importieren | `Datei > Profil importieren` oder Toolbar-Aktion; ersetzt das aktuelle Profil |
 
 ## EXE erstellen
 
@@ -70,6 +73,10 @@ python -m pytest -q
 
 Die GitHub Actions führen diese Smoke-Checks ebenfalls aus. Build-Artefakte wie `SoftwareCenter.exe`, `build/`, `dist/`, `releases/` und lokale Aufgaben-/Testdateien bleiben per `.gitignore` außerhalb des Repos.
 
+## Austauschformat
+
+Profile lassen sich als `softwarecenter-profile-v1.json` exportieren und wieder importieren. Das Format enthält Tabs, Ansichtsmodus und Einträge mit `label`, `path`, `kind` und optionalen `notes`, aber keine kopierten Dateien und keine Credentials. Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
+
 ## Technik
 
 | Komponente | Technologie |
@@ -77,7 +84,7 @@ Die GitHub Actions führen diese Smoke-Checks ebenfalls aus. Build-Artefakte wie
 | Sprache | Python 3.10+ |
 | GUI-Framework | PySide6 (Qt for Python) |
 | Speicherung | QSettings (Windows Registry / INI) |
-| Codeumfang | ~360 Zeilen |
+| Codeumfang | ~690 Zeilen |
 
 ---
 
@@ -96,6 +103,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Native Icons** - Automatic display of system application icons
 - **macOS App Bundles** - Drag and drop `.app` applications directly into the organizer
 - **Linux Desktop Launchers** - `.desktop` entries show their app name and launch via their desktop command
+- **Profile Export/Import** - Versioned `softwarecenter-profile-v1.json` format for migrations and future web/PWA companions
 
 ### Requirements
 
@@ -125,6 +133,8 @@ On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` fr
 | Switch view | Toolbar > Tiles / List |
 | Launch programs | Double-click or right-click > Open/Start |
 | Remove entries | Right-click > Delete (removes shortcut only) |
+| Export profile | `File > Export Profile` or the toolbar action |
+| Import profile | `File > Import Profile` or the toolbar action; replaces the current profile |
 
 ### Build Executable
 
@@ -146,6 +156,10 @@ python -m pytest -q
 
 GitHub Actions runs these smoke checks. Build artifacts and local task/test files are ignored and should not be committed.
 
+### Exchange Format
+
+Profiles can be exported as `softwarecenter-profile-v1.json` and imported again later. The format carries tabs, view modes, and entries with `label`, `path`, `kind`, and optional `notes`, but does not copy local files or credentials. See [EXPORTFORMAT.md](EXPORTFORMAT.md) for details.
+
 ### Tech Stack
 
 | Component | Technology |
@@ -153,7 +167,7 @@ GitHub Actions runs these smoke checks. Build artifacts and local task/test file
 | Language | Python 3.10+ |
 | GUI Framework | PySide6 (Qt for Python) |
 | Storage | QSettings (Windows Registry / INI) |
-| Code Size | ~360 lines |
+| Code Size | ~690 lines |
 
 ## License
 
