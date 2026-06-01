@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-05-24
 
+### Build / Release
+- EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
+
 ### Changed
+- Der neue `web_companion/`-Reader stellt exportierte Profile jetzt als statische PWA für Android, iOS und Desktop dar, inklusive Offline-Wiederherstellung und Install-Hinweisen.
 - README, contributing guide, privacy policy, and release notes refreshed for the `file-bricks/SoftwareCenter` GitHub repository.
 - Documented local smoke checks and clarified that build artifacts stay out of version control.
 - Store listing metadata refreshed for current screenshots, capability metadata, and local QSettings wording.
@@ -15,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - GitHub Actions now install the app dependencies and run the PySide6 regression tests on Python 3.10, 3.11, and 3.12.
 
 ### Added
+- `web_companion/` mit lokaler Profilansicht, Demo-Profil, Manifest, Service Worker und Node-Smokes für `softwarecenter-profile-v1.json`.
 - GitHub Actions smoke-test workflow for Python syntax and JSON metadata validation.
 - Regression tests for tab/view state restoration and macOS `.app` bundle support.
 - Regression tests for Linux `.desktop` launchers (display name and command execution).

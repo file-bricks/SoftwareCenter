@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1d6f5f">
+    <meta name="description" content="Lokaler Web/PWA-Companion für exportierte SoftwareCenter-Profile.">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./app.css">
+    <title>SoftwareCenter Companion</title>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <section>
+          <h1>SoftwareCenter<br>Companion</h1>
+          <p>
+            Offline-lesbare Profilansicht für <code>softwarecenter-profile-v1.json</code>.
+            Gedacht für Android, iPhone, iPad und Desktop als App-Katalog,
+            Setup-Merkliste und portable Referenz ohne Launcher-Rechte.
+          </p>
+          <div class="hero__meta">
+            <span class="pill">PWA-Reader</span>
+            <span class="pill">ohne Cloud</span>
+            <span class="pill">read-only</span>
+          </div>
+        </section>
+        <aside class="status-panel">
+          <div id="load-status" class="status-banner" data-kind="info"></div>
+          <div id="install-hint" class="pill"></div>
+          <div id="offline-hint" class="pill"></div>
+          <div class="action-row">
+            <input id="import-input" type="file" accept=".json,application/json" hidden>
+            <button id="import-button" type="button">Profil importieren</button>
+            <button id="demo-button" type="button" class="secondary">Demo laden</button>
+            <button id="reset-button" type="button" class="ghost">Lokalen Stand löschen</button>
+          </div>
+        </aside>
+      </header>
+
+      <main class="grid">
+        <section class="panel">
+          <div class="section-title">
+            <h2>Überblick</h2>
+            <span class="pill">Exportvertrag v1</span>
+          </div>
+          <div id="summary-cards" class="summary-grid"></div>
+
+          <div class="filter-row">
+            <input id="search-input" type="search" placeholder="Nach Label, Pfad, Notiz oder Typ suchen">
+            <select id="tab-filter" aria-label="Tab-Filter">
+              <option value="all">Alle Tabs</option>
+            </select>
+            <select id="kind-filter" aria-label="Typ-Filter">
+              <option value="all">Alle Typen</option>
+            </select>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            Noch keine Einträge sichtbar. Lade ein Profil oder starte über <code>?demo=1</code>.
+          </div>
+          <div id="entry-list" class="entry-list" hidden></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <h2>Tabs</h2>
+            <span class="pill">strukturierte Desktop-Ansicht</span>
+          </div>
+          <ul id="tab-list" class="meta-list"></ul>
+
+          <div class="section-title" style="margin-top: 1.1rem;">
+            <h2>Eintragstypen</h2>
+            <span class="pill">für Setup und Prüfung</span>
+          </div>
+          <ul id="kind-list" class="meta-list"></ul>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

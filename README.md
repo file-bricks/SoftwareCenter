@@ -17,6 +17,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Linux-Desktop-Starter** - `.desktop`-Launcher werden mit ihrem App-Namen angezeigt und korrekt gestartet
 - **Persistente Oberfläche** - Tabs, Fenstergröße und Ansichtsmodus werden via QSettings gespeichert
 - **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und spätere Web/PWA-Companions
+- **Web/PWA-Companion** - Statische `web_companion/`-Ansicht für mobile und browserbasierte Profilübersichten ohne Launcher-Rechte
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
 
@@ -77,6 +78,10 @@ Die GitHub Actions führen diese Smoke-Checks ebenfalls aus. Build-Artefakte wie
 
 Profile lassen sich als `softwarecenter-profile-v1.json` exportieren und wieder importieren. Das Format enthält Tabs, Ansichtsmodus und Einträge mit `label`, `path`, `kind` und optionalen `notes`, aber keine kopierten Dateien und keine Credentials. Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
 
+## Web/PWA-Companion
+
+Unter [web_companion/README.md](web_companion/README.md) liegt jetzt ein statischer Companion für den Exportvertrag. Der Companion importiert `softwarecenter-profile-v1.json` lokal im Browser, zeigt Tabs und Eintragstypen filterbar an und hält den letzten Stand für Offline-Starts im Browser-Speicher vor.
+
 ## Technik
 
 | Komponente | Technologie |
@@ -104,6 +109,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **macOS App Bundles** - Drag and drop `.app` applications directly into the organizer
 - **Linux Desktop Launchers** - `.desktop` entries show their app name and launch via their desktop command
 - **Profile Export/Import** - Versioned `softwarecenter-profile-v1.json` format for migrations and future web/PWA companions
+- **Web/PWA Companion** - Static `web_companion/` viewer for mobile and browser-based profile inspection without launcher permissions
 
 ### Requirements
 
@@ -159,6 +165,10 @@ GitHub Actions runs these smoke checks. Build artifacts and local task/test file
 ### Exchange Format
 
 Profiles can be exported as `softwarecenter-profile-v1.json` and imported again later. The format carries tabs, view modes, and entries with `label`, `path`, `kind`, and optional `notes`, but does not copy local files or credentials. See [EXPORTFORMAT.md](EXPORTFORMAT.md) for details.
+
+### Web/PWA Companion
+
+The new [web_companion/README.md](web_companion/README.md) documents a static browser companion for the export format. It imports `softwarecenter-profile-v1.json` locally, offers tab/type filtering, and restores the last loaded profile for offline starts.
 
 ### Tech Stack
 
