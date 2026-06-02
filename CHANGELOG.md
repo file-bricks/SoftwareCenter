@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Der neue `web_companion/`-Reader stellt exportierte Profile jetzt als statische PWA für Android, iOS und Desktop dar, inklusive Offline-Wiederherstellung und Install-Hinweisen.
 - README, contributing guide, privacy policy, and release notes refreshed for the `file-bricks/SoftwareCenter` GitHub repository.
 - Documented local smoke checks and clarified that build artifacts stay out of version control.
+- Linux source smoke documented and wired into CI for `.desktop` import, launch fallback, settings persistence, and export verification.
 - Store listing metadata refreshed for current screenshots, capability metadata, and local QSettings wording.
 - View toggles now stay in sync when switching tabs, and the last active tab is restored on startup.
 - macOS `.app` bundles are now accepted as launch targets via drag and drop, matching the documented cross-platform scope.
@@ -21,6 +22,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - `web_companion/` mit lokaler Profilansicht, Demo-Profil, Manifest, Service Worker und Node-Smokes für `softwarecenter-profile-v1.json`.
 - GitHub Actions smoke-test workflow for Python syntax and JSON metadata validation.
+- `tests/linux_platform_smoke.py` as a reproducible headless Linux source smoke for `.desktop` launchers and profile persistence.
 - Regression tests for tab/view state restoration and macOS `.app` bundle support.
 - Regression tests for Linux `.desktop` launchers (display name and command execution).
 - Public exchange-format documentation for `softwarecenter-profile-v1.json`; local planning notes stay outside the repository.

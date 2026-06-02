@@ -70,9 +70,10 @@ python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
 python -m json.tool locales/translations.json
 python -m json.tool store_package.json
 python -m pytest -q
+python tests/linux_platform_smoke.py
 ```
 
-Die GitHub Actions führen diese Smoke-Checks ebenfalls aus. Build-Artefakte wie `SoftwareCenter.exe`, `build/`, `dist/`, `releases/` und lokale Aufgaben-/Testdateien bleiben per `.gitignore` außerhalb des Repos.
+Die GitHub Actions führen diese Smoke-Checks ebenfalls aus; der Linux-Job prüft zusätzlich `.desktop`-Import, `Exec`-/`xdg-open`-Startpfade, QSettings und den Profil-Export headless auf `ubuntu-latest`. Build-Artefakte wie `SoftwareCenter.exe`, `build/`, `dist/`, `releases/` und lokale Aufgaben-/Testdateien bleiben per `.gitignore` außerhalb des Repos.
 
 ## Austauschformat
 
