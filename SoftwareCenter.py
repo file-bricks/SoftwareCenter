@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
 PROFILE_FORMAT = "softwarecenter-profile-v1"
 PROFILE_FORMAT_VERSION = 1
 ENTRY_METADATA_ROLE = Qt.UserRole + 1
+DESKTOP_FIELD_CODES = set("fFuUicck")
 
 def is_linux_desktop_entry(path: str) -> bool:
     return sys.platform.startswith("linux") and os.path.isfile(path) and path.lower().endswith(".desktop")
@@ -70,10 +71,53 @@ def desktop_entry_exec_command(path: str) -> list[str] | None:
 
     cleaned = []
     for token in shlex.split(exec_line, posix=True):
-        if token.startswith("%"):
-            continue
-        cleaned.append(token.replace("%%", "%"))
+        normalized_token = _sanitize_desktop_exec_token(token)
+        if normalized_token:
+            cleaned.append(normalized_token)
     return cleaned or None
+
+def _sanitize_desktop_exec_token(token: str) -> str | None:
+    if "%" not in token:
+        return token
+
+    normalized = []
+    saw_field_code = False
+    index = 0
+    while index < len(token):
+        char = token[index]
+        if char != "%":
+            normalized.append(char)
+            index += 1
+            continue
+
+        if index + 1 >= len(token):
+            normalized.append(char)
+            index += 1
+            continue
+
+        code = token[index + 1]
+        if code == "%":
+            normalized.append("%")
+            index += 2
+            continue
+
+        if code in DESKTOP_FIELD_CODES:
+            saw_field_code = True
+            index += 2
+            continue
+
+        normalized.append(char)
+        index += 1
+
+    sanitized = "".join(normalized).strip()
+    if not sanitized:
+        return None
+
+    # SoftwareCenter startet Desktop-Dateien ohne Datei-/URL-Kontext.
+    # Argumente mit Desktop-Feldcodes werden deshalb komplett verworfen.
+    if saw_field_code and sanitized != token:
+        return None
+    return sanitized
 
 def is_supported_launch_target(path: str) -> bool:
     if os.path.isfile(path):

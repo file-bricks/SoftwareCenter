@@ -147,6 +147,23 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
 
             popen.assert_called_once_with(["/usr/bin/editor", "--new-window"])
 
+    def test_linux_desktop_entries_drop_embedded_field_code_arguments(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            desktop_file = Path(tmpdir) / "org.example.editor.desktop"
+            desktop_file.write_text(
+                "[Desktop Entry]\n"
+                "Type=Application\n"
+                "Name=Editor\n"
+                "Exec=/usr/bin/editor --mode=edit --open=%f --profile=%u --literal=%%f %U\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(module.sys, "platform", "linux"), \
+                 mock.patch.object(module.subprocess, "Popen") as popen:
+                module.open_file(str(desktop_file))
+
+            popen.assert_called_once_with(["/usr/bin/editor", "--mode=edit", "--literal=%f"])
+
     def test_add_paths_ignores_plain_directories(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             folder = Path(tmpdir) / "NurEinOrdner"
