@@ -115,4 +115,46 @@ Productivity / Utilities
 - [ ] Store-Screenshot-Set erstellen: mindestens 3-4 Bilder in Store-Auflösung (z. B. Hauptfenster, Tab-Organisation, Kachelansicht, Listenansicht)
 - [x] MSIX package vorhanden (`releases/SoftwareCenter.msix`, Stand 2026-03-13)
 - [ ] Code-Signing (.pfx) -- noch nicht konfiguriert in store_settings.json
-- [ ] WACK-Test und manuelles Store-Testprotokoll noch nicht dokumentiert
+- [x] WACK-Workflow und manuelles Store-Testprotokoll sind dokumentiert
+- [ ] Vor der nächsten Einreichung: signiertes MSIX neu bauen, echten WACK-Lauf ausführen und Report ablegen
+
+## WACK-Workflow
+
+### Reproduzierbarer Dry-Run
+
+```powershell
+python scripts/run_windows_wack.py --dry-run
+```
+
+Der Dry-Run prüft:
+
+- erwarteten MSIX-Pfad (`releases/SoftwareCenter.msix`)
+- Report-Ziel (`releases/windowsstore/test_reports/`)
+- gefundenes `appcert.exe`
+- den exakten WACK-Befehl für den echten Lauf
+
+### Echter WACK-Lauf
+
+```powershell
+python scripts/run_windows_wack.py
+```
+
+Hinweise:
+
+- bevorzugt aus einer erhöhten PowerShell starten
+- gegen ein frisches signiertes MSIX ausführen
+- XML-, Log- und JSON-Zusammenfassung landen unter `releases/windowsstore/test_reports/`
+- vorhandene XML-Reports lassen sich später mit `python scripts/run_windows_wack.py --parse-report <report.xml>` erneut in eine JSON-Zusammenfassung umwandeln
+
+## Manuelles Store-Testprotokoll
+
+Vor einer Einreichung auf einem sauberen Windows-System oder einer frischen VM prüfen:
+
+1. MSIX installieren und Erststart ohne Warn- oder Absturzdialog durchführen.
+2. Neue Tabs anlegen, umbenennen, schließen und nach Neustart korrekt wiederherstellen.
+3. EXE, `.lnk` und Skript-Dateien per Drag & Drop hinzufügen und erfolgreich starten.
+4. Kachel- und Listenansicht umschalten; Ansicht muss pro Tab konsistent bleiben.
+5. Profil als `softwarecenter-profile-v1.json` exportieren, neues Profil importieren und Inhalt korrekt ersetzen.
+6. Entfernte Einträge dürfen nur die Verknüpfung löschen, nie die Zieldatei.
+7. App schließen und erneut öffnen; QSettings-Persistenz für Tabs, Einträge, Fensterzustand und aktive Ansicht prüfen.
+8. Deinstallation durchführen; keine unerwarteten Restdateien außerhalb der normalen QSettings-/App-Pfade.

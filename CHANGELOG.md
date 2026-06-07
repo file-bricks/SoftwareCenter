@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
 
 ### Changed
+- The Windows Store path now has a reproducible local WACK runner plus a documented manual test protocol instead of an undocumented final certification step.
 - macOS source smoke is now documented and wired into CI for `.app` import, `open` launching, settings persistence, and profile export verification.
 - Linux-`.desktop`-Launcher verwerfen jetzt auch eingebettete Feldcode-Argumente wie `--open=%f` oder `--profile=%u`, statt sie als wörtliche Platzhalter an Prozesse weiterzureichen.
 - Der neue `web_companion/`-Reader stellt exportierte Profile jetzt als statische PWA für Android, iOS und Desktop dar, inklusive Offline-Wiederherstellung und Install-Hinweisen.
@@ -22,6 +23,8 @@ All notable changes to this project will be documented in this file.
 - GitHub Actions now install the app dependencies and run the PySide6 regression tests on Python 3.10, 3.11, and 3.12.
 
 ### Added
+- `scripts/run_windows_wack.py` for local Windows App Certification Kit dry-runs, real runs, and XML-to-JSON report summaries.
+- Regression tests for the WACK helper, covering MSIX/report path resolution and report parsing.
 - `tests/macos_platform_smoke.py` as a reproducible headless macOS source smoke for `.app` bundles and profile persistence.
 - Regressionstest für Linux-`.desktop`-Launcher mit eingebetteten Feldcodes, damit nur echte statische Argumente übrig bleiben und Escapes wie `%%f` korrekt erhalten werden.
 - `web_companion/` mit lokaler Profilansicht, Demo-Profil, Manifest, Service Worker und Node-Smokes für `softwarecenter-profile-v1.json`.
