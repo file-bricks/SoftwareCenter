@@ -58,6 +58,11 @@ releases/
 *.sqlite
 *.sqlite3
 
+# ---- Bugsweep-Backups ----
+*_BUGSWEEP_PRE_*
+*_BUGSWEEP_FINAL_*
+*_FINAL_*
+
 # ---- IDE & Editoren ----
 .claude/
 .vscode/

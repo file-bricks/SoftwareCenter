@@ -46,13 +46,17 @@ function formatDate(isoString) {
 }
 
 function saveProfile(profile) {
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify({
-      profile,
-      saved_at: new Date().toISOString(),
-    }),
-  );
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        profile,
+        saved_at: new Date().toISOString(),
+      }),
+    );
+  } catch {
+    setStatus("Profil konnte nicht lokal gespeichert werden (Privater Modus?).", "warning");
+  }
 }
 
 function loadStoredProfile() {

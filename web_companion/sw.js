@@ -7,6 +7,10 @@ const OFFLINE_ASSETS = [
   "./library.js",
   "./manifest.webmanifest",
   "./icon.svg",
+  "./icons/Icon-192.png",
+  "./icons/Icon-512.png",
+  "./icons/Icon-maskable-192.png",
+  "./icons/Icon-maskable-512.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -34,6 +38,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request)),
+    caches.match(event.request, { ignoreSearch: true }).then((cached) => cached || fetch(event.request)),
   );
 });

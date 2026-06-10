@@ -440,7 +440,7 @@ class TabPage(QWidget):
         else:
             msg = f"{len(paths)} Verknüpfungen aus dieser Ansicht entfernen?"
         ret = QMessageBox.question(self, "Löschen bestätigen", msg)
-        if ret == QMessageBox.Yes:
+        if ret == QMessageBox.StandardButton.Yes:
             self.list.remove_paths(paths)
 
 class MainWindow(QMainWindow):
@@ -559,7 +559,7 @@ class MainWindow(QMainWindow):
             "Profil importieren",
             "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
         )
-        if replace != QMessageBox.Yes:
+        if replace != QMessageBox.StandardButton.Yes:
             return
         try:
             with open(source, "r", encoding="utf-8") as handle:
