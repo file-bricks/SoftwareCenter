@@ -4,6 +4,16 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 
 ![SoftwareCenter Hauptfenster](README/screenshots/main.png)
 
+## Quick Start / Einstieg
+
+| Eigenschaft | Details |
+|---|---|
+| **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
+| **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
+| **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
+| **PWA-Begleiter** | Statischer Web/PWA-Companion (siehe [web_companion/README.md](web_companion/README.md)) |
+| **Letzte Prüfung** | 2026-06-10 (Hygiene- & LLM-Dokumentations-Check) |
+
 ## Funktionen
 
 - **Tab-Organisation** - Programme in benennbare, verschiebbare Tabs gruppieren
@@ -99,6 +109,16 @@ Unter [web_companion/README.md](web_companion/README.md) liegt jetzt ein statisc
 ## English
 
 A lightweight, cross-platform desktop organizer for managing software shortcuts with tab-based categorization.
+
+### Quick Reference
+
+| Attribute | Details |
+|---|---|
+| **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
+| **License** | MIT (PySide6 dynamically linked under LGPLv3) |
+| **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
+| **PWA Companion** | Static Web/PWA Companion (see [web_companion/README.md](web_companion/README.md)) |
+| **Last Checked** | 2026-06-10 (Hygiene & LLM Documentation Check) |
 
 ### Features
 

@@ -1,0 +1,60 @@
+# SoftwareCenter
+
+Canonical repository: https://github.com/file-bricks/SoftwareCenter
+Owner: file-bricks
+Primary language: Python
+Primary UI stack: PySide6
+License: MIT
+
+Last-checked: 2026-06-10
+
+## Search Phrases
+
+- desktop organizer Python
+- PySide6 tab organizer
+- software shortcuts manager
+- application launcher Python
+- local-first software center
+- drag and drop app launcher
+- PySide6 desktop shortcut manager
+
+## Audience
+
+Power users and developers who want a local-first, lightweight desktop organizer for software shortcuts and files, along with offline browser-based companion viewing capabilities.
+
+## Disambiguation
+
+SoftwareCenter is a local desktop application (PySide6/Python) for shortcut management. It is not:
+- An app store or software package manager (it does not download or install packages)
+- A system-level shell replacement or taskbar manager
+- A cloud-synced launcher platform
+
+## Summary
+
+SoftwareCenter is a lightweight, cross-platform desktop organizer for software shortcuts. It organizes files and apps into renamable tabs using a clean PySide6 UI, saves view/tab states dynamically, and supports profile import/export (`softwarecenter-profile-v1.json`) with a static PWA companion.
+
+## Current Scope
+
+- Primary platform: Cross-platform desktop (Windows, macOS, Linux).
+- Build targets: PyInstaller standalone executables.
+- Companion scope: Static PWA (`web_companion/`) for offline viewing of exported profile JSONs.
+- Non-goals: Network package installation, automatic software updates, cloud-account synchronizations.
+
+## Important Files
+
+- `README.md`: English and German GitHub entry point.
+- `SoftwareCenter.py`: Main PySide6 application.
+- `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
+- `web_companion/`: HTML/JS static offline viewer.
+- `tests/`: Pytest suite (tests for platform/WACK compatibility and state persistence).
+
+## Verification
+
+Use these local checks before publishing changes:
+
+```bash
+python -m pytest -q
+python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
+```
+
+The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and 3.12.

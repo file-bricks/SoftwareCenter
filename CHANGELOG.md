@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-05-24
+## [Unreleased] - 2026-06-10
 
 ### Build / Release
 - EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - GitHub Actions now install the app dependencies and run the PySide6 regression tests on Python 3.10, 3.11, and 3.12.
 
 ### Added
+- `llms.txt` in the repository root for LLM documentation visibility.
 - `scripts/run_windows_wack.py` for local Windows App Certification Kit dry-runs, real runs, and XML-to-JSON report summaries.
 - Regression tests for the WACK helper, covering MSIX/report path resolution and report parsing.
 - `tests/macos_platform_smoke.py` as a reproducible headless macOS source smoke for `.app` bundles and profile persistence.
