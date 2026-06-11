@@ -1,33 +1,12 @@
 # SoftwareCenter
 
+## Last-checked: 2026-06-11
+
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
 Primary language: Python
 Primary UI stack: PySide6
 License: MIT
-
-Last-checked: 2026-06-10
-
-## Search Phrases
-
-- desktop organizer Python
-- PySide6 tab organizer
-- software shortcuts manager
-- application launcher Python
-- local-first software center
-- drag and drop app launcher
-- PySide6 desktop shortcut manager
-
-## Audience
-
-Power users and developers who want a local-first, lightweight desktop organizer for software shortcuts and files, along with offline browser-based companion viewing capabilities.
-
-## Disambiguation
-
-SoftwareCenter is a local desktop application (PySide6/Python) for shortcut management. It is not:
-- An app store or software package manager (it does not download or install packages)
-- A system-level shell replacement or taskbar manager
-- A cloud-synced launcher platform
 
 ## Summary
 
@@ -42,7 +21,7 @@ SoftwareCenter is a lightweight, cross-platform desktop organizer for software s
 
 ## Important Files
 
-- `README.md`: English and German GitHub entry point.
+- `README.md`: English GitHub entry point; `README_de.md`: German documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
 - `web_companion/`: HTML/JS static offline viewer.
@@ -58,3 +37,29 @@ python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
 ```
 
 The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and 3.12.
+
+## Disambiguation
+
+SoftwareCenter is a local desktop application (PySide6/Python) for shortcut management. It is not:
+- An app store or software package manager (it does not download or install packages)
+- A system-level shell replacement or taskbar manager
+- A cloud-synced launcher platform
+
+## Audience
+
+- Power users on Windows, macOS, or Linux who want a lightweight, local-first desktop organizer for software shortcuts and app launchers
+- Developers looking for a PySide6 reference with QSettings-based state persistence, profile export/import, and cross-platform smoke CI
+- IT admins managing repeatable software environments who want a portable, JSON-based profile migration path
+- PWA/web developers evaluating offline-first companion patterns alongside a desktop source app
+
+## Search Phrases
+
+```
+SoftwareCenter PySide6 desktop organizer Python
+local-first software shortcuts manager tab organizer
+PySide6 application launcher cross-platform Windows macOS Linux
+softwarecenter-profile-v1.json profile export import
+drag and drop desktop shortcut organizer Python
+offline desktop organizer no cloud no telemetry
+PyInstaller PySide6 portable app launcher
+```
