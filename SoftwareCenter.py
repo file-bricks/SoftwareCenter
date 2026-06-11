@@ -516,6 +516,9 @@ class MainWindow(QMainWindow):
             self.act_view_tiles.blockSignals(False)
             self.act_view_list.blockSignals(False)
 
+    def _update_tab_closable_state(self):
+        self.tabs.setTabsClosable(self.tabs.count() > 1)
+
     def add_new_tab(self, name: str | None = None, view_mode="tiles", paths=None, entries=None):
         page = TabPage()
         page.set_view_mode(view_mode)
@@ -524,6 +527,7 @@ class MainWindow(QMainWindow):
         elif paths:
             page.list.set_all_paths(paths)
         idx = self.tabs.addTab(page, name or "Neuer Tab")
+        self._update_tab_closable_state()
         self.tabs.setCurrentIndex(idx)
 
     def export_profile(self):
@@ -618,6 +622,7 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Nicht möglich", "Der letzte Tab kann nicht geschlossen werden.")
             return
         self.tabs.removeTab(index)
+        self._update_tab_closable_state()
         self.save_settings()  # BUG 6: Settings nach Tab-Schließen sofort speichern
 
     def set_current_view(self, mode: str):
@@ -684,6 +689,7 @@ class MainWindow(QMainWindow):
         else:
             self.add_new_tab("Allgemein")
         settings.endArray()
+        self._update_tab_closable_state()
         self._sync_view_actions()
 
     def closeEvent(self, event):

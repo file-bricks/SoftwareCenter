@@ -28,9 +28,11 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
             first = MainWindow(settings=settings)
             try:
                 self.assertEqual(first.tabs.count(), 1)
+                self.assertFalse(first.tabs.tabsClosable())
 
                 first.set_current_view("list")
                 first.add_new_tab("Tools", "tiles")
+                self.assertTrue(first.tabs.tabsClosable())
                 first.tabs.setCurrentIndex(0)
                 first.save_settings()
                 settings.sync()
@@ -41,6 +43,7 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
             second = MainWindow(settings=reloaded)
             try:
                 self.assertEqual(second.tabs.count(), 2)
+                self.assertTrue(second.tabs.tabsClosable())
                 self.assertEqual(second.tabs.currentIndex(), 0)
                 self.assertEqual(second.current_page().view_mode, "list")
                 self.assertTrue(second.act_view_list.isChecked())
@@ -74,12 +77,34 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
             second = MainWindow(settings=reloaded)
             try:
                 self.assertEqual(second.tabs.count(), 2)
+                self.assertTrue(second.tabs.tabsClosable())
                 self.assertEqual(second.tabs.currentIndex(), 0)
                 self.assertEqual(second.current_page().view_mode, "list")
                 self.assertTrue(second.act_view_list.isChecked())
                 self.assertFalse(second.act_view_tiles.isChecked())
             finally:
                 second.close()
+
+    def test_last_remaining_tab_hides_close_button_again(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            settings_path = Path(tmpdir) / "softwarecenter.ini"
+            settings = QSettings(str(settings_path), QSettings.Format.IniFormat)
+
+            window = MainWindow(settings=settings)
+            try:
+                self.assertEqual(window.tabs.count(), 1)
+                self.assertFalse(window.tabs.tabsClosable())
+
+                window.add_new_tab("Tools", "tiles")
+                self.assertEqual(window.tabs.count(), 2)
+                self.assertTrue(window.tabs.tabsClosable())
+
+                window.on_close_tab(1)
+
+                self.assertEqual(window.tabs.count(), 1)
+                self.assertFalse(window.tabs.tabsClosable())
+            finally:
+                window.close()
 
     def test_accepts_macos_app_bundles(self):
         with tempfile.TemporaryDirectory() as tmpdir:

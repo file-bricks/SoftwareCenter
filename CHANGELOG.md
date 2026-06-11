@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
 
 ### Changed
+- UX-/Accessibility-Review: Der einzige verbleibende Tab zeigt kein irreführendes Schließen-Symbol mehr; die Schaltfläche erscheint erst wieder, wenn wirklich mehr als ein Tab vorhanden ist.
 - The Windows Store path now has a reproducible local WACK runner plus a documented manual test protocol instead of an undocumented final certification step.
 - macOS source smoke is now documented and wired into CI for `.app` import, `open` launching, settings persistence, and profile export verification.
 - Linux-`.desktop`-Launcher verwerfen jetzt auch eingebettete Feldcode-Argumente wie `--open=%f` oder `--profile=%u`, statt sie als wörtliche Platzhalter an Prozesse weiterzureichen.
@@ -24,6 +25,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - `llms.txt` in the repository root for LLM documentation visibility.
+- Regressionstest dafür, dass die Tab-Schließen-Schaltfläche beim letzten verbleibenden Tab ausgeblendet bleibt und nach dem Hinzufügen weiterer Tabs wieder erscheint.
 - `scripts/run_windows_wack.py` for local Windows App Certification Kit dry-runs, real runs, and XML-to-JSON report summaries.
 - Regression tests for the WACK helper, covering MSIX/report path resolution and report parsing.
 - `tests/macos_platform_smoke.py` as a reproducible headless macOS source smoke for `.app` bundles and profile persistence.
