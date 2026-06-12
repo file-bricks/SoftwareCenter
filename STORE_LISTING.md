@@ -6,7 +6,7 @@
 Desktop-Organizer: Programme in Tabs gruppieren, per Drag & Drop hinzufügen, sofort starten.
 
 ### Beschreibung (max 10.000 Zeichen)
-SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre Software-Sammlung bringt. Statt sich durch verschachtelte Startmenü-Ordner oder überfüllte Desktops zu kämpfen, organisieren Sie Ihre Programme in übersichtlichen Tabs -- genau so, wie es für Ihren Workflow passt.
+SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre Software-Sammlung bringt. Statt sich durch verschachtelte Startmenü-Ordner oder überfüllte Desktops zu kämpfen, organisieren Sie vorhandene Programme, Skripte und Verknüpfungen in übersichtlichen Tabs -- genau so, wie es für Ihren Workflow passt.
 
 **Kernfunktionen:**
 
@@ -22,6 +22,10 @@ SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre 
 
 - Kontextmenü: Per Rechtsklick Programme starten oder Einträge entfernen (nur die Verknüpfung wird entfernt, nie das Programm selbst).
 
+- Profil-Export/Import: Ihre Tab-Struktur kann als `softwarecenter-profile-v1.json` gesichert und später wieder importiert werden.
+
+- Web/PWA-Companion: Exportierte Profile lassen sich zusätzlich lokal im Browser ansehen, ohne Launcher-Rechte, Cloud-Konto oder Telemetrie.
+
 **Für wen ist SoftwareCenter?**
 
 - Power-User mit vielen installierten Programmen
@@ -30,12 +34,12 @@ SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre 
 
 **Technische Details:**
 
-- Minimaler Ressourcenverbrauch (~360 Zeilen Code)
+- Minimaler Ressourcenverbrauch (~690 Zeilen Code)
 - Keine Cloud-Anbindung, keine Telemetrie -- Ihre Daten bleiben lokal
 - Einstellungen werden lokal per QSettings gespeichert
 
 ### Schlüsselwörter
-App Launcher, Desktop Organizer, Software Verwaltung, Programmstarter, Tab Organizer, Schnellstart, Shortcut Manager, Drag and Drop, App Manager
+App Launcher, Desktop Organizer, Software Verwaltung, Programmstarter, Tab Organizer, Schnellstart, Shortcut Manager, Drag and Drop, App Manager, Offline Launcher, PySide6
 
 ### Kategorie
 Productivity / Utilities
@@ -48,7 +52,7 @@ Productivity / Utilities
 Desktop organizer: group apps in tabs, add via drag & drop, launch instantly.
 
 ### Description (max 10,000 chars)
-SoftwareCenter is a lightweight desktop organizer that brings order to your software collection. Instead of digging through nested start menu folders or cluttered desktops, organize your programs in clear, customizable tabs -- tailored to your workflow.
+SoftwareCenter is a lightweight desktop organizer that brings order to your software collection. Instead of digging through nested start menu folders or cluttered desktops, organize existing programs, scripts, and shortcuts in clear, customizable tabs -- tailored to your workflow.
 
 **Core Features:**
 
@@ -64,6 +68,10 @@ SoftwareCenter is a lightweight desktop organizer that brings order to your soft
 
 - Context menu: Right-click to launch programs or remove entries (only the shortcut is removed, never the program itself).
 
+- Profile export/import: Save your tab structure as `softwarecenter-profile-v1.json` and import it again later.
+
+- Web/PWA companion: View exported profiles locally in a browser without launcher permissions, cloud accounts, or telemetry.
+
 **Who is SoftwareCenter for?**
 
 - Power users with many installed programs
@@ -72,12 +80,12 @@ SoftwareCenter is a lightweight desktop organizer that brings order to your soft
 
 **Technical Details:**
 
-- Minimal resource usage (~360 lines of code)
+- Minimal resource usage (~690 lines of code)
 - No cloud connection, no telemetry -- your data stays local
 - Settings are stored locally via QSettings
 
 ### Keywords
-App Launcher, Desktop Organizer, Software Manager, Program Starter, Tab Organizer, Quick Launch, Shortcut Manager, Drag and Drop, App Manager
+App Launcher, Desktop Organizer, Software Manager, Program Starter, Tab Organizer, Quick Launch, Shortcut Manager, Drag and Drop, App Manager, Offline Launcher, PySide6
 
 ### Category
 Productivity / Utilities

@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
 
 ### Changed
+- README.md, README_de.md, `llms.txt`, and store listing copy now include sharper discovery positioning for SoftwareCenter as a local-first PySide6 app launcher and desktop shortcut organizer, with explicit disambiguation from Microsoft/SCCM Software Center, app stores, package managers, and remote deployment portals.
 - UX-/Accessibility-Review: Der einzige verbleibende Tab zeigt kein irreführendes Schließen-Symbol mehr; die Schaltfläche erscheint erst wieder, wenn wirklich mehr als ein Tab vorhanden ist.
 - The Windows Store path now has a reproducible local WACK runner plus a documented manual test protocol instead of an undocumented final certification step.
 - macOS source smoke is now documented and wired into CI for `.app` import, `open` launching, settings persistence, and profile export verification.

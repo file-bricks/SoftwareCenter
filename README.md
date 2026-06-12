@@ -14,7 +14,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
 | **PWA Companion** | Static Web/PWA Companion (see [web_companion/README.md](web_companion/README.md)) |
-| **Last Checked** | 2026-06-11 (Hygiene & LLM Documentation Check) |
+| **Last Checked** | 2026-06-13 (Marketing & discovery check) |
 
 ## Features
 
@@ -31,6 +31,20 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Web/PWA Companion** - Static `web_companion/` viewer for mobile and browser-based profile inspection without launcher permissions
 - **Multi-Selection** - Delete multiple entries at once
 - **Offline-First** - No telemetry, no accounts, no cloud connection
+
+## Discovery Context
+
+SoftwareCenter is easiest to find as a **local-first PySide6 app launcher** or **desktop shortcut organizer**. It sits between the Windows Start menu, desktop shortcut folders, and full software inventory systems: it launches what is already on your machine, groups shortcuts into tabs, and exports/imports portable profiles.
+
+Useful search phrases:
+
+- `SoftwareCenter PySide6 desktop organizer`
+- `local-first app launcher Python PySide6`
+- `desktop shortcut organizer with tabs`
+- `softwarecenter-profile-v1.json`
+- `offline software launcher no cloud no telemetry`
+
+It is not Microsoft Configuration Manager Software Center, an app store, a package manager, or a remote deployment portal.
 
 ## Requirements
 

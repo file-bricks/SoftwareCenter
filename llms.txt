@@ -1,6 +1,6 @@
 # SoftwareCenter
 
-## Last-checked: 2026-06-11
+## Last-checked: 2026-06-13
 
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
@@ -11,6 +11,8 @@ License: MIT
 ## Summary
 
 SoftwareCenter is a lightweight, cross-platform desktop organizer for software shortcuts. It organizes files and apps into renamable tabs using a clean PySide6 UI, saves view/tab states dynamically, and supports profile import/export (`softwarecenter-profile-v1.json`) with a static PWA companion.
+
+Discovery positioning: local-first PySide6 app launcher, desktop shortcut organizer, offline software launcher, tab-based program organizer, portable app profile manager.
 
 ## Current Scope
 
@@ -44,6 +46,7 @@ SoftwareCenter is a local desktop application (PySide6/Python) for shortcut mana
 - An app store or software package manager (it does not download or install packages)
 - A system-level shell replacement or taskbar manager
 - A cloud-synced launcher platform
+- Microsoft Configuration Manager Software Center, SCCM/MECM, Intune Company Portal, or a remote deployment portal
 
 ## Audience
 
@@ -62,4 +65,12 @@ softwarecenter-profile-v1.json profile export import
 drag and drop desktop shortcut organizer Python
 offline desktop organizer no cloud no telemetry
 PyInstaller PySide6 portable app launcher
+desktop shortcut organizer with tabs
+offline software launcher no cloud no telemetry
+local PySide6 app launcher for Windows macOS Linux
+portable software profile export import JSON
 ```
+
+## External Discovery Notes
+
+Current web visibility is weak outside GitHub. Exact searches mostly surface the file-bricks organization page, while broader "Software Center" queries are dominated by Microsoft Configuration Manager, SCCM/MECM, app-store, and software deployment content. Future external listings should describe this project as a local desktop shortcut organizer or app launcher rather than as a software center/package manager.

@@ -14,7 +14,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
 | **PWA-Begleiter** | Statischer Web/PWA-Companion (siehe [web_companion/README.md](web_companion/README.md)) |
-| **Letzte Prüfung** | 2026-06-11 (Hygiene- & LLM-Dokumentations-Check) |
+| **Letzte Prüfung** | 2026-06-13 (Marketing- & Sichtbarkeits-Check) |
 
 ## Funktionen
 
@@ -31,6 +31,20 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Web/PWA-Companion** - Statische `web_companion/`-Ansicht für mobile und browserbasierte Profilübersichten ohne Launcher-Rechte
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
+
+## Auffindbarkeit
+
+SoftwareCenter ist am besten als **lokaler PySide6-App-Launcher** oder **Desktop-Shortcut-Organizer** einzuordnen. Das Tool liegt zwischen Windows-Startmenü, Desktop-Verknüpfungsordnern und großen Software-Inventarsystemen: Es startet vorhandene Programme, gruppiert Verknüpfungen in Tabs und exportiert/importiert portable Profile.
+
+Nützliche Suchphrasen:
+
+- `SoftwareCenter PySide6 Desktop Organizer`
+- `lokaler App Launcher Python PySide6`
+- `Desktop Verknüpfungen in Tabs organisieren`
+- `softwarecenter-profile-v1.json`
+- `Offline Software Launcher ohne Cloud ohne Telemetrie`
+
+Es ist nicht Microsoft Configuration Manager Software Center, kein App Store, kein Paketmanager und kein Remote-Deployment-Portal.
 
 ## Voraussetzungen
 
