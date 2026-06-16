@@ -1,6 +1,7 @@
-import test from 'node:test'
+import test, { describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
+import { execSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
@@ -111,4 +112,79 @@ test('package.json hat test-Script (Bug #3 Fix)', () => {
   assert.ok(pkg.scripts?.test, 'package.json braucht scripts.test')
   assert.ok(pkg.scripts.test.includes('library.test.mjs'), 'test-Script muss library.test.mjs einschließen')
   assert.ok(pkg.scripts.test.includes('pwa.test.mjs'), 'test-Script muss pwa.test.mjs einschließen')
+})
+
+// ──────────────────────────────────────────────────────────────
+// iOS PWA-Härtung
+// ──────────────────────────────────────────────────────────────
+
+describe('index.html iOS-PWA-Meta', () => {
+  const html = readFileSync(path.join(root, 'index.html'), 'utf8')
+
+  test('viewport-Meta enthält viewport-fit=cover', () => {
+    assert.match(html, /<meta[^>]*name="viewport"[^>]*viewport-fit=cover/)
+  })
+
+  test('viewport-Meta enthält width=device-width und initial-scale=1', () => {
+    assert.match(html, /<meta[^>]*name="viewport"[^>]*width=device-width/)
+    assert.match(html, /<meta[^>]*name="viewport"[^>]*initial-scale=1/)
+  })
+
+  test('apple-mobile-web-app-title ist gesetzt', () => {
+    assert.match(html, /<meta[^>]*name="apple-mobile-web-app-title"[^>]*content="[^"]+"/)
+  })
+
+  test('apple-mobile-web-app-status-bar-style ist gesetzt', () => {
+    assert.match(html, /<meta[^>]*name="apple-mobile-web-app-status-bar-style"[^>]*content="[^"]+"/)
+  })
+
+  test('apple-touch-icon hat sizes="180x180"', () => {
+    assert.match(html, /<link[^>]*rel="apple-touch-icon"[^>]*sizes="180x180"/)
+  })
+
+  test('apple-touch-icon verweist auf apple-touch-icon-180.png', () => {
+    assert.match(html, /<link[^>]*rel="apple-touch-icon"[^>]*href="[^"]*apple-touch-icon-180\.png"/)
+  })
+
+  test('KEIN apple-mobile-web-app-capable (deprecated seit iOS 11.3)', () => {
+    assert.doesNotMatch(html, /apple-mobile-web-app-capable/, 'deprecated — darf nicht gesetzt sein')
+  })
+
+  test('keine doppelten viewport-Meta-Tags', () => {
+    const matches = html.match(/<meta[^>]*name="viewport"/g) ?? []
+    assert.equal(matches.length, 1, `Genau 1 viewport-Meta erwartet, gefunden: ${matches.length}`)
+  })
+
+  test('theme-color Meta-Tag ist gesetzt', () => {
+    assert.match(html, /<meta[^>]*name="theme-color"[^>]*content="[^"]+"/)
+  })
+})
+
+describe('apple-touch-icon-180.png — opaques RGB', () => {
+  const iconPath = path.join(root, 'icons', 'apple-touch-icon-180.png')
+
+  test('apple-touch-icon-180.png existiert', () => {
+    assert.ok(existsSync(iconPath), 'icons/apple-touch-icon-180.png fehlt')
+  })
+
+  test('apple-touch-icon-180.png ist opakes RGB (keine Transparenz)', () => {
+    const p = iconPath.replace(/\\/g, '/')
+    const result = execSync(
+      `python -c "from PIL import Image; img=Image.open('${p}'); d=list(img.getdata()); t=sum(1 for px in d if len(px)==4 and px[3]==0); print(t)"`,
+      { encoding: 'utf8' }
+    ).trim()
+    assert.equal(result, '0', `apple-touch-icon-180.png hat transparente Pixel: ${result}`)
+  })
+})
+
+describe('sw.js iOS-Härtung', () => {
+  const sw = readFileSync(path.join(root, 'sw.js'), 'utf8')
+
+  test('CACHE_NAME ist v2 oder höher (nach iOS-Härtung)', () => {
+    assert.match(sw, /softwarecenter-companion-v[2-9]/, 'CACHE_NAME muss v2+ sein')
+  })
+
+  test('apple-touch-icon-180.png ist in OFFLINE_ASSETS gecacht', () => {
+    assert.ok(sw.includes('apple-touch-icon-180.png'), 'apple-touch-icon-180.png fehlt in OFFLINE_ASSETS')
+  })
 })

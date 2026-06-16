@@ -1,5 +1,9 @@
 :root {
   color-scheme: light;
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
   --bg: #f2f0e8;
   --panel: rgba(255, 252, 245, 0.92);
   --panel-strong: #fffdf7;
@@ -21,6 +25,10 @@
 body {
   margin: 0;
   min-height: 100vh;
+  padding-top: var(--safe-area-top);
+  padding-right: var(--safe-area-right);
+  padding-bottom: var(--safe-area-bottom);
+  padding-left: var(--safe-area-left);
   font-family: "Segoe UI", "Trebuchet MS", sans-serif;
   color: var(--text);
   background:

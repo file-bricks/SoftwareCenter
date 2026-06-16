@@ -1,4 +1,4 @@
-const CACHE_NAME = "softwarecenter-companion-v1";
+const CACHE_NAME = "softwarecenter-companion-v2";
 const OFFLINE_ASSETS = [
   "./",
   "./index.html",
@@ -11,6 +11,7 @@ const OFFLINE_ASSETS = [
   "./icons/Icon-512.png",
   "./icons/Icon-maskable-192.png",
   "./icons/Icon-maskable-512.png",
+  "./icons/apple-touch-icon-180.png",
 ];
 
 self.addEventListener("install", (event) => {
