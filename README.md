@@ -100,6 +100,7 @@ python tests/linux_platform_smoke.py
 GitHub Actions runs these smoke checks. The macOS smoke validates `.app` import, `open` launching, QSettings persistence, and profile export on `macos-latest`; the Linux smoke covers `.desktop` import, `Exec`/`xdg-open` launching, QSettings persistence, and profile export on `ubuntu-latest`. Build artifacts and local task/test files are ignored and should not be committed.
 
 For the Windows Store path, `python scripts/run_windows_wack.py --dry-run` checks the local MSIX/AppCert paths and prints the reproducible WACK command. The real certification run should be executed from an elevated PowerShell against a fresh signed MSIX before submission.
+`python generate_store_screenshots.py` creates the reproducible Store screenshot set under `README/screenshots/store/`.
 
 ## Exchange Format
 
@@ -108,6 +109,12 @@ Profiles can be exported as `softwarecenter-profile-v1.json` and imported again 
 ## Web/PWA Companion
 
 The [web_companion/README.md](web_companion/README.md) documents a static browser companion for the export format. It imports `softwarecenter-profile-v1.json` locally, offers tab/type filtering, and restores the last loaded profile for offline starts.
+
+## Windows Store Assets
+
+The Windows Store track now includes a reproducible screenshot generator for the
+current desktop UI. Run `python generate_store_screenshots.py` to refresh
+`README/screenshots/store/` with four redacted Store images and `summary.json`.
 
 ## Tech Stack
 

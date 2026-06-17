@@ -120,7 +120,7 @@ Productivity / Utilities
 - [x] No debug print statements
 - [x] PySide6 (LGPL) -- license compatible with Store distribution
 - [x] README-Screenshot vorhanden (`README/screenshots/main.png`)
-- [ ] Store-Screenshot-Set erstellen: mindestens 3-4 Bilder in Store-Auflösung (z. B. Hauptfenster, Tab-Organisation, Kachelansicht, Listenansicht)
+- [x] Store-Screenshot-Set erzeugbar: `python generate_store_screenshots.py` schreibt `README/screenshots/store/main-window.png`, `tab-organization.png`, `tiles-view.png`, `list-view.png` und `summary.json`
 - [x] MSIX package vorhanden (`releases/SoftwareCenter.msix`, Stand 2026-03-13)
 - [ ] Code-Signing (.pfx) -- noch nicht konfiguriert in store_settings.json
 - [x] WACK-Workflow und manuelles Store-Testprotokoll sind dokumentiert

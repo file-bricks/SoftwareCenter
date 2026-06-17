@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
 
 ### Changed
+- Die Windows-Store-Vorbereitung enthält jetzt ein reproduzierbares Screenshot-Set aus der echten Desktop-Oberfläche statt nur eines offenen TODO-Markers.
 - README.md, README_de.md, `llms.txt`, and store listing copy now include sharper discovery positioning for SoftwareCenter as a local-first PySide6 app launcher and desktop shortcut organizer, with explicit disambiguation from Microsoft/SCCM Software Center, app stores, package managers, and remote deployment portals.
 - UX-/Accessibility-Review: Der einzige verbleibende Tab zeigt kein irreführendes Schließen-Symbol mehr; die Schaltfläche erscheint erst wieder, wenn wirklich mehr als ein Tab vorhanden ist.
 - The Windows Store path now has a reproducible local WACK runner plus a documented manual test protocol instead of an undocumented final certification step.
@@ -25,6 +26,8 @@ All notable changes to this project will be documented in this file.
 - GitHub Actions now install the app dependencies and run the PySide6 regression tests on Python 3.10, 3.11, and 3.12.
 
 ### Added
+- `generate_store_screenshots.py` für reproduzierbare Windows-Store-Screenshots und `README/screenshots/store/README.md` als Generator-Doku.
+- Regressionstest `tests/test_store_screenshots.py` für PNG-Header, Mindestauflösung und `summary.json`.
 - `llms.txt` in the repository root for LLM documentation visibility.
 - Regressionstest dafür, dass die Tab-Schließen-Schaltfläche beim letzten verbleibenden Tab ausgeblendet bleibt und nach dem Hinzufügen weiterer Tabs wieder erscheint.
 - `scripts/run_windows_wack.py` for local Windows App Certification Kit dry-runs, real runs, and XML-to-JSON report summaries.

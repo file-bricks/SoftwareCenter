@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-06-17T13:14:31Z",
+  "screenshots": [
+    {
+      "name": "main",
+      "file": "main-window.png",
+      "caption": "Hauptfenster mit lokalen Launcher-Kacheln"
+    },
+    {
+      "name": "tabs",
+      "file": "tab-organization.png",
+      "caption": "Mehrere Workflow-Tabs im selben Profil"
+    },
+    {
+      "name": "tiles",
+      "file": "tiles-view.png",
+      "caption": "Kachelansicht für schnellen Zugriff"
+    },
+    {
+      "name": "list",
+      "file": "list-view.png",
+      "caption": "Listenansicht für größere Sammlungen"
+    }
+  ]
+}
