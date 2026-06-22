@@ -4,6 +4,11 @@ Bug A: QMessageBox.Yes statt QMessageBox.StandardButton.Yes — PySide6 6.4+ ink
        on_request_delete (TabPage) und import_profile (MainWindow) verwendeten das
        veraltete Enum, sodass Bestätigungs-Dialoge in neueren PySide6-Versionen nicht
        korrekt ausgewertet wurden.
+
+Batch #21 (2026-06-21):
+  D2 — deprecated Qt-Enums (QListWidget.ExtendedSelection, ViewMode, ResizeMode, Qt.UserRole,
+       Qt.CustomContextMenu)
+  U2 — manage_translations.py json.load ohne JSONDecodeError-Handler
 """
 
 import inspect
@@ -88,3 +93,79 @@ class TestBugA_QMessageBoxStandardButton:
                 )
             finally:
                 win.close()
+
+
+# ── Batch #21 D2: deprecated Qt-Enums ───────────────────────────────────────
+
+class TestD2Batch21:
+    """D2 — deprecated PySide6-Enums migriert (Batch #21)."""
+
+    def _src(self):
+        return Path(__file__).parent.parent.joinpath("SoftwareCenter.py").read_text(encoding="utf-8")
+
+    def test_user_role_migrated(self):
+        src = self._src()
+        assert "Qt.ItemDataRole.UserRole" in src, "Qt.UserRole nicht migriert — BUG-D2"
+        # Qt.UserRole ohne .ItemDataRole. darf nicht mehr vorkommen (außer als Teil von ItemDataRole)
+        import re
+        bare = re.findall(r'(?<!ItemDataRole\.)(?<!\w)Qt\.UserRole(?!\.)', src)
+        assert not bare, f"Bare Qt.UserRole noch vorhanden: {bare} — BUG-D2"
+
+    def test_selection_mode_migrated(self):
+        src = self._src()
+        assert "QAbstractItemView.SelectionMode.ExtendedSelection" in src, \
+            "QListWidget.ExtendedSelection nicht migriert — BUG-D2"
+        assert "QListWidget.ExtendedSelection" not in src, \
+            "deprecated QListWidget.ExtendedSelection noch vorhanden — BUG-D2"
+
+    def test_context_menu_policy_migrated(self):
+        src = self._src()
+        assert "Qt.ContextMenuPolicy.CustomContextMenu" in src, \
+            "Qt.CustomContextMenu nicht migriert — BUG-D2"
+        assert "Qt.CustomContextMenu\n" not in src and "Qt.CustomContextMenu)" not in src, \
+            "deprecated Qt.CustomContextMenu noch vorhanden — BUG-D2"
+
+    def test_view_mode_icon_migrated(self):
+        src = self._src()
+        assert "QListWidget.ViewMode.IconMode" in src, \
+            "QListWidget.IconMode nicht migriert — BUG-D2"
+        assert "QListWidget.IconMode" not in src.replace("QListWidget.ViewMode.IconMode", ""), \
+            "deprecated QListWidget.IconMode noch vorhanden — BUG-D2"
+
+    def test_view_mode_list_migrated(self):
+        src = self._src()
+        assert "QListWidget.ViewMode.ListMode" in src, \
+            "QListWidget.ListMode nicht migriert — BUG-D2"
+        assert "QListWidget.ListMode" not in src.replace("QListWidget.ViewMode.ListMode", ""), \
+            "deprecated QListWidget.ListMode noch vorhanden — BUG-D2"
+
+    def test_resize_mode_adjust_migrated(self):
+        src = self._src()
+        assert "QListWidget.ResizeMode.Adjust" in src, \
+            "QListWidget.Adjust nicht migriert — BUG-D2"
+        assert "QListWidget.Adjust" not in src.replace("QListWidget.ResizeMode.Adjust", ""), \
+            "deprecated QListWidget.Adjust noch vorhanden — BUG-D2"
+
+    def test_qabstractitemview_imported(self):
+        src = self._src()
+        assert "QAbstractItemView" in src, \
+            "QAbstractItemView nicht importiert — für D2-Fix benötigt"
+
+
+# ── Batch #21 U2: manage_translations ───────────────────────────────────────
+
+class TestU2ManageTranslationsBatch21:
+    """U2 — manage_translations.py json.load ohne JSONDecodeError-Handler (Batch #21)."""
+
+    def _src(self):
+        return Path(__file__).parent.parent.joinpath("manage_translations.py").read_text(encoding="utf-8")
+
+    def test_json_load_has_json_decode_error_handler(self):
+        src = self._src()
+        assert "except json.JSONDecodeError" in src, \
+            "manage_translations: json.load ohne JSONDecodeError-Handler — BUG-U2"
+
+    def test_bare_json_load_wrapped(self):
+        src = self._src()
+        assert "JSONDecodeError" in src, \
+            "manage_translations: JSONDecodeError-Handling fehlt — BUG-U2"

@@ -13,15 +13,18 @@ from datetime import datetime, timezone
 from PySide6.QtCore import Qt, QSize, QFileInfo, Signal, QSettings
 from PySide6.QtGui import QAction, QActionGroup, QIcon
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QListWidget,
+    QAbstractItemView, QApplication, QMainWindow, QWidget, QVBoxLayout, QListWidget,
     QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
     QMessageBox, QMenu, QFileDialog
 )
 
 PROFILE_FORMAT = "softwarecenter-profile-v1"
 PROFILE_FORMAT_VERSION = 1
-ENTRY_METADATA_ROLE = Qt.UserRole + 1
+ENTRY_METADATA_ROLE = Qt.ItemDataRole.UserRole + 1
 DESKTOP_FIELD_CODES = set("fFuUicck")
+
+def is_windows_shortcut(path: str) -> bool:
+    return os.path.isfile(path) and path.lower().endswith(".lnk")
 
 def is_linux_desktop_entry(path: str) -> bool:
     return sys.platform.startswith("linux") and os.path.isfile(path) and path.lower().endswith(".desktop")
@@ -124,6 +127,59 @@ def is_supported_launch_target(path: str) -> bool:
         return True
     return sys.platform == "darwin" and path.lower().endswith(".app") and os.path.isdir(path)
 
+def resolve_windows_shortcut_target(path: str) -> str | None:
+    if not sys.platform.startswith("win") or not is_windows_shortcut(path):
+        return None
+
+    target = _resolve_windows_shortcut_target_com(path) or _resolve_windows_shortcut_target_powershell(path)
+    if not target:
+        return None
+    target = os.path.normpath(target.strip().strip('"'))
+    if target.lower().endswith(".exe") and os.path.isfile(target):
+        return target
+    return None
+
+def _resolve_windows_shortcut_target_com(path: str) -> str | None:
+    try:
+        import win32com.client  # type: ignore[import-not-found]
+
+        shell = win32com.client.Dispatch("WScript.Shell")
+        shortcut = shell.CreateShortcut(path)
+        target = getattr(shortcut, "TargetPath", "")
+    except Exception:
+        return None
+    return target.strip() or None
+
+def _resolve_windows_shortcut_target_powershell(path: str) -> str | None:
+    env = os.environ.copy()
+    env["SOFTWARECENTER_SHORTCUT_PATH"] = path
+    command = (
+        "$ErrorActionPreference='Stop'; "
+        "[Console]::OutputEncoding=[System.Text.Encoding]::UTF8; "
+        "$shortcut=(New-Object -ComObject WScript.Shell)."
+        "CreateShortcut($env:SOFTWARECENTER_SHORTCUT_PATH); "
+        "$shortcut.TargetPath"
+    )
+    try:
+        completed = subprocess.run(
+            ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", command],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=env,
+            timeout=5,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if completed.returncode != 0:
+        return None
+    return completed.stdout.strip() or None
+
+def normalize_new_launch_path(path: str) -> str:
+    return resolve_windows_shortcut_target(path) or path
+
 def default_entry_label(path: str) -> str:
     name = desktop_entry_display_name(path) if is_linux_desktop_entry(path) else None
     if name:
@@ -156,7 +212,9 @@ def normalize_entry(entry: str | dict) -> dict | None:
         notes = None
     elif isinstance(entry, dict):
         raw_path = entry.get("path", "")
-        path = raw_path.strip() if isinstance(raw_path, str) else str(raw_path).strip()
+        # BUGSWEEP-40: Nicht-String-Pfad (z.B. None aus manuell editiertem Profil) -> leer, damit der
+        # `if not path: return None`-Guard greift; str(None) ergäbe sonst den Literal-String "None".
+        path = raw_path.strip() if isinstance(raw_path, str) else ""
         label = entry.get("label")
         kind = entry.get("kind")
         notes = entry.get("notes")
@@ -262,16 +320,16 @@ class SoftwareListWidget(QListWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAcceptDrops(True)
-        self.setSelectionMode(QListWidget.ExtendedSelection)
-        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested.connect(self._on_context_menu)
         self.itemActivated.connect(self._on_item_activated)
         self._icon_provider = QFileIconProvider()
         self.configure_as_tiles()
 
     def configure_as_tiles(self):
-        self.setViewMode(QListWidget.IconMode)
-        self.setResizeMode(QListWidget.Adjust)
+        self.setViewMode(QListWidget.ViewMode.IconMode)
+        self.setResizeMode(QListWidget.ResizeMode.Adjust)
         self.setWrapping(True)
         self.setIconSize(QSize(64, 64))
         self.setGridSize(QSize(110, 100))
@@ -279,8 +337,8 @@ class SoftwareListWidget(QListWidget):
         self.setUniformItemSizes(False)
 
     def configure_as_list(self):
-        self.setViewMode(QListWidget.ListMode)
-        self.setResizeMode(QListWidget.Adjust)
+        self.setViewMode(QListWidget.ViewMode.ListMode)
+        self.setResizeMode(QListWidget.ResizeMode.Adjust)
         self.setWrapping(False)
         self.setIconSize(QSize(24, 24))
         self.setGridSize(QSize())
@@ -323,15 +381,15 @@ class SoftwareListWidget(QListWidget):
         action = menu.exec(global_pos)
         if action == act_open:
             for item in self.selectedItems():
-                path = item.data(Qt.UserRole)
+                path = item.data(Qt.ItemDataRole.UserRole)
                 open_file(path)
         elif action == act_del:
-            paths = [it.data(Qt.UserRole) for it in self.selectedItems()]
+            paths = [it.data(Qt.ItemDataRole.UserRole) for it in self.selectedItems()]
             if paths:
                 self.requestDelete.emit(paths)
 
     def _on_item_activated(self, item: QListWidgetItem):
-        path = item.data(Qt.UserRole)
+        path = item.data(Qt.ItemDataRole.UserRole)
         open_file(path)
 
     def add_paths(self, paths: list[str]):
@@ -339,6 +397,8 @@ class SoftwareListWidget(QListWidget):
 
     def add_entries(self, entries: list[str | dict]):
         for entry in entries:
+            if isinstance(entry, str):
+                entry = normalize_new_launch_path(entry)
             normalized = normalize_entry(entry)
             if not normalized:
                 continue
@@ -351,7 +411,7 @@ class SoftwareListWidget(QListWidget):
     def _has_path(self, path: str) -> bool:
         for i in range(self.count()):
             it = self.item(i)
-            if it.data(Qt.UserRole) == path:
+            if it.data(Qt.ItemDataRole.UserRole) == path:
                 return True
         return False
 
@@ -365,7 +425,7 @@ class SoftwareListWidget(QListWidget):
         item = QListWidgetItem(icon, name)
         notes = entry.get("notes")
         item.setToolTip(f"{path}\n\nNotizen: {notes}" if notes else path)
-        item.setData(Qt.UserRole, path)
+        item.setData(Qt.ItemDataRole.UserRole, path)
         item.setData(ENTRY_METADATA_ROLE, entry)
         self.addItem(item)
 
@@ -374,13 +434,13 @@ class SoftwareListWidget(QListWidget):
         i = 0
         while i < self.count():
             it = self.item(i)
-            if it.data(Qt.UserRole) in to_remove:
+            if it.data(Qt.ItemDataRole.UserRole) in to_remove:
                 self.takeItem(i)
             else:
                 i += 1
 
     def get_all_paths(self) -> list[str]:
-        return [self.item(i).data(Qt.UserRole) for i in range(self.count())]
+        return [self.item(i).data(Qt.ItemDataRole.UserRole) for i in range(self.count())]
 
     def get_all_entries(self) -> list[dict]:
         entries = []
@@ -393,9 +453,9 @@ class SoftwareListWidget(QListWidget):
                 entries.append(
                     normalize_entry(
                         {
-                            "path": item.data(Qt.UserRole),
+                            "path": item.data(Qt.ItemDataRole.UserRole),
                             "label": item.text(),
-                            "kind": detect_entry_kind(item.data(Qt.UserRole)),
+                            "kind": detect_entry_kind(item.data(Qt.ItemDataRole.UserRole)),
                             "notes": None,
                         }
                     )
@@ -473,6 +533,9 @@ class MainWindow(QMainWindow):
 
     def _build_toolbar(self):
         tb = QToolBar("Hauptleiste")
+        # BUGSWEEP-40: objectName setzen — saveState()/restoreState() (unten genutzt) brauchen einen
+        # eindeutigen objectName je Toolbar, sonst Qt-Warnung + windowState wird nicht zuverlässig restauriert.
+        tb.setObjectName("Hauptleiste")
         tb.setMovable(False)
         self.addToolBar(tb)
         act_new_tab = QAction("Neuer Tab", self)
@@ -639,6 +702,9 @@ class MainWindow(QMainWindow):
         settings.setValue("geometry", self.saveGeometry())
         settings.setValue("windowState", self.saveState())
         settings.setValue("current_tab", self.tabs.currentIndex())
+        # BUGSWEEP-40: altes Array vorher entfernen — sonst bleiben bei weniger Tabs als zuvor
+        # verwaiste Schlüssel höherer Indizes als Registry-Müll liegen.
+        settings.remove("tabs")
         settings.beginWriteArray("tabs")
         for i in range(self.tabs.count()):
             settings.setArrayIndex(i)

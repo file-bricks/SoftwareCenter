@@ -45,7 +45,10 @@ def main() -> None:
                 require(page.list.count() == 1, ".app-Bundle wurde nicht importiert.")
                 item = page.list.item(0)
                 require(item.text() == "Notizbücher", "Bundle-Name wurde nicht aus dem Pfad abgeleitet.")
-                require(item.data(module.Qt.UserRole) == str(app_bundle), "Bundle-Pfad wurde nicht gespeichert.")
+                require(
+                    item.data(module.Qt.ItemDataRole.UserRole) == str(app_bundle),
+                    "Bundle-Pfad wurde nicht gespeichert.",
+                )
 
                 window.set_current_view("list")
                 exported = profile_export_data(window)
@@ -73,7 +76,10 @@ def main() -> None:
                 require(page.list.count() == 1, ".app-Bundle wurde nach Reload nicht wiederhergestellt.")
                 item = page.list.item(0)
                 require(item.text() == "Notizbücher", "Bundle-Name ging beim Reload verloren.")
-                require(item.data(module.Qt.UserRole) == str(app_bundle), "Bundle-Pfad ging beim Reload verloren.")
+                require(
+                    item.data(module.Qt.ItemDataRole.UserRole) == str(app_bundle),
+                    "Bundle-Pfad ging beim Reload verloren.",
+                )
             finally:
                 restored.close()
 

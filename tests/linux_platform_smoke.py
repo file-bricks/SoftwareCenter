@@ -88,7 +88,10 @@ def main() -> None:
                 require(page.list.count() == 1, "Launcher wurde nach Reload nicht wiederhergestellt.")
                 item = page.list.item(0)
                 require(item.text() == "Werkzeugkasten", "Launcher-Name ging beim Reload verloren.")
-                require(item.data(module.Qt.UserRole) == str(desktop_file), "Launcher-Pfad ging beim Reload verloren.")
+                require(
+                    item.data(module.Qt.ItemDataRole.UserRole) == str(desktop_file),
+                    "Launcher-Pfad ging beim Reload verloren.",
+                )
             finally:
                 restored.close()
 
