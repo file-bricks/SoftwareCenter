@@ -63,7 +63,10 @@ def manage_translations(source_dir="."):
 
     if os.path.exists(trans_file):
         with open(trans_file, "r", encoding="utf-8") as f:
-            translations = json.load(f)
+            try:
+                translations = json.load(f)
+            except json.JSONDecodeError:
+                translations = {}
     else:
         translations = {}
 
