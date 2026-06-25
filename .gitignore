@@ -31,6 +31,7 @@ TESTS.txt
 TESTERGEBNISSE.txt
 BUGREPORT.md
 DIAGNOSE_REPORT.md
+LOCK*.txt
 
 # ---- Persoenliche / Sensible Daten ----
 _USER/
@@ -51,6 +52,7 @@ releases/
 *.msix
 *.appx
 *.spec
+!SoftwareCenter.spec
 *.log
 *.tmp
 *.bak
@@ -76,6 +78,7 @@ desktop.ini
 Thumbs.db
 .DS_Store
 ehthumbs.db
+*-ASUS-GEI*
 DECISIONS.md
 PORTIERUNGSPLAN.md
 TODO.md

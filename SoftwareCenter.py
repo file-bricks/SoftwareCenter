@@ -123,9 +123,14 @@ def _sanitize_desktop_exec_token(token: str) -> str | None:
     return sanitized
 
 def is_supported_launch_target(path: str) -> bool:
-    if os.path.isfile(path):
+    if os.path.isfile(path) or os.path.isdir(path):
         return True
-    return sys.platform == "darwin" and path.lower().endswith(".app") and os.path.isdir(path)
+    return False
+
+def is_supported_windows_shortcut_target(path: str) -> bool:
+    if path.lower().endswith(".exe") and os.path.isfile(path):
+        return True
+    return os.path.isdir(path)
 
 def resolve_windows_shortcut_target(path: str) -> str | None:
     if not sys.platform.startswith("win") or not is_windows_shortcut(path):
@@ -135,7 +140,7 @@ def resolve_windows_shortcut_target(path: str) -> str | None:
     if not target:
         return None
     target = os.path.normpath(target.strip().strip('"'))
-    if target.lower().endswith(".exe") and os.path.isfile(target):
+    if is_supported_windows_shortcut_target(target):
         return target
     return None
 
@@ -200,6 +205,8 @@ def detect_entry_kind(path: str) -> str:
         return "linux_desktop"
     if lower_path.endswith((".bat", ".cmd", ".ps1", ".sh", ".py")):
         return "script"
+    if os.path.isdir(path):
+        return "directory"
     if os.path.isfile(path):
         return "file"
     return "unknown"
@@ -398,7 +405,14 @@ class SoftwareListWidget(QListWidget):
     def add_entries(self, entries: list[str | dict]):
         for entry in entries:
             if isinstance(entry, str):
+                original_entry = entry
                 entry = normalize_new_launch_path(entry)
+                if (
+                    entry != original_entry
+                    and is_windows_shortcut(original_entry)
+                    and not is_supported_windows_shortcut_target(entry)
+                ):
+                    entry = original_entry
             normalized = normalize_entry(entry)
             if not normalized:
                 continue

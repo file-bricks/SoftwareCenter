@@ -189,7 +189,7 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
 
             popen.assert_called_once_with(["/usr/bin/editor", "--mode=edit", "--literal=%f"])
 
-    def test_add_paths_ignores_plain_directories(self):
+    def test_add_paths_accepts_plain_directories(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             folder = Path(tmpdir) / "NurEinOrdner"
             folder.mkdir()
@@ -201,7 +201,12 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
                 self.assertIsNotNone(page)
                 page.add_paths([str(folder)])
 
-                self.assertEqual(page.list.count(), 0)
+                self.assertEqual(page.list.count(), 1)
+                item = page.list.item(0)
+                self.assertEqual(item.text(), "NurEinOrdner")
+                self.assertEqual(item.data(module.Qt.ItemDataRole.UserRole), str(folder))
+                metadata = item.data(module.ENTRY_METADATA_ROLE)
+                self.assertEqual(metadata["kind"], "directory")
             finally:
                 window.close()
 
@@ -229,6 +234,61 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
                     metadata = item.data(module.ENTRY_METADATA_ROLE)
                     self.assertEqual(metadata["path"], str(target))
                     self.assertEqual(metadata["kind"], "file")
+                finally:
+                    window.close()
+
+    def test_add_paths_resolves_windows_lnk_to_directory_target(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            shortcut = Path(tmpdir) / "Tools Shortcut.lnk"
+            shortcut.write_text("fake shortcut", encoding="utf-8")
+            target = Path(tmpdir) / "Project Tools"
+            target.mkdir()
+            expected_target = os.path.normpath(str(target))
+            settings_path = Path(tmpdir) / "softwarecenter.ini"
+            settings = QSettings(str(settings_path), QSettings.Format.IniFormat)
+
+            with mock.patch.object(module.sys, "platform", "win32"), \
+                 mock.patch.object(module, "_resolve_windows_shortcut_target_com", return_value=str(target)), \
+                 mock.patch.object(module, "_resolve_windows_shortcut_target_powershell", return_value=None):
+                window = MainWindow(settings=settings)
+                try:
+                    page = window.current_page()
+                    self.assertIsNotNone(page)
+                    page.add_paths([str(shortcut)])
+
+                    self.assertEqual(page.list.count(), 1)
+                    item = page.list.item(0)
+                    self.assertEqual(item.text(), "Project Tools")
+                    self.assertEqual(item.data(module.Qt.ItemDataRole.UserRole), expected_target)
+                    metadata = item.data(module.ENTRY_METADATA_ROLE)
+                    self.assertEqual(metadata["path"], expected_target)
+                    self.assertEqual(metadata["kind"], "directory")
+                finally:
+                    window.close()
+
+    def test_add_paths_keeps_windows_lnk_for_non_exe_file_target(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            shortcut = Path(tmpdir) / "Dokument.lnk"
+            shortcut.write_text("fake shortcut", encoding="utf-8")
+            target = Path(tmpdir) / "Dokument.pdf"
+            target.write_text("fake pdf", encoding="utf-8")
+            settings_path = Path(tmpdir) / "softwarecenter.ini"
+            settings = QSettings(str(settings_path), QSettings.Format.IniFormat)
+
+            with mock.patch.object(module.sys, "platform", "win32"), \
+                 mock.patch.object(module, "resolve_windows_shortcut_target", return_value=str(target)):
+                window = MainWindow(settings=settings)
+                try:
+                    page = window.current_page()
+                    self.assertIsNotNone(page)
+                    page.add_paths([str(shortcut)])
+
+                    self.assertEqual(page.list.count(), 1)
+                    item = page.list.item(0)
+                    self.assertEqual(item.text(), "Dokument")
+                    self.assertEqual(item.data(module.Qt.ItemDataRole.UserRole), str(shortcut))
+                    metadata = item.data(module.ENTRY_METADATA_ROLE)
+                    self.assertEqual(metadata["kind"], "windows_shortcut")
                 finally:
                     window.close()
 

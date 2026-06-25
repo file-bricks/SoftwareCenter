@@ -25,6 +25,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Context Menu** - Right-click to open or remove
 - **Cross-Platform** - Windows, macOS, and Linux
 - **Native Icons** - Automatic display of system application icons
+- **Windows Shortcut Resolution** - Dropped `.lnk` files pointing to `.exe` or folder targets are stored as the original target
 - **macOS App Bundles** - Drag and drop `.app` applications directly into the organizer
 - **Linux Desktop Launchers** - `.desktop` entries show their app name and launch via their desktop command
 - **Profile Export/Import** - Versioned `softwarecenter-profile-v1.json` format for migrations and future web/PWA companions
@@ -69,7 +70,7 @@ On Windows, you can also use `START.bat` or the prebuilt `SoftwareCenter.exe` fr
 
 | Action | Instructions |
 |--------|-------------|
-| Add programs | Drag files, shortcuts, `.app` bundles on macOS, or `.desktop` launchers on Linux into the window |
+| Add programs | Drag files, folders, shortcuts, `.app` bundles on macOS, or `.desktop` launchers on Linux into the window; Windows `.lnk` files pointing to `.exe` files or folders are resolved to the original target |
 | Organize tabs | Toolbar > "New Tab", double-click to rename |
 | Switch view | Toolbar > Tiles / List |
 | Launch programs | Double-click or right-click > Open/Start |

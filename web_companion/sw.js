@@ -1,4 +1,4 @@
-const CACHE_NAME = "softwarecenter-companion-v2";
+const CACHE_NAME = "softwarecenter-companion-v3";
 const OFFLINE_ASSETS = [
   "./",
   "./index.html",
@@ -39,6 +39,12 @@ self.addEventListener("fetch", (event) => {
     return;
   }
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true }).then((cached) => cached || fetch(event.request)),
+    caches.match(event.request, { ignoreSearch: true }).then(
+      (cached) =>
+        cached ||
+        fetch(event.request).catch(
+          () => new Response("Offline", { status: 503, headers: { "Content-Type": "text/plain" } })
+        )
+    )
   );
 });

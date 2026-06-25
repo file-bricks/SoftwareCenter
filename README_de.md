@@ -25,6 +25,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Kontextmenü** - Rechtsklick zum Öffnen oder Entfernen
 - **Cross-Platform** - Windows, macOS und Linux
 - **Native Icons** - Automatische Anzeige der System-Anwendungsicons
+- **Windows-Verknüpfungen** - `.lnk`-Dateien mit `.exe`- oder Ordnerziel werden beim Hinzufügen als Originalziel gespeichert
 - **macOS-App-Bundles** - `.app`-Programme lassen sich per Drag & Drop hinzufügen
 - **Linux-Desktop-Starter** - `.desktop`-Launcher werden mit ihrem App-Namen angezeigt und korrekt gestartet
 - **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und spätere Web/PWA-Companions
@@ -69,7 +70,7 @@ Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist zus�
 
 | Aktion | Anleitung |
 |--------|-----------|
-| Programme hinzufügen | Dateien, Verknüpfungen, unter macOS `.app`-Bundles oder unter Linux `.desktop`-Starter ins Fenster ziehen |
+| Programme hinzufügen | Dateien, Ordner, Verknüpfungen, unter macOS `.app`-Bundles oder unter Linux `.desktop`-Starter ins Fenster ziehen; Windows-`.lnk`-Dateien mit `.exe`- oder Ordnerziel werden auf das Originalziel aufgelöst |
 | Tabs organisieren | Toolbar > "Neuer Tab", Doppelklick zum Umbenennen |
 | Ansicht wechseln | Toolbar > Kacheln / Liste |
 | Programme starten | Doppelklick oder Rechtsklick > Öffnen/Starten |
