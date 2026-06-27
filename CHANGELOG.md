@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 - Icon/EXE/START-Health-Check 2026-06-19: vorhandenes `icon.ico` weiterverwendet, `START.bat` auf EXE-first umgestellt, `build_exe.bat` auf lokalen Buildpfad `C:\_Local_DEV\codex_build\softwarecenter` mit Build-Exclude-Scanner aktualisiert und `SoftwareCenter.exe` neu gebaut.
 - EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
 
+### Added
+- Neues App-Icon im Superman-Wappen-Stil: rotes Schild mit fettem, leicht schrägem weißem „SC" und weißem Rand. Reproduzierbar über `generate_icon.py`; ersetzt `icon.ico`, `DesktopIcon.ico`, die Windows-Store-Logos (`store_assets/*.png`) sowie die PWA-Icons und das `icon.svg` des Web-Companions (maskable-/apple-touch-Varianten mit rotem Vollhintergrund).
+- Kontextmenü „Senden an" (verschieben) und „Duplizieren auf" (kopieren): Einträge lassen sich per Rechtsklick auf ein anderes Board (Tab) verschieben oder zusätzlich dort anzeigen. Submenüs listen alle Boards außer dem aktuellen und erscheinen nur bei vorhandener Auswahl und mindestens einem weiteren Board. Label, Typ und Notizen bleiben erhalten, bereits vorhandene Pfade werden im Ziel-Board nicht dupliziert. Tests in `tests/test_features_board_transfer.py`.
+
 ### Changed
 - Windows-`.lnk`-Dateien, die auf eine `.exe` oder einen Ordner zeigen, werden beim Hinzufügen jetzt als Originalziel gespeichert und angezeigt; direkte Ordner-Drops werden ebenfalls unterstützt, nicht auflösbare Links bleiben kompatibel als `.lnk`-Eintrag erhalten.
 - Web Companion: Service-Worker-Cache auf v3 angehoben und Offline-Fetch-Fehler liefern jetzt einen HTTP-503-Fallback statt unkontrolliert zu scheitern.

@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="56" fill="#1d6f5f"/>
-  <rect x="34" y="42" width="188" height="172" rx="24" fill="#fff9ed"/>
-  <rect x="52" y="66" width="68" height="52" rx="14" fill="#d6efe8"/>
-  <rect x="136" y="66" width="68" height="52" rx="14" fill="#f1dfb4"/>
-  <rect x="52" y="134" width="152" height="24" rx="12" fill="#d8d1bf"/>
-  <rect x="52" y="170" width="104" height="18" rx="9" fill="#1d6f5f" opacity="0.8"/>
+  <path d="M 33.3 41 Q 128 21.8 222.7 41 C 256 84.5 189.4 189.4 128 243.2 C 66.6 189.4 0 84.5 33.3 41 Z"
+        fill="#ce1b23" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
+  <g transform="translate(128,118)">
+    <text transform="skewX(-9)" text-anchor="middle"
+          font-family="'Arial Black','Arial',sans-serif" font-weight="900"
+          font-size="92" fill="#ffffff">SC</text>
+  </g>
 </svg>

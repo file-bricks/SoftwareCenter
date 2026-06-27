@@ -299,13 +299,40 @@ def validate_profile_payload(payload: dict) -> list[dict]:
         raise ValueError("Das Profil enthält keine lesbaren Tabs.")
     return tabs
 
+def _startfile_in_dir(path: str, workdir: str | None) -> None:
+    """Startet eine Datei unter Windows mit gesetztem Arbeitsverzeichnis.
+
+    Viele gebuendelte Apps suchen Ressourcen/Module relativ zum Arbeitsverzeichnis
+    (cwd). Eine Desktop-Verknuepfung setzt dafuer "Ausfuehren in:"; os.startfile()
+    erbt dagegen die cwd des SoftwareCenter-Prozesses, was solche Apps brechen kann.
+    Daher hier explizit das Verzeichnis der Ziel-Datei als cwd setzen.
+    """
+    # Python 3.13+: os.startfile akzeptiert cwd direkt.
+    try:
+        os.startfile(path, cwd=workdir)  # type: ignore[call-arg]
+        return
+    except TypeError:
+        pass  # aelteres Python ohne cwd-Parameter -> ShellExecuteW
+    except OSError:
+        raise
+    import ctypes
+    # ShellExecuteW(hwnd, lpVerb, lpFile, lpParameters, lpDirectory, nShowCmd)
+    # lpDirectory = Arbeitsverzeichnis (wie "Ausfuehren in" einer Verknuepfung).
+    rc = ctypes.windll.shell32.ShellExecuteW(None, None, path, None, workdir, 1)
+    if rc <= 32:  # ShellExecute meldet Fehler als Wert <= 32
+        os.startfile(path)  # letzter Fallback ohne Arbeitsverzeichnis
+
+
 def open_file(path: str) -> None:
     if not os.path.exists(path):
         QMessageBox.warning(None, "Datei nicht gefunden", f"Pfad existiert nicht:\n{path}")
         return
     try:
         if sys.platform.startswith("win"):
-            os.startfile(path)  # type: ignore[attr-defined]
+            # Windows: Arbeitsverzeichnis = Ordner der Ziel-Datei (wie "Ausfuehren in"
+            # einer Verknuepfung), damit Apps ihre Ressourcen relativ zur cwd finden.
+            workdir = os.path.dirname(os.path.abspath(path)) or None
+            _startfile_in_dir(path, workdir)
         elif sys.platform == "darwin":
             subprocess.Popen(["open", path])
         else:
@@ -324,6 +351,9 @@ def open_file(path: str) -> None:
 
 class SoftwareListWidget(QListWidget):
     requestDelete = Signal(list)
+    # Transfer zwischen Boards (Tabs): jeweils (entries: list[dict], target_index: int)
+    requestMoveToBoard = Signal(list, int)
+    requestCopyToBoard = Signal(list, int)
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAcceptDrops(True)
@@ -332,6 +362,10 @@ class SoftwareListWidget(QListWidget):
         self.customContextMenuRequested.connect(self._on_context_menu)
         self.itemActivated.connect(self._on_item_activated)
         self._icon_provider = QFileIconProvider()
+        # Callable -> list[(index, name)] der ANDEREN Boards (ohne dieses).
+        # Wird von MainWindow.add_new_tab gesetzt; ohne Provider bleiben die
+        # Transfer-Submenues ausgeblendet (z. B. bei isolierter Nutzung in Tests).
+        self.board_provider = None
         self.configure_as_tiles()
 
     def configure_as_tiles(self):
@@ -384,8 +418,24 @@ class SoftwareListWidget(QListWidget):
         menu = QMenu(self)
         act_open = menu.addAction("Öffnen/Starten")
         act_del = menu.addAction("Löschen")
+
+        # "Senden an" (verschieben) / "Duplizieren auf" (kopieren) nur anbieten,
+        # wenn etwas ausgewählt ist UND mindestens ein anderes Board existiert.
+        move_actions: dict = {}
+        copy_actions: dict = {}
+        boards = self.board_provider() if callable(self.board_provider) else []
+        if self.selectedItems() and boards:
+            menu.addSeparator()
+            move_menu = menu.addMenu("Senden an")
+            copy_menu = menu.addMenu("Duplizieren auf")
+            for index, name in boards:
+                move_actions[move_menu.addAction(name)] = index
+                copy_actions[copy_menu.addAction(name)] = index
+
         global_pos = self.viewport().mapToGlobal(pos)
         action = menu.exec(global_pos)
+        if action is None:
+            return
         if action == act_open:
             for item in self.selectedItems():
                 path = item.data(Qt.ItemDataRole.UserRole)
@@ -394,6 +444,38 @@ class SoftwareListWidget(QListWidget):
             paths = [it.data(Qt.ItemDataRole.UserRole) for it in self.selectedItems()]
             if paths:
                 self.requestDelete.emit(paths)
+        elif action in move_actions:
+            entries = self._selected_entries()
+            if entries:
+                self.requestMoveToBoard.emit(entries, move_actions[action])
+        elif action in copy_actions:
+            entries = self._selected_entries()
+            if entries:
+                self.requestCopyToBoard.emit(entries, copy_actions[action])
+
+    def _selected_entries(self) -> list[dict]:
+        """Vollständige Eintrags-Dicts (Pfad, Label, Typ, Notizen) der Auswahl.
+
+        Spiegelt den Fallback aus get_all_entries(), falls ein Item kein
+        ENTRY_METADATA_ROLE-Dict trägt (z. B. Alt-Daten)."""
+        entries = []
+        for item in self.selectedItems():
+            metadata = item.data(ENTRY_METADATA_ROLE)
+            if isinstance(metadata, dict):
+                entries.append(normalize_entry(metadata))
+            else:
+                path = item.data(Qt.ItemDataRole.UserRole)
+                entries.append(
+                    normalize_entry(
+                        {
+                            "path": path,
+                            "label": item.text(),
+                            "kind": detect_entry_kind(path),
+                            "notes": None,
+                        }
+                    )
+                )
+        return [entry for entry in entries if entry]
 
     def _on_item_activated(self, item: QListWidgetItem):
         path = item.data(Qt.ItemDataRole.UserRole)
@@ -603,9 +685,49 @@ class MainWindow(QMainWindow):
             page.list.set_all_entries(entries)
         elif paths:
             page.list.set_all_paths(paths)
+        # Board-Transfer verdrahten: Provider liefert zur Menü-Zeit die anderen
+        # Boards, die Signale lösen Verschieben/Duplizieren aus.
+        page.list.board_provider = self._board_provider_for(page)
+        page.list.requestMoveToBoard.connect(
+            lambda transfer, target_index, source=page: self.move_entries_to_board(source, transfer, target_index)
+        )
+        page.list.requestCopyToBoard.connect(self.copy_entries_to_board)
         idx = self.tabs.addTab(page, name or "Neuer Tab")
         self._update_tab_closable_state()
         self.tabs.setCurrentIndex(idx)
+
+    def _board_provider_for(self, page: "TabPage"):
+        """Closure: liefert zur Aufrufzeit (index, name) aller Boards außer `page`.
+
+        Dynamisch, damit verschobene/umbenannte/geschlossene Tabs korrekt
+        berücksichtigt werden."""
+        def provider():
+            result = []
+            for i in range(self.tabs.count()):
+                if self.tabs.widget(i) is page:
+                    continue
+                result.append((i, self.tabs.tabText(i)))
+            return result
+        return provider
+
+    def move_entries_to_board(self, source_page: "TabPage", entries: list, target_index: int):
+        target_page = self.tabs.widget(target_index)
+        if not isinstance(target_page, TabPage) or target_page is source_page:
+            return
+        if not entries:
+            return
+        target_page.list.add_entries(entries)
+        source_page.list.remove_paths([e["path"] for e in entries if isinstance(e, dict) and e.get("path")])
+        self.save_settings()
+
+    def copy_entries_to_board(self, entries: list, target_index: int):
+        target_page = self.tabs.widget(target_index)
+        if not isinstance(target_page, TabPage):
+            return
+        if not entries:
+            return
+        target_page.list.add_entries(entries)
+        self.save_settings()
 
     def export_profile(self):
         default_name = os.path.join(os.path.expanduser("~"), f"{PROFILE_FORMAT}.json")
