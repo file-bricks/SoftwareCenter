@@ -15,8 +15,11 @@ from PySide6.QtGui import QAction, QActionGroup, QIcon
 from PySide6.QtWidgets import (
     QAbstractItemView, QApplication, QMainWindow, QWidget, QVBoxLayout, QListWidget,
     QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
-    QMessageBox, QMenu, QFileDialog
+    QMessageBox, QMenu, QFileDialog, QSystemTrayIcon
 )
+from PySide6.QtNetwork import QLocalServer, QLocalSocket
+
+SINGLE_INSTANCE_NAME = "SoftwareCenter_singleton_" + (os.environ.get("USERNAME") or "user")
 
 PROFILE_FORMAT = "softwarecenter-profile-v1"
 PROFILE_FORMAT_VERSION = 1
@@ -614,9 +617,12 @@ class MainWindow(QMainWindow):
         self.tabs.tabBarDoubleClicked.connect(self.on_rename_tab)
         self.tabs.currentChanged.connect(self._sync_view_actions)
         self.setCentralWidget(self.tabs)
+        self._force_quit = False
+        self.tray = None
         self._build_menu()
         self._build_toolbar()
         self.load_settings()
+        self._setup_tray()
 
     def _build_menu(self):
         file_menu = self.menuBar().addMenu("Datei")
@@ -626,6 +632,16 @@ class MainWindow(QMainWindow):
         self.act_import_profile.triggered.connect(self.import_profile)
         file_menu.addAction(self.act_export_profile)
         file_menu.addAction(self.act_import_profile)
+        file_menu.addSeparator()
+        # Systemtray-Einstellung: bei aktiviert wandert die App beim Schließen in den Tray.
+        self.act_minimize_to_tray = QAction("Beim Schließen in Systemtray minimieren", self, checkable=True)
+        self.act_minimize_to_tray.setChecked(self._tray_enabled())
+        self.act_minimize_to_tray.toggled.connect(self._on_toggle_tray)
+        file_menu.addAction(self.act_minimize_to_tray)
+        file_menu.addSeparator()
+        self.act_quit = QAction("Beenden", self)
+        self.act_quit.triggered.connect(self.quit_app)
+        file_menu.addAction(self.act_quit)
 
     def _build_toolbar(self):
         tb = QToolBar("Hauptleiste")
@@ -896,7 +912,57 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         self.save_settings()
+        # Bei aktiviertem Systemtray: Fenster nur verstecken statt die App zu beenden.
+        if (not self._force_quit and self._tray_enabled()
+                and self.tray is not None and self.tray.isVisible()):
+            event.ignore()
+            self.hide()
+            self.tray.showMessage(
+                "SoftwareCenter", "Läuft weiter im Systemtray. Zum Beenden: Tray-Menü > Beenden.",
+                QSystemTrayIcon.MessageIcon.Information, 2500)
+            return
+        if self.tray is not None:
+            self.tray.hide()
         super().closeEvent(event)
+        QApplication.instance().quit()
+
+    # ----- Systemtray -----
+    def _tray_enabled(self) -> bool:
+        val = self.settings.value("minimize_to_tray", False)
+        return str(val).strip().lower() in ("true", "1", "yes")
+
+    def _on_toggle_tray(self, checked: bool):
+        self.settings.setValue("minimize_to_tray", bool(checked))
+
+    def _setup_tray(self):
+        if not QSystemTrayIcon.isSystemTrayAvailable():
+            self.tray = None
+            return
+        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.ico")
+        icon = QIcon(icon_path) if os.path.exists(icon_path) else self.windowIcon()
+        self.tray = QSystemTrayIcon(icon, self)
+        self.tray.setToolTip("SoftwareCenter")
+        menu = QMenu()
+        menu.addAction("Öffnen", self._show_from_tray)
+        menu.addSeparator()
+        menu.addAction("Beenden", self.quit_app)
+        self.tray.setContextMenu(menu)
+        self.tray.activated.connect(self._on_tray_activated)
+        self.tray.show()
+
+    def _on_tray_activated(self, reason):
+        if reason in (QSystemTrayIcon.ActivationReason.Trigger,
+                      QSystemTrayIcon.ActivationReason.DoubleClick):
+            self._show_from_tray()
+
+    def _show_from_tray(self):
+        self.showNormal()
+        self.raise_()
+        self.activateWindow()
+
+    def quit_app(self):
+        self._force_quit = True
+        self.close()
 
     # ----- Drag & Drop im Hauptfenster -----
     def dragEnterEvent(self, event):
@@ -930,10 +996,41 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
+    # Systemtray: App nicht automatisch beenden, wenn das Fenster (in den Tray)
+    # versteckt wird. Das Beenden steuert MainWindow.closeEvent/quit_app explizit.
+    app.setQuitOnLastWindowClosed(False)
+
+    # Single-Instance: Laeuft bereits ein SoftwareCenter (auch versteckt im Tray)?
+    # Dann die bestehende Instanz nach vorne holen statt eine zweite zu starten.
+    probe = QLocalSocket()
+    probe.connectToServer(SINGLE_INSTANCE_NAME)
+    if probe.waitForConnected(300):
+        probe.write(b"show")
+        probe.flush()
+        probe.waitForBytesWritten(500)
+        probe.disconnectFromServer()
+        return 0
+    probe.abort()
+
     icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.ico")
     if os.path.exists(icon_path):
         app.setWindowIcon(QIcon(icon_path))
     win = MainWindow()
+
+    # Lokalen Server starten, der bei Start einer zweiten Instanz benachrichtigt wird.
+    QLocalServer.removeServer(SINGLE_INSTANCE_NAME)  # evtl. verwaisten Socket aufraeumen
+    server = QLocalServer()
+    server.listen(SINGLE_INSTANCE_NAME)
+
+    def _on_second_instance():
+        conn = server.nextPendingConnection()
+        win._show_from_tray()
+        if conn is not None:
+            conn.close()
+
+    server.newConnection.connect(_on_second_instance)
+    win._local_server = server  # Referenz halten, damit der Server nicht aufgeraeumt wird
+
     win.show()
     sys.exit(app.exec())
 
