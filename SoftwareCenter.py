@@ -18,8 +18,28 @@ from PySide6.QtWidgets import (
     QMessageBox, QMenu, QFileDialog, QSystemTrayIcon
 )
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
+from dataclasses import dataclass
 
-SINGLE_INSTANCE_NAME = "SoftwareCenter_singleton_" + (os.environ.get("USERNAME") or "user")
+_USER_SUFFIX = os.environ.get("USERNAME") or "user"
+
+
+@dataclass(frozen=True)
+class AppProfile:
+    """Produkt-Profil: mehrere Produkte aus EINEM Code (SoftwareCenter, LaunchBoards).
+
+    Jedes Produkt hat eigenen Namen, Icon, QSettings-Namespace und Single-Instance,
+    damit beide parallel und mit getrennten Profilen laufen können.
+    """
+    name: str          # Fenstertitel / Tray-Tooltip / Tray-Meldungen
+    settings_app: str  # QSettings-AppName (eigenes Profil je Produkt)
+    icon_file: str     # Icon-Dateiname relativ zum Skript
+    instance_id: str   # Single-Instance-Servername
+
+
+PROFILE_SOFTWARECENTER = AppProfile(
+    "SoftwareCenter", "SoftwareCenter", "icon.ico", "SoftwareCenter_singleton_" + _USER_SUFFIX)
+PROFILE_LAUNCHBOARDS = AppProfile(
+    "LaunchBoards", "LaunchBoards", "launchboards.ico", "LaunchBoards_singleton_" + _USER_SUFFIX)
 
 PROFILE_FORMAT = "softwarecenter-profile-v1"
 PROFILE_FORMAT_VERSION = 1
@@ -603,15 +623,17 @@ class TabPage(QWidget):
             self.list.remove_paths(paths)
 
 class MainWindow(QMainWindow):
-    def __init__(self, settings: QSettings | None = None):
+    def __init__(self, settings: QSettings | None = None,
+                 profile: AppProfile = PROFILE_SOFTWARECENTER):
         super().__init__()
-        self.setWindowTitle("SoftwareCenter")
+        self.profile = profile
+        self.setWindowTitle(profile.name)
         self.resize(1000, 640)
         self.setAcceptDrops(True)
-        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.ico")
+        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), profile.icon_file)
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
-        self.settings = settings or QSettings("LukasGeiger", "SoftwareCenter")
+        self.settings = settings or QSettings("LukasGeiger", profile.settings_app)
         self.tabs = QTabWidget(movable=True, tabsClosable=True)
         self.tabs.tabCloseRequested.connect(self.on_close_tab)
         self.tabs.tabBarDoubleClicked.connect(self.on_rename_tab)
@@ -918,7 +940,7 @@ class MainWindow(QMainWindow):
             event.ignore()
             self.hide()
             self.tray.showMessage(
-                "SoftwareCenter", "Läuft weiter im Systemtray. Zum Beenden: Tray-Menü > Beenden.",
+                self.profile.name, "Läuft weiter im Systemtray. Zum Beenden: Tray-Menü > Beenden.",
                 QSystemTrayIcon.MessageIcon.Information, 2500)
             return
         if self.tray is not None:
@@ -938,10 +960,10 @@ class MainWindow(QMainWindow):
         if not QSystemTrayIcon.isSystemTrayAvailable():
             self.tray = None
             return
-        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.ico")
+        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.profile.icon_file)
         icon = QIcon(icon_path) if os.path.exists(icon_path) else self.windowIcon()
         self.tray = QSystemTrayIcon(icon, self)
-        self.tray.setToolTip("SoftwareCenter")
+        self.tray.setToolTip(self.profile.name)
         menu = QMenu()
         menu.addAction("Öffnen", self._show_from_tray)
         menu.addSeparator()
@@ -994,16 +1016,16 @@ class MainWindow(QMainWindow):
         else:
             event.ignore()
 
-def main():
+def main(profile: AppProfile = PROFILE_SOFTWARECENTER):
     app = QApplication(sys.argv)
     # Systemtray: App nicht automatisch beenden, wenn das Fenster (in den Tray)
     # versteckt wird. Das Beenden steuert MainWindow.closeEvent/quit_app explizit.
     app.setQuitOnLastWindowClosed(False)
 
-    # Single-Instance: Laeuft bereits ein SoftwareCenter (auch versteckt im Tray)?
+    # Single-Instance: Laeuft bereits dieses Produkt (auch versteckt im Tray)?
     # Dann die bestehende Instanz nach vorne holen statt eine zweite zu starten.
     probe = QLocalSocket()
-    probe.connectToServer(SINGLE_INSTANCE_NAME)
+    probe.connectToServer(profile.instance_id)
     if probe.waitForConnected(300):
         probe.write(b"show")
         probe.flush()
@@ -1012,15 +1034,15 @@ def main():
         return 0
     probe.abort()
 
-    icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icon.ico")
+    icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), profile.icon_file)
     if os.path.exists(icon_path):
         app.setWindowIcon(QIcon(icon_path))
-    win = MainWindow()
+    win = MainWindow(profile=profile)
 
     # Lokalen Server starten, der bei Start einer zweiten Instanz benachrichtigt wird.
-    QLocalServer.removeServer(SINGLE_INSTANCE_NAME)  # evtl. verwaisten Socket aufraeumen
+    QLocalServer.removeServer(profile.instance_id)  # evtl. verwaisten Socket aufraeumen
     server = QLocalServer()
-    server.listen(SINGLE_INSTANCE_NAME)
+    server.listen(profile.instance_id)
 
     def _on_second_instance():
         conn = server.nextPendingConnection()
