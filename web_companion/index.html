@@ -30,7 +30,7 @@
           </div>
         </section>
         <aside class="status-panel">
-          <div id="load-status" class="status-banner" data-kind="info"></div>
+          <div id="load-status" class="status-banner" data-kind="info" role="status" aria-live="polite" aria-atomic="true"></div>
           <div id="install-hint" class="pill"></div>
           <div id="offline-hint" class="pill"></div>
           <div class="action-row">
@@ -51,7 +51,7 @@
           <div id="summary-cards" class="summary-grid"></div>
 
           <div class="filter-row">
-            <input id="search-input" type="search" placeholder="Nach Label, Pfad, Notiz oder Typ suchen">
+            <input id="search-input" type="search" aria-label="Einträge suchen" placeholder="Nach Label, Pfad, Notiz oder Typ suchen">
             <select id="tab-filter" aria-label="Tab-Filter">
               <option value="all">Alle Tabs</option>
             </select>

@@ -151,6 +151,20 @@ describe('index.html iOS-PWA-Meta', () => {
   })
 })
 
+describe('index.html Accessibility-Vertrag', () => {
+  const html = readFileSync(path.join(root, 'index.html'), 'utf8')
+
+  test('Ladestatus ist eine höfliche Live-Region', () => {
+    assert.match(html, /id="load-status"[^>]*role="status"/)
+    assert.match(html, /id="load-status"[^>]*aria-live="polite"/)
+    assert.match(html, /id="load-status"[^>]*aria-atomic="true"/)
+  })
+
+  test('Suchfeld hat einen expliziten Accessible Name', () => {
+    assert.match(html, /id="search-input"[^>]*aria-label="Einträge suchen"/)
+  })
+})
+
 describe('apple-touch-icon-180.png', () => {
   const iconPath = path.join(root, 'icons', 'apple-touch-icon-180.png')
 
