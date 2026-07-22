@@ -1,15 +1,20 @@
 # Releases
 
-## v1.0.0
+## v1.0.0 — release block
 
-Veröffentlicht über GitHub Releases: https://github.com/file-bricks/SoftwareCenter/releases
+Die lokale v1.0.0-EXE ist **nicht freigegeben**: Ihre beobachtete SHA-256
+stimmt nicht mit der erhaltenen erwarteten Manifestzeile überein und die Datei
+ist nicht signiert. Sie bleibt unverändert erhalten; kein Hash-Rewrite, Ersatz,
+Upload oder Release folgt aus dieser Dokumentation. Der Source-ZIP-Hash ist
+separat verifiziert. Der vollständige lokale Befund steht in
+`releases/v1.0.0/PROVENANCE.md`.
 
 Enthaltene Artefakte:
 
 - `SoftwareCenter-1.0.0-win64.exe`
 - `SoftwareCenter-1.0.0-source.zip`
 - `CHANGELOG.txt`
-- `SHA256SUMS.txt`
+- `SHA256SUMS.txt` (EXE-Zeile gesperrt, siehe Provenienz)
 
 Build-Hinweise:
 

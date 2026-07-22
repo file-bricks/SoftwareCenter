@@ -88,7 +88,7 @@ SoftwareCenter is a lightweight desktop organizer that brings order to your soft
 App Launcher, Desktop Organizer, Software Manager, Program Starter, Tab Organizer, Quick Launch, Shortcut Manager, Drag and Drop, App Manager, Offline Launcher, PySide6
 
 ### Category
-Productivity / Utilities
+Utilities & Tools
 
 ---
 
