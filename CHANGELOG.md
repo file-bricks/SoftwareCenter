@@ -25,6 +25,21 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - Web/PWA-Companion entfernt — Usecase-Prüfung 2026-07-23 (LG): reine Leseansicht ohne Startfunktion, kein Nutzer-Usecase; Profil-Export bleibt erhalten.
 
+### Changed
+
+- Store metadata now has one documented source of truth: `store_package.json`.
+  The local packaging settings and staging manifest must mirror its identity,
+  executable, `runFullTrust` capability, resources, URLs and category.
+- The PWA manifest now explicitly publishes its scalable SVG alongside the four
+  PNG variants. The service-worker cache and regression contract require exactly
+  that declared icon set; the Apple touch icon remains fully opaque.
+
+### Fixed
+
+- v1.0.0 release documentation no longer implies a verified Windows EXE: the
+  retained EXE hash differs from the expected manifest hash and is unsigned, so
+  the release stays blocked pending a reproducible authorized rebuild.
+
 ### Build / Release
 - Icon/EXE/START-Health-Check 2026-06-19: vorhandenes `icon.ico` weiterverwendet, `START.bat` auf EXE-first umgestellt, `build_exe.bat` auf lokalen Buildpfad `C:\_Local_DEV\codex_build\softwarecenter` mit Build-Exclude-Scanner aktualisiert und `SoftwareCenter.exe` neu gebaut.
 - EXE neu gebaut 2026-06-01 (PyInstaller, `SoftwareCenter.spec`); 9/9 Tests grün, Smoke-Test bestanden. Vorherige EXE: 2026-05-01.
