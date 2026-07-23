@@ -83,3 +83,7 @@ DECISIONS.md
 PORTIERUNGSPLAN.md
 TODO.md
 DONE.md
+
+# Personal-Builds (BUILD-VERFAHREN §9) und lokale Backups
+*-personal.exe
+SoftwareCenter_PRE_*.py
