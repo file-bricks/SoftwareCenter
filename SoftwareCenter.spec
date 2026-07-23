@@ -5,7 +5,9 @@ a = Analysis(
     ['SoftwareCenter.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    # icon.ico wird zur Laufzeit per Dateipfad geladen (Tray-Icon, Fenster-Icon) -- ohne
+    # Buendelung erhaelt der Onefile-Build ein Null-Icon (T-20260721-02).
+    datas=[('icon.ico', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

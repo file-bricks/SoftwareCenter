@@ -9,7 +9,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import SoftwareCenter as module
 from PySide6.QtCore import QSettings
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QTabBar
 
 from SoftwareCenter import MainWindow
 
@@ -103,6 +103,29 @@ class SoftwareCenterSettingsSyncTests(unittest.TestCase):
 
                 self.assertEqual(window.tabs.count(), 1)
                 self.assertFalse(window.tabs.tabsClosable())
+            finally:
+                window.close()
+
+    def test_tab_close_buttons_expose_board_context(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            settings_path = Path(tmpdir) / "softwarecenter.ini"
+            settings = QSettings(str(settings_path), QSettings.Format.IniFormat)
+
+            window = MainWindow(settings=settings)
+            try:
+                self.assertEqual(window.tabs.tabBar().accessibleName(), "Board-Leiste")
+                self.assertFalse(window.tabs.tabsClosable())
+
+                window.add_new_tab("Tools", "tiles")
+
+                self.assertTrue(window.tabs.tabsClosable())
+                self.assertEqual(window.tabs.tabToolTip(1), 'Board "Tools"')
+
+                close_button = window.tabs.tabBar().tabButton(1, QTabBar.ButtonPosition.RightSide)
+                self.assertIsNotNone(close_button)
+                self.assertEqual(close_button.accessibleName(), 'Board "Tools" schließen')
+                self.assertEqual(close_button.toolTip(), 'Board "Tools" schließen')
+                self.assertEqual(close_button.accessibleDescription(), "Schließt dieses Board.")
             finally:
                 window.close()
 

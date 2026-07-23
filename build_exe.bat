@@ -26,6 +26,7 @@ if exist "%SCANNER%" (
 python -m PyInstaller --noconfirm --clean --windowed --onefile ^
   --name SoftwareCenter ^
   --icon "%PROJECT_ROOT%\icon.ico" ^
+  --add-data "%PROJECT_ROOT%\icon.ico;." ^
   %EXCLUDES% ^
   --distpath "%BUILD_ROOT%\dist" ^
   --workpath "%BUILD_ROOT%\build" ^
