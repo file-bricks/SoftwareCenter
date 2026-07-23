@@ -13,7 +13,6 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **PWA Companion** | Static Web/PWA Companion (see [web_companion/README.md](web_companion/README.md)) |
 | **Last Checked** | 2026-06-13 (Marketing & discovery check) |
 
 ## Features
@@ -28,8 +27,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Windows Shortcut Resolution** - Dropped `.lnk` files pointing to `.exe` or folder targets are stored as the original target
 - **macOS App Bundles** - Drag and drop `.app` applications directly into the organizer
 - **Linux Desktop Launchers** - `.desktop` entries show their app name and launch via their desktop command
-- **Profile Export/Import** - Versioned `softwarecenter-profile-v1.json` format for migrations and future web/PWA companions
-- **Web/PWA Companion** - Static `web_companion/` viewer for mobile and browser-based profile inspection without launcher permissions
+- **Profile Export/Import** - Versioned `softwarecenter-profile-v1.json` format for migrations and backups
 - **Multi-Selection** - Delete multiple entries at once
 - **Offline-First** - No telemetry, no accounts, no cloud connection
 
@@ -106,10 +104,6 @@ For the Windows Store path, `python scripts/run_windows_wack.py --dry-run` check
 ## Exchange Format
 
 Profiles can be exported as `softwarecenter-profile-v1.json` and imported again later. The format carries tabs, view modes, and entries with `label`, `path`, `kind`, and optional `notes`, but does not copy local files or credentials. See [EXPORTFORMAT.md](EXPORTFORMAT.md) for details.
-
-## Web/PWA Companion
-
-The [web_companion/README.md](web_companion/README.md) documents a static browser companion for the export format. It imports `softwarecenter-profile-v1.json` locally, offers tab/type filtering, and restores the last loaded profile for offline starts.
 
 ## Windows Store Assets
 

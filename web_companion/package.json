@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "scripts": {
-    "test": "node --test tests/pwa.test.mjs tests/library.test.mjs"
-  }
-}

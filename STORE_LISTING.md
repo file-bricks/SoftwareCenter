@@ -24,8 +24,6 @@ SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre 
 
 - Profil-Export/Import: Ihre Tab-Struktur kann als `softwarecenter-profile-v1.json` gesichert und später wieder importiert werden.
 
-- Web/PWA-Companion: Exportierte Profile lassen sich zusätzlich lokal im Browser ansehen, ohne Launcher-Rechte, Cloud-Konto oder Telemetrie.
-
 **Für wen ist SoftwareCenter?**
 
 - Power-User mit vielen installierten Programmen
@@ -69,8 +67,6 @@ SoftwareCenter is a lightweight desktop organizer that brings order to your soft
 - Context menu: Right-click to launch programs or remove entries (only the shortcut is removed, never the program itself).
 
 - Profile export/import: Save your tab structure as `softwarecenter-profile-v1.json` and import it again later.
-
-- Web/PWA companion: View exported profiles locally in a browser without launcher permissions, cloud accounts, or telemetry.
 
 **Who is SoftwareCenter for?**
 

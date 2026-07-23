@@ -10,7 +10,7 @@ License: MIT
 
 ## Summary
 
-SoftwareCenter is a lightweight, cross-platform desktop organizer for software shortcuts. It organizes files and apps into renamable tabs using a clean PySide6 UI, saves view/tab states dynamically, and supports profile import/export (`softwarecenter-profile-v1.json`) with a static PWA companion.
+SoftwareCenter is a lightweight, cross-platform desktop organizer for software shortcuts. It organizes files and apps into renamable tabs using a clean PySide6 UI, saves view/tab states dynamically, and supports profile import/export (`softwarecenter-profile-v1.json`).
 
 Discovery positioning: local-first PySide6 app launcher, desktop shortcut organizer, offline software launcher, tab-based program organizer, portable app profile manager.
 
@@ -18,7 +18,6 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 
 - Primary platform: Cross-platform desktop (Windows, macOS, Linux).
 - Build targets: PyInstaller standalone executables.
-- Companion scope: Static PWA (`web_companion/`) for offline viewing of exported profile JSONs.
 - Non-goals: Network package installation, automatic software updates, cloud-account synchronizations.
 
 ## Important Files
@@ -26,7 +25,6 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 - `README.md`: English GitHub entry point; `README_de.md`: German documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
-- `web_companion/`: HTML/JS static offline viewer.
 - `tests/`: Pytest suite (tests for platform/WACK compatibility and state persistence).
 
 ## Verification
@@ -53,7 +51,6 @@ SoftwareCenter is a local desktop application (PySide6/Python) for shortcut mana
 - Power users on Windows, macOS, or Linux who want a lightweight, local-first desktop organizer for software shortcuts and app launchers
 - Developers looking for a PySide6 reference with QSettings-based state persistence, profile export/import, and cross-platform smoke CI
 - IT admins managing repeatable software environments who want a portable, JSON-based profile migration path
-- PWA/web developers evaluating offline-first companion patterns alongside a desktop source app
 
 ## Search Phrases
 

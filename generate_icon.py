@@ -117,18 +117,6 @@ def _save_ico(master, path):
     print("ICO :", os.path.relpath(path, HERE))
 
 
-SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <path d="M 33.3 41 Q 128 21.8 222.7 41 C 256 84.5 189.4 189.4 128 243.2 C 66.6 189.4 0 84.5 33.3 41 Z"
-        fill="#ce1b23" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
-  <g transform="translate(128,118)">
-    <text transform="skewX(-9)" text-anchor="middle"
-          font-family="'Arial Black','Arial',sans-serif" font-weight="900"
-          font-size="92" fill="#ffffff">SC</text>
-  </g>
-</svg>
-"""
-
-
 def main():
     if len(sys.argv) > 2 and sys.argv[1] == "--preview":
         shield_master().resize((512, 512), Image.LANCZOS).save(sys.argv[2])
@@ -148,20 +136,6 @@ def main():
     _save_png(shield, 150, os.path.join(store, "Square150x150Logo.png"))
     _save_png(shield, 310, os.path.join(store, "Square310x310Logo.png"))
     _save_png(shield, 150, os.path.join(store, "Wide310x150Logo.png"), canvas=(310, 150))
-
-    # PWA-Icons
-    icons = os.path.join(HERE, "web_companion", "icons")
-    _save_png(shield, 192, os.path.join(icons, "Icon-192.png"))
-    _save_png(shield, 512, os.path.join(icons, "Icon-512.png"))
-    _save_png(filled, 192, os.path.join(icons, "Icon-maskable-192.png"))
-    _save_png(filled, 512, os.path.join(icons, "Icon-maskable-512.png"))
-    _save_png(filled, 180, os.path.join(icons, "apple-touch-icon-180.png"))
-
-    # Skalierbares SVG fuer den Web-Companion
-    svg_path = os.path.join(HERE, "web_companion", "icon.svg")
-    with open(svg_path, "w", encoding="utf-8") as fh:
-        fh.write(SVG)
-    print("SVG :", os.path.relpath(svg_path, HERE))
 
 
 if __name__ == "__main__":

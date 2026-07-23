@@ -13,7 +13,6 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **PWA-Begleiter** | Statischer Web/PWA-Companion (siehe [web_companion/README.md](web_companion/README.md)) |
 | **Letzte Prüfung** | 2026-06-13 (Marketing- & Sichtbarkeits-Check) |
 
 ## Funktionen
@@ -28,8 +27,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Windows-Verknüpfungen** - `.lnk`-Dateien mit `.exe`- oder Ordnerziel werden beim Hinzufügen als Originalziel gespeichert
 - **macOS-App-Bundles** - `.app`-Programme lassen sich per Drag & Drop hinzufügen
 - **Linux-Desktop-Starter** - `.desktop`-Launcher werden mit ihrem App-Namen angezeigt und korrekt gestartet
-- **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und spätere Web/PWA-Companions
-- **Web/PWA-Companion** - Statische `web_companion/`-Ansicht für mobile und browserbasierte Profilübersichten ohne Launcher-Rechte
+- **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und Backups
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
 
@@ -107,10 +105,6 @@ Für den Windows-Store-Pfad prüft `python scripts/run_windows_wack.py --dry-run
 ## Austauschformat
 
 Profile lassen sich als `softwarecenter-profile-v1.json` exportieren und wieder importieren. Das Format enthält Tabs, Ansichtsmodus und Einträge mit `label`, `path`, `kind` und optionalen `notes`, aber keine kopierten Dateien und keine Credentials. Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
-
-## Web/PWA-Companion
-
-Unter [web_companion/README.md](web_companion/README.md) liegt ein statischer Companion für den Exportvertrag. Der Companion importiert `softwarecenter-profile-v1.json` lokal im Browser, zeigt Tabs und Eintragstypen filterbar an und hält den letzten Stand für Offline-Starts im Browser-Speicher vor.
 
 ## Technik
 

@@ -7,7 +7,6 @@ Stand: 2026-05-24
 Das Austauschformat `softwarecenter-profile-v1.json` beschreibt ein SoftwareCenter-Profil portabel für:
 
 - Desktop-zu-Desktop-Übernahmen zwischen Windows, macOS und Linux
-- einen späteren Web/PWA-Companion als reine Profilansicht
 - Backups und manuelle Profilmigrationen ohne direkten Zugriff auf `QSettings`
 
 Der Export kopiert keine lokalen Dateien und enthält keine Credentials.
@@ -56,7 +55,7 @@ Der Export kopiert keine lokalen Dateien und enthält keine Credentials.
 | `entries[].label` | String | Ja | Sichtbares Label im UI |
 | `entries[].path` | String | Ja | Referenzierter lokaler Pfad |
 | `entries[].kind` | String | Ja | Eintragstyp |
-| `entries[].notes` | String oder `null` | Nein | Optionale Notiz für Companion- oder Migrationshinweise |
+| `entries[].notes` | String oder `null` | Nein | Optionale Notiz für Migrationshinweise |
 
 ## `kind`-Werte
 
