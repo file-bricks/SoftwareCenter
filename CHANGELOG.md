@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-07-26
+
+### Added
+- Windows Store Release Readiness (TW-SC-02): Created `WINDOWS_STORE_PREP.md`, `SUPPORT.md`, and automated test suite `tests/test_store_materials.py` (118/118 tests passed) validating canonical store metadata, package identity (`Geiger.SoftwareCenter`), capabilities (`runFullTrust`), category, executable reference, and privacy/support documentation.
+
 ## [Unreleased] - 2026-07-25
 
 ### Maintenance & Technical Hygiene
