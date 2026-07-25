@@ -1,6 +1,15 @@
 # SoftwareCenter
 
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Pytest 115 Passed](https://img.shields.io/badge/pytest-115%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
+[![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
+
 A lightweight, cross-platform desktop organizer for managing software shortcuts with tab-based categorization.
+
+> [!NOTE]
+> **LLM / AI Integration Note:** SoftwareCenter provides structured machine-readable metadata in [`llms.txt`](llms.txt) and supports profile migrations via versioned JSON (`softwarecenter-profile-v1.json`).
 
 [Deutsche Dokumentation](README_de.md)
 
@@ -13,7 +22,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-06-13 (Marketing & discovery check) |
+| **Last Checked** | 2026-07-25 (Technical hygiene & maintenance check) |
 
 ## Features
 

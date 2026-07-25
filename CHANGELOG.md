@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-06-10
+## [Unreleased] - 2026-07-25
+
+### Maintenance & Technical Hygiene
+- Standardized PEP 621 `pyproject.toml` with `[tool.pytest.ini_options]` (`pythonpath = "."`), enabling direct invocation of `pytest`.
+- Updated `llms.txt`, `README.md`, and `README_de.md` timestamps (`Last-checked: 2026-07-25`).
+- Added Shields.io badges and GFM LLM Integration Note (`> [!NOTE]`) to `README.md` and `README_de.md`.
 
 ### Removed
 - Web/PWA-Companion entfernt — Usecase-Prüfung 2026-07-23 (LG): reine Leseansicht ohne Startfunktion, kein Nutzer-Usecase; Profil-Export bleibt erhalten.

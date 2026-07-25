@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "file-bricks-softwarecenter"
+version = "1.2.0"
+description = "Lightweight, local-first PySide6 desktop shortcut organizer and application launcher."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "file-bricks" }
+]
+keywords = [
+    "app-launcher",
+    "desktop-organizer",
+    "pyside6",
+    "shortcut-manager",
+    "python",
+    "local-first",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Desktop Environment",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "PySide6>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/file-bricks/SoftwareCenter"
+Repository = "https://github.com/file-bricks/SoftwareCenter"
+Documentation = "https://github.com/file-bricks/SoftwareCenter#readme"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = ["tests"]
