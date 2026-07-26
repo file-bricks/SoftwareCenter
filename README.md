@@ -1,7 +1,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 115 Passed](https://img.shields.io/badge/pytest-115%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 118 Passed](https://img.shields.io/badge/pytest-118%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
@@ -22,7 +22,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-07-25 (Technical hygiene & maintenance check) |
+| **Last Checked** | 2026-07-27 (Discoverability-, SEO- & README-Design-Audit) |
 
 ## Features
 
@@ -39,6 +39,28 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Profile Export/Import** - Versioned `softwarecenter-profile-v1.json` format for migrations and backups
 - **Multi-Selection** - Delete multiple entries at once
 - **Offline-First** - No telemetry, no accounts, no cloud connection
+
+## System Architecture
+
+```mermaid
+graph TD
+    A["User / Drag & Drop Input"] --> B["PySide6 Application Window (SoftwareCenter.py)"]
+    B --> C["Tab & Board Manager"]
+    B --> D["Tiles & List Views"]
+    
+    C --> E["Platform Resolvers"]
+    E --> E1["Windows (.lnk / .exe / Folders)"]
+    E --> E2["macOS (.app Bundles)"]
+    E --> E3["Linux (.desktop Launchers)"]
+    
+    C --> F["State Persistence (QSettings / Registry)"]
+    C --> G["JSON Profile Importer/Exporter (softwarecenter-profile-v1.json)"]
+    
+    B --> H["Windows Store & Build Pipeline"]
+    H --> H1["PyInstaller EXE Build"]
+    H --> H2["WACK Dry-Run / MSIX Packaging"]
+    H --> H3["Reproducible Store Screenshot Generator"]
+```
 
 ## Discovery Context
 

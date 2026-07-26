@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-07-27
+
+### Discoverability & README Design
+- Added Mermaid System Architecture Diagrams to `README.md` and `README_de.md` illustrating PySide6 UI, platform resolvers, QSettings persistence, JSON profile exchange, and Windows Store packaging pipeline.
+- Synchronized Pytest status badge (`118 passed`).
+- Updated `llms.txt`, `README.md`, and `README_de.md` timestamps (`Last-checked: 2026-07-27`).
+- Verified 118/118 Pytest test suite pass.
+
 ## [Unreleased] - 2026-07-26
 
 ### Added

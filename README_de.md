@@ -1,7 +1,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 115 Passed](https://img.shields.io/badge/pytest-115%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 118 Passed](https://img.shields.io/badge/pytest-118%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
@@ -22,7 +22,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-07-25 (Technische Hygiene & Wartungs-Check) |
+| **Letzte Prüfung** | 2026-07-27 (Discoverability-, SEO- & README-Design-Audit) |
 
 ## Funktionen
 
@@ -39,6 +39,28 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und Backups
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
+
+## Systemarchitektur
+
+```mermaid
+graph TD
+    A["Benutzer / Drag & Drop Eingabe"] --> B["PySide6 Hauptfenster (SoftwareCenter.py)"]
+    B --> C["Tab- & Board-Verwaltung"]
+    B --> D["Kachel- & Listenansichten"]
+    
+    C --> E["Plattform-Auflösung"]
+    E --> E1["Windows (.lnk / .exe / Ordner)"]
+    E --> E2["macOS (.app Bundles)"]
+    E --> E3["Linux (.desktop Launcher)"]
+    
+    C --> F["Status-Persistenz (QSettings / Registry)"]
+    C --> G["JSON-Profil Import/Export (softwarecenter-profile-v1.json)"]
+    
+    B --> H["Windows Store & Build-Pipeline"]
+    H --> H1["PyInstaller EXE Build"]
+    H --> H2["WACK Dry-Run / MSIX-Paketierung"]
+    H --> H3["Reproduzierbarer Store-Screenshot-Generator"]
+```
 
 ## Auffindbarkeit
 
