@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-07-28
+
+### Added
+
+- Preserved the authorized desktop icon master files and dormant packaging
+  source variants recovered from the controlled OneDrive handoff.
+
+### Fixed
+
+- Path helpers now reject missing and non-string launch targets safely
+  (`BUGSWEEP-41`), including list entries without a stored `UserRole` path.
+- Revalidated the headless suite after the controlled remote rebase:
+  124 tests pass.
+
 ## [Unreleased] - 2026-07-27
 
 ### Discoverability & README Design
@@ -30,9 +44,6 @@ All notable changes to this project will be documented in this file.
 - Store metadata now has one documented source of truth: `store_package.json`.
   The local packaging settings and staging manifest must mirror its identity,
   executable, `runFullTrust` capability, resources, URLs and category.
-- The PWA manifest now explicitly publishes its scalable SVG alongside the four
-  PNG variants. The service-worker cache and regression contract require exactly
-  that declared icon set; the Apple touch icon remains fully opaque.
 
 ### Fixed
 

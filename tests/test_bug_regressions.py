@@ -169,3 +169,42 @@ class TestU2ManageTranslationsBatch21:
         src = self._src()
         assert "JSONDecodeError" in src, \
             "manage_translations: JSONDecodeError-Handling fehlt — BUG-U2"
+
+
+# ── BUGSWEEP-41: Non-string / None Path Guards ─────────────────────────────
+
+class TestBugsweep41PathGuard:
+    """BUGSWEEP-41: path helpers handle missing or malformed paths safely."""
+
+    def test_detect_entry_kind_handles_none_and_non_string(self):
+        from SoftwareCenter import detect_entry_kind
+        assert detect_entry_kind(None) == "unknown"
+        assert detect_entry_kind(123) == "unknown"
+        assert detect_entry_kind("") == "unknown"
+
+    def test_is_windows_shortcut_handles_none_and_non_string(self):
+        from SoftwareCenter import is_windows_shortcut
+        assert is_windows_shortcut(None) is False
+        assert is_windows_shortcut(123) is False
+        assert is_windows_shortcut("") is False
+
+    def test_is_supported_launch_target_handles_none_and_non_string(self):
+        from SoftwareCenter import is_supported_launch_target
+        assert is_supported_launch_target(None) is False
+        assert is_supported_launch_target(123) is False
+        assert is_supported_launch_target("") is False
+
+    def test_default_entry_label_handles_none_and_non_string(self):
+        from SoftwareCenter import default_entry_label
+        assert default_entry_label(None) == ""
+        assert default_entry_label(123) == ""
+        assert default_entry_label("") == ""
+
+    def test_selected_entries_handles_items_without_userrole(self):
+        from SoftwareCenter import SoftwareListWidget
+        from PySide6.QtWidgets import QListWidgetItem
+        widget = SoftwareListWidget()
+        item = QListWidgetItem("Orphan Item")
+        widget.addItem(item)
+        widget.selectAll()
+        assert widget._selected_entries() == []

@@ -123,9 +123,13 @@ def sort_boards_alphabetical(boards: list[dict]) -> list[dict]:
     return sorted(boards, key=lambda b: (b.get("name") or "").casefold())
 
 def is_windows_shortcut(path: str) -> bool:
+    if not isinstance(path, str) or not path:
+        return False
     return os.path.isfile(path) and path.lower().endswith(".lnk")
 
 def is_linux_desktop_entry(path: str) -> bool:
+    if not isinstance(path, str) or not path:
+        return False
     return sys.platform.startswith("linux") and os.path.isfile(path) and path.lower().endswith(".desktop")
 
 def read_desktop_entry(path: str) -> dict[str, str]:
@@ -222,11 +226,15 @@ def _sanitize_desktop_exec_token(token: str) -> str | None:
     return sanitized
 
 def is_supported_launch_target(path: str) -> bool:
+    if not isinstance(path, str) or not path:
+        return False
     if os.path.isfile(path) or os.path.isdir(path):
         return True
     return False
 
 def is_supported_windows_shortcut_target(path: str) -> bool:
+    if not isinstance(path, str) or not path:
+        return False
     if path.lower().endswith(".exe") and os.path.isfile(path):
         return True
     return os.path.isdir(path)
@@ -285,6 +293,8 @@ def normalize_new_launch_path(path: str) -> str:
     return resolve_windows_shortcut_target(path) or path
 
 def default_entry_label(path: str) -> str:
+    if not isinstance(path, str) or not path:
+        return ""
     name = desktop_entry_display_name(path) if is_linux_desktop_entry(path) else None
     if name:
         return name
@@ -293,6 +303,8 @@ def default_entry_label(path: str) -> str:
     return label or basename or path
 
 def detect_entry_kind(path: str) -> str:
+    if not isinstance(path, str) or not path:
+        return "unknown"
     lower_path = path.lower()
     if lower_path.endswith(".url"):
         return "url"
