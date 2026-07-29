@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-07-28
 
+- Ported the launcher-catalog reconciliation routine into the Plan-D repository
+  as `scripts/softwarecenter_sync.py`. Catalog, registry, software root, and
+  local development root are now explicit CLI inputs instead of being derived
+  from the script location.
+- The catalog runtime remains dry-run by default, retains both QSettings
+  profiles and `SUPPRESSED` semantics, starts no shell, and gates `--apply`
+  behind process readback plus a local profile/registry backup.
+- Added regression coverage and a pinned-runtime scheduler migration/rollback
+  contract in `RUNTIME_DAILY_CARE.md`. No live scheduler or Windows Task is
+  changed by this source update.
 - The Windows build entrypoint now derives the release artifact directory and
   filename from `project.version` in `pyproject.toml`. Current builds therefore
   land under `releases/v1.2.0/SoftwareCenter-1.2.0-win64.exe` instead of

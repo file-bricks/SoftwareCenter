@@ -1,7 +1,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 126 Passed](https://img.shields.io/badge/pytest-126%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 161 Passed](https://img.shields.io/badge/pytest-161%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
@@ -131,6 +131,14 @@ GitHub Actions runs these smoke checks. The macOS smoke validates `.app` import,
 
 For the Windows Store path, `python scripts/run_windows_wack.py --dry-run` checks the local MSIX/AppCert paths and prints the reproducible WACK command. The real certification run should be executed from an elevated PowerShell against a fresh signed MSIX before submission.
 `python generate_store_screenshots.py` creates the reproducible Store screenshot set under `README/screenshots/store/`.
+
+## Headless Launcher Catalog Care
+
+The optional catalog reconciler is provided as Plan-D runtime code in
+`scripts/softwarecenter_sync.py`. Synchronized catalog and registry files are
+explicit CLI inputs; the command is read-only unless `--apply` is supplied.
+The pinned-runtime scheduler payload, apply gates, native readback, and rollback
+procedure are documented in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 
 ## Exchange Format
 

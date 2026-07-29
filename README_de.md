@@ -1,7 +1,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 126 Passed](https://img.shields.io/badge/pytest-126%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 161 Passed](https://img.shields.io/badge/pytest-161%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
@@ -132,6 +132,14 @@ python tests/linux_platform_smoke.py
 Die GitHub Actions führen diese Smoke-Checks ebenfalls aus; der macOS-Job prüft `.app`-Import, `open`-Startpfad, QSettings und den Profil-Export headless auf `macos-latest`, der Linux-Job zusätzlich `.desktop`-Import, `Exec`-/`xdg-open`-Startpfade, QSettings und den Profil-Export auf `ubuntu-latest`. Build-Artefakte wie `SoftwareCenter.exe`, `build/`, `dist/`, `releases/` und lokale Aufgaben-/Testdateien bleiben per `.gitignore` außerhalb des Repos.
 
 Für den Windows-Store-Pfad prüft `python scripts/run_windows_wack.py --dry-run` die lokalen MSIX/AppCert-Pfade und gibt den reproduzierbaren WACK-Befehl aus. Der eigentliche Zertifizierungslauf sollte aus einer erhöhten PowerShell gegen ein frisch signiertes MSIX vor der Einreichung ausgeführt werden.
+
+## Headless-Katalogpflege
+
+Die optionale Katalogroutine liegt als Plan-D-Runtime-Code unter
+`scripts/softwarecenter_sync.py`. Synchronisierte Katalog- und Registry-Dateien
+werden als explizite CLI-Eingaben übergeben; ohne `--apply` bleibt der Lauf
+read-only. Der gepinnte Scheduler-Payload, Apply-Gates, native Readbacks und das
+Rollback stehen in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 
 ## Austauschformat
 
