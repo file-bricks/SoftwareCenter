@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-07-28
 
+- The Windows build entrypoint now derives the release artifact directory and
+  filename from `project.version` in `pyproject.toml`. Current builds therefore
+  land under `releases/v1.2.0/SoftwareCenter-1.2.0-win64.exe` instead of
+  overwriting the historical v1.0.0 artifact with newer code.
+- Added a stdlib-only version reader and regression coverage for the versioned
+  build contract.
+- The build-exclude scanner is now resolved from `SOFTWARE_ROOT` or the
+  standard `OneDrive/.TOPICS/.SOFTWARE` root instead of the nonexistent
+  `C:\_Local_DEV\_tools` fallback.
+- Updated the README test badges after the expanded suite passed 126/126.
+
 ### Added
 
 - Preserved the authorized desktop icon master files and dormant packaging

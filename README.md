@@ -1,7 +1,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 118 Passed](https://img.shields.io/badge/pytest-118%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 126 Passed](https://img.shields.io/badge/pytest-126%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
