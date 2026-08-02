@@ -22,7 +22,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-07-27 (Discoverability-, SEO- & README-Design-Audit) |
+| **Last Checked** | 2026-08-02 (MAINTAINER health check: 161 tests, platform smokes, compileall, JSON, WACK dry-run) |
 
 ## Features
 

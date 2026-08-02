@@ -22,7 +22,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-07-27 (Discoverability-, SEO- & README-Design-Audit) |
+| **Letzte Prüfung** | 2026-08-02 (MAINTAINER-Health-Check: 161 Tests, Plattform-Smokes, Compileall, JSON, WACK-Dry-Run) |
 
 ## Funktionen
 

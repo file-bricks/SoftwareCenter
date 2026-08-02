@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-08-02
+
+### Maintenance
+
+- Revalidated the local source with 161 passing Pytest tests, Linux and macOS
+  platform smokes, compileall, JSON validation, and the Windows WACK dry-run.
+- Refreshed the README and `llms.txt` verification dates to 2026-08-02.
+- Recorded 11 existing Ruff style/import findings for a future focused cleanup;
+  no code or release artifact was changed in this maintenance pass.
+
 ## [Unreleased] - 2026-07-28
 
 - Ported the launcher-catalog reconciliation routine into the Plan-D repository
