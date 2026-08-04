@@ -4,12 +4,14 @@
 [![Pytest 161 Passed](https://img.shields.io/badge/pytest-161%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
+[![Ecosystem: file-bricks](https://img.shields.io/badge/Ecosystem-file--bricks-blue.svg)](https://github.com/file-bricks)
+[![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
 
 Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-Verknüpfungen mit Tab-basierter Kategorisierung.
 
 > [!NOTE]
-> **KI / LLM Integrationshinweis:** SoftwareCenter bietet maschinenlesbare Metadaten in [`llms.txt`](llms.txt) und unterstützt Profil-Migrationen über versioniertes JSON (`softwarecenter-profile-v1.json`).
+> **KI / LLM Integration & Maschinelles Register:** SoftwareCenter bietet maschinenlesbare Metadaten in [`llms.txt`](llms.txt) und unterstützt Profil-Migrationen über versioniertes JSON (`softwarecenter-profile-v1.json`).
 
 [English Documentation](README.md)
 
@@ -22,7 +24,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-08-02 (MAINTAINER-Health-Check: 161 Tests, Plattform-Smokes, Compileall, JSON, WACK-Dry-Run) |
+| **Letzte Prüfung** | 2026-08-04 (MAINTAINER-Health-Check: 161 Tests, Plattform-Smokes, Compileall, JSON, WACK-Dry-Run) |
 
 ## Funktionen
 

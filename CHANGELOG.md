@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-08-04
+
+### Maintenance & Discoverability
+- Added `file-bricks` ecosystem and `open-bricks` umbrella badges to `README.md` and `README_de.md`.
+- Enhanced GFM callout note for `llms.txt` and machine-readable index discovery.
+- Refreshed verification timestamps to 2026-08-04 across documentation and `llms.txt`.
+- Revalidated Pytest test suite (161/161 passed 100% green).
+
 ## [Unreleased] - 2026-08-02
 
 ### Maintenance
