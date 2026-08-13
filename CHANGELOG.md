@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-08-13
+
+### Store-Resubmit nach Ablehnung 10.1.1.3
+
+- Store-Screenshots kommen nicht mehr aus dem Qt-Offscreen-Plugin. Dieses rendert
+  auf Windows keine Glyphen; die eingereichten PNGs zeigten Kästchen statt Text
+  und wurden am 2026-08-11 nach Policy 10.1.1.3 („Inaccurate Representation")
+  abgelehnt. `generate_store_screenshots.py` erzwingt jetzt eine echte
+  GUI-Session und bricht bei `offscreen`, `minimal` oder `vnc` mit Fehler ab,
+  statt lautlos unlesbare Bilder zu schreiben.
+- Die vier Store-PNGs werden aus einem gespeicherten und neu geladenen Profil
+  aufgenommen — so, wie ein wiederkehrender Nutzer die App sieht — und zeigen
+  jetzt vier verschiedene Ansichten statt zweimal dasselbe Board.
+- Jeder Screenshot wird beim Erzeugen gegen die Store-Mindestgröße 1366x768
+  geprüft (aktuell 1600x960).
+- Versions-Mismatch aufgelöst: Runtime, `pyproject.toml`, `store_package.json`,
+  Staging-Manifest, `STORE_CONTRACT.md` und `STORE_LISTING.md` führen einheitlich
+  1.2.0 bzw. 1.2.0.0. Ein neuer Test in `tests/test_store_contract.py` hält die
+  Quellen zusammen.
+
 ## [Unreleased] - 2026-08-04
 
 ### Maintenance & Discoverability

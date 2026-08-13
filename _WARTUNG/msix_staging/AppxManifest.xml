@@ -7,7 +7,7 @@
 
   <Identity Name="Geiger.SoftwareCenter"
             Publisher="CN=52596601-BAB4-4F3F-B182-E8F3F273B202"
-            Version="1.0.0.0"
+            Version="1.2.0.0"
             ProcessorArchitecture="x64" />
 
   <Properties>

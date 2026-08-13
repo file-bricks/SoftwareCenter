@@ -95,7 +95,7 @@ Utilities & Tools
 | Publisher CN | CN=52596601-BAB4-4F3F-B182-E8F3F273B202 |
 | Publisher Display | Geiger |
 | Identity Name | Geiger.SoftwareCenter |
-| Version | 1.0.0.0 |
+| Version | 1.2.0.0 |
 | Age Rating | 3+ |
 | Price | Free |
 | Privacy Policy URL | https://github.com/file-bricks/SoftwareCenter/blob/master/PRIVACY_POLICY.md |
