@@ -9,9 +9,15 @@ All notable changes to this project will be documented in this file.
 - Store-Screenshots kommen nicht mehr aus dem Qt-Offscreen-Plugin. Dieses rendert
   auf Windows keine Glyphen; die eingereichten PNGs zeigten Kästchen statt Text
   und wurden am 2026-08-11 nach Policy 10.1.1.3 („Inaccurate Representation")
-  abgelehnt. `generate_store_screenshots.py` erzwingt jetzt eine echte
-  GUI-Session und bricht bei `offscreen`, `minimal` oder `vnc` mit Fehler ab,
-  statt lautlos unlesbare Bilder zu schreiben.
+  abgelehnt. `generate_store_screenshots.py` nutzt jetzt das im Haus bereits
+  bewährte Rezept aus ProfiPrompt (`a656d01`) und CleanMarkdown (`bf5f226`):
+  native Qt-Plattform, Fenster über `Qt.WA_DontShowOnScreen` trotzdem unsichtbar,
+  isoliertes Temp-APPDATA und ein Font-Rendering-Selbsttest vor dem Capture.
+- `_assert_font_rendering()` prüft zweistufig: Plattform-Plugin und eine echte
+  Glyphen-Probe (A/B/g/8/M einzeln rendern — bei Tofu sind alle Renderings
+  identisch, weil jede Glyphe dasselbe .notdef-Kästchen ist). Der Lauf bricht mit
+  klarem Fehler ab, statt lautlos unlesbare Bilder zu schreiben. Empirisch
+  belegt: unter `offscreen` liefert die Probe `False`, auf `windows` `True`.
 - Die vier Store-PNGs werden aus einem gespeicherten und neu geladenen Profil
   aufgenommen — so, wie ein wiederkehrender Nutzer die App sieht — und zeigen
   jetzt vier verschiedene Ansichten statt zweimal dasselbe Board.

@@ -11,7 +11,7 @@ from pathlib import Path
 os.environ.setdefault("QT_SCALE_FACTOR", "1")
 
 # Import bewusst erst hier: QT_SCALE_FACTOR muss vor dem Qt-Import stehen.
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 
 from SoftwareCenter import MainWindow
 
@@ -243,14 +243,20 @@ def real_gui_available() -> bool:
 
 @contextlib.contextmanager
 def _native_qt_platform():
-    """Verwirft ein von aussen gesetztes Offscreen-Plugin nur fuer diesen Block.
+    """Verwirft ein von aussen gesetztes Headless-Plugin nur fuer diesen Block.
 
-    Qt liest ``QT_QPA_PLATFORM`` beim Erzeugen der QApplication. Die Variable
-    darf nicht dauerhaft aus der Umgebung verschwinden, sonst verliert ein
-    umgebender Testlauf sein Headless-Setup.
+    Root-Cause des Tofu-Bugs: Unter ``QT_QPA_PLATFORM=offscreen`` rendert Qt auf
+    Windows KEINE echten Glyphen -- das Textlayout stimmt, aber jede Glyphe wird
+    als .notdef-Kaestchen gerastert, und ``grab()`` liefert ein Bild voller
+    Kaestchen. Die native Plattform muss aktiv sein; das Fenster bleibt trotzdem
+    unsichtbar (``Qt.WA_DontShowOnScreen``).
+
+    Qt liest die Variable beim Erzeugen der QApplication. Existiert bereits eine,
+    ist ein Wechsel ohnehin nicht mehr moeglich. Danach wird der vorherige Wert
+    wiederhergestellt, damit ein umgebender Testlauf sein Headless-Setup behaelt.
     """
     previous = os.environ.get("QT_QPA_PLATFORM")
-    if previous in HEADLESS_PLATFORMS:
+    if previous in HEADLESS_PLATFORMS and QtWidgets.QApplication.instance() is None:
         del os.environ["QT_QPA_PLATFORM"]
     try:
         yield
@@ -259,14 +265,52 @@ def _native_qt_platform():
             os.environ["QT_QPA_PLATFORM"] = previous
 
 
-def _require_real_gui(app: QtWidgets.QApplication) -> None:
-    """Bricht laut ab, statt lautlos unlesbare Screenshots zu erzeugen."""
+def _render_char(ch: str, font: QtGui.QFont, size: QtCore.QSize) -> bytes:
+    pixmap = QtGui.QPixmap(size)
+    pixmap.fill(QtCore.Qt.white)
+    painter = QtGui.QPainter(pixmap)
+    painter.setFont(font)
+    painter.drawText(pixmap.rect(), QtCore.Qt.AlignCenter, ch)
+    painter.end()
+    return bytes(pixmap.toImage().constBits())
+
+
+def font_rendering_works(app: QtWidgets.QApplication) -> bool:
+    """True, wenn die aktuelle Plattform echte Glyphen rendert.
+
+    Rendert mehrere unterschiedliche Zeichen einzeln. Bei echtem Rendering sehen
+    sie verschieden aus; bei Tofu ist jedes das gleiche .notdef-Kaestchen -> alle
+    Renderings identisch.
+    """
+    font = app.font()
+    size = QtCore.QSize(48, 48)
+    probes = ["A", "B", "g", "8", "M"]
+    renders = [_render_char(ch, font, size) for ch in probes]
+    blank = _render_char(" ", font, size)
+    distinct = len(set(renders))
+    non_blank = sum(1 for render in renders if render != blank)
+    return distinct >= 3 and non_blank >= len(probes) - 1
+
+
+def _assert_font_rendering(app: QtWidgets.QApplication) -> None:
+    """Bricht laut ab, statt lautlos unlesbare Screenshots zu erzeugen.
+
+    Zwei Stufen: erst das Plattform-Plugin, dann eine echte Glyphen-Probe. Ein
+    reiner Plattform-Check wuerde fehlende Schriften auf nativer Plattform nicht
+    bemerken.
+    """
     platform = app.platformName()
     if platform in HEADLESS_PLATFORMS:
         raise RuntimeError(
-            "Store-Screenshots brauchen eine echte GUI-Session. Aktives Qt-Plattform-Plugin: "
-            f"'{platform}'. Offscreen-Rendering erzeugt Tofu-Kaestchen statt Text und wurde vom "
-            "Windows Store nach Policy 10.1.1.3 abgelehnt."
+            f"Qt laeuft unter der '{platform}'-Plattform -- Screenshots wuerden Tofu "
+            "(Kaestchen statt Text) enthalten. QT_QPA_PLATFORM=offscreen nicht setzen; "
+            "der Generator nutzt WA_DontShowOnScreen auf der nativen Plattform."
+        )
+    if not font_rendering_works(app):
+        raise RuntimeError(
+            f"Font-Rendering-Selbsttest fehlgeschlagen (Plattform '{platform}'): "
+            "gerenderte Glyphen sind nicht unterscheidbar (Tofu-Verdacht). "
+            "Abbruch, um kein defektes Screenshot-Set zu erzeugen."
         )
 
 
@@ -320,13 +364,14 @@ def generate_store_screenshots(output_dir: Path) -> list[Path]:
             app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
         app.setApplicationName("SoftwareCenter Store Screenshots")
         app.setQuitOnLastWindowClosed(False)
-        _require_real_gui(app)
+        _assert_font_rendering(app)
 
         ini_path = str(temp_root / "softwarecenter.ini")
 
         # Schritt 1: Demo-Profil aufbauen und speichern.
         builder_settings = QtCore.QSettings(ini_path, QtCore.QSettings.IniFormat)
         builder = MainWindow(settings=builder_settings)
+        builder.setAttribute(QtCore.Qt.WA_DontShowOnScreen, True)
         builder.resize(*WINDOW_SIZE)
         _configure_demo_window(builder, targets)
         builder.save_settings()
@@ -339,6 +384,8 @@ def generate_store_screenshots(output_dir: Path) -> list[Path]:
         # von Anfang an korrekt bemessen.
         settings = QtCore.QSettings(ini_path, QtCore.QSettings.IniFormat)
         window = MainWindow(settings=settings)
+        # Nie sichtbar zeigen, aber echtes Rendering auf der nativen Plattform.
+        window.setAttribute(QtCore.Qt.WA_DontShowOnScreen, True)
         window.resize(*WINDOW_SIZE)
         _process_events(app)
 
