@@ -16,7 +16,15 @@ All notable changes to this project will be documented in this file.
   aufgenommen — so, wie ein wiederkehrender Nutzer die App sieht — und zeigen
   jetzt vier verschiedene Ansichten statt zweimal dasselbe Board.
 - Jeder Screenshot wird beim Erzeugen gegen die Store-Mindestgröße 1366x768
-  geprüft (aktuell 1600x960).
+  geprüft.
+- Bildkomposition nachgebessert: Die vorherigen 1600x960-Aufnahmen zeigten sechs
+  bzw. vierzehn Kacheln in einem sonst leeren Fenster — rund 80 % weiße Fläche.
+  Ein so leeres Fenster zeigt das Produkt nicht so, wie es benutzt wird, und lädt
+  dieselbe Bewertung nach 10.1.1.3 erneut ein. Jetzt: kompakteres Fenster
+  1440x900 und eine tabellengesteuerte Demo-Sammlung mit 80 (Arbeitsplatz),
+  78 (Office), 24 (Review) und 10 (Setup) frei erfundenen, neutralen Einträgen.
+  Die Kachelansichten füllen damit sieben Reihen, die Listenansichten laufen über
+  die volle Fensterhöhe.
 - Versions-Mismatch aufgelöst: Runtime, `pyproject.toml`, `store_package.json`,
   Staging-Manifest, `STORE_CONTRACT.md` und `STORE_LISTING.md` führen einheitlich
   1.2.0 bzw. 1.2.0.0. Ein neuer Test in `tests/test_store_contract.py` hält die

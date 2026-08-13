@@ -10,19 +10,22 @@ from pathlib import Path
 
 os.environ.setdefault("QT_SCALE_FACTOR", "1")
 
+# Import bewusst erst hier: QT_SCALE_FACTOR muss vor dem Qt-Import stehen.
+from PySide6 import QtCore, QtWidgets
+
+from SoftwareCenter import MainWindow
+
 MIN_STORE_WIDTH = 1366
 MIN_STORE_HEIGHT = 768
+
+# Bewusst kompakt gehalten: ein sehr breites Fenster laesst denselben Inhalt
+# verloren wirken. 1440x900 liegt mit Reserve ueber der Store-Mindestgroesse.
+WINDOW_SIZE = (1440, 900)
 
 # Qt-Plattformen ohne echtes Fenstersystem. Sie rendern auf diesem System keine
 # Glyphen (Tofu-Kaestchen statt Text) und haben 2026-08-11 zur Store-Ablehnung
 # nach Policy 10.1.1.3 ("Inaccurate Representation") gefuehrt.
 HEADLESS_PLATFORMS = frozenset({"offscreen", "minimal", "vnc"})
-
-from PySide6 import QtCore, QtGui, QtWidgets
-
-import SoftwareCenter as module
-from SoftwareCenter import MainWindow
-
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = PROJECT_ROOT / "README" / "screenshots" / "store"
@@ -68,43 +71,122 @@ def _configure_runtime_dirs(temp_root: Path) -> Path:
     return home_dir
 
 
-def _write_demo_targets(workspace: Path) -> dict[str, Path]:
-    workspace.mkdir(parents=True, exist_ok=True)
+# Demo-Sammlung fuer die Store-Screenshots. Alle Namen sind frei erfunden und
+# neutral: keine echten Nutzerpfade, keine Klarnamen, keine fremden
+# Produktmarken. Die Dateiendung bestimmt Eintragstyp und damit das
+# Windows-Symbol, deshalb sind die Endungen bewusst gemischt.
+#
+# Die Boards sind absichtlich gut gefuellt: ein zu 80 % leeres Fenster zeigt das
+# Produkt nicht so, wie es benutzt wird, und laedt dieselbe Bewertung nach
+# Policy 10.1.1.3 erneut ein wie die abgelehnten Tofu-Screenshots.
+BOARD_CATALOGUE: dict[str, tuple[str, tuple[str, ...]]] = {
+    "Arbeitsplatz": (
+        "tiles",
+        (
+            "Projekt-Briefing.txt", "Redaktion.py", "Mail-Export.cmd", "PDF-Werkstatt.bat",
+            "Recherche.url", "Sync-Ordner.lnk", "Backup-Lauf.cmd", "Rechnungen.bat",
+            "Wochenplan.md", "Bildarchiv.lnk", "Haushaltsbuch.txt", "Handbuch.url",
+            "Notizen.md", "Release-Check.ps1", "Texteditor.lnk", "Tabellen.lnk",
+            "Präsentation.lnk", "Terminplaner.lnk", "Adressbuch.txt", "Aufgabenliste.md",
+            "Zeiterfassung.bat", "Belegscanner.bat", "Archivsuche.py", "Dateimanager.lnk",
+            "Bildbearbeitung.lnk", "Videoschnitt.lnk", "Tonaufnahme.lnk", "Bildschirmfoto.bat",
+            "Farbwähler.py", "Schriftmuster.txt", "Diagramme.py", "Mindmap.lnk",
+            "Kalkulation.txt", "Angebote.md", "Verträge.txt", "Protokolle.md",
+            "Checklisten.md", "Vorlagen.lnk", "Serienbrief.bat", "Etiketten.bat",
+            "Druckvorlagen.lnk", "Übersetzer.url", "Wörterbuch.url", "Rechtschreibung.py",
+            "Lesezeichen.url", "Downloads.lnk", "Netzlaufwerk.lnk", "Druckerliste.ps1",
+            "Systeminfo.ps1", "Datenträger.ps1", "Aufräumen.cmd", "Updates.ps1",
+            "Ereignisse.ps1", "Dienste.ps1", "Aufgabenplanung.ps1", "Passworttresor.lnk",
+            "Verschlüsselung.py", "Signaturen.txt", "Zertifikate.txt", "Firewall-Regeln.ps1",
+            "Netzwerktest.cmd", "Ping-Werkzeug.cmd", "Portprüfung.py", "Fernwartung.lnk",
+            "Terminalfenster.lnk", "Skriptsammlung.py", "Buildlauf.cmd", "Testlauf.cmd",
+            "Auslieferung.ps1", "Changelog.md", "Fehlerliste.md", "Ideenspeicher.md",
+            "Lernpfad.md", "Literatur.url", "Kursunterlagen.lnk", "Reisekosten.txt",
+            "Urlaubsplan.md", "Inventar.txt", "Wartungsplan.md", "Kontakte.txt",
+        ),
+    ),
+    "Office": (
+        "tiles",
+        (
+            "Projekt-Notizen.md", "Freigabe-Briefing.txt", "Release-Check.ps1", "Post-Ausgang.cmd",
+            "Scan-Ablage.bat", "Vorlagen.url", "Angebotsmappe.txt", "Auftragsbuch.txt",
+            "Rechnungsausgang.bat", "Mahnwesen.bat", "Kassenbuch.txt", "Kostenstellen.txt",
+            "Budgetplan.md", "Jahresabschluss.md", "Steuerordner.lnk", "Belegablage.lnk",
+            "Lieferscheine.txt", "Bestellungen.txt", "Lagerliste.txt", "Preisliste.txt",
+            "Kundenliste.txt", "Lieferanten.txt", "Serienmail.bat", "Newsletter.md",
+            "Pressemappe.md", "Broschüre.lnk", "Visitenkarten.lnk", "Briefpapier.lnk",
+            "Formulare.lnk", "Anträge.md", "Genehmigungen.md", "Fristenkalender.md",
+            "Sitzungsplan.md", "Tagesordnung.md", "Sitzungsprotokoll.md", "Beschlüsse.md",
+            "Aktenplan.txt", "Ablagestruktur.txt", "Archivierung.ps1", "Aktenvernichtung.md",
+            "Datenschutz.md", "Verfahrensverzeichnis.md", "Löschkonzept.md", "Auskunftsersuchen.md",
+            "Vertragsmappe.txt", "Vollmachten.txt", "Versicherungen.txt", "Mietunterlagen.txt",
+            "Inventarliste.txt", "Wartungsverträge.txt", "Reisebuchung.url", "Fahrtenbuch.txt",
+            "Spesenabrechnung.txt", "Stundenzettel.txt", "Urlaubsantrag.md", "Krankmeldung.md",
+            "Personalakte.lnk", "Einarbeitung.md", "Schulungsplan.md", "Zeugnisse.lnk",
+            "Bewerbungen.lnk", "Stellenausschreibung.md", "Organigramm.lnk", "Telefonliste.txt",
+            "Kalenderwoche.md", "Raumbuchung.md", "Besucherliste.txt", "Poststelle.bat",
+            "Frankierung.bat", "Materialbestellung.txt", "Büromaterial.txt", "Reinigungsplan.md",
+            "Schlüsselliste.txt", "Notfallplan.md", "Brandschutz.md", "Ersthelfer.txt",
+            "Unterweisungen.md", "Betriebsrat.md",
+        ),
+    ),
+    "Review": (
+        "list",
+        (
+            "Text-Review.py", "Mail-Status.cmd", "Dokumente.bat", "Layoutprüfung.md",
+            "Bildrechte.md", "Quellenliste.txt", "Zitatprüfung.md", "Rechtschreibprüfung.py",
+            "Terminologie.txt", "Übersetzungsabgleich.md", "Fußnoten.md", "Abbildungsverzeichnis.md",
+            "Tabellenverzeichnis.md", "Inhaltsverzeichnis.md", "Seitenumbrüche.md", "Druckfreigabe.md",
+            "Korrekturlauf.py", "Änderungsliste.md", "Freigabevermerk.txt", "Versionsvergleich.py",
+            "Abnahmeprotokoll.md", "Restpunkte.md", "Nacharbeit.md", "Schlussabnahme.md",
+        ),
+    ),
+    "Setup": (
+        "tiles",
+        (
+            "Zielpfade.lnk", "Versionen.ps1", "Erstkonfiguration.md", "Pfadvorgaben.txt",
+            "Standardordner.lnk", "Sicherungsziel.lnk", "Startverhalten.md", "Tastenkürzel.md",
+            "Anzeigeoptionen.md", "Wiederherstellung.ps1",
+        ),
+    ),
+}
 
-    targets = {
-        "briefing": workspace / "Projekt-Briefing.txt",
-        "editor": workspace / "Redaktion.py",
-        "mail": workspace / "Mail-Export.cmd",
-        "ocr": workspace / "PDF-Werkstatt.bat",
-        "research": workspace / "Recherche.url",
-        "sync": workspace / "Sync-Ordner.lnk",
-        "release": workspace / "Release-Check.ps1",
-        "notes": workspace / "Notizen.md",
-        "backup": workspace / "Backup-Lauf.cmd",
-        "invoice": workspace / "Rechnungen.bat",
-        "calendar": workspace / "Wochenplan.md",
-        "photos": workspace / "Bildarchiv.lnk",
-        "budget": workspace / "Haushaltsbuch.txt",
-        "manual": workspace / "Handbuch.url",
-    }
-    demo_text = {
-        "briefing": "Projekt-Briefing für lokale Software-Sammlungen.\n",
-        "editor": "print('Lokale Redaktion mit echten Umlauten: äöü')\n",
-        "mail": "@echo off\r\necho Mail-Export vorbereiten\r\n",
-        "ocr": "@echo off\r\necho PDF-Werkstatt starten\r\n",
-        "research": "[InternetShortcut]\nURL=https://example.invalid/recherche\n",
-        "sync": "Demo-Verknüpfung für lokale Synchronisation\n",
-        "release": "Write-Output 'Release-Check vorbereiten'\n",
-        "notes": "# Notizen\n\nDesktop-Profile bleiben lokal.\n",
-        "backup": "@echo off\r\necho Backup-Lauf starten\r\n",
-        "invoice": "@echo off\r\necho Rechnungen sortieren\r\n",
-        "calendar": "# Wochenplan\n\nTermine und Aufgaben der Woche.\n",
-        "photos": "Demo-Verknüpfung für das lokale Bildarchiv\n",
-        "budget": "Haushaltsbuch – lokale Übersicht der Ausgaben.\n",
-        "manual": "[InternetShortcut]\nURL=https://example.invalid/handbuch\n",
-    }
-    for key, path in targets.items():
-        path.write_text(demo_text[key], encoding="utf-8")
+_KIND_BY_SUFFIX = {
+    ".txt": "file",
+    ".md": "file",
+    ".py": "script",
+    ".bat": "script",
+    ".cmd": "script",
+    ".ps1": "script",
+    ".url": "url",
+    ".lnk": "windows_shortcut",
+}
+
+_CONTENT_BY_SUFFIX = {
+    ".txt": "{label} – lokale Demo-Datei mit echten Umlauten: äöüß.\n",
+    ".md": "# {label}\n\nDemo-Inhalt. Desktop-Profile bleiben lokal.\n",
+    ".py": "print('{label}: lokale Demo mit Umlauten äöü')\n",
+    ".bat": "@echo off\r\necho {label} starten\r\n",
+    ".cmd": "@echo off\r\necho {label} starten\r\n",
+    ".ps1": "Write-Output '{label} vorbereiten'\n",
+    ".url": "[InternetShortcut]\nURL=https://example.invalid/demo\n",
+    ".lnk": "Demo-Verknüpfung: {label}\n",
+}
+
+
+def _write_demo_targets(workspace: Path) -> dict[str, list[Path]]:
+    """Legt je Board einen Ordner mit den Demo-Zieldateien an."""
+    targets: dict[str, list[Path]] = {}
+    for board, (_view, filenames) in BOARD_CATALOGUE.items():
+        board_dir = workspace / board
+        board_dir.mkdir(parents=True, exist_ok=True)
+        paths = []
+        for filename in filenames:
+            path = board_dir / filename
+            template = _CONTENT_BY_SUFFIX[path.suffix]
+            path.write_text(template.format(label=path.stem), encoding="utf-8")
+            paths.append(path)
+        targets[board] = paths
     return targets
 
 
@@ -117,71 +199,27 @@ def _entry(path: Path, label: str, kind: str, notes: str | None = None) -> dict[
     }
 
 
-def _apply_consistent_icons(list_widget: module.SoftwareListWidget, icon: QtGui.QIcon) -> None:
-    for index in range(list_widget.count()):
-        item = list_widget.item(index)
-        item.setIcon(icon)
+def _board_entries(paths: list[Path]) -> list[dict[str, str | None]]:
+    return [_entry(path, path.stem, _KIND_BY_SUFFIX[path.suffix]) for path in paths]
 
 
-def _configure_demo_window(window: MainWindow, targets: dict[str, Path]) -> None:
+def _configure_demo_window(window: MainWindow, targets: dict[str, list[Path]]) -> None:
     default_page = window.current_page()
     if default_page is None:
         raise RuntimeError("SoftwareCenter konnte keine Startseite erzeugen")
 
-    workspace_entries = [
-        _entry(targets["briefing"], "Projekt-Briefing", "file", "Startpunkt für lokale Arbeitsplätze"),
-        _entry(targets["editor"], "Redaktion", "script", "Bearbeitung und Review"),
-        _entry(targets["mail"], "Mail-Export", "script", "Regelbasierte Übergabe"),
-        _entry(targets["ocr"], "PDF-Werkstatt", "script", "OCR und PDF-Werkzeuge"),
-        _entry(targets["research"], "Recherche", "url", "Schneller Sprung zu Referenzen"),
-        _entry(targets["sync"], "Sync-Ordner", "windows_shortcut", "Lokale Zielpfade im Blick"),
-        _entry(targets["backup"], "Backup-Lauf", "script", "Sicherung der Arbeitsdaten"),
-        _entry(targets["invoice"], "Rechnungen", "script", "Belege sortieren"),
-        _entry(targets["calendar"], "Wochenplan", "file", "Termine und Aufgaben"),
-        _entry(targets["photos"], "Bildarchiv", "windows_shortcut", "Fotos und Grafiken"),
-        _entry(targets["budget"], "Haushaltsbuch", "file", "Ausgaben im Blick"),
-        _entry(targets["manual"], "Handbuch", "url", "Nachschlagewerk öffnen"),
-        _entry(targets["notes"], "Notizen", "file", "Schnelle Gedächtnisstütze"),
-        _entry(targets["release"], "Release-Check", "script", "Vor dem Versand prüfen"),
-    ]
-    office_entries = [
-        _entry(targets["notes"], "Projekt-Notizen", "file", "Besprechungen und offene Punkte"),
-        _entry(targets["briefing"], "Freigabe-Briefing", "file", "Kompakte Zusammenfassung"),
-        _entry(targets["release"], "Release-Check", "script", "Vor dem Versand prüfen"),
-        _entry(targets["mail"], "Post-Ausgang", "script", "Versand vorbereiten"),
-        _entry(targets["ocr"], "Scan-Ablage", "script", "Belege einsortieren"),
-        _entry(targets["research"], "Vorlagen", "url", "Verweise auf Musterdokumente"),
-    ]
-    review_entries = [
-        _entry(targets["editor"], "Text-Review", "script", "Korrektur und Endabnahme"),
-        _entry(targets["mail"], "Mail-Status", "script", "Letzten Export kontrollieren"),
-        _entry(targets["ocr"], "Dokumente", "script", "Neue PDFs prüfen"),
-    ]
+    boards = list(BOARD_CATALOGUE.items())
+    first_name, (first_view, _first_files) = boards[0]
+    default_page.set_view_mode(first_view)
+    default_page.add_entries(_board_entries(targets[first_name]))
 
-    default_page.add_entries(workspace_entries)
-    window.add_new_tab("Office", "tiles", entries=office_entries)
-    window.add_new_tab("Review", "list", entries=review_entries)
-    window.add_new_tab(
-        "Setup",
-        "tiles",
-        entries=[
-            _entry(targets["sync"], "Zielpfade", "windows_shortcut", "Nur Referenz, kein Upload"),
-            _entry(targets["release"], "Versionen", "script", "Checks für die Übergabe"),
-        ],
-    )
+    for board_name, (view_mode, _files) in boards[1:]:
+        window.add_new_tab(board_name, view_mode, entries=_board_entries(targets[board_name]))
 
     # Erst umbenennen, wenn alle Tabs stehen: Solange nur ein Tab existiert, ist die
     # Tab-Leiste noch ohne Schliessen-Knopf bemessen; ein spaeter eingeblendeter Knopf
     # laege sonst ueber dem laengeren Namen.
-    window.tabs.setTabText(0, "Arbeitsplatz")
-
-    app_icon = window.windowIcon()
-    if app_icon.isNull():
-        app_icon = QtGui.QIcon(str(PROJECT_ROOT / "icon.ico"))
-    for index in range(window.tabs.count()):
-        page = window.tabs.widget(index)
-        if isinstance(page, module.TabPage):
-            _apply_consistent_icons(page.list, app_icon)
+    window.tabs.setTabText(0, first_name)
 
 
 def real_gui_available() -> bool:
@@ -289,7 +327,7 @@ def generate_store_screenshots(output_dir: Path) -> list[Path]:
         # Schritt 1: Demo-Profil aufbauen und speichern.
         builder_settings = QtCore.QSettings(ini_path, QtCore.QSettings.IniFormat)
         builder = MainWindow(settings=builder_settings)
-        builder.resize(1600, 960)
+        builder.resize(*WINDOW_SIZE)
         _configure_demo_window(builder, targets)
         builder.save_settings()
         builder_settings.sync()
@@ -301,7 +339,7 @@ def generate_store_screenshots(output_dir: Path) -> list[Path]:
         # von Anfang an korrekt bemessen.
         settings = QtCore.QSettings(ini_path, QtCore.QSettings.IniFormat)
         window = MainWindow(settings=settings)
-        window.resize(1600, 960)
+        window.resize(*WINDOW_SIZE)
         _process_events(app)
 
         result_paths = [
@@ -311,29 +349,32 @@ def generate_store_screenshots(output_dir: Path) -> list[Path]:
             output_dir / SCREENSHOT_FILES["list"],
         ]
 
-        try:
-            window.tabs.setCurrentIndex(0)
-            window.set_current_view("tiles")
-            entry_count = window.current_page().list.count()
-            window.statusBar().showMessage(
-                f"Lokale Sammlung · {entry_count} Einträge · Offline", 0
+        def show(tab_index: int, view: str, message: str) -> str:
+            """Board wechseln, Ansicht setzen, Statuszeile aus echten Zahlen bilden."""
+            window.tabs.setCurrentIndex(tab_index)
+            window.set_current_view(view)
+            page = window.current_page()
+            text = message.format(
+                board=window.tabs.tabText(tab_index),
+                count=page.list.count(),
+                boards=window.tabs.count(),
             )
+            window.statusBar().showMessage(text, 0)
+            return text
+
+        try:
+            show(0, "tiles", "Lokale Sammlung »{board}« · {count} Einträge · Offline")
             _save_widget(window, result_paths[0])
 
-            window.tabs.setCurrentIndex(2)
-            window.statusBar().showMessage("Tabs für Arbeitsplatz, Office, Review und Setup", 0)
+            show(2, "list", "Board »{board}« · {count} Einträge · {boards} Boards im Profil")
             _save_widget(window, result_paths[1])
 
             # Bewusst ein anderes Board als bei "main", sonst waeren zwei der vier
             # Store-Screenshots dasselbe Bild.
-            window.tabs.setCurrentIndex(1)
-            window.set_current_view("tiles")
-            window.statusBar().showMessage("Kachelansicht für schnellen Programmzugriff", 0)
+            show(1, "tiles", "Kachelansicht · Board »{board}« · {count} Einträge")
             _save_widget(window, result_paths[2])
 
-            window.tabs.setCurrentIndex(0)
-            window.set_current_view("list")
-            window.statusBar().showMessage("Listenansicht für größere Sammlungen", 0)
+            show(0, "list", "Listenansicht für größere Sammlungen · {count} Einträge")
             _save_widget(window, result_paths[3])
         finally:
             window.close()
