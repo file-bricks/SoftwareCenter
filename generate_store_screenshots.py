@@ -71,82 +71,81 @@ def _configure_runtime_dirs(temp_root: Path) -> Path:
     return home_dir
 
 
-# Demo-Sammlung fuer die Store-Screenshots. Alle Namen sind frei erfunden und
-# neutral: keine echten Nutzerpfade, keine Klarnamen, keine fremden
-# Produktmarken. Die Dateiendung bestimmt Eintragstyp und damit das
-# Windows-Symbol, deshalb sind die Endungen bewusst gemischt.
+# Demo-Sammlung fuer die Store-Screenshots.
 #
-# Die Boards sind absichtlich gut gefuellt: ein zu 80 % leeres Fenster zeigt das
-# Produkt nicht so, wie es benutzt wird, und laedt dieselbe Bewertung nach
-# Policy 10.1.1.3 erneut ein wie die abgelehnten Tofu-Screenshots.
-BOARD_CATALOGUE: dict[str, tuple[str, tuple[str, ...]]] = {
-    "Arbeitsplatz": (
-        "tiles",
-        (
-            "Projekt-Briefing.txt", "Redaktion.py", "Mail-Export.cmd", "PDF-Werkstatt.bat",
-            "Recherche.url", "Sync-Ordner.lnk", "Backup-Lauf.cmd", "Rechnungen.bat",
-            "Wochenplan.md", "Bildarchiv.lnk", "Haushaltsbuch.txt", "Handbuch.url",
-            "Notizen.md", "Release-Check.ps1", "Texteditor.lnk", "Tabellen.lnk",
-            "Präsentation.lnk", "Terminplaner.lnk", "Adressbuch.txt", "Aufgabenliste.md",
-            "Zeiterfassung.bat", "Belegscanner.bat", "Archivsuche.py", "Dateimanager.lnk",
-            "Bildbearbeitung.lnk", "Videoschnitt.lnk", "Tonaufnahme.lnk", "Bildschirmfoto.bat",
-            "Farbwähler.py", "Schriftmuster.txt", "Diagramme.py", "Mindmap.lnk",
-            "Kalkulation.txt", "Angebote.md", "Verträge.txt", "Protokolle.md",
-            "Checklisten.md", "Vorlagen.lnk", "Serienbrief.bat", "Etiketten.bat",
-            "Druckvorlagen.lnk", "Übersetzer.url", "Wörterbuch.url", "Rechtschreibung.py",
-            "Lesezeichen.url", "Downloads.lnk", "Netzlaufwerk.lnk", "Druckerliste.ps1",
-            "Systeminfo.ps1", "Datenträger.ps1", "Aufräumen.cmd", "Updates.ps1",
-            "Ereignisse.ps1", "Dienste.ps1", "Aufgabenplanung.ps1", "Passworttresor.lnk",
-            "Verschlüsselung.py", "Signaturen.txt", "Zertifikate.txt", "Firewall-Regeln.ps1",
-            "Netzwerktest.cmd", "Ping-Werkzeug.cmd", "Portprüfung.py", "Fernwartung.lnk",
-            "Terminalfenster.lnk", "Skriptsammlung.py", "Buildlauf.cmd", "Testlauf.cmd",
-            "Auslieferung.ps1", "Changelog.md", "Fehlerliste.md", "Ideenspeicher.md",
-            "Lernpfad.md", "Literatur.url", "Kursunterlagen.lnk", "Reisekosten.txt",
-            "Urlaubsplan.md", "Inventar.txt", "Wartungsplan.md", "Kontakte.txt",
-        ),
-    ),
-    "Office": (
-        "tiles",
-        (
-            "Projekt-Notizen.md", "Freigabe-Briefing.txt", "Release-Check.ps1", "Post-Ausgang.cmd",
-            "Scan-Ablage.bat", "Vorlagen.url", "Angebotsmappe.txt", "Auftragsbuch.txt",
-            "Rechnungsausgang.bat", "Mahnwesen.bat", "Kassenbuch.txt", "Kostenstellen.txt",
-            "Budgetplan.md", "Jahresabschluss.md", "Steuerordner.lnk", "Belegablage.lnk",
-            "Lieferscheine.txt", "Bestellungen.txt", "Lagerliste.txt", "Preisliste.txt",
-            "Kundenliste.txt", "Lieferanten.txt", "Serienmail.bat", "Newsletter.md",
-            "Pressemappe.md", "Broschüre.lnk", "Visitenkarten.lnk", "Briefpapier.lnk",
-            "Formulare.lnk", "Anträge.md", "Genehmigungen.md", "Fristenkalender.md",
-            "Sitzungsplan.md", "Tagesordnung.md", "Sitzungsprotokoll.md", "Beschlüsse.md",
-            "Aktenplan.txt", "Ablagestruktur.txt", "Archivierung.ps1", "Aktenvernichtung.md",
-            "Datenschutz.md", "Verfahrensverzeichnis.md", "Löschkonzept.md", "Auskunftsersuchen.md",
-            "Vertragsmappe.txt", "Vollmachten.txt", "Versicherungen.txt", "Mietunterlagen.txt",
-            "Inventarliste.txt", "Wartungsverträge.txt", "Reisebuchung.url", "Fahrtenbuch.txt",
-            "Spesenabrechnung.txt", "Stundenzettel.txt", "Urlaubsantrag.md", "Krankmeldung.md",
-            "Personalakte.lnk", "Einarbeitung.md", "Schulungsplan.md", "Zeugnisse.lnk",
-            "Bewerbungen.lnk", "Stellenausschreibung.md", "Organigramm.lnk", "Telefonliste.txt",
-            "Kalenderwoche.md", "Raumbuchung.md", "Besucherliste.txt", "Poststelle.bat",
-            "Frankierung.bat", "Materialbestellung.txt", "Büromaterial.txt", "Reinigungsplan.md",
-            "Schlüsselliste.txt", "Notfallplan.md", "Brandschutz.md", "Ersthelfer.txt",
-            "Unterweisungen.md", "Betriebsrat.md",
-        ),
-    ),
-    "Review": (
+# WICHTIG: Hier stehen ECHTE, installierte Programme - keine Demo-Textdateien.
+# Grund: SoftwareCenter ist ein Software-Organizer. Zeigte der Screenshot
+# Dokumente statt Programme, erzaehlte er die Produktgeschichte eines anderen
+# Produkts und fiele unter Policy 10.1.1.3 "Inaccurate Representation" - genau
+# der Ablehnungsgrund vom 2026-08-11. Echte EXEs liefern echte Icons;
+# generische Platzhalter-Symbole lassen die App unfertig wirken.
+#
+# Die Gruppierung folgt der realen Installation des Nutzers.
+# Fehlende Programme werden beim Aufbau uebersprungen.
+#
+# Format: Board -> (Ansicht, ((absoluter Pfad, Anzeigename), ...))
+PROGRAM_CATALOGUE: dict[str, tuple[str, tuple[tuple[str, str], ...]]] = {
+    "Dev": (
         "list",
         (
-            "Text-Review.py", "Mail-Status.cmd", "Dokumente.bat", "Layoutprüfung.md",
-            "Bildrechte.md", "Quellenliste.txt", "Zitatprüfung.md", "Rechtschreibprüfung.py",
-            "Terminologie.txt", "Übersetzungsabgleich.md", "Fußnoten.md", "Abbildungsverzeichnis.md",
-            "Tabellenverzeichnis.md", "Inhaltsverzeichnis.md", "Seitenumbrüche.md", "Druckfreigabe.md",
-            "Korrekturlauf.py", "Änderungsliste.md", "Freigabevermerk.txt", "Versionsvergleich.py",
-            "Abnahmeprotokoll.md", "Restpunkte.md", "Nacharbeit.md", "Schlussabnahme.md",
+            (r"C:\Program Files\Git\git-bash.exe", "git-bash"),
+            (r"C:\Users\User\AppData\Local\Programs\Microsoft VS Code\Code.exe", "Code"),
+            (r"C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe", "GitHubDesktop"),
+            (r"C:\Program Files (x86)\Thonny\thonny.exe", "thonny"),
+            (r"C:\Program Files\Python312\python.exe", "Python"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\CODING\REL-PUB_WinStorePackager\releases\v2.3.1\WinStorePackager-2.3.1-win64.exe", "WinStorePackager"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\CODING\REL-PUB_MethodenAnalyser\MethodenAnalyser.exe", "MethodenAnalyser"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DATA\REL-PUB_ProSync\releases\v3.2.0\ProSyncReader.exe", "ProSyncReader"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DATA\REL-PUB_SQLiteViewer\releases\v2.0.0\SQLiteViewer-2.0.0-win64.exe", "SQLiteViewer"),
+            (r"C:\Program Files\Notepad++\notepad++.exe", "Notepad++"),
+            (r"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe", "PowerShell"),
+            (r"C:\Windows\System32\cmd.exe", "Eingabeaufforderung"),
         ),
     ),
-    "Setup": (
+    "data": (
         "tiles",
         (
-            "Zielpfade.lnk", "Versionen.ps1", "Erstkonfiguration.md", "Pfadvorgaben.txt",
-            "Standardordner.lnk", "Sicherungsziel.lnk", "Startverhalten.md", "Tastenkürzel.md",
-            "Anzeigeoptionen.md", "Wiederherstellung.ps1",
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DATA\REL-PUB_ProFiler\ProFiler.exe", "ProFiler"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DATA\REL_AmpelClip\AmpelClip.exe", "AmpelClip"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DATA\REL_SoftwareCenter\SoftwareCenter.exe", "SoftwareCenter"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\BIO\REL-PUB_23andMe_to_VCF\releases\v1.0.2\23toVCF_Pro-1.0.2-win64.exe", "23toVCF"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\ASSISTENT\FAST_HausLagerist_V4\HausLagerist.exe", "HausLagerist"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\ASSISTENT\RDY_FAST_UpToday_SOCIAL\UpToday.exe", "UpToday"),
+            (r"C:\Windows\System32\taskmgr.exe", "Task-Manager"),
+            (r"C:\Windows\System32\msinfo32.exe", "Systeminformation"),
+            (r"C:\Windows\System32\cleanmgr.exe", "Datenträgerbereinigung"),
+            (r"C:\Windows\System32\resmon.exe", "Ressourcenmonitor"),
+        ),
+    ),
+    "office": (
+        "tiles",
+        (
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DOCS\DEV_DokuZen\releases\v1.0.0\DokuZen-Pro-1.0.0-win64.exe", "DokuZen"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DOCS\DEV_CleanMarkdown\releases\v0.3.2\CleanMarkdown-0.3.2-win64.exe", "CleanMarkdown"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DOCS\DEV_FormularErstellen\FormConstructor.exe", "Formulare"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DOCS\DEV_TextBrain\TextBrain.exe", "TextBrain"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DATA\REL-PUB_PromptBoard\releases\v1.1.1\PromptBoard-1.1.1-win64.exe", "PromptBoard"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\DOCS\REL-PUB_LitZentrum_SUITE\releases\v1.0.0\LitZentrum-1.0.0-win64.exe", "LitZen"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\AUTISMO\DEV_Foerderplaner_Autismo_pro\releases\v4.0.0\Foerderplaner-4.0.0-win64.exe", "Förderplaner"),
+            (r"C:\Windows\System32\notepad.exe", "Editor"),
+            (r"C:\Windows\System32\calc.exe", "Rechner"),
+            (r"C:\Windows\System32\charmap.exe", "Zeichentabelle"),
+        ),
+    ),
+    "web": (
+        "tiles",
+        (
+            (r"C:\Program Files\Google\Chrome\Application\chrome.exe", "Chrome"),
+            (r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe", "Edge"),
+            (r"C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe", "GitHubDesktop"),
+            (r"C:\Windows\System32\mstsc.exe", "Remotedesktop"),
+        ),
+    ),
+    "Production": (
+        "tiles",
+        (
+            (r"C:\Program Files\Blender Foundation\Blender 5.1\blender-launcher.exe", "blender-launcher"),
+            (r"C:\Users\User\OneDrive\.TOPICS\.SOFTWARE\ASSISTENT\RDY_FAST_UpToday_SOCIAL\UpToday.exe", "UpToday"),
         ),
     ),
 }
@@ -174,19 +173,20 @@ _CONTENT_BY_SUFFIX = {
 }
 
 
-def _write_demo_targets(workspace: Path) -> dict[str, list[Path]]:
-    """Legt je Board einen Ordner mit den Demo-Zieldateien an."""
-    targets: dict[str, list[Path]] = {}
-    for board, (_view, filenames) in BOARD_CATALOGUE.items():
-        board_dir = workspace / board
-        board_dir.mkdir(parents=True, exist_ok=True)
-        paths = []
-        for filename in filenames:
-            path = board_dir / filename
-            template = _CONTENT_BY_SUFFIX[path.suffix]
-            path.write_text(template.format(label=path.stem), encoding="utf-8")
-            paths.append(path)
-        targets[board] = paths
+def _write_demo_targets(workspace: Path) -> dict[str, list[tuple[Path, str]]]:
+    """Liefert je Board die echten Programme mit ihrem Anzeigenamen.
+
+    Legt bewusst NICHTS mehr an: Die Eintraege verweisen auf tatsaechlich
+    installierte Programme, damit SoftwareCenter deren echte Icons zieht.
+    Fehlende Programme werden still uebersprungen, damit der Generator auch
+    auf einem anders bestueckten Rechner durchlaeuft.
+    """
+    del workspace  # keine Demo-Dateien mehr noetig
+    targets: dict[str, list[tuple[Path, str]]] = {}
+    for board, (_view, programs) in PROGRAM_CATALOGUE.items():
+        found = [(Path(p), label) for p, label in programs if Path(p).is_file()]
+        if found:
+            targets[board] = found
     return targets
 
 
@@ -199,8 +199,10 @@ def _entry(path: Path, label: str, kind: str, notes: str | None = None) -> dict[
     }
 
 
-def _board_entries(paths: list[Path]) -> list[dict[str, str | None]]:
-    return [_entry(path, path.stem, _KIND_BY_SUFFIX[path.suffix]) for path in paths]
+def _board_entries(items: list[tuple[Path, str]]) -> list[dict[str, str | None]]:
+    # "file" ist der Typ, den detect_entry_kind() fuer eine existierende .exe
+    # liefert; das Icon zieht SoftwareCenter dann aus der Datei selbst.
+    return [_entry(path, label, "file") for path, label in items]
 
 
 def _configure_demo_window(window: MainWindow, targets: dict[str, list[Path]]) -> None:
@@ -208,7 +210,7 @@ def _configure_demo_window(window: MainWindow, targets: dict[str, list[Path]]) -
     if default_page is None:
         raise RuntimeError("SoftwareCenter konnte keine Startseite erzeugen")
 
-    boards = list(BOARD_CATALOGUE.items())
+    boards = list(PROGRAM_CATALOGUE.items())
     first_name, (first_view, _first_files) = boards[0]
     default_page.set_view_mode(first_view)
     default_page.add_entries(_board_entries(targets[first_name]))
