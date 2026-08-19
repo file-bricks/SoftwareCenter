@@ -1,0 +1,15 @@
+{
+  "app_name": "LaunchBoards",
+  "publisher": "CN=52596601-BAB4-4F3F-B182-E8F3F273B202",
+  "publisher_display": "Geiger",
+  "identity_name": "Geiger.LaunchBoards",
+  "version": "1.0.0.0",
+  "store_id": "9NPP0QBWMNLG",
+  "description": "Organisiere App-Verknüpfungen in Launch Boards und starte, was du brauchst, wann du es brauchst.",
+  "executable": "LaunchBoards.exe",
+  "capabilities": "runFullTrust",
+  "category": "Utilities & Tools",
+  "age_rating": "3+",
+  "privacy_url": "https://github.com/file-bricks/SoftwareCenter/blob/master/PRIVACY_POLICY.md",
+  "support_url": "https://github.com/file-bricks/SoftwareCenter/issues"
+}
