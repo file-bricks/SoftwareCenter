@@ -828,7 +828,12 @@ class MainWindow(QMainWindow):
         self.closed_boards: dict[str, dict] = {}
         self.favorites: set[str] = set()
         self._boards_panel_view = "history"
-        self.tabs = QTabWidget(movable=True, tabsClosable=True)
+        # tabsClosable bleibt hier aus: _update_tab_closable_state() schaltet es
+        # ab dem zweiten Board ein. Stand es schon beim Anlegen des ersten Tabs
+        # auf True, erzeugte Qt dafuer einen Schliessen-Knopf, den das spaetere
+        # setTabsClosable(False) nicht mehr einsammelt -- er blieb an fester
+        # Position liegen und lag dann ueber der Beschriftung eines Nachbartabs.
+        self.tabs = QTabWidget(movable=True, tabsClosable=False)
         self.tabs.tabCloseRequested.connect(self.on_close_tab)
         self.tabs.tabBarDoubleClicked.connect(self.on_rename_tab)
         self.tabs.currentChanged.connect(self._sync_view_actions)
