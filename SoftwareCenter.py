@@ -14,8 +14,8 @@ from datetime import datetime, timezone
 from PySide6.QtCore import Qt, QSize, QFileInfo, Signal, QSettings, QTimer
 from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon
 from PySide6.QtWidgets import (
-    QAbstractItemView, QApplication, QDockWidget, QMainWindow, QPushButton, QSizePolicy,
-    QStyle, QWidget, QVBoxLayout, QListWidget,
+    QAbstractButton, QAbstractItemView, QApplication, QDockWidget, QMainWindow, QPushButton, QSizePolicy,
+    QStyle, QToolButton, QWidget, QVBoxLayout, QListWidget,
     QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
     QMessageBox, QMenu, QFileDialog, QSystemTrayIcon, QTabBar, QLineEdit, QWidgetAction
 )
@@ -960,7 +960,24 @@ class MainWindow(QMainWindow):
             self.act_view_list.blockSignals(False)
 
     def _update_tab_closable_state(self):
-        self.tabs.setTabsClosable(self.tabs.count() > 1)
+        closable = self.tabs.count() > 1
+        self.tabs.setTabsClosable(closable)
+        tab_bar = self.tabs.tabBar()
+        assigned = set()
+        if closable:
+            for index in range(self.tabs.count()):
+                for side in (QTabBar.ButtonPosition.LeftSide, QTabBar.ButtonPosition.RightSide):
+                    btn = tab_bar.tabButton(index, side)
+                    if btn is not None:
+                        assigned.add(id(btn))
+        for child in tab_bar.children():
+            if (
+                isinstance(child, QAbstractButton)
+                and not isinstance(child, QToolButton)
+                and child.objectName() not in ("ScrollLeftButton", "ScrollRightButton")
+            ):
+                if not closable or id(child) not in assigned:
+                    child.hide()
         self._refresh_tab_accessibility()
 
     def _refresh_tab_accessibility(self):

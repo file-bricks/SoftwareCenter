@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-08-22
+
+### Fixed
+- Tab-Leiste (R4): Verwaiste Schließen-Knöpfe (`QAbstractButton`-Kinder der `QTabBar`) werden in `_update_tab_closable_state()` beim Umschalten zwischen Einzel- und Mehr-Board-Ansichten explizit ausgeblendet, wodurch überlagernde Doppel-X-Artefakte über Tab-Beschriftungen verhindert werden.
+- Regressionstests: Testabdeckung für TabBar-Close-Button-Lebenszyklus (`tests/test_tabbar_orphan_close_button.py`) und Unit-Regressionstest (`TestBugR4_TabBarOrphanCloseButtons` in `tests/test_bug_regressions.py`) verifiziert.
+
 ## [Unreleased] - 2026-08-13
 
 ### Store-Resubmit nach Ablehnung 10.1.1.3

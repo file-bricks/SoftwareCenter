@@ -208,3 +208,25 @@ class TestBugsweep41PathGuard:
         widget.addItem(item)
         widget.selectAll()
         assert widget._selected_entries() == []
+
+
+# ── BUG R4: TabBar Orphan Close Buttons ────────────────────────────────────
+
+class TestBugR4_TabBarOrphanCloseButtons:
+    """R4 APP-BUG: _update_tab_closable_state hides orphan close buttons on QTabBar."""
+
+    def test_update_tab_closable_state_hides_unassigned_buttons(self):
+        from PySide6.QtWidgets import QPushButton
+        tmp = Path(tempfile.mkdtemp())
+        settings = QSettings(str(tmp / "test_r4.ini"), QSettings.Format.IniFormat)
+        window = MainWindow(settings=settings)
+        tab_bar = window.tabs.tabBar()
+
+        # Simulate an orphan button child on QTabBar
+        dummy = QPushButton("x", tab_bar)
+        dummy.show()
+        assert dummy.isHidden() is False
+
+        window._update_tab_closable_state()
+        assert dummy.isHidden() is True
+
