@@ -1,6 +1,6 @@
 # SoftwareCenter
 
-## Last-checked: 2026-08-04
+## Last-checked: 2026-08-25
 
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
@@ -36,7 +36,14 @@ python -m pytest -q
 python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
 ```
 
-The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and 3.12.
+The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
+3.12. It pins Node 20.x for an explicit optional-web boundary: the removed
+`web_companion/` has no npm test; if reintroduced, CI runs `npm test` and
+`node --check` for `app.js`, `library.js`, and `sw.js`.
+
+The 2026-08-25 local readback collected 164 tests and passed the desktop
+export/import fixture. No signed/WACK-verified Store submission candidate is
+claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
 
 ## Disambiguation
 

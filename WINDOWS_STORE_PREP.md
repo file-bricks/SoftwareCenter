@@ -1,5 +1,12 @@
 # Windows Store Release Preparation — SoftwareCenter
 
+## Readback status (2026-08-25)
+
+No Store submission candidate is currently claimed. Versions across
+pyproject.toml, SoftwareCenter.py, and store_package.json are unified to 1.2.0 /
+1.2.0.0. The local v1.2.0 EXE is unsigned and not WACK-certified. Build and sign
+a fresh MSIX and attach a real WACK report prior to submission.
+
 **App Name:** SoftwareCenter  
 **Package Identity:** Geiger.SoftwareCenter  
 **Publisher:** CN=52596601-BAB4-4F3F-B182-E8F3F273B202  

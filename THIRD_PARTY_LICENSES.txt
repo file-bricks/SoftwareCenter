@@ -4,3 +4,14 @@ THIRD-PARTY LICENSES
 PySide6
 License: LGPL-3.0
 URL: https://pypi.org/project/PySide6/
+
+Build-only dependency (not shipped in the application package)
+---------------------------------------------------------------
+
+PyInstaller
+License: GPLv2-or-later with a special exception for building and distributing
+non-free programs
+URL: https://pyinstaller.org/
+
+The runtime dependency inventory is `requirements.txt` (PySide6 only). Pytest
+is a development/test dependency and is not bundled into the Store artifact.

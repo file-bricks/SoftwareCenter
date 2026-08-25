@@ -1,6 +1,23 @@
 # SoftwareCenter Store-Vertrag
 
-Stand: 2026-07-22
+Stand: 2026-08-25
+
+## Release- und Artefaktstatus
+
+Es gibt am 2026-08-25 **keinen gültigen Store-Einreichkandidaten**. Die
+Statusquellen werden deshalb ausdrücklich getrennt:
+
+| Quelle | Readback | Bedeutung |
+|---|---|---|
+| `pyproject.toml` | `1.2.0` | aktuelle Source-/Build-Linie |
+| `SoftwareCenter.py` | `__version__ = 1.2.0` | Runtime-/Exportstand der Quelle |
+| `store_package.json` | `1.2.0.0` | kanonischer Store-Metadatenstand |
+| `releases/v1.2.0/SoftwareCenter-1.2.0-win64.exe` | SHA-256 `1AD7F9FE5AA89A004402E4F6833A67FBF85810C20B8444B3C634474F0B59C6C7` | lokal, unsigniert, nicht WACK-geprüft |
+
+Die Versionen sind einheitlich harmonisiert (`1.2.0` / `1.2.0.0`). Privacy-URL,
+Support-URL, Publisher, Identity, `runFullTrust` und Kategorie sind in den
+Metadaten konsistent. Vor einem Store-Release muss ein frisch signiertes MSIX mit
+echtem WACK-Report erstellt werden; aktuell wird kein Signing oder Upload behauptet.
 
 `store_package.json` ist die kanonische, versionierte Metadatenquelle. Die
 lokale Packaging-Einstellung und das Staging-Manifest müssen sie abbilden, nicht

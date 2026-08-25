@@ -1,6 +1,6 @@
 # Exportformat `softwarecenter-profile-v1.json`
 
-Stand: 2026-05-24
+Stand: 2026-08-25
 
 ## Zweck
 
@@ -79,3 +79,17 @@ Der Export kopiert keine lokalen Dateien und enthält keine Credentials.
 - `Datei -> Profil exportieren`
 - `Datei -> Profil importieren`
 - dieselben Aktionen zusätzlich in der Toolbar
+
+## Verifizierter Desktop-Readback (2026-08-25)
+
+`tests/fixtures/profile_export_redacted.json` ist ein redigiertes Beispiel mit
+zwei Tabs, Umlauten, `kind`/`notes` und einem absichtlich nicht vorhandenen
+Pfad. `tests/test_export_contract.py` erzeugt zusätzlich einen echten
+Desktop-Export in einem temporären Verzeichnis, liest ihn mit `json.loads` und
+`validate_profile_payload` zurück und importiert ihn erneut in SoftwareCenter.
+Der Readback bestätigt, dass Pfade nur Referenzen bleiben, Notizen UTF-8-fest
+bleiben und keine Credential-/Token-/Password-Felder exportiert werden.
+
+Der frühere `web_companion/`-Reader wurde am 2026-07-23 entfernt. Die CI prüft
+seine Abwesenheit als bewusste Grenze; eine spätere Wiederaufnahme muss zuerst
+`package.json`, `npm test` und die drei Node-Syntaxchecks mitbringen.

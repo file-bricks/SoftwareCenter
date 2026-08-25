@@ -90,6 +90,10 @@ Utilities & Tools
 
 ## Store Submission Metadata
 
+### Readback-Status 2026-08-25
+
+Es wird **keine Einreichung** behauptet. `pyproject.toml`, `SoftwareCenter.py` und `store_package.json` sind einheitlich auf `1.2.0` / `1.2.0.0` harmonisiert. Der lokale v1.2.0-EXE-Readback (`SHA-256 1AD7F9FE5AA89A004402E4F6833A67FBF85810C20B8444B3C634474F0B59C6C7`) ist unsigniert und noch nicht WACK-zertifiziert. Vor einer Einreichung muss ein frisch signiertes MSIX mit echtem WACK-Report erstellt werden.
+
 | Field | Value |
 |---|---|
 | Publisher CN | CN=52596601-BAB4-4F3F-B182-E8F3F273B202 |
@@ -104,7 +108,7 @@ Utilities & Tools
 
 ## Store Readiness Checklist
 
-- [x] EXE built (dist/SoftwareCenter.exe, ~44 MB)
+- [x] Lokale EXE gebaut (dist/SoftwareCenter.exe, ~44 MB; unsigniert, kein Release-Nachweis)
 - [x] store_package.json -- publisher CN + URLs corrected
 - [x] releases/windowsstore/store_settings.json -- publisher CN + URLs corrected (local build settings, not tracked)
 - [x] PRIVACY_POLICY.md created (EN + DE)
@@ -117,7 +121,7 @@ Utilities & Tools
 - [x] PySide6 (LGPL) -- license compatible with Store distribution
 - [x] README-Screenshot vorhanden (`README/screenshots/main.png`)
 - [x] Store-Screenshot-Set erzeugbar: `python generate_store_screenshots.py` schreibt `README/screenshots/store/main-window.png`, `tab-organization.png`, `tiles-view.png`, `list-view.png` und `summary.json`
-- [x] MSIX package vorhanden (`releases/SoftwareCenter.msix`, Stand 2026-03-13)
+- [ ] Aktuelles MSIX als Einreichkandidat vorhanden (historisches OneDrive-Artefakt 2026-03-13; nicht frisch signiert/WACK-geprüft)
 - [ ] Code-Signing (.pfx) -- noch nicht konfiguriert in store_settings.json
 - [x] WACK-Workflow und manuelles Store-Testprotokoll sind dokumentiert
 - [ ] Vor der nächsten Einreichung: signiertes MSIX neu bauen, echten WACK-Lauf ausführen und Report ablegen

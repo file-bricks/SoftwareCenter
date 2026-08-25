@@ -3,7 +3,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 161 Passed](https://img.shields.io/badge/pytest-161%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 164 Passed](https://img.shields.io/badge/pytest-164%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![Ecosystem: file-bricks](https://img.shields.io/badge/Ecosystem-file--bricks-blue.svg)](https://github.com/file-bricks)
@@ -26,7 +26,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-08-04 (MAINTAINER-Health-Check: 161 Tests, Plattform-Smokes, Compileall, JSON, WACK-Dry-Run) |
+| **Letzte Prüfung** | 2026-08-25 (lokal: 164 Tests, Plattform-Smokes, Compileall, JSON, Export-Fixture; WACK weiterhin nur Dry-Run) |
 
 ## Funktionen
 

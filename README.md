@@ -3,7 +3,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 161 Passed](https://img.shields.io/badge/pytest-161%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 164 Passed](https://img.shields.io/badge/pytest-164%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![Ecosystem: file-bricks](https://img.shields.io/badge/Ecosystem-file--bricks-blue.svg)](https://github.com/file-bricks)
@@ -26,7 +26,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-08-04 (MAINTAINER health check: 161 tests, platform smokes, compileall, JSON, WACK dry-run) |
+| **Last Checked** | 2026-08-25 (local: 164 tests, platform smokes, compileall, JSON, export fixture; WACK remains dry-run only) |
 
 ## Features
 
@@ -146,7 +146,7 @@ procedure are documented in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 
 ## Exchange Format
 
-Profiles can be exported as `softwarecenter-profile-v1.json` and imported again later. The format carries tabs, view modes, and entries with `label`, `path`, `kind`, and optional `notes`, but does not copy local files or credentials. See [EXPORTFORMAT.md](EXPORTFORMAT.md) for details.
+Profiles can be exported as `softwarecenter-profile-v1.json` and imported again later. The format carries tabs, view modes, and entries with `label`, `path`, `kind`, and optional `notes`, but does not copy local files or credentials. Missing paths remain visible as references. See [EXPORTFORMAT.md](EXPORTFORMAT.md) for details.
 
 ## Windows Store Assets
 

@@ -1,0 +1,34 @@
+{
+  "format": "softwarecenter-profile-v1",
+  "format_version": 1,
+  "app_version": "1.0.0",
+  "source_platform": "win32",
+  "exported_at": "2026-08-25T00:00:00Z",
+  "current_tab": 1,
+  "tabs": [
+    {
+      "name": "Werkzeuge",
+      "view_mode": "tiles",
+      "entries": [
+        {
+          "label": "Editor",
+          "path": "C:/Demo/Editor.exe",
+          "kind": "file",
+          "notes": null
+        }
+      ]
+    },
+    {
+      "name": "Übergabe",
+      "view_mode": "list",
+      "entries": [
+        {
+          "label": "Äußeres Werkzeug",
+          "path": "Z:/NichtVorhanden/Ä/Tool.exe",
+          "kind": "file",
+          "notes": "Für den zweiten Rechner – Größe prüfen"
+        }
+      ]
+    }
+  ]
+}

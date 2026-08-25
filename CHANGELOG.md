@@ -2,9 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-08-22
+## [Unreleased] - 2026-08-25
 
-### Fixed
+- Added an explicit Node 20.x CI boundary for the removed `web_companion/`;
+  reintroductions must provide `npm test` and the three Node syntax checks.
+- Added a redacted, UTF-8 profile export fixture and a real desktop
+  export/import roundtrip covering multiple tabs, `kind`/`notes`, umlauts and
+  an intentionally missing path. No credentials, tokens or passwords are
+  exported; the PWA path remains intentionally absent.
+- Reconciled Store documentation with the actual local artifacts: the v1.2.0
+  EXE hash is recorded as unsigned and non-WACK.
 - Tab-Leiste (R4): Verwaiste Schließen-Knöpfe (`QAbstractButton`-Kinder der `QTabBar`) werden in `_update_tab_closable_state()` beim Umschalten zwischen Einzel- und Mehr-Board-Ansichten explizit ausgeblendet, wodurch überlagernde Doppel-X-Artefakte über Tab-Beschriftungen verhindert werden.
 - Regressionstests: Testabdeckung für TabBar-Close-Button-Lebenszyklus (`tests/test_tabbar_orphan_close_button.py`) und Unit-Regressionstest (`TestBugR4_TabBarOrphanCloseButtons` in `tests/test_bug_regressions.py`) verifiziert.
 

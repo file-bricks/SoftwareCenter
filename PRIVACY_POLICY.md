@@ -1,7 +1,7 @@
 # Privacy Policy / Datenschutzerklärung
 
 **SoftwareCenter** — published by file-bricks
-Last updated: 2026-05-07
+Last updated: 2026-08-25
 
 ---
 
@@ -25,6 +25,12 @@ SoftwareCenter is a fully offline, local desktop application. It does not collec
 ### Local Storage
 
 SoftwareCenter stores your preferences (tab names, shortcut paths, window position, view mode) exclusively in the **Windows Registry** under the key `HKCU\Software\LukasGeiger\SoftwareCenter`. This data never leaves your device.
+
+Profile exports are explicit local JSON files. They may contain the paths,
+labels, kinds, and optional notes that the user chose to export, including
+references to missing local paths; they do not copy local files and do not
+contain credentials, tokens, or passwords. SoftwareCenter does not transmit
+these exports.
 
 ### Third-Party Services
 
@@ -61,6 +67,12 @@ SoftwareCenter ist eine vollständig offline arbeitende Desktop-Anwendung. Es we
 ### Lokale Speicherung
 
 SoftwareCenter speichert Ihre Einstellungen (Tab-Namen, Verknüpfungspfade, Fensterposition, Ansichtsmodus) ausschließlich lokal. Unter Windows nutzt die Anwendung die **Windows-Registrierung** unter dem Schlüssel `HKCU\Software\LukasGeiger\SoftwareCenter`; unter macOS/Linux nutzt Qt die jeweilige lokale QSettings-Ablage. Diese Daten verlassen Ihr Gerät niemals.
+
+Profil-Exporte sind ausdrücklich lokale JSON-Dateien. Sie können die vom Nutzer
+gewählten Pfade, Labels, `kind`-Werte und optionalen Notizen enthalten, auch
+Verweise auf fehlende lokale Pfade; lokale Dateien werden nicht kopiert und
+Credentials, Tokens oder Passwörter nicht exportiert. SoftwareCenter überträgt
+diese Exporte nicht.
 
 ### Drittanbieter-Dienste
 
