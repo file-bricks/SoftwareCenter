@@ -28,7 +28,18 @@ def _app() -> QApplication:
 
 def _secret_hits(text: str) -> list[str]:
     lowered = text.casefold()
-    return [word for word in ("credential", "token", "password") if word in lowered]
+    return [
+        word
+        for word in (
+            "api_key",
+            "authorization",
+            "credential",
+            "password",
+            "secret",
+            "token",
+        )
+        if word in lowered
+    ]
 
 
 def test_redacted_fixture_is_valid_json_and_has_no_secrets() -> None:
@@ -43,9 +54,13 @@ def test_redacted_fixture_is_valid_json_and_has_no_secrets() -> None:
 
 def test_real_desktop_export_roundtrip_preserves_missing_path_and_unicode(tmp_path: Path) -> None:
     _app()
-    source = tmp_path / "Lokales Werkzeug.exe"
+    source_dir = tmp_path / "source"
+    export_dir = tmp_path / "export"
+    source_dir.mkdir()
+    export_dir.mkdir()
+    source = source_dir / "Lokales Werkzeug.exe"
     source.write_bytes(b"redacted fixture payload")
-    export_path = tmp_path / "softwarecenter-profile-v1.json"
+    export_path = export_dir / "softwarecenter-profile-v1.json"
 
     first = sc.MainWindow(settings=QSettings(str(tmp_path / "first.ini"), QSettings.Format.IniFormat))
     try:
@@ -76,6 +91,8 @@ def test_real_desktop_export_roundtrip_preserves_missing_path_and_unicode(tmp_pa
     assert readback["tabs"][1]["entries"][0]["path"] == "Z:/NichtVorhanden/Ä/Tool.exe"
     assert readback["tabs"][1]["entries"][0]["notes"] == "Für den zweiten Rechner – Größe prüfen"
     assert _secret_hits(export_path.read_text(encoding="utf-8")) == []
+    assert [path.name for path in export_dir.iterdir()] == ["softwarecenter-profile-v1.json"]
+    assert not (export_dir / source.name).exists()
 
     second = sc.MainWindow(settings=QSettings(str(tmp_path / "second.ini"), QSettings.Format.IniFormat))
     try:

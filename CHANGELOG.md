@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-08-25
 
+- Added a reproducible SoftwareCenter/LaunchBoards product-boundary verifier:
+  separate QSettings and single-instance namespaces, native parallel-process
+  routing, icons, executables, Store identities, and release paths are checked
+  without touching real user settings or mixing SoftwareCenter release hashes.
+- Locked the optional web-companion CI boundary into regression tests and
+  strengthened the desktop export fixture with aggregate secret-key and
+  no-local-file-copy checks.
 - Added an explicit Node 20.x CI boundary for the removed `web_companion/`;
   reintroductions must provide `npm test` and the three Node syntax checks.
 - Added a redacted, UTF-8 profile export fixture and a real desktop

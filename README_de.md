@@ -3,7 +3,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 164 Passed](https://img.shields.io/badge/pytest-164%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 172 Passed](https://img.shields.io/badge/pytest-172%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![Ecosystem: file-bricks](https://img.shields.io/badge/Ecosystem-file--bricks-blue.svg)](https://github.com/file-bricks)
@@ -26,7 +26,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-08-25 (lokal: 164 Tests, Plattform-Smokes, Compileall, JSON, Export-Fixture; WACK weiterhin nur Dry-Run) |
+| **Letzte Prüfung** | 2026-08-26 (lokal: 172 Tests, Plattform-Smokes, Compileall, JSON, Export-Fixture, Produktgrenz-Prozess-/Artefaktprüfung; WACK weiterhin nur Dry-Run) |
 
 ## Funktionen
 
@@ -131,7 +131,11 @@ python -m json.tool store_package.json
 python -m pytest -q
 python tests/macos_platform_smoke.py
 python tests/linux_platform_smoke.py
+python scripts/verify_product_boundaries.py
 ```
+
+Der gehostete Workflow und seine ausdrückliche Grenze für den optionalen
+Web-Companion sind in [CI_CONTRACT.md](CI_CONTRACT.md) dokumentiert.
 
 Die GitHub Actions führen diese Smoke-Checks ebenfalls aus; der macOS-Job prüft `.app`-Import, `open`-Startpfad, QSettings und den Profil-Export headless auf `macos-latest`, der Linux-Job zusätzlich `.desktop`-Import, `Exec`-/`xdg-open`-Startpfade, QSettings und den Profil-Export auf `ubuntu-latest`. Build-Artefakte wie `SoftwareCenter.exe`, `build/`, `dist/`, `releases/` und lokale Aufgaben-/Testdateien bleiben per `.gitignore` außerhalb des Repos.
 
@@ -148,6 +152,14 @@ Rollback stehen in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 ## Austauschformat
 
 Profile lassen sich als `softwarecenter-profile-v1.json` exportieren und wieder importieren. Das Format enthält Tabs, Ansichtsmodus und Einträge mit `label`, `path`, `kind` und optionalen `notes`, aber keine kopierten Dateien und keine Credentials. Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
+
+## Schwesterprodukt-Grenze
+
+LaunchBoards nutzt denselben Unterbau, besitzt aber einen eigenen
+QSettings-Namespace, Single-Instance-Endpunkt, ein eigenes Icon, Executable,
+eine eigene Store-Identität und einen getrennten Releasepfad. Die
+reproduzierbaren statischen, isolierten Parallelprozess- und Artefaktprüfungen
+sind in [PRODUCT_BOUNDARIES.md](PRODUCT_BOUNDARIES.md) dokumentiert.
 
 ## Technik
 
