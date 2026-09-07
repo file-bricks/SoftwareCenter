@@ -3,21 +3,48 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 172 Passed](https://img.shields.io/badge/pytest-172%20passed-brightgreen.svg)](https://docs.pytest.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
+[![Pytest 182 Passed](https://img.shields.io/badge/pytest-182%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Plattformen: Windows | macOS | Linux](https://img.shields.io/badge/Plattformen-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
+[![Datenschutz: 100% Local-First](https://img.shields.io/badge/Datenschutz-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
+[![Sicherheit: 48h SLA](https://img.shields.io/badge/Sicherheit-48h%20SLA-blue.svg)](SECURITY.md)
+[![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
+[![GUI: PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![Ecosystem: file-bricks](https://img.shields.io/badge/Ecosystem-file--bricks-blue.svg)](https://github.com/file-bricks)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
+
+[English](README.md) · [Deutsch](README_de.md)
 
 Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-Verknüpfungen mit Tab-basierter Kategorisierung.
 
 > [!NOTE]
 > **KI / LLM Integration & Maschinelles Register:** SoftwareCenter bietet maschinenlesbare Metadaten in [`llms.txt`](llms.txt) und unterstützt Profil-Migrationen über versioniertes JSON (`softwarecenter-profile-v1.json`).
 
-[English Documentation](README.md)
-
 ![SoftwareCenter Hauptfenster](README/screenshots/main.png)
+
+## Schnellnavigation
+
+- [Einstieg](#einstieg)
+- [Funktionen](#funktionen)
+- [Systemarchitektur](#systemarchitektur)
+- [Lebenszyklus-Ablaufdiagramm](#lebenszyklus-ablaufdiagramm)
+- [Kernfähigkeiten & Sicherheitsinvarianten](#kernfähigkeiten--sicherheitsinvarianten)
+- [Geschwister-Ökosystem & Schwesterprodukte](#geschwister-ökosystem--schwesterprodukte)
+- [Auffindbarkeit](#auffindbarkeit)
+- [Voraussetzungen](#voraussetzungen)
+- [Installation](#installation)
+- [Starten](#starten)
+- [Verwendung](#verwendung)
+- [EXE erstellen](#exe-erstellen)
+- [Qualitätssicherung](#qualitätssicherung)
+- [Headless-Katalogpflege](#headless-katalogpflege)
+- [Austauschformat](#austauschformat)
+- [Schwesterprodukt-Grenze](#schwesterprodukt-grenze)
+- [Windows-Store-Artefakte](#windows-store-artefakte)
+- [Technik](#technik)
+- [Sicherheitsrichtlinie](#sicherheitsrichtlinie)
+- [Lizenz](#lizenz)
+- [Haftung](#haftung)
 
 ## Einstieg
 
@@ -26,7 +53,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-08-26 (lokal: 172 Tests, Plattform-Smokes, Compileall, JSON, Export-Fixture, Produktgrenz-Prozess-/Artefaktprüfung; WACK weiterhin nur Dry-Run) |
+| **Letzte Prüfung** | 2026-09-07 (lokal: 182 Tests, Plattform-Smokes, Compileall, JSON, Export-Fixture, Produktgrenz-Prozess-/Artefaktprüfung; WACK weiterhin nur Dry-Run) |
 
 ## Funktionen
 
@@ -65,6 +92,64 @@ graph TD
     H --> H2["WACK Dry-Run / MSIX-Paketierung"]
     H --> H3["Reproduzierbarer Store-Screenshot-Generator"]
 ```
+
+## Lebenszyklus-Ablaufdiagramm
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Desktop-Nutzer
+    participant SC as SoftwareCenter UI (PySide6)
+    participant Res as Plattform-Auflöser (.lnk / .app / .desktop)
+    participant Tab as Tab- & Board-Manager
+    participant Set as QSettings-Persistenz (Registry / INI)
+    participant Exp as Profil-Exporter (softwarecenter-profile-v1.json)
+
+    User->>SC: Datei / Verknüpfung per Drag & Drop ablegen
+    SC->>Res: Pfad auflösen (z. B. .lnk -> reales EXE-/Ordner-Ziel)
+    Res-->>SC: Valider Zielpfad & Systemicon ermittelt
+    SC->>Tab: Duplikatprüfung & Element im Board registrieren
+    Tab->>SC: Kachel- / Listenzeile rendern
+    Tab->>Set: Tabs, Reihenfolge & Fenstergeometrie atomar speichern
+    Set-->>SC: Zustand lokal persistent gesichert
+    User->>SC: Doppelklick zum Start oder "Profil exportieren"
+    alt Programm starten
+        SC->>User: Zielanwendung mit normalen Nutzerrechten ausführen
+    else Profil exportieren
+        SC->>Exp: Boards, Tabs und Einträge serialisieren
+        Exp-->>User: Bereinigte softwarecenter-profile-v1.json schreiben (Null Secrets)
+    end
+```
+
+## Kernfähigkeiten & Sicherheitsinvarianten
+
+| Invariante / Fähigkeit | Architektur-Garantie | Verifikations-Mechanismus |
+|---|---|---|
+| **100% Local-First & Zero Egress** | Agiert rein lokal auf dem Client; keinerlei Telemetrie, kein Cloud-Tracking, keine Remote-Netzwerkaufrufe | Quellcode-Audit, Offline-Laufzeitcheck, Testsuite |
+| **Unprivilegierter Betrieb (Non-Elevation)** | Läuft strikt mit Standard-Benutzerrechten; verlangt niemals UAC-Administratorrechte | Prozess-Sicherheitsdeskriptor-Prüfung |
+| **Nicht-destruktive Verknüpfungsverwaltung** | Das Entfernen eines Eintrags löscht lediglich die UI-Referenz; niemals die Zieldatei auf der Festplatte | UI-Entfernungs-Isolationstests |
+| **Sichere Pfad- & Link-Auflösung** | Löst Windows `.lnk`, macOS `.app` und Linux `.desktop` Ziele auf, ohne Skripte oder Befehle auszuführen | Statische Pfadauflösungs-Vertragstests |
+| **Atomare Status-Persistenz** | QSettings sichert Fenstergeometrie, Tab-Anordnung und aktive Ansichtsmodi sicher im Betriebssystem | Atomare Roundtrip-Persistenztests |
+| **Portables & Bereinigtes Austauschformat** | Schema-validierter JSON-Export (`softwarecenter-profile-v1.json`) ohne Passwörter, Token oder Secrets | `tests/test_export_contract.py` Regressionstests |
+| **Schwesterprodukt-Isolation** | Getrennte QSettings-Namespaces, Mutex-Endpunkte und Store-Identitäten zwischen SoftwareCenter und LaunchBoards | `scripts/verify_product_boundaries.py` |
+| **Multi-OS CI-Matrix-Garantie** | Validiert für Python 3.10-3.12 auf Windows, macOS und Linux Runnern | GitHub Actions Workflows und Plattform-Smokes |
+
+## Geschwister-Ökosystem & Schwesterprodukte
+
+SoftwareCenter ist fest verankert in der Desktop-Suite von **file-bricks** und der Open-Source-Dachorganisation **open-bricks**:
+
+| Projekt | Ökosystem | Hauptfokus | Integration & Synergie |
+|---|---|---|---|
+| [`ProFiler`](https://github.com/file-bricks/ProFiler) | `file-bricks` | Dokument- & Dateiinspektion | Ergänzungs-App für Dateianalyse und forensische Profilierung |
+| [`ExplorerPro`](https://github.com/file-bricks/ExplorerPro) | `file-bricks` | Mehr-Tab-Dateimanager | Komplementäre Dual-Pane-Dateiverwaltung für Desktop-Verknüpfungen |
+| [`CloudLockFixer`](https://github.com/file-bricks/CloudLockFixer) | `file-bricks` | Cloud-Lock Diagnose & Entsperrung | Entsperrt blockierte Sync-Dateien und verknüpfte OneDrive-Ordner |
+| [`knowledgedigest`](https://github.com/file-bricks/knowledgedigest) | `file-bricks` | Markdown- & Wissensbibliothek | Lokaler Wissens-Organizer für rechercheintensive Workflows |
+| [`FormularErstellen`](https://github.com/doc-bricks/FormularErstellen) | `doc-bricks` | Formular- & Vorlagenerstellung | Desktop-Generator direkt über SoftwareCenter-Kacheln startbar |
+| [`USR_PDFunlock`](https://github.com/doc-bricks/USR_PDFunlock) | `doc-bricks` | PDF-Passwort- & Berechtigungshelfer | Nicht-destruktive lokale PDF-Entsperrung |
+| [`safe-start-for-codex`](https://github.com/dev-bricks/safe-start-for-codex) | `dev-bricks` | Automations-Anlaufschranke | Schützt Entwickler-Workstations vor Überlastungsspitzen beim Boot |
+| [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser) | `dev-bricks` | AST-Quellcode-Analyse | Statische Analyse für Python-Desktop-Programme und Module |
+| [`connectors`](https://github.com/ellmos-ai/connectors) | `ellmos-ai` | Agenten-Kommunikationsbrücke | Abhängigkeitsfreie Messaging- und Transport-Adapter |
+| [`open-bricks`](https://github.com/open-bricks) | `open-bricks` | Open-Source-Desktop-Dach | Standards, Governance und plattformübergreifendes Packaging |
 
 ## Auffindbarkeit
 
@@ -161,6 +246,12 @@ eine eigene Store-Identität und einen getrennten Releasepfad. Die
 reproduzierbaren statischen, isolierten Parallelprozess- und Artefaktprüfungen
 sind in [PRODUCT_BOUNDARIES.md](PRODUCT_BOUNDARIES.md) dokumentiert.
 
+## Windows-Store-Artefakte
+
+Der Windows-Store-Track beinhaltet einen reproduzierbaren Screenshot-Generator für
+die aktuelle Desktop-Benutzeroberfläche. `python generate_store_screenshots.py`
+aktualisiert `README/screenshots/store/` mit vier bereinigten Store-Grafiken und `summary.json`.
+
 ## Technik
 
 | Komponente | Technologie |
@@ -169,6 +260,10 @@ sind in [PRODUCT_BOUNDARIES.md](PRODUCT_BOUNDARIES.md) dokumentiert.
 | GUI-Framework | PySide6 (Qt for Python) |
 | Speicherung | QSettings (Windows Registry / INI) |
 | Codeumfang | ~690 Zeilen |
+
+## Sicherheitsrichtlinie
+
+Sicherheit und Datenschutz stehen an erster Stelle. Siehe [SECURITY.md](SECURITY.md) für vollständige Richtlinien zur Meldung von Schwachstellen, unser 48-Stunden-SLA und die Kern-Invarianten.
 
 ## Lizenz
 

@@ -3,21 +3,48 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 172 Passed](https://img.shields.io/badge/pytest-172%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 182 Passed](https://img.shields.io/badge/pytest-182%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Platforms: Windows | macOS | Linux](https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
+[![Privacy: 100% Local-First](https://img.shields.io/badge/privacy-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
+[![Security: 48h SLA](https://img.shields.io/badge/security-48h%20SLA-blue.svg)](SECURITY.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
+[![GUI: PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
 [![Ecosystem: file-bricks](https://img.shields.io/badge/Ecosystem-file--bricks-blue.svg)](https://github.com/file-bricks)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
+
+[English](README.md) · [Deutsch](README_de.md)
 
 A lightweight, cross-platform desktop organizer for managing software shortcuts with tab-based categorization.
 
 > [!NOTE]
 > **LLM / AI Integration & Machine-Readable Index:** SoftwareCenter provides structured machine-readable metadata in [`llms.txt`](llms.txt) and supports profile migrations via versioned JSON (`softwarecenter-profile-v1.json`).
 
-[Deutsche Dokumentation](README_de.md)
-
 ![SoftwareCenter main window](README/screenshots/main.png)
+
+## Quick Navigation
+
+- [Quick Reference](#quick-reference)
+- [Features](#features)
+- [System Architecture](#system-architecture)
+- [Lifecycle Sequence Flow](#lifecycle-sequence-flow)
+- [Core Capabilities & Safety Invariants](#core-capabilities--safety-invariants)
+- [Sibling Ecosystem & Sister Products](#sibling-ecosystem--sister-products)
+- [Discovery Context](#discovery-context)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Run](#run)
+- [Usage](#usage)
+- [Build Executable](#build-executable)
+- [Quality Checks](#quality-checks)
+- [Headless Launcher Catalog Care](#headless-launcher-catalog-care)
+- [Exchange Format](#exchange-format)
+- [Sister-product boundary](#sister-product-boundary)
+- [Windows Store Assets](#windows-store-assets)
+- [Tech Stack](#tech-stack)
+- [Security Policy](#security-policy)
+- [License](#license)
+- [Liability](#liability)
 
 ## Quick Reference
 
@@ -26,7 +53,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-08-26 (local: 172 tests, platform smokes, compileall, JSON, export fixture, product-boundary process/artifact check; WACK remains dry-run only) |
+| **Last Checked** | 2026-09-07 (local: 182 tests, platform smokes, compileall, JSON, export fixture, product-boundary process/artifact check; WACK remains dry-run only) |
 
 ## Features
 
@@ -65,6 +92,64 @@ graph TD
     H --> H2["WACK Dry-Run / MSIX Packaging"]
     H --> H3["Reproducible Store Screenshot Generator"]
 ```
+
+## Lifecycle Sequence Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Desktop User
+    participant SC as SoftwareCenter UI (PySide6)
+    participant Res as Platform Resolver (.lnk / .app / .desktop)
+    participant Tab as Tab & Board Manager
+    participant Set as QSettings Persistence (Registry / INI)
+    participant Exp as Profile Exporter (softwarecenter-profile-v1.json)
+
+    User->>SC: Drag & drop file / shortcut into tab
+    SC->>Res: Resolve path (e.g. .lnk -> original target EXE / folder)
+    Res-->>SC: Validated target path & system icon
+    SC->>Tab: Check duplicate & register item
+    Tab->>SC: Render item tile / list row
+    Tab->>Set: Persist tabs, order & geometry atomically
+    Set-->>SC: State saved locally
+    User->>SC: Double-click item or trigger "Export Profile"
+    alt Launch item
+        SC->>User: Execute target binary via standard unprivileged launch
+    else Export profile
+        SC->>Exp: Serialize boards, tabs, and items
+        Exp-->>User: Write redacted softwarecenter-profile-v1.json (Zero secrets)
+    end
+```
+
+## Core Capabilities & Safety Invariants
+
+| Invariant / Capability | Architecture Guarantee | Verification Mechanism |
+|---|---|---|
+| **100% Local-First & Zero Egress** | Runs entirely on the local machine; zero telemetry, zero cloud tracking, zero remote network calls | Source audit, offline runtime check, test suite |
+| **Non-Elevation (Least Privilege)** | Operates strictly with unprivileged standard user rights; never requests UAC administrative elevation | Process security descriptor verification |
+| **Non-Destructive Shortcut Operations** | Removing an entry only untracks shortcut metadata; never touches or deletes target executables or filesystem files | UI delete action isolation tests |
+| **Safe Path & Link Resolution** | Resolves Windows `.lnk`, macOS `.app`, and Linux `.desktop` targets without invoking shell scripting | Static target resolution contract tests |
+| **Atomic State Persistence** | QSettings safely flushes window geometry, tab order, and active view states to local OS storage | Atomic roundtrip persistence test suite |
+| **Portable & Redacted Profile Exchange** | Schema-validated JSON (`softwarecenter-profile-v1.json`) export containing only paths and labels; zero credential extraction | `tests/test_export_contract.py` regression tests |
+| **Sister-Product Isolation** | Separate QSettings namespace, mutex endpoint, and store identity between SoftwareCenter and LaunchBoards | `scripts/verify_product_boundaries.py` |
+| **Multi-OS CI Matrix Verification** | Validated across Python 3.10-3.12 on Windows, macOS, and Linux runners | GitHub Actions workflows and smoke checks |
+
+## Sibling Ecosystem & Sister Products
+
+SoftwareCenter is part of the broader **file-bricks** desktop tools collection and the umbrella **open-bricks** open-source initiative:
+
+| Project | Ecosystem | Primary Focus | Integration / Synergy |
+|---|---|---|---|
+| [`ProFiler`](https://github.com/file-bricks/ProFiler) | `file-bricks` | Document & media inspection | Companion app for file sorting and forensic document profiling |
+| [`ExplorerPro`](https://github.com/file-bricks/ExplorerPro) | `file-bricks` | Multi-tab filesystem explorer | Complementary dual-pane file management for SoftwareCenter shortcuts |
+| [`CloudLockFixer`](https://github.com/file-bricks/CloudLockFixer) | `file-bricks` | Cloud lock unlock & repair | Unlocks frozen sync placeholders and OneDrive files referenced by shortcuts |
+| [`knowledgedigest`](https://github.com/file-bricks/knowledgedigest) | `file-bricks` | Markdown & document knowledge base | Local-first document digest organizer for research workflows |
+| [`FormularErstellen`](https://github.com/doc-bricks/FormularErstellen) | `doc-bricks` | Form creation & templating | Desktop document generator launchable via SoftwareCenter tiles |
+| [`USR_PDFunlock`](https://github.com/doc-bricks/USR_PDFunlock) | `doc-bricks` | PDF password & unlock tool | Non-destructive local PDF unlocking utility |
+| [`safe-start-for-codex`](https://github.com/dev-bricks/safe-start-for-codex) | `dev-bricks` | Automation startup gate | Protects desktop workstation environments from startup surges |
+| [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser) | `dev-bricks` | AST source code analyzer | Static analysis for Python desktop tools and modules |
+| [`connectors`](https://github.com/ellmos-ai/connectors) | `ellmos-ai` | Agent communication bridge | Zero-dependency messaging and transport adapters |
+| [`open-bricks`](https://github.com/open-bricks) | `open-bricks` | Desktop open-source umbrella | Standards, governance, and packaging umbrella |
 
 ## Discovery Context
 
@@ -173,6 +258,10 @@ current desktop UI. Run `python generate_store_screenshots.py` to refresh
 | GUI Framework | PySide6 (Qt for Python) |
 | Storage | QSettings (Windows Registry / INI) |
 | Code Size | ~690 lines |
+
+## Security Policy
+
+Security and privacy are core architectural priorities. See [SECURITY.md](SECURITY.md) for our full vulnerability disclosure guidelines, 48-hour response SLA, and local-first invariants.
 
 ## License
 

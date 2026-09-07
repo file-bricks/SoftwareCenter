@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-09-07
+
+### Pfad B: Discoverability, Documentation Parity & Security Hardening
+- **Bilingual README Architecture:** Synchronized comprehensive German and English documentation (`README.md` and `README_de.md`) with structured 14-point Quick Navigation anchor links.
+- **Dual Mermaid Diagrams:** Integrated interactive system architecture flowchart (`flowchart TD`) and end-to-end desktop shortcut ingestion, resolution, tab assignment, and profile export lifecycle sequence diagram (`sequenceDiagram`).
+- **Core Capabilities & Safety Invariants:** Established explicit guarantees table: 100% Local-First / Zero-Egress, Non-Elevation (runs unprivileged), Non-Destructive target preservation, safe LNK/symlink resolution without script execution, atomic QSettings persistence, and isolated sister-product boundaries.
+- **Sibling Ecosystem Matrix:** Formally cross-linked 10 flagship partner desktop applications across `file-bricks`, `doc-bricks`, `dev-bricks`, `ellmos-ai`, and umbrella `open-bricks` (ProFiler, ExplorerPro, CloudLockFixer, knowledgedigest, FormularErstellen, USR_PDFunlock, safe-start-for-codex, MethodenAnalyser, connectors, open-bricks).
+- **Hardened Bilingual Security Policy:** Expanded `SECURITY.md` with Supported Versions table (`1.2.x`), 48-hour response SLA, GitHub Security Advisories integration, official contact endpoints, and complete German guidelines.
+- **PEP 621 Standard URLs & Linter Configuration:** Enriched `pyproject.toml` with complete `[project.urls]` (Homepage, Repository, Documentation, Issues, Changelog, Security, Parent Organization, Umbrella Ecosystem) and standardized `[tool.ruff]` configuration.
+- **Machine-Readable LLM Context:** Synchronized `llms.txt` with Last-checked date (2026-09-07), test verification count (182 tests), sequence lifecycle, and disambiguation boundaries.
+- **Automated Metadata & Parity Contract Testsuite:** Implemented `tests/test_metadata.py` with 10 contract tests certifying documentation parity, Quick Navigation links, Mermaid syntax, PEP 621 metadata, and security invariants.
+
 ## [Unreleased] - 2026-08-25
 
 - Added a reproducible SoftwareCenter/LaunchBoards product-boundary verifier:

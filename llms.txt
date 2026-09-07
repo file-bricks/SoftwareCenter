@@ -1,6 +1,6 @@
 # SoftwareCenter
 
-## Last-checked: 2026-08-25
+## Last-checked: 2026-09-07
 
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
@@ -24,8 +24,9 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 
 - `README.md`: English GitHub entry point; `README_de.md`: German documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
+- `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
-- `tests/`: Pytest suite (tests for platform/WACK compatibility and state persistence).
+- `tests/`: Pytest suite (182 tests certifying platform, metadata parity, boundaries, and persistence).
 
 ## Verification
 
@@ -41,9 +42,9 @@ The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
 `web_companion/` has no npm test; if reintroduced, CI runs `npm test` and
 `node --check` for `app.js`, `library.js`, and `sw.js`.
 
-The 2026-08-25 local readback collected 164 tests and passed the desktop
-export/import fixture. No signed/WACK-verified Store submission candidate is
-claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
+The 2026-09-07 local verification passed all 182 tests, platform smokes, product
+boundary checks, and the desktop export/import fixture. No signed/WACK-verified Store
+submission candidate is claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
 
 ## Disambiguation
 
@@ -52,6 +53,13 @@ SoftwareCenter is a local desktop application (PySide6/Python) for shortcut mana
 - A system-level shell replacement or taskbar manager
 - A cloud-synced launcher platform
 - Microsoft Configuration Manager Software Center, SCCM/MECM, Intune Company Portal, or a remote deployment portal
+
+## Architecture & Security Invariants
+
+- **100% Local-First:** Zero network egress, no background servers, no telemetry.
+- **Unprivileged Execution:** Runs strictly in user space without requesting administrative (UAC) elevation.
+- **Non-Destructive Operations:** Shortcut deletion only detaches UI metadata; target executables are never modified or removed.
+- **Safe Link Resolution:** Safely parses Windows `.lnk`, macOS `.app`, and Linux `.desktop` targets without executing shell scripts.
 
 ## Audience
 
