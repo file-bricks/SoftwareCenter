@@ -1,6 +1,6 @@
 # SoftwareCenter
 
-## Last-checked: 2026-09-07
+## Last-checked: 2026-09-08
 
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
@@ -26,7 +26,7 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 - `SoftwareCenter.py`: Main PySide6 application.
 - `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
-- `tests/`: Pytest suite (182 tests certifying platform, metadata parity, boundaries, and persistence).
+- `tests/`: Pytest suite (183 tests certifying platform, metadata parity, boundaries, persistence, and trusted WACK tool discovery).
 
 ## Verification
 
@@ -42,8 +42,8 @@ The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
 `web_companion/` has no npm test; if reintroduced, CI runs `npm test` and
 `node --check` for `app.js`, `library.js`, and `sw.js`.
 
-The 2026-09-07 local verification passed all 182 tests, platform smokes, product
-boundary checks, and the desktop export/import fixture. No signed/WACK-verified Store
+The 2026-09-08 local verification passed all 183 tests plus compile, lint,
+dependency, and trusted WACK tool-discovery checks. No signed/WACK-verified Store
 submission candidate is claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
 
 ## Disambiguation

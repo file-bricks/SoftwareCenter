@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 import ctypes
 import json
-import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
@@ -52,11 +51,6 @@ def find_appcert(explicit: Path | None = None) -> Path | None:
     if explicit is not None:
         candidate = explicit.expanduser().resolve()
         return candidate if candidate.exists() else None
-
-    for tool in ("appcert", "appcert.exe"):
-        found = shutil.which(tool)
-        if found:
-            return Path(found).resolve()
 
     if DEFAULT_APPCERT.exists():
         return DEFAULT_APPCERT.resolve()

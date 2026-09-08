@@ -1,4 +1,5 @@
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -8,6 +9,18 @@ from scripts import run_windows_wack as module
 
 
 class RunWindowsWackTests(unittest.TestCase):
+    def test_find_appcert_does_not_trust_path_lookup(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            untrusted = Path(tmpdir) / "appcert.exe"
+            untrusted.write_bytes(b"not the Windows SDK tool")
+
+            with mock.patch.object(module.Path, "exists", return_value=False), \
+                 mock.patch.object(shutil, "which", return_value=str(untrusted)) as which:
+                discovered = module.find_appcert()
+
+            self.assertIsNone(discovered)
+            which.assert_not_called()
+
     def test_expected_msix_path_uses_store_config_override(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

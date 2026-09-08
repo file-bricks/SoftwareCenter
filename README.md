@@ -3,7 +3,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 182 Passed](https://img.shields.io/badge/pytest-182%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 183 Passed](https://img.shields.io/badge/pytest-183%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Platforms: Windows | macOS | Linux](https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
 [![Privacy: 100% Local-First](https://img.shields.io/badge/privacy-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
 [![Security: 48h SLA](https://img.shields.io/badge/security-48h%20SLA-blue.svg)](SECURITY.md)
@@ -53,7 +53,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-09-07 (local: 182 tests, platform smokes, compileall, JSON, export fixture, product-boundary process/artifact check; WACK remains dry-run only) |
+| **Last Checked** | 2026-09-08 (local: 183 tests, compileall, Ruff, dependency audit, and WACK tool-discovery regression; WACK remains dry-run only) |
 
 ## Features
 

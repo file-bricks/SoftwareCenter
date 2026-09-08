@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-09-08
+
+### Security
+- The elevated WACK helper no longer discovers `appcert.exe` through the
+  inherited `PATH`; implicit discovery is restricted to Windows SDK locations,
+  while non-standard installations remain available through explicit
+  `--appcert` selection.
+
 ## [1.2.0] - 2026-09-07
 
 ### Pfad B: Discoverability, Documentation Parity & Security Hardening
