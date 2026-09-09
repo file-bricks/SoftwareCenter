@@ -17,7 +17,8 @@ from PySide6.QtWidgets import (
     QAbstractButton, QAbstractItemView, QApplication, QDockWidget, QMainWindow, QPushButton, QSizePolicy,
     QStyle, QToolButton, QWidget, QVBoxLayout, QListWidget,
     QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
-    QMessageBox, QMenu, QFileDialog, QSystemTrayIcon, QTabBar, QLineEdit, QWidgetAction
+    QMessageBox, QMenu, QFileDialog, QSystemTrayIcon, QTabBar, QLineEdit, QWidgetAction,
+    QDialog, QFormLayout, QDialogButtonBox, QTextEdit
 )
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from dataclasses import dataclass
@@ -460,11 +461,90 @@ def open_file(path: str) -> None:
     except Exception as e:
         QMessageBox.critical(None, "Fehler beim Starten", f"Konnte nicht starten:\n{path}\n\n{e}")
 
+
+def get_file_manager_action_title() -> str:
+    """Liefert den plattformspezifischen Titel für die Dateimanager-Aktion."""
+    if sys.platform.startswith("win"):
+        return "Im Explorer anzeigen"
+    elif sys.platform == "darwin":
+        return "Im Finder anzeigen"
+    return "Im Dateimanager anzeigen"
+
+
+def show_in_file_manager(path: str) -> None:
+    """Öffnet den Dateimanager (Explorer/Finder/xdg-open) und hebt die Datei hervor."""
+    if not isinstance(path, str) or not path.strip():
+        return
+    if not os.path.exists(path):
+        QMessageBox.warning(None, "Datei nicht gefunden", f"Pfad existiert nicht:\n{path}")
+        return
+    try:
+        norm_path = os.path.normpath(os.path.abspath(path))
+        if sys.platform.startswith("win"):
+            if os.path.isdir(norm_path):
+                subprocess.Popen(["explorer", norm_path])
+            else:
+                subprocess.Popen(["explorer", f"/select,{norm_path}"])
+        elif sys.platform == "darwin":
+            subprocess.Popen(["open", "-R", norm_path])
+        else:
+            target_dir = norm_path if os.path.isdir(norm_path) else os.path.dirname(norm_path)
+            subprocess.Popen(["xdg-open", target_dir])
+    except Exception as e:
+        QMessageBox.critical(
+            None, "Fehler beim Öffnen des Dateimanagers", f"Konnte Dateimanager nicht öffnen:\n{path}\n\n{e}"
+        )
+
+
+class EditEntryDialog(QDialog):
+    """Dialog zum Bearbeiten von Bezeichnung und Notizen eines Eintrags."""
+
+    def __init__(self, entry: dict, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Eintrag bearbeiten")
+        self.setMinimumWidth(420)
+
+        layout = QVBoxLayout(self)
+        form = QFormLayout()
+
+        path = entry.get("path") or ""
+        label = entry.get("label") or ""
+        notes = entry.get("notes") or ""
+
+        self.lbl_path = QLineEdit(path)
+        self.lbl_path.setReadOnly(True)
+        form.addRow("Pfad:", self.lbl_path)
+
+        self.edit_label = QLineEdit(label)
+        form.addRow("Bezeichnung:", self.edit_label)
+
+        self.edit_notes = QTextEdit()
+        self.edit_notes.setPlainText(notes)
+        self.edit_notes.setPlaceholderText("Optionale Notiz eingeben...")
+        self.edit_notes.setMaximumHeight(100)
+        form.addRow("Notiz:", self.edit_notes)
+
+        layout.addLayout(form)
+
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+        )
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+
+    def get_data(self) -> tuple[str, str | None]:
+        label = self.edit_label.text().strip()
+        notes = self.edit_notes.toPlainText().strip() or None
+        return label, notes
+
+
 class SoftwareListWidget(QListWidget):
     requestDelete = Signal(list)
     # Transfer zwischen Boards (Tabs): jeweils (entries: list[dict], target_index: int)
     requestMoveToBoard = Signal(list, int)
     requestCopyToBoard = Signal(list, int)
+    entriesChanged = Signal()
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAcceptDrops(True)
@@ -521,21 +601,82 @@ class SoftwareListWidget(QListWidget):
                     paths.append(p)
         if paths:
             self.add_paths(paths)
+            self.entriesChanged.emit()
             event.acceptProposedAction()
         else:
             event.ignore()
 
+    def sort_entries(self, ascending: bool = True):
+        """Sortiert die Einträge im aktuellen Board alphabetisch nach Bezeichnung."""
+        entries = self.get_all_entries()
+        if not entries:
+            return
+        entries.sort(key=lambda e: (e.get("label") or "").lower(), reverse=not ascending)
+        self.clear()
+        for entry in entries:
+            self._add_item(entry)
+        self.entriesChanged.emit()
+
+    def _edit_entry(self, item: QListWidgetItem):
+        """Öffnet den Dialog zum Bearbeiten von Bezeichnung und Notizen eines Eintrags."""
+        metadata = item.data(ENTRY_METADATA_ROLE)
+        if not isinstance(metadata, dict):
+            metadata = {
+                "path": item.data(Qt.ItemDataRole.UserRole),
+                "label": item.text(),
+                "kind": detect_entry_kind(item.data(Qt.ItemDataRole.UserRole)),
+                "notes": None,
+            }
+        dlg = EditEntryDialog(metadata, self)
+        if dlg.exec() == QDialog.DialogCode.Accepted:
+            new_label, new_notes = dlg.get_data()
+            if new_label:
+                metadata["label"] = new_label
+                item.setText(new_label)
+            metadata["notes"] = new_notes
+            path = metadata["path"]
+            item.setToolTip(f"{path}\n\nNotizen: {new_notes}" if new_notes else path)
+            item.setData(ENTRY_METADATA_ROLE, metadata)
+            self.entriesChanged.emit()
+
     def _on_context_menu(self, pos):
+        item_at_pos = self.itemAt(pos)
+        if item_at_pos and not item_at_pos.isSelected():
+            self.clearSelection()
+            item_at_pos.setSelected(True)
+            self.setCurrentItem(item_at_pos)
+
+        selected = self.selectedItems()
+        has_selection = bool(selected)
+
         menu = QMenu(self)
         act_open = menu.addAction("Öffnen/Starten")
+        act_open.setEnabled(has_selection)
+
+        act_show_fm = menu.addAction(get_file_manager_action_title())
+        act_show_fm.setEnabled(has_selection)
+
+        act_copy_path = menu.addAction("Pfad kopieren")
+        act_copy_path.setEnabled(has_selection)
+
+        act_edit = None
+        if len(selected) == 1:
+            act_edit = menu.addAction("Eintrag bearbeiten...")
+
+        menu.addSeparator()
+        act_sort = menu.addAction("Alphabetisch sortieren (A-Z)")
+        act_sort.setEnabled(self.count() > 1)
+
+        menu.addSeparator()
         act_del = menu.addAction("Löschen")
+        act_del.setEnabled(has_selection)
 
         # "Senden an" (verschieben) / "Duplizieren auf" (kopieren) nur anbieten,
         # wenn etwas ausgewählt ist UND mindestens ein anderes Board existiert.
         move_actions: dict = {}
         copy_actions: dict = {}
         boards = self.board_provider() if callable(self.board_provider) else []
-        if self.selectedItems() and boards:
+        if has_selection and boards:
             menu.addSeparator()
             move_menu = menu.addMenu("Senden an")
             copy_menu = menu.addMenu("Duplizieren auf")
@@ -551,6 +692,22 @@ class SoftwareListWidget(QListWidget):
             for item in self.selectedItems():
                 path = item.data(Qt.ItemDataRole.UserRole)
                 open_file(path)
+        elif action == act_show_fm:
+            for item in self.selectedItems():
+                path = item.data(Qt.ItemDataRole.UserRole)
+                show_in_file_manager(path)
+        elif action == act_copy_path:
+            paths = [it.data(Qt.ItemDataRole.UserRole) for it in self.selectedItems() if it.data(Qt.ItemDataRole.UserRole)]
+            if paths:
+                clipboard = QApplication.clipboard()
+                if clipboard:
+                    clipboard.setText("\n".join(paths))
+        elif act_edit and action == act_edit:
+            items = self.selectedItems()
+            if len(items) == 1:
+                self._edit_entry(items[0])
+        elif action == act_sort:
+            self.sort_entries(ascending=True)
         elif action == act_del:
             paths = [it.data(Qt.ItemDataRole.UserRole) for it in self.selectedItems()]
             if paths:
@@ -676,11 +833,14 @@ class SoftwareListWidget(QListWidget):
         self.add_entries(entries)
 
 class TabPage(QWidget):
+    entriesChanged = Signal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.view_mode = "tiles"
         self.list = SoftwareListWidget()
         self.list.requestDelete.connect(self.on_request_delete)
+        self.list.entriesChanged.connect(self.entriesChanged)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(6, 6, 6, 6)
         layout.addWidget(self.list)
@@ -709,6 +869,7 @@ class TabPage(QWidget):
         ret = QMessageBox.question(self, "Löschen bestätigen", msg)
         if ret == QMessageBox.StandardButton.Yes:
             self.list.remove_paths(paths)
+            self.entriesChanged.emit()
 
 class BoardsPanel(QWidget):
     """Rechtes Seitenfenster: verwaltet ALLE Boards (aktiv + geschlossen).
@@ -1021,6 +1182,8 @@ class MainWindow(QMainWindow):
             lambda transfer, target_index, source=page: self.move_entries_to_board(source, transfer, target_index)
         )
         page.list.requestCopyToBoard.connect(self.copy_entries_to_board)
+        page.entriesChanged.connect(self.save_settings)
+        page.entriesChanged.connect(self._refresh_boards_panel)
         idx = self.tabs.addTab(page, name or "Neuer Tab")
         self._update_tab_closable_state()
         self.tabs.setCurrentIndex(idx)
@@ -1737,6 +1900,7 @@ class MainWindow(QMainWindow):
             page = self.current_page()
             if page:
                 page.add_paths(paths)
+                page.entriesChanged.emit()
             self.save_settings()
             event.acceptProposedAction()
         else:

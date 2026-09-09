@@ -92,7 +92,7 @@ def test_readme_badges_parity_and_test_count():
 
     common_badges = [
         "python-3.10",
-        "pytest-183%20passed",
+        "pytest-196%20passed",
         "GUI-PySide6",
         "file--bricks",
         "open--bricks",
@@ -180,9 +180,9 @@ def test_llms_txt_structure_and_timestamp():
     assert llms_file.exists(), "llms.txt must exist"
     content = llms_file.read_text(encoding="utf-8")
 
-    assert "## Last-checked: 2026-09-08" in content
+    assert "## Last-checked: 2026-09-09" in content
     assert "https://github.com/file-bricks/SoftwareCenter" in content
-    assert "183 tests" in content
+    assert "196 tests" in content
     assert "Disambiguation" in content
 
 
@@ -191,8 +191,8 @@ def test_changelog_recent_entry():
     assert changelog_file.exists(), "CHANGELOG.md must exist"
     content = changelog_file.read_text(encoding="utf-8")
 
-    assert "2026-09-08" in content
-    assert "Pfad B" in content or "Discoverability" in content
+    assert "2026-09-09" in content
+    assert "Pfad B" in content or "Discoverability" in content or "Explorer" in content
 
 
 def test_git_hygiene_no_sync_conflicts():

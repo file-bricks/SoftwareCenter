@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-09-09
+
+### Added
+- Context menu file manager integration: "Im Explorer anzeigen" (Windows) / "Im Finder anzeigen" (macOS) / "Im Dateimanager anzeigen" (Linux) with active selection and highlighting.
+- Context menu "Pfad kopieren": copies entry paths directly to the system clipboard.
+- Context menu "Eintrag bearbeiten...": dialog allowing in-place editing of entry labels and optional notes.
+- Context menu "Alphabetisch sortieren (A-Z)": alphabetical in-place board sorting with persistent settings synchronization.
+- Reactive `entriesChanged` signal chain for automated persistence on sort, edit, and deletion.
+
 ## [Unreleased] - 2026-09-08
 
 ### Security
