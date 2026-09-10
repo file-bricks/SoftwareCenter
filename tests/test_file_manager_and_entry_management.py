@@ -171,7 +171,7 @@ class TestSoftwareListWidgetEnhancements:
                 created_actions.append(act.text())
             return None
 
-        with patch.object(sc.QMenu, "exec", side_effect=intercept_exec, autospec=True):
+        with patch.object(sc.SoftwareListWidget, "_exec_context_menu", side_effect=intercept_exec):
             widget._on_context_menu(QPoint(10, 10))
 
         assert "Öffnen/Starten" in created_actions
@@ -198,7 +198,7 @@ class TestSoftwareListWidgetEnhancements:
                     return act
             return None
 
-        with patch.object(sc.QMenu, "exec", side_effect=intercept_exec, autospec=True):
+        with patch.object(sc.SoftwareListWidget, "_exec_context_menu", side_effect=intercept_exec):
             widget._on_context_menu(QPoint(5, 5))
 
         assert clipboard.text() == f

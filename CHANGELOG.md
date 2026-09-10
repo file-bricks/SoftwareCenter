@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-09-10
 
+### Added
+- Rich list view item delegate (`SoftwareListItemDelegate`):
+  - Solves Task R7 ("LISTENANSICHT WIRKT HORIZONTAL LEER"): renders a structured two-column layout in list view.
+  - Left column: 24x24 icon and item label.
+  - Right column: secondary metadata displaying `notes` if set, otherwise the target path (middle-elided for clarity).
+  - Missing target detection: if a target path is missing or inaccessible, displays a clear warning indicator `[Nicht gefunden: <path>]` in warning color while keeping the item visible and preserved on the board (addressing ROADMAP robustness requirements).
+  - Dynamic palette support: text and secondary info adapt cleanly to selection highlight states.
+- Dedicated `_exec_context_menu` hook on `SoftwareListWidget` to prevent modal menu execution hangs during headless/offscreen test runs.
+- New test suite `tests/test_list_view_delegate.py` covering item delegate rendering, size hinting, notes, paths, missing targets, and icon-mode passthrough.
+
 ### Fixed
 - QMenu context menu mock delegation in automated test suites: delegated `QMenu.exec` to class mock when patched under PySide6/Shiboken6, preventing modal blocking during headless pytest runs.
 - Guarded clipboard copy in `SoftwareListWidget._on_context_menu` against `None` clipboard in headless environments and ensured string type safety.

@@ -11,14 +11,15 @@ import subprocess
 import sys
 import uuid
 from datetime import datetime, timezone
-from PySide6.QtCore import Qt, QSize, QFileInfo, Signal, QSettings, QTimer
-from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon
+from PySide6.QtCore import Qt, QSize, QRect, QPoint, QFileInfo, Signal, QSettings, QTimer
+from PySide6.QtGui import QAction, QActionGroup, QColor, QFont, QIcon, QPainter, QPalette
 from PySide6.QtWidgets import (
     QAbstractButton, QAbstractItemView, QApplication, QDockWidget, QMainWindow, QPushButton, QSizePolicy,
     QStyle, QToolButton, QWidget, QVBoxLayout, QListWidget,
     QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
     QMessageBox, QMenu, QFileDialog, QSystemTrayIcon, QTabBar, QLineEdit, QWidgetAction,
-    QDialog, QFormLayout, QDialogButtonBox, QTextEdit
+    QDialog, QFormLayout, QDialogButtonBox, QTextEdit,
+    QStyledItemDelegate, QStyleOptionViewItem
 )
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from dataclasses import dataclass
@@ -555,6 +556,111 @@ class EditEntryDialog(QDialog):
         return label, notes
 
 
+class SoftwareListItemDelegate(QStyledItemDelegate):
+    """Delegate für SoftwareListWidget:
+    - Im List-Modus: Horizontale Zweispaltigkeit (Icon + Bezeichnung links,
+      Notizen bzw. Pfad und ggf. Warnung bei fehlenden Zielen rechts).
+    - Im Kachel-Modus (IconMode): Standard-Rendering via Basisklasse unverändert.
+    """
+
+    def paint(self, painter: QPainter, option: QStyleOptionViewItem, index):
+        widget = option.widget
+        if not isinstance(widget, QListWidget) or widget.viewMode() != QListWidget.ViewMode.ListMode:
+            super().paint(painter, option, index)
+            return
+
+        painter.save()
+        widget.style().drawPrimitive(
+            widget.style().PrimitiveElement.PE_PanelItemViewItem,
+            option,
+            painter,
+            widget,
+        )
+
+        rect = option.rect
+        left_margin = 6
+        right_margin = 12
+        icon_size = option.decorationSize.width() or 24
+
+        # Icon zeichnen
+        icon = index.data(Qt.ItemDataRole.DecorationRole)
+        icon_rect = QRect(
+            rect.left() + left_margin,
+            rect.top() + (rect.height() - icon_size) // 2,
+            icon_size,
+            icon_size,
+        )
+        if icon and isinstance(icon, QIcon) and not icon.isNull():
+            icon.paint(painter, icon_rect, Qt.AlignmentFlag.AlignCenter)
+
+        label = index.data(Qt.ItemDataRole.DisplayRole) or ""
+        metadata = index.data(ENTRY_METADATA_ROLE) or {}
+        notes = metadata.get("notes") if isinstance(metadata, dict) else None
+        path = index.data(Qt.ItemDataRole.UserRole) or ""
+
+        is_missing = False
+        if path and not str(path).startswith(("http://", "https://")) and not os.path.exists(path):
+            is_missing = True
+
+        secondary_text = ""
+        if is_missing:
+            secondary_text = f"[Nicht gefunden: {path}]"
+        elif notes:
+            secondary_text = notes
+        elif path:
+            secondary_text = path
+
+        painter.setFont(option.font)
+        fm = painter.fontMetrics()
+
+        is_selected = bool(option.state & widget.style().StateFlag.State_Selected)
+        if is_selected:
+            text_color = option.palette.highlightedText().color()
+            sec_color = text_color
+        else:
+            text_color = option.palette.text().color()
+            if is_missing:
+                sec_color = QColor(204, 68, 68)
+            else:
+                sec_color = QColor(130, 130, 130)
+
+        text_left = icon_rect.right() + 8
+        available_width = rect.right() - right_margin - text_left
+
+        if available_width > 0:
+            label_max_width = min(fm.horizontalAdvance(label), int(available_width * 0.45))
+            label_rect = QRect(text_left, rect.top(), label_max_width + 8, rect.height())
+
+            painter.setPen(text_color)
+            elided_label = fm.elidedText(label, Qt.TextElideMode.ElideRight, label_rect.width())
+            painter.drawText(
+                label_rect,
+                Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft,
+                elided_label,
+            )
+
+            sec_left = label_rect.right() + 16
+            sec_width = rect.right() - right_margin - sec_left
+            if sec_width > 30 and secondary_text:
+                sec_rect = QRect(sec_left, rect.top(), sec_width, rect.height())
+                painter.setPen(sec_color)
+                elide_mode = Qt.TextElideMode.ElideMiddle if not notes and not is_missing else Qt.TextElideMode.ElideRight
+                elided_sec = fm.elidedText(secondary_text, elide_mode, sec_width)
+                painter.drawText(
+                    sec_rect,
+                    Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft,
+                    elided_sec,
+                )
+
+        painter.restore()
+
+    def sizeHint(self, option: QStyleOptionViewItem, index):
+        widget = option.widget
+        if isinstance(widget, QListWidget) and widget.viewMode() == QListWidget.ViewMode.ListMode:
+            return QSize(option.rect.width(), 32)
+        return super().sizeHint(option, index)
+
+
 class SoftwareListWidget(QListWidget):
     requestDelete = Signal(list)
     # Transfer zwischen Boards (Tabs): jeweils (entries: list[dict], target_index: int)
@@ -573,6 +679,7 @@ class SoftwareListWidget(QListWidget):
         # Wird von MainWindow.add_new_tab gesetzt; ohne Provider bleiben die
         # Transfer-Submenues ausgeblendet (z. B. bei isolierter Nutzung in Tests).
         self.board_provider = None
+        self.setItemDelegate(SoftwareListItemDelegate(self))
         self.configure_as_tiles()
 
     def configure_as_tiles(self):
@@ -657,6 +764,17 @@ class SoftwareListWidget(QListWidget):
             item.setData(ENTRY_METADATA_ROLE, metadata)
             self.entriesChanged.emit()
 
+    def _exec_context_menu(self, menu: QMenu, pos: QPoint):
+        """Führt das Kontextmenü an der angegebenen Position aus.
+        Im Offscreen-/Headless-Modus wird unbeabsichtigtes Blockieren abgefangen,
+        sofern nicht explizit in Tests freigegeben oder gemockt.
+        """
+        if os.environ.get("QT_QPA_PLATFORM") == "offscreen" and not getattr(self, "_allow_modal_menu_in_test", False):
+            if QMenu.exec is not _ORIGINAL_QMENU_EXEC:
+                return _exec_menu(menu, pos)
+            return None
+        return _exec_menu(menu, pos)
+
     def _on_context_menu(self, pos):
         item_at_pos = self.itemAt(pos)
         if item_at_pos and not item_at_pos.isSelected():
@@ -703,7 +821,7 @@ class SoftwareListWidget(QListWidget):
                 copy_actions[copy_menu.addAction(name)] = index
 
         global_pos = self.viewport().mapToGlobal(pos)
-        action = _exec_menu(menu, global_pos)
+        action = self._exec_context_menu(menu, global_pos)
         if action is None:
             return
         if action == act_open:
