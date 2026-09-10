@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-09-10
+
+### Fixed
+- QMenu context menu mock delegation in automated test suites: delegated `QMenu.exec` to class mock when patched under PySide6/Shiboken6, preventing modal blocking during headless pytest runs.
+- Guarded clipboard copy in `SoftwareListWidget._on_context_menu` against `None` clipboard in headless environments and ensured string type safety.
+- Hardened `_edit_entry` with null checks and safe fallback defaults for entry metadata.
+
 ## [Unreleased] - 2026-09-09
 
 ### Added

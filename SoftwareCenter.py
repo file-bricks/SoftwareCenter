@@ -24,6 +24,22 @@ from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from dataclasses import dataclass
 
 _USER_SUFFIX = os.environ.get("USERNAME") or "user"
+_ORIGINAL_QMENU_EXEC = QMenu.exec
+
+
+def _exec_menu(menu: QMenu, pos=None):
+    """Führt ein QMenu aus und delegiert sauber, falls QMenu.exec gemockt ist.
+
+    In PySide6 / Shiboken6 ist QMenu.exec auf Klassenebene eine statische C++-Methode,
+    während neu instanziierte QMenu-Objekte ihre Instanzmethode direkt über C++ aufrufen.
+    Wird QMenu.exec in Tests via unittest.mock.patch.object gemockt, wird menu.exec()
+    von Shiboken nicht an das Klassen-Mock delegiert und blockiert als modales Menü.
+    Diese Hilfsfunktion prüft, ob QMenu.exec gemockt wurde, und ruft in diesem
+    Fall explizit das gemockte Objekt mit der Menü-Instanz auf.
+    """
+    if QMenu.exec is not _ORIGINAL_QMENU_EXEC:
+        return QMenu.exec(menu, pos) if pos is not None else QMenu.exec(menu)
+    return menu.exec(pos) if pos is not None else menu.exec()
 
 
 @dataclass(frozen=True)
@@ -619,6 +635,8 @@ class SoftwareListWidget(QListWidget):
 
     def _edit_entry(self, item: QListWidgetItem):
         """Öffnet den Dialog zum Bearbeiten von Bezeichnung und Notizen eines Eintrags."""
+        if item is None:
+            return
         metadata = item.data(ENTRY_METADATA_ROLE)
         if not isinstance(metadata, dict):
             metadata = {
@@ -634,7 +652,7 @@ class SoftwareListWidget(QListWidget):
                 metadata["label"] = new_label
                 item.setText(new_label)
             metadata["notes"] = new_notes
-            path = metadata["path"]
+            path = metadata.get("path") or ""
             item.setToolTip(f"{path}\n\nNotizen: {new_notes}" if new_notes else path)
             item.setData(ENTRY_METADATA_ROLE, metadata)
             self.entriesChanged.emit()
@@ -685,7 +703,7 @@ class SoftwareListWidget(QListWidget):
                 copy_actions[copy_menu.addAction(name)] = index
 
         global_pos = self.viewport().mapToGlobal(pos)
-        action = menu.exec(global_pos)
+        action = _exec_menu(menu, global_pos)
         if action is None:
             return
         if action == act_open:
@@ -697,10 +715,14 @@ class SoftwareListWidget(QListWidget):
                 path = item.data(Qt.ItemDataRole.UserRole)
                 show_in_file_manager(path)
         elif action == act_copy_path:
-            paths = [it.data(Qt.ItemDataRole.UserRole) for it in self.selectedItems() if it.data(Qt.ItemDataRole.UserRole)]
+            paths = [
+                str(it.data(Qt.ItemDataRole.UserRole))
+                for it in self.selectedItems()
+                if it.data(Qt.ItemDataRole.UserRole)
+            ]
             if paths:
                 clipboard = QApplication.clipboard()
-                if clipboard:
+                if clipboard is not None:
                     clipboard.setText("\n".join(paths))
         elif act_edit and action == act_edit:
             items = self.selectedItems()
@@ -964,7 +986,7 @@ class BoardsPanel(QWidget):
             act_fav = menu.addAction("Favorit entfernen" if is_fav else "Favorit")
         icon = self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon)
         act_del = menu.addAction(icon, "Löschen")
-        action = menu.exec(list_widget.viewport().mapToGlobal(pos))
+        action = _exec_menu(menu, list_widget.viewport().mapToGlobal(pos))
         if action is None:
             return
         if act_fav is not None and action == act_fav:
