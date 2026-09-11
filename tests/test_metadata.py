@@ -11,17 +11,25 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_readme_files_exist_and_language_switch():
     readme_en = ROOT / "README.md"
     readme_de = ROOT / "README_de.md"
+    readme_es = ROOT / "README.es.md"
 
     assert readme_en.exists(), "README.md must exist"
     assert readme_de.exists(), "README_de.md must exist"
+    assert readme_es.exists(), "README.es.md must exist"
 
     text_en = readme_en.read_text(encoding="utf-8")
     text_de = readme_de.read_text(encoding="utf-8")
+    text_es = readme_es.read_text(encoding="utf-8")
 
     assert "[English](README.md)" in text_en
     assert "[Deutsch](README_de.md)" in text_en
+    assert "[Español](README.es.md)" in text_en
     assert "[English](README.md)" in text_de
     assert "[Deutsch](README_de.md)" in text_de
+    assert "[Español](README.es.md)" in text_de
+    assert "[English](README.md)" in text_es
+    assert "[Deutsch](README_de.md)" in text_es
+    assert "[Español](README.es.md)" in text_es
 
 
 def test_readme_quick_navigation_anchors():
@@ -78,6 +86,7 @@ def test_readme_quick_navigation_anchors():
 def test_readme_contains_mermaid_diagrams():
     text_en = (ROOT / "README.md").read_text(encoding="utf-8")
     text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
 
     assert "```mermaid\ngraph TD" in text_en
     assert "```mermaid\nsequenceDiagram" in text_en
@@ -85,14 +94,18 @@ def test_readme_contains_mermaid_diagrams():
     assert "```mermaid\ngraph TD" in text_de
     assert "```mermaid\nsequenceDiagram" in text_de
 
+    assert "```mermaid\ngraph TD" in text_es
+    assert "```mermaid\nsequenceDiagram" in text_es
+
 
 def test_readme_badges_parity_and_test_count():
     text_en = (ROOT / "README.md").read_text(encoding="utf-8")
     text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
 
     common_badges = [
         "python-3.10",
-        "pytest-209%20passed",
+        "pytest-223%20passed",
         "GUI-PySide6",
         "file--bricks",
         "open--bricks",
@@ -101,9 +114,11 @@ def test_readme_badges_parity_and_test_count():
     for badge in common_badges:
         assert badge in text_en, f"Missing badge {badge} in README.md"
         assert badge in text_de, f"Missing badge {badge} in README_de.md"
+        assert badge in text_es, f"Missing badge {badge} in README.es.md"
 
     assert "License-MIT" in text_en
     assert "Lizenz-MIT" in text_de or "License-MIT" in text_de
+    assert "Licencia-MIT" in text_es or "License-MIT" in text_es
 
 
 def test_security_policy_bilingual_and_sla_invariants():
@@ -170,6 +185,7 @@ def test_pyproject_pep621_metadata_and_urls():
 def test_sibling_ecosystem_table_links():
     text_en = (ROOT / "README.md").read_text(encoding="utf-8")
     text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
 
     for sibling in [
         "https://github.com/file-bricks/ProFiler",
@@ -185,6 +201,7 @@ def test_sibling_ecosystem_table_links():
     ]:
         assert sibling in text_en, f"Missing sibling {sibling} in README.md"
         assert sibling in text_de, f"Missing sibling {sibling} in README_de.md"
+        assert sibling in text_es, f"Missing sibling {sibling} in README.es.md"
 
 
 def test_llms_txt_structure_and_timestamp():
@@ -194,7 +211,7 @@ def test_llms_txt_structure_and_timestamp():
 
     assert "## Last-checked: 2026-09-11" in content
     assert "https://github.com/file-bricks/SoftwareCenter" in content
-    assert "209 tests" in content
+    assert "223 tests" in content
     assert "Disambiguation" in content
     assert "MARKETING-LOG.txt" in content
 

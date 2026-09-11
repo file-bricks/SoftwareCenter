@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-09-11
 
+### Internationalization (Tier-2 6-Language Expansion, Policy P-006)
+- Expanded multi-language support to the full Policy P-006 Tier-2 standard: German (DE), English (EN), Spanish (ES), Chinese (ZH), Japanese (JA), and Russian (RU).
+- Modernized `translator.py` with 4-stage deterministic fallback (`target -> en -> de -> key`), singleton accessor `get_translator()`, shortcut `t()`, and system locale detection.
+- Extracted and translated 85 comprehensive GUI strings across all 6 languages in `locales/translations.json` with 100% parity and schema integrity.
+- Added language selection menu with exclusive radio group to `MainWindow` in `SoftwareCenter.py`, dynamic `retranslate_ui()` support, and QSettings persistence.
+- Enhanced `manage_translations.py` with `--check` validator, directory filtering, and comprehensive PySide6 regex extractors.
+- Added Spanish documentation parity with `README.es.md` including Spanish Quick Navigation, dual Mermaid diagrams, and sibling ecosystem cross-links.
+- Implemented comprehensive contract test suite `tests/test_i18n.py` (14 new tests) certifying catalog completeness, fallback chains, GUI language switching, and persistence (223 tests passing total).
+
 ### Pfad A: Technical Hygiene, CI Hardening & Marketing Certification
 - Configured multi-ruleset linting (`E`, `F`, `W`, `I`, `UP`, `B`, `SIM`, `C4`, `RUF`) in `pyproject.toml` and resolved all linter diagnostics.
 - Modernized dictionary handling to `dict()`, simplified boolean returns, unified nested conditional logic, and resolved implicit `Optional` type hints across codebase.

@@ -22,12 +22,12 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 
 ## Important Files
 
-- `README.md`: English GitHub entry point; `README_de.md`: German documentation.
+- `README.md`: English GitHub entry point; `README_de.md`: German documentation; `README.es.md`: Spanish documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
 - `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
 - `MARKETING-LOG.txt`: Target personas, dual-language search term matrices, competitive comparison, and governance invariants.
-- `tests/`: Pytest suite (209 tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, and trusted WACK tool discovery).
+- `tests/`: Pytest suite (223 tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, Tier-2 6-language internationalization, and trusted WACK tool discovery).
 
 ## Verification
 
@@ -44,7 +44,7 @@ The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
 `web_companion/` has no npm test; if reintroduced, CI runs `npm test` and
 `node --check` for `app.js`, `library.js`, and `sw.js`.
 
-The 2026-09-11 local verification passed all 209 tests plus compile, multi-rule ruff lint,
+The 2026-09-11 local verification passed all 223 tests plus compile, multi-rule ruff lint,
 dependency, file manager integration, and trusted WACK tool-discovery checks. No signed/WACK-verified Store
 submission candidate is claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
 

@@ -49,6 +49,13 @@ from PySide6.QtWidgets import (
     QWidgetAction,
 )
 
+from translator import (
+    LANGUAGE_DISPLAY_NAMES,
+    SUPPORTED_LANGUAGES,
+    get_translator,
+    t,
+)
+
 _USER_SUFFIX = os.environ.get("USERNAME") or "user"
 _ORIGINAL_QMENU_EXEC = QMenu.exec
 
@@ -1164,6 +1171,7 @@ class MainWindow(QMainWindow):
         self._tray_setup_token = 0
         self._tray_dynamic_actions: list = []
         self._tray_footer_marker = None
+        self.translator = get_translator()
         self._build_menu()
         self._build_toolbar()
         self._build_boards_panel()
@@ -1173,28 +1181,75 @@ class MainWindow(QMainWindow):
         self._refresh_boards_panel()
 
     def _build_menu(self):
-        file_menu = self.menuBar().addMenu("Datei")
-        self.act_export_profile = QAction("Profil exportieren", self)
-        self.act_import_profile = QAction("Profil importieren", self)
+        file_menu = self.menuBar().addMenu(t("Datei"))
+        self.file_menu = file_menu
+        self.act_export_profile = QAction(t("Profil exportieren"), self)
+        self.act_import_profile = QAction(t("Profil importieren"), self)
         self.act_export_profile.triggered.connect(self.export_profile)
         self.act_import_profile.triggered.connect(self.import_profile)
         file_menu.addAction(self.act_export_profile)
         file_menu.addAction(self.act_import_profile)
         file_menu.addSeparator()
+        self.lang_menu = file_menu.addMenu(t("Sprache"))
+        self.lang_action_group = QActionGroup(self)
+        self.lang_action_group.setExclusive(True)
+        self.lang_actions = {}
+        for code in SUPPORTED_LANGUAGES:
+            name = LANGUAGE_DISPLAY_NAMES.get(code, code)
+            act = QAction(name, self, checkable=True)
+            if code == self.translator.get_language():
+                act.setChecked(True)
+            act.triggered.connect(lambda checked=False, c=code: self.set_language(c))
+            self.lang_action_group.addAction(act)
+            self.lang_menu.addAction(act)
+            self.lang_actions[code] = act
+        file_menu.addSeparator()
         # Systemtray-Einstellung: bei aktiviert wandert die App beim Schließen in den Tray.
-        self.act_minimize_to_tray = QAction("Beim Schließen in Systemtray minimieren", self, checkable=True)
+        self.act_minimize_to_tray = QAction(t("Beim Schließen in Systemtray minimieren"), self, checkable=True)
         self.act_minimize_to_tray.setChecked(self._tray_enabled())
         self.act_minimize_to_tray.toggled.connect(self._on_toggle_tray)
         file_menu.addAction(self.act_minimize_to_tray)
         # Simple Mode: Board-Panel zeigt nur den Verlauf, keine Favoriten (siehe BoardsPanel).
-        self.act_simple_mode = QAction("Einfacher Modus (Board-Verlauf ohne Favoriten)", self, checkable=True)
+        self.act_simple_mode = QAction(t("Einfacher Modus (Board-Verlauf ohne Favoriten)"), self, checkable=True)
         self.act_simple_mode.setChecked(self._simple_mode_enabled())
         self.act_simple_mode.toggled.connect(self._on_toggle_simple_mode)
         file_menu.addAction(self.act_simple_mode)
         file_menu.addSeparator()
-        self.act_quit = QAction("Beenden", self)
+        self.act_quit = QAction(t("Beenden"), self)
         self.act_quit.triggered.connect(self.quit_app)
         file_menu.addAction(self.act_quit)
+
+    def set_language(self, lang: str):
+        """Setzt die UI-Sprache und aktualisiert die Beschriftungen."""
+        if lang in SUPPORTED_LANGUAGES:
+            self.translator.set_language(lang)
+            self.settings.setValue("language", lang)
+            if hasattr(self, "lang_actions") and lang in self.lang_actions:
+                self.lang_actions[lang].setChecked(True)
+            self.retranslate_ui()
+
+    def retranslate_ui(self):
+        """Aktualisiert alle übersetzbaren UI-Texte im Hauptfenster."""
+        if hasattr(self, "file_menu"):
+            self.file_menu.setTitle(t("Datei"))
+        if hasattr(self, "lang_menu"):
+            self.lang_menu.setTitle(t("Sprache"))
+        if hasattr(self, "act_export_profile"):
+            self.act_export_profile.setText(t("Profil exportieren"))
+        if hasattr(self, "act_import_profile"):
+            self.act_import_profile.setText(t("Profil importieren"))
+        if hasattr(self, "act_minimize_to_tray"):
+            self.act_minimize_to_tray.setText(t("Beim Schließen in Systemtray minimieren"))
+        if hasattr(self, "act_simple_mode"):
+            self.act_simple_mode.setText(t("Einfacher Modus (Board-Verlauf ohne Favoriten)"))
+        if hasattr(self, "act_quit"):
+            self.act_quit.setText(t("Beenden"))
+        if hasattr(self, "act_view_tiles"):
+            self.act_view_tiles.setText(t("Kacheln"))
+        if hasattr(self, "act_view_list"):
+            self.act_view_list.setText(t("Liste"))
+        if hasattr(self, "act_toggle_boards_panel"):
+            self.act_toggle_boards_panel.setToolTip(t("Board-Verwaltung ein-/ausblenden"))
 
     def _build_toolbar(self):
         tb = QToolBar("Hauptleiste")
@@ -1665,9 +1720,13 @@ class MainWindow(QMainWindow):
             settings.setValue("favorite", board["id"] in self.favorites)
             settings.setValue("closed_at", board["closed_at"])
         settings.endArray()
+        settings.setValue("language", self.translator.get_language())
 
     def load_settings(self):
         settings = self.settings
+        saved_lang = settings.value("language", "")
+        if saved_lang and saved_lang in SUPPORTED_LANGUAGES:
+            self.set_language(saved_lang)
         if settings.value("geometry"):
             self.restoreGeometry(settings.value("geometry"))
         if settings.value("windowState"):
