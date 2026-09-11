@@ -7,7 +7,7 @@ from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import SoftwareCenter as sc  # noqa: E402
+import SoftwareCenter as sc
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 _app = QApplication.instance() or QApplication([])

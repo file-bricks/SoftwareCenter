@@ -8,7 +8,7 @@ SoftwareCenter und LaunchBoards parallel mit getrennten Profilen.
 Falls LaunchBoards später eigene Features bekommt (z.B. Zeichnen auf Boards),
 kann es anhand dieser Trennung sauber in ein eigenes Repo ausgegliedert werden.
 """
-from SoftwareCenter import main, PROFILE_LAUNCHBOARDS
+from SoftwareCenter import PROFILE_LAUNCHBOARDS, main
 
 if __name__ == "__main__":
     main(PROFILE_LAUNCHBOARDS)

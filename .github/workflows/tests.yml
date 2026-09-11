@@ -10,9 +10,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -37,7 +42,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt pytest
+          python -m pip install -r requirements.txt pytest ruff
+      - name: Lint with ruff
+        run: ruff check .
       - name: Run regression tests
         run: python -m pytest -q
       - name: Compile Python modules
@@ -62,6 +69,7 @@ jobs:
 
   linux-platform-smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       QT_QPA_PLATFORM: offscreen
       PYTHONIOENCODING: utf-8
@@ -83,6 +91,7 @@ jobs:
 
   macos-platform-smoke:
     runs-on: macos-latest
+    timeout-minutes: 15
     env:
       QT_QPA_PLATFORM: offscreen
       PYTHONIOENCODING: utf-8

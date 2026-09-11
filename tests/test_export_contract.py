@@ -15,7 +15,6 @@ from PySide6.QtWidgets import QApplication
 
 import SoftwareCenter as sc
 
-
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tests" / "fixtures" / "profile_export_redacted.json"
 

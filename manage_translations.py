@@ -8,8 +8,8 @@ Verwendung:
 """
 
 import json
-import re
 import os
+import re
 import sys
 
 TRANSLATION_FILE = "locales/translations.json"
@@ -47,7 +47,7 @@ def find_german_strings(source_dir):
             if file.endswith(".py"):
                 path = os.path.join(root, file)
                 try:
-                    with open(path, "r", encoding="utf-8") as f:
+                    with open(path, encoding="utf-8") as f:
                         content = f.read()
                 except Exception:
                     continue
@@ -62,7 +62,7 @@ def manage_translations(source_dir="."):
     trans_file = os.path.join(source_dir, TRANSLATION_FILE)
 
     if os.path.exists(trans_file):
-        with open(trans_file, "r", encoding="utf-8") as f:
+        with open(trans_file, encoding="utf-8") as f:
             try:
                 translations = json.load(f)
             except json.JSONDecodeError:

@@ -12,7 +12,6 @@ Batch #21 (2026-06-21):
 """
 
 import inspect
-import json
 import os
 import tempfile
 from pathlib import Path
@@ -20,10 +19,10 @@ from unittest.mock import patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-import SoftwareCenter as module
 from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication, QMessageBox
-from SoftwareCenter import TabPage, MainWindow
+
+from SoftwareCenter import MainWindow, TabPage
 
 _APP = QApplication.instance() or QApplication([])
 _APP.setQuitOnLastWindowClosed(False)
@@ -201,8 +200,9 @@ class TestBugsweep41PathGuard:
         assert default_entry_label("") == ""
 
     def test_selected_entries_handles_items_without_userrole(self):
-        from SoftwareCenter import SoftwareListWidget
         from PySide6.QtWidgets import QListWidgetItem
+
+        from SoftwareCenter import SoftwareListWidget
         widget = SoftwareListWidget()
         item = QListWidgetItem("Orphan Item")
         widget.addItem(item)

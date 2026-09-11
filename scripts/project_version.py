@@ -6,7 +6,6 @@ import argparse
 import re
 from pathlib import Path
 
-
 _SAFE_VERSION = re.compile(r"^[A-Za-z0-9]+(?:[._+-][A-Za-z0-9]+)*$")
 
 

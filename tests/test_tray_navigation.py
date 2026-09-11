@@ -18,10 +18,11 @@ from unittest.mock import patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-import SoftwareCenter as sc
 from PySide6.QtCore import QSettings
 from PySide6.QtGui import QCloseEvent, QIcon
 from PySide6.QtWidgets import QApplication, QLineEdit, QMessageBox, QSystemTrayIcon, QWidgetAction
+
+import SoftwareCenter as sc
 
 _APP = QApplication.instance() or QApplication([])
 _APP.setQuitOnLastWindowClosed(False)

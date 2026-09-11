@@ -10,10 +10,10 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-import SoftwareCenter as module
 from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication
 
+import SoftwareCenter as module
 from SoftwareCenter import MainWindow, profile_export_data
 
 

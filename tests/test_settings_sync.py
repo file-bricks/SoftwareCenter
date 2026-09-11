@@ -1,16 +1,16 @@
+import json
 import os
 import tempfile
 import unittest
-import json
 from pathlib import Path
 from unittest import mock
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-import SoftwareCenter as module
 from PySide6.QtCore import QSettings
 from PySide6.QtWidgets import QApplication, QTabBar
 
+import SoftwareCenter as module
 from SoftwareCenter import MainWindow
 
 

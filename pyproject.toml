@@ -28,6 +28,11 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
     "Topic :: Desktop Environment",
     "Topic :: Utilities",
 ]
@@ -40,13 +45,16 @@ Homepage = "https://github.com/file-bricks/SoftwareCenter"
 Repository = "https://github.com/file-bricks/SoftwareCenter"
 Documentation = "https://github.com/file-bricks/SoftwareCenter#readme"
 Issues = "https://github.com/file-bricks/SoftwareCenter/issues"
+"Bug Tracker" = "https://github.com/file-bricks/SoftwareCenter/issues"
 Changelog = "https://github.com/file-bricks/SoftwareCenter/blob/master/CHANGELOG.md"
 Security = "https://github.com/file-bricks/SoftwareCenter/blob/master/SECURITY.md"
 "Parent Organization" = "https://github.com/file-bricks"
 "Umbrella Ecosystem" = "https://github.com/open-bricks"
+"LLM Ready" = "https://github.com/file-bricks/SoftwareCenter/blob/master/llms.txt"
+"Marketing Log" = "https://github.com/file-bricks/SoftwareCenter/blob/master/MARKETING-LOG.txt"
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py310"
 exclude = [
     ".git",
@@ -57,6 +65,14 @@ exclude = [
     "releases",
 ]
 
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "RUF"]
+ignore = ["E501", "UP009", "RUF001"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*_platform_smoke.py" = ["E402"]
+
 [tool.pytest.ini_options]
+addopts = "-ra -v"
 pythonpath = "."
 testpaths = ["tests"]

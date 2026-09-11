@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 """Regressionstests fuer Bug-Sweep: QMenu.exec Delegation und Clipboard-Robustheit."""
 import os
-import sys
 from pathlib import Path
 from unittest.mock import patch
 
-import pytest
-
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-import SoftwareCenter as sc
-from PySide6.QtCore import QPoint, Qt
+from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QApplication
+
+import SoftwareCenter as sc
 
 _APP = QApplication.instance() or QApplication([])
 

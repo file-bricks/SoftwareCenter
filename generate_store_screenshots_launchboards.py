@@ -13,7 +13,7 @@ os.environ.setdefault("QT_SCALE_FACTOR", "1")
 # Import bewusst erst hier: QT_SCALE_FACTOR muss vor dem Qt-Import stehen.
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from SoftwareCenter import MainWindow, PROFILE_LAUNCHBOARDS
+from SoftwareCenter import PROFILE_LAUNCHBOARDS, MainWindow
 
 MIN_STORE_WIDTH = 1366
 MIN_STORE_HEIGHT = 768

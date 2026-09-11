@@ -12,7 +12,7 @@ def test_store_package_json_exists_and_valid():
     store_json_path = PROJECT_ROOT / "store_package.json"
     assert store_json_path.exists(), "store_package.json must exist in project root"
 
-    with open(store_json_path, "r", encoding="utf-8") as f:
+    with open(store_json_path, encoding="utf-8") as f:
         data = json.load(f)
 
     assert data.get("app_name") == "SoftwareCenter"

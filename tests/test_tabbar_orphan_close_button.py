@@ -21,7 +21,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtWidgets import QAbstractButton, QTabBar
 

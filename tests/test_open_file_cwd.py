@@ -13,7 +13,7 @@ import time
 import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import SoftwareCenter as sc  # noqa: E402
+import SoftwareCenter as sc
 
 pytestmark = pytest.mark.skipif(not sys.platform.startswith("win"),
                                 reason="cwd-Start via ShellExecuteW ist Windows-spezifisch")
@@ -24,10 +24,10 @@ def test_startfile_sets_working_directory(tmp_path):
     ziel = tmp_path / "ziel"
     ziel.mkdir()
     bat = tmp_path / "probe.bat"
-    bat.write_text('@echo off\r\ncd > "%s"\r\n' % out, encoding="ascii")
+    bat.write_text(f'@echo off\r\ncd > "{out}"\r\n', encoding="ascii")
 
     old = os.getcwd()
-    os.chdir(os.environ.get("SystemRoot", r"C:\Windows"))  # fremde cwd
+    os.chdir(os.environ.get("SYSTEMROOT", r"C:\Windows"))  # fremde cwd
     try:
         sc._startfile_in_dir(str(bat), str(ziel))
         for _ in range(30):

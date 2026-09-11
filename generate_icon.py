@@ -124,7 +124,6 @@ def main():
         return
 
     shield = shield_master()
-    filled = filled_master()
 
     # App-Icons
     _save_ico(shield, os.path.join(HERE, "icon.ico"))

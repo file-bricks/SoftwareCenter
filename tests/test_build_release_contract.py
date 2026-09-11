@@ -6,7 +6,6 @@ from pathlib import Path
 
 from scripts.project_version import read_project_version
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 

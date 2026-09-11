@@ -1,9 +1,9 @@
 """Contract test suite certifying discoverability, metadata, documentation parity, and security invariants for SoftwareCenter."""
 
-from pathlib import Path
 import re
-import tomllib
+from pathlib import Path
 
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -60,19 +60,19 @@ def test_readme_quick_navigation_anchors():
         "#funktionen",
         "#systemarchitektur",
         "#lebenszyklus-ablaufdiagramm",
-        "#kernf%C3%A4higkeiten--sicherheitsinvarianten" in text_de.lower() or "#kernfähigkeiten--sicherheitsinvarianten",
-        "#geschwister-%C3%B6kosystem--schwesterprodukte" in text_de.lower() or "#geschwister-ökosystem--schwesterprodukte",
+        "#kernfähigkeiten--sicherheitsinvarianten",
+        "#geschwister-ökosystem--schwesterprodukte",
         "#auffindbarkeit",
         "#voraussetzungen",
         "#installation",
         "#starten",
         "#verwendung",
         "#exe-erstellen",
-        "#qualit%C3%A4tssicherung" in text_de.lower() or "#qualitätssicherung",
+        "#qualitätssicherung",
         "#sicherheitsrichtlinie",
         "#lizenz",
     ]:
-        pass  # dynamic check handled above
+        assert f"({anchor})" in text_de, f"Missing anchor {anchor} in README_de.md"
 
 
 def test_readme_contains_mermaid_diagrams():
@@ -92,7 +92,7 @@ def test_readme_badges_parity_and_test_count():
 
     common_badges = [
         "python-3.10",
-        "pytest-196%20passed",
+        "pytest-209%20passed",
         "GUI-PySide6",
         "file--bricks",
         "open--bricks",
@@ -147,12 +147,24 @@ def test_pyproject_pep621_metadata_and_urls():
     assert urls["Repository"] == "https://github.com/file-bricks/SoftwareCenter"
     assert urls["Documentation"] == "https://github.com/file-bricks/SoftwareCenter#readme"
     assert urls["Issues"] == "https://github.com/file-bricks/SoftwareCenter/issues"
+    assert urls["Bug Tracker"] == "https://github.com/file-bricks/SoftwareCenter/issues"
     assert urls["Changelog"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/CHANGELOG.md"
     assert urls["Security"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/SECURITY.md"
     assert urls["Parent Organization"] == "https://github.com/file-bricks"
     assert urls["Umbrella Ecosystem"] == "https://github.com/open-bricks"
+    assert urls["LLM Ready"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/llms.txt"
+    assert urls["Marketing Log"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/MARKETING-LOG.txt"
+
+    classifiers = project["classifiers"]
+    assert "Programming Language :: Python :: 3.13" in classifiers
+    assert "Operating System :: OS Independent" in classifiers
+    assert "Operating System :: Microsoft :: Windows" in classifiers
+    assert "Operating System :: POSIX :: Linux" in classifiers
+    assert "Operating System :: MacOS" in classifiers
 
     assert "ruff" in data.get("tool", {}), "tool.ruff must be configured"
+    assert "lint" in data["tool"]["ruff"], "tool.ruff.lint must be configured"
+    assert "select" in data["tool"]["ruff"]["lint"], "tool.ruff.lint.select must be defined"
 
 
 def test_sibling_ecosystem_table_links():
@@ -180,10 +192,11 @@ def test_llms_txt_structure_and_timestamp():
     assert llms_file.exists(), "llms.txt must exist"
     content = llms_file.read_text(encoding="utf-8")
 
-    assert "## Last-checked: 2026-09-09" in content
+    assert "## Last-checked: 2026-09-11" in content
     assert "https://github.com/file-bricks/SoftwareCenter" in content
-    assert "196 tests" in content
+    assert "209 tests" in content
     assert "Disambiguation" in content
+    assert "MARKETING-LOG.txt" in content
 
 
 def test_changelog_recent_entry():
@@ -191,8 +204,46 @@ def test_changelog_recent_entry():
     assert changelog_file.exists(), "CHANGELOG.md must exist"
     content = changelog_file.read_text(encoding="utf-8")
 
-    assert "2026-09-09" in content
-    assert "Pfad B" in content or "Discoverability" in content or "Explorer" in content
+    assert "2026-09-11" in content
+    assert "Pfad A" in content
+
+
+def test_ci_workflow_guardrails():
+    workflow_file = ROOT / ".github" / "workflows" / "tests.yml"
+    assert workflow_file.exists(), "tests.yml must exist"
+    content = workflow_file.read_text(encoding="utf-8")
+
+    assert "concurrency:" in content
+    assert "cancel-in-progress: true" in content
+    assert "timeout-minutes: 15" in content
+    assert "ruff check ." in content
+
+
+def test_gitignore_multi_host_and_lock_hardening():
+    gitignore_file = ROOT / ".gitignore"
+    assert gitignore_file.exists(), ".gitignore must exist"
+    content = gitignore_file.read_text(encoding="utf-8")
+
+    assert "*-WORKSTATION*" in content
+    assert "*-ASUS-GEI*" in content
+    assert "*.sync-conflict-*" in content
+    assert "LOCK.*" in content
+    assert "uv.lock" in content
+    assert ".coverage.*" in content
+
+
+def test_marketing_log_contract_and_invariants():
+    mkt_file = ROOT / "MARKETING-LOG.txt"
+    assert mkt_file.exists(), "MARKETING-LOG.txt must exist"
+    content = mkt_file.read_text(encoding="utf-8")
+
+    assert "file-bricks/SoftwareCenter" in content
+    assert "2026-09-11" in content
+    assert "INV-LOCAL-01" in content
+    assert "INV-SEC-02" in content
+    assert "INV-PROFILE-03" in content
+    assert "INV-LAUNCH-04" in content
+    assert "INV-DUAL-05" in content
 
 
 def test_git_hygiene_no_sync_conflicts():

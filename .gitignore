@@ -73,16 +73,33 @@ releases/
 *.swo
 *~
 
-# ---- Betriebssystem ----
+# ---- Betriebssystem & Cloud-Sync ----
 desktop.ini
 Thumbs.db
 .DS_Store
 ehthumbs.db
 *-ASUS-GEI*
+*-WORKSTATION*
+*-WORKSTATION-LG*
+* (kopie)*
+* (copy)*
+*.sync-conflict-*
 DECISIONS.md
 PORTIERUNGSPLAN.md
 TODO.md
 DONE.md
+
+# ---- Lock-Dateien & Multi-Agent ----
+LOCK
+LOCK.*
+LOCK.permissions.json
+uv.lock
+
+# ---- Test- & Wheel-Artefakte ----
+.coverage.*
+coverage/
+.wheel-smoke/
+wheelhouse/
 
 # Personal-Builds (BUILD-VERFAHREN §9) und lokale Backups
 *-personal.exe

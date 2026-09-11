@@ -16,13 +16,12 @@ translator.set_language('en')
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Set
 
 
 class TranslationSystem:
     """Multi-Language Support System v1.0"""
 
-    def __init__(self, default_lang: str = 'de', app_dir: Path = None):
+    def __init__(self, default_lang: str = 'de', app_dir: Path | None = None):
         """
         Initialisiert Translation-System.
 
@@ -61,7 +60,7 @@ class TranslationSystem:
     def _load_translations(self):
         if self.translations_file.exists():
             try:
-                with open(self.translations_file, 'r', encoding='utf-8') as f:
+                with open(self.translations_file, encoding='utf-8') as f:
                     self.translations = json.load(f)
             except Exception:
                 self.translations = {}
@@ -103,7 +102,7 @@ class TranslationSystem:
         self.translations[key] = {"de": de, "en": en}
         self._save_translations()
 
-    def scan_and_update(self, project_dir: Path = None) -> Dict:
+    def scan_and_update(self, project_dir: Path | None = None) -> dict:
         """Scannt Projekt-Dateien nach deutschen Strings und aktualisiert translations.json."""
         if project_dir is None:
             project_dir = self.app_dir
@@ -123,7 +122,7 @@ class TranslationSystem:
 
         return {'added': added, 'missing': missing, 'total': len(self.translations)}
 
-    def _find_german_strings(self, directory: Path) -> Set[str]:
+    def _find_german_strings(self, directory: Path) -> set[str]:
         german_strings = set()
         skip_dirs = {'build', 'dist', 'venv', '.venv', '__pycache__', 'releases'}
 
@@ -131,7 +130,7 @@ class TranslationSystem:
             if any(folder in py_file.parts for folder in skip_dirs):
                 continue
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
             except Exception:
                 continue
@@ -149,7 +148,7 @@ class TranslationSystem:
         text_lower = text.lower()
         return any(hint in text_lower for hint in self.german_hints)
 
-    def get_missing_translations(self) -> List[str]:
+    def get_missing_translations(self) -> list[str]:
         return [k for k, v in self.translations.items() if not v.get("en")]
 
 

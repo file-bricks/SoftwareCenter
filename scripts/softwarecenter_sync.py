@@ -22,7 +22,6 @@ from pathlib import Path
 
 from PySide6.QtCore import QSettings
 
-
 ORG = "LukasGeiger"
 PROFILES = ("SoftwareCenter", "LaunchBoards")
 VALID_STATES = {"PENDING", "ACTIVE", "SUPPRESSED"}
@@ -392,7 +391,7 @@ def read_catalog(path: Path) -> list[dict]:
 
 
 def registry_states_for_spec(spec: str) -> dict[str, str]:
-    result = {profile: "PENDING" for profile in PROFILES}
+    result = dict.fromkeys(PROFILES, "PENDING")
     for profile, value in re.findall(
         r"(?i)(SOFTWARECENTER|LAUNCHBOARDS)\s*=\s*([A-Z_]+)", spec
     ):

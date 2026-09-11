@@ -10,19 +10,44 @@ import shlex
 import subprocess
 import sys
 import uuid
-from datetime import datetime, timezone
-from PySide6.QtCore import Qt, QSize, QRect, QPoint, QFileInfo, Signal, QSettings, QTimer
-from PySide6.QtGui import QAction, QActionGroup, QColor, QFont, QIcon, QPainter, QPalette
-from PySide6.QtWidgets import (
-    QAbstractButton, QAbstractItemView, QApplication, QDockWidget, QMainWindow, QPushButton, QSizePolicy,
-    QStyle, QToolButton, QWidget, QVBoxLayout, QListWidget,
-    QListWidgetItem, QTabWidget, QFileIconProvider, QToolBar, QInputDialog,
-    QMessageBox, QMenu, QFileDialog, QSystemTrayIcon, QTabBar, QLineEdit, QWidgetAction,
-    QDialog, QFormLayout, QDialogButtonBox, QTextEdit,
-    QStyledItemDelegate, QStyleOptionViewItem
-)
-from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from dataclasses import dataclass
+from datetime import datetime, timezone
+
+from PySide6.QtCore import QFileInfo, QPoint, QRect, QSettings, QSize, Qt, QTimer, Signal
+from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon, QPainter
+from PySide6.QtNetwork import QLocalServer, QLocalSocket
+from PySide6.QtWidgets import (
+    QAbstractButton,
+    QAbstractItemView,
+    QApplication,
+    QDialog,
+    QDialogButtonBox,
+    QDockWidget,
+    QFileDialog,
+    QFileIconProvider,
+    QFormLayout,
+    QInputDialog,
+    QLineEdit,
+    QListWidget,
+    QListWidgetItem,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QPushButton,
+    QSizePolicy,
+    QStyle,
+    QStyledItemDelegate,
+    QStyleOptionViewItem,
+    QSystemTrayIcon,
+    QTabBar,
+    QTabWidget,
+    QTextEdit,
+    QToolBar,
+    QToolButton,
+    QVBoxLayout,
+    QWidget,
+    QWidgetAction,
+)
 
 _USER_SUFFIX = os.environ.get("USERNAME") or "user"
 _ORIGINAL_QMENU_EXEC = QMenu.exec
@@ -154,13 +179,13 @@ def read_desktop_entry(path: str) -> dict[str, str]:
     parser = configparser.ConfigParser(interpolation=None, strict=False)
     parser.optionxform = str
     try:
-        with open(path, "r", encoding="utf-8") as handle:
+        with open(path, encoding="utf-8") as handle:
             parser.read_file(handle)
     except (OSError, configparser.Error, UnicodeDecodeError):
         return {}
     if not parser.has_section("Desktop Entry"):
         return {}
-    return {key: value for key, value in parser.items("Desktop Entry")}
+    return dict(parser.items("Desktop Entry"))
 
 def desktop_entry_display_name(path: str) -> str | None:
     entry = read_desktop_entry(path)
@@ -246,9 +271,7 @@ def _sanitize_desktop_exec_token(token: str) -> str | None:
 def is_supported_launch_target(path: str) -> bool:
     if not isinstance(path, str) or not path:
         return False
-    if os.path.isfile(path) or os.path.isdir(path):
-        return True
-    return False
+    return bool(os.path.isfile(path) or os.path.isdir(path))
 
 def is_supported_windows_shortcut_target(path: str) -> bool:
     if not isinstance(path, str) or not path:
@@ -619,10 +642,7 @@ class SoftwareListItemDelegate(QStyledItemDelegate):
             sec_color = text_color
         else:
             text_color = option.palette.text().color()
-            if is_missing:
-                sec_color = QColor(204, 68, 68)
-            else:
-                sec_color = QColor(130, 130, 130)
+            sec_color = QColor(204, 68, 68) if is_missing else QColor(130, 130, 130)
 
         text_left = icon_rect.right() + 8
         available_width = rect.right() - right_margin - text_left
@@ -1276,9 +1296,9 @@ class MainWindow(QMainWindow):
                 isinstance(child, QAbstractButton)
                 and not isinstance(child, QToolButton)
                 and child.objectName() not in ("ScrollLeftButton", "ScrollRightButton")
+                and (not closable or id(child) not in assigned)
             ):
-                if not closable or id(child) not in assigned:
-                    child.hide()
+                child.hide()
         self._refresh_tab_accessibility()
 
     def _refresh_tab_accessibility(self):
@@ -1401,7 +1421,7 @@ class MainWindow(QMainWindow):
         if replace != QMessageBox.StandardButton.Yes:
             return
         try:
-            with open(source, "r", encoding="utf-8") as handle:
+            with open(source, encoding="utf-8") as handle:
                 payload = json.load(handle)
             self.apply_profile_payload(payload)
         except (OSError, json.JSONDecodeError, ValueError) as exc:

@@ -14,9 +14,10 @@ from unittest.mock import patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-import SoftwareCenter as sc
 from PySide6.QtCore import QPoint, QSettings
 from PySide6.QtWidgets import QApplication, QDialog, QMessageBox
+
+import SoftwareCenter as sc
 
 _APP = QApplication.instance() or QApplication([])
 _APP.setQuitOnLastWindowClosed(False)
@@ -102,7 +103,7 @@ class TestEditEntryDialog:
         entry = {"path": "C:/app.exe", "label": "Test", "notes": "Vorhanden"}
         dlg = sc.EditEntryDialog(entry)
         dlg.edit_notes.setPlainText("   ")
-        lbl, notes = dlg.get_data()
+        _lbl, notes = dlg.get_data()
         assert notes is None
 
 

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-09-11
+
+### Pfad A: Technical Hygiene, CI Hardening & Marketing Certification
+- Configured multi-ruleset linting (`E`, `F`, `W`, `I`, `UP`, `B`, `SIM`, `C4`, `RUF`) in `pyproject.toml` and resolved all linter diagnostics.
+- Modernized dictionary handling to `dict()`, simplified boolean returns, unified nested conditional logic, and resolved implicit `Optional` type hints across codebase.
+- Hardened `.github/workflows/tests.yml` with top-level `concurrency` cancellation and explicit 15-minute job timeouts across all runner jobs (`smoke`, `linux-platform-smoke`, `macos-platform-smoke`).
+- Hardened `.gitignore` against multi-host conflict artifacts (`*-WORKSTATION*`, `*-ASUS-GEI*`, `*.sync-conflict-*`, `* (kopie)*`), multi-agent locks (`LOCK.*`, `uv.lock`), and test coverage/wheel directories.
+- Expanded PEP 621 metadata with Python 3.13, OS Independent, Windows, Linux, and macOS classifiers. Added `"LLM Ready"`, `"Marketing Log"`, and `"Bug Tracker"` project URLs.
+- Created `MARKETING-LOG.txt` establishing target personas, dual-language keyword matrices, competitive comparison matrix, runtime invariants, and hygiene roadmap.
+- Expanded contract test suite in `tests/test_metadata.py` certifying CI timeout guardrails, workflow concurrency, gitignore multi-host hardening, and marketing log presence.
+
 ## [Unreleased] - 2026-09-10
 
 ### Added

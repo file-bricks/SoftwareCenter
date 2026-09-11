@@ -1,6 +1,6 @@
 # SoftwareCenter
 
-## Last-checked: 2026-09-09
+## Last-checked: 2026-09-11
 
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
@@ -26,7 +26,8 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 - `SoftwareCenter.py`: Main PySide6 application.
 - `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
-- `tests/`: Pytest suite (196 tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, and trusted WACK tool discovery).
+- `MARKETING-LOG.txt`: Target personas, dual-language search term matrices, competitive comparison, and governance invariants.
+- `tests/`: Pytest suite (209 tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, and trusted WACK tool discovery).
 
 ## Verification
 
@@ -35,6 +36,7 @@ Use these local checks before publishing changes:
 ```bash
 python -m pytest -q
 python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
+ruff check .
 ```
 
 The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
@@ -42,7 +44,7 @@ The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
 `web_companion/` has no npm test; if reintroduced, CI runs `npm test` and
 `node --check` for `app.js`, `library.js`, and `sw.js`.
 
-The 2026-09-09 local verification passed all 196 tests plus compile, lint,
+The 2026-09-11 local verification passed all 209 tests plus compile, multi-rule ruff lint,
 dependency, file manager integration, and trusted WACK tool-discovery checks. No signed/WACK-verified Store
 submission candidate is claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
 
