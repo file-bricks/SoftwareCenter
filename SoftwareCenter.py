@@ -225,14 +225,21 @@ def desktop_entry_exec_command(path: str) -> list[str] | None:
     if not exec_line:
         return None
 
+    try:
+        tokens = shlex.split(exec_line, posix=True)
+    except ValueError:
+        return None
+
     cleaned = []
-    for token in shlex.split(exec_line, posix=True):
+    for token in tokens:
         normalized_token = _sanitize_desktop_exec_token(token)
         if normalized_token:
             cleaned.append(normalized_token)
     return cleaned or None
 
 def _sanitize_desktop_exec_token(token: str) -> str | None:
+    if not isinstance(token, str) or not token:
+        return None
     if "%" not in token:
         return token
 
@@ -283,6 +290,7 @@ def is_supported_launch_target(path: str) -> bool:
 def is_supported_windows_shortcut_target(path: str) -> bool:
     if not isinstance(path, str) or not path:
         return False
+    path = os.path.expandvars(path)
     if path.lower().endswith(".exe") and os.path.isfile(path):
         return True
     return os.path.isdir(path)
@@ -291,10 +299,11 @@ def resolve_windows_shortcut_target(path: str) -> str | None:
     if not sys.platform.startswith("win") or not is_windows_shortcut(path):
         return None
 
-    target = _resolve_windows_shortcut_target_com(path) or _resolve_windows_shortcut_target_powershell(path)
+    abs_path = os.path.abspath(path)
+    target = _resolve_windows_shortcut_target_com(abs_path) or _resolve_windows_shortcut_target_powershell(abs_path)
     if not target:
         return None
-    target = os.path.normpath(target.strip().strip('"'))
+    target = os.path.normpath(os.path.expandvars(target.strip().strip('"')))
     if is_supported_windows_shortcut_target(target):
         return target
     return None

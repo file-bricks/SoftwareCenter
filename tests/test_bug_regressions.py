@@ -230,3 +230,67 @@ class TestBugR4_TabBarOrphanCloseButtons:
         window._update_tab_closable_state()
         assert dummy.isHidden() is True
 
+
+# ── BUGSWEEP-42: Windows Shortcut Env Var Expansion & Desktop Exec Robustness ──
+
+class TestBugsweep42ShortcutResolutionAndExecSanitization:
+    """BUGSWEEP-42: shortcut target resolution expands environment variables,
+    normalizes relative paths, and desktop entry parsing handles malformed exec lines safely.
+    """
+
+    def test_is_supported_windows_shortcut_target_expands_env_vars(self):
+        from SoftwareCenter import is_supported_windows_shortcut_target
+        raw_notepad = r"%SystemRoot%\System32\notepad.exe"
+        assert is_supported_windows_shortcut_target(raw_notepad) is True
+
+    def test_resolve_windows_shortcut_target_expands_env_vars(self, tmp_path):
+        import SoftwareCenter as sc
+        shortcut = tmp_path / "notepad_test.lnk"
+        shortcut.write_text("dummy", encoding="utf-8")
+        raw_target = r"%SystemRoot%\System32\notepad.exe"
+        expected = os.path.normpath(os.path.expandvars(raw_target))
+
+        with patch.object(sc.sys, "platform", "win32"), \
+             patch.object(sc, "_resolve_windows_shortcut_target_com", return_value=raw_target), \
+             patch.object(sc, "_resolve_windows_shortcut_target_powershell", return_value=None):
+            resolved = sc.resolve_windows_shortcut_target(str(shortcut))
+            assert resolved == expected
+
+    def test_resolve_windows_shortcut_target_passes_abspath_to_com_and_powershell(self, tmp_path, monkeypatch):
+        import SoftwareCenter as sc
+        shortcut = tmp_path / "app.lnk"
+        shortcut.write_text("dummy", encoding="utf-8")
+        target_exe = tmp_path / "app.exe"
+        target_exe.write_text("binary", encoding="utf-8")
+
+        monkeypatch.chdir(tmp_path)
+        rel_shortcut = "app.lnk"
+        expected_abs = os.path.abspath(rel_shortcut)
+
+        com_received = []
+
+        def fake_com(p):
+            com_received.append(p)
+            return str(target_exe)
+
+        with patch.object(sc.sys, "platform", "win32"), \
+             patch.object(sc, "_resolve_windows_shortcut_target_com", side_effect=fake_com):
+            resolved = sc.resolve_windows_shortcut_target(rel_shortcut)
+            assert resolved == os.path.normpath(str(target_exe))
+            assert com_received == [expected_abs]
+
+    def test_desktop_entry_exec_command_handles_malformed_unbalanced_quotes(self, tmp_path):
+        from SoftwareCenter import desktop_entry_exec_command
+        desktop_file = tmp_path / "broken.desktop"
+        desktop_file.write_text(
+            "[Desktop Entry]\nType=Application\nName=Broken\nExec=my-app \"unclosed quote\n",
+            encoding="utf-8",
+        )
+        assert desktop_entry_exec_command(str(desktop_file)) is None
+
+    def test_sanitize_desktop_exec_token_handles_none_and_non_string(self):
+        from SoftwareCenter import _sanitize_desktop_exec_token
+        assert _sanitize_desktop_exec_token(None) is None
+        assert _sanitize_desktop_exec_token(123) is None
+        assert _sanitize_desktop_exec_token("") is None
+
