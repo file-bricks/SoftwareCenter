@@ -8,7 +8,7 @@ SoftwareCenter soll **nicht nur App-Verknüpfungen** aufnehmen, sondern **alles,
 
 - **Bereits unterstützt (technisch):** Drag & Drop von Dateien, Ordnern, `.lnk`-Verknüpfungen, `.url`, Skripten und Dokumenten. Intern unterscheidet die Engine schon die Typen `file`, `directory`, `windows_shortcut`, `url`, `script`, `mac_app`, `linux_desktop` (siehe `detect_entry_kind` / `is_supported_launch_target`).
 - **Auszubauen:**
-  - Klar kommunizieren, dass **beliebige** Dateien/Ordner/Dokumente ablegbar sind (nicht nur EXEs) — UI-Hinweis, Doku, Store-Listing.
+  - [x] Klar kommunizieren, dass **beliebige** Dateien/Ordner/Dokumente ablegbar sind (nicht nur EXEs) — UI-Hinweis (leeres Board Placeholder mit 6-Sprachen-Parität), Doku (README/README_de), Store-Listing (DE/EN) und Hilfe/Über-Dialog. -- DONE 2026-09-13
   - [x] Komfort für Nicht-App-Einträge: Kontextmenü „Im Explorer anzeigen" (bzw. Finder/Dateimanager), optionale Notiz/Bearbeitung, alphabetische Sortierung (A-Z). -- DONE 2026-09-09
   - [x] Robustes Verhalten bei fehlenden Zielen: Eintrag bleibt im Board sichtbar, optischer Warnindikator `[Nicht gefunden: <Pfad>]` in Listenansicht/Tooltip und klare Warnmeldung beim Startversuch. -- DONE 2026-09-10
 

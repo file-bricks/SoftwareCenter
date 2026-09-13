@@ -57,8 +57,9 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 
 ## Funktionen
 
-- **Tab-Organisation** - Programme in benennbare, verschiebbare Tabs gruppieren
-- **Drag & Drop** - Dateien per Drag & Drop hinzufügen
+- **Tab-Organisation** - Programme, Dokumente und Ordner in benennbare, verschiebbare Boards gruppieren
+- **Drag & Drop & Universeller Ordnungslayer** - Beliebige Apps, Skripte, Dokumente, Ordner und Verknüpfungen direkt auf Boards ablegen; fungiert als unabhängiger Ordnungslayer außerhalb des starren Dateisystems
+- **Leere-Board-Führung** - Hilfreicher visueller Platzhalter auf leeren Boards zur schnellen Orientierung
 - **Zwei Ansichtsmodi** - Kacheln (große Icons) und Liste
 - **Automatische Speicherung** - Tabs, Inhalte und Fensterposition bleiben erhalten
 - **Kontextmenü** - Rechtsklick zum Öffnen oder Entfernen

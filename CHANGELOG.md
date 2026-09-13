@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-09-11
+## [Unreleased] - 2026-09-13
+
+### Added
+- Empty-Board Placeholder UI: When a board has 0 items, `SoftwareListWidget.paintEvent` renders a clean, non-intrusive empty-state overlay with title ("Dieses Board ist noch leer") and explanatory hint ("Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.") adapting dynamically to system theme palettes.
+- Help / About Dialog: Added `Hilfe` -> `Über SoftwareCenter` (and `Über LaunchBoards` for sister profile) menu action with version and concise description of the universal organization layer.
+- Multi-Language 6-Language Parity: Added translations for the empty-board placeholder, help menu, and about dialog across all 6 Tier-2 languages (`de`, `en`, `es`, `zh`, `ja`, `ru`), maintaining 100% catalog parity (90 keys total).
+- New automated test suite `tests/test_empty_board_placeholder.py` validating empty and populated paint events, 6-language translation integrity, and Help/About dialog behavior across languages (232 tests passing total).
+
+### Documentation & Store Communication
+- Updated `STORE_LISTING.md` (DE and EN) and `README.md` / `README_de.md` to clearly position SoftwareCenter as a universal organization layer beyond the file system that accommodates apps, documents, project folders, media files, and shortcuts.
+- Closed corresponding ROADMAP vision item ("Universeller Ordnungslayer außerhalb des Dateisystems").
+
+## [2026-09-11]
 
 ### Internationalization (Tier-2 6-Language Expansion, Policy P-006)
 - Expanded multi-language support to the full Policy P-006 Tier-2 standard: German (DE), English (EN), Spanish (ES), Chinese (ZH), Japanese (JA), and Russian (RU).

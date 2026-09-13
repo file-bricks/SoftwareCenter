@@ -57,8 +57,9 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 
 ## Features
 
-- **Tab Organization** - Group programs into renamable, movable tabs
-- **Drag & Drop** - Add files via drag and drop
+- **Tab Organization** - Group programs, documents, and folders into renamable, movable boards
+- **Drag & Drop & Universal Organizer** - Drop any apps, scripts, documents, folders, or shortcuts directly onto boards; acts as an independent organization layer over the filesystem
+- **Empty-Board Guidance** - Helpful placeholder guidance on empty boards showing supported drop targets
 - **Two View Modes** - Tiles (large icons) and list
 - **Auto Save** - Tabs, contents, and window position are persisted
 - **Context Menu** - Right-click to open or remove

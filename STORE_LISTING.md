@@ -6,29 +6,31 @@
 Desktop-Organizer: Programme in Tabs gruppieren, per Drag & Drop hinzufügen, sofort starten.
 
 ### Beschreibung (max 10.000 Zeichen)
-SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer, der Ordnung in Ihre Software-Sammlung bringt. Statt sich durch verschachtelte Startmenü-Ordner oder überfüllte Desktops zu kämpfen, organisieren Sie vorhandene Programme, Skripte und Verknüpfungen in übersichtlichen Tabs -- genau so, wie es für Ihren Workflow passt.
+SoftwareCenter ist ein leichtgewichtiger Desktop-Organizer und universeller Ordnungslayer außerhalb des starren Dateisystems. Statt sich durch verschachtelte Startmenü-Ordner oder überfüllte Desktops zu kämpfen, organisieren Sie beliebige Programme, Dokumente, Ordner, Skripte und Verknüpfungen in übersichtlichen Tabs -- genau so, wie es für Ihren Workflow passt.
 
 **Kernfunktionen:**
 
-- Tab-basierte Organisation: Erstellen Sie beliebig viele Tabs und benennen Sie diese nach Ihren Kategorien (z.B. "Entwicklung", "Grafik", "Office"). Tabs lassen sich per Drag & Drop umsortieren.
+- Universeller Ordnungslayer: Nicht nur ausführbare Programme (EXEs), sondern auch Dokumente, Arbeitsordner, Medien, Skripte und Verknüpfungen lassen sich frei ablegen und strukturieren. Die Originaldateien verbleiben unberührt an ihrem Speicherort.
+
+- Tab-basierte Organisation: Erstellen Sie beliebig viele Tabs und benennen Sie diese nach Ihren Kategorien (z.B. "Entwicklung", "Grafik", "Office", "Projekte"). Tabs lassen sich per Drag & Drop umsortieren.
 
 - Zwei Ansichtsmodi: Wechseln Sie zwischen einer Kachel-Ansicht mit großen Icons für schnellen visuellen Zugriff und einer kompakten Listenansicht für große Sammlungen.
 
-- Drag & Drop: Ziehen Sie EXE-Dateien, Skripte oder beliebige Programm-Verknüpfungen einfach ins Fenster -- fertig. Keine umständliche Konfiguration nötig.
+- Drag & Drop für alle Dateitypen: Ziehen Sie Apps, Dokumente, Ordner oder Verknüpfungen einfach direkt ins Board-Fenster -- fertig. Keine umständliche Konfiguration nötig.
 
-- Native System-Icons: SoftwareCenter zeigt automatisch die Original-Icons Ihrer Anwendungen an, damit Sie Programme sofort wiedererkennen.
+- Native System-Icons: SoftwareCenter zeigt automatisch die Original-Icons Ihrer Anwendungen und Dateien an, damit Sie alles sofort wiedererkennen.
 
 - Automatische Speicherung: Ihre gesamte Organisation -- Tabs, Inhalte, Fensterposition und Ansichtsmodus -- wird automatisch gespeichert und beim nächsten Start wiederhergestellt.
 
-- Kontextmenü: Per Rechtsklick Programme starten oder Einträge entfernen (nur die Verknüpfung wird entfernt, nie das Programm selbst).
+- Kontextmenü: Per Rechtsklick Objekte starten, im Explorer öffnen oder Einträge entfernen (nur der Eintrag wird entfernt, nie die physische Datei).
 
 - Profil-Export/Import: Ihre Tab-Struktur kann als `softwarecenter-profile-v1.json` gesichert und später wieder importiert werden.
 
 **Für wen ist SoftwareCenter?**
 
-- Power-User mit vielen installierten Programmen
-- Entwickler, die zwischen verschiedenen Tools wechseln
-- Jeden, der eine schnelle, aufgeräumte Alternative zum Windows-Startmenü sucht
+- Power-User mit vielen installierten Programmen und Projektdateien
+- Wissensarbeiter und Entwickler, die zwischen verschiedenen Tools und Dokumentenmappen wechseln
+- Jeden, der eine schnelle, aufgeräumte Alternative zum Windows-Startmenü und überfüllten Desktop-Icons sucht
 
 **Technische Details:**
 
@@ -50,29 +52,31 @@ Productivity / Utilities
 Desktop organizer: group apps in tabs, add via drag & drop, launch instantly.
 
 ### Description (max 10,000 chars)
-SoftwareCenter is a lightweight desktop organizer that brings order to your software collection. Instead of digging through nested start menu folders or cluttered desktops, organize existing programs, scripts, and shortcuts in clear, customizable tabs -- tailored to your workflow.
+SoftwareCenter is a lightweight desktop organizer and universal organization layer beyond the file system. Instead of digging through nested start menu folders or cluttered desktops, organize any programs, documents, folders, scripts, and shortcuts in clear, customizable tabs -- tailored to your workflow.
 
 **Core Features:**
 
-- Tab-based organization: Create as many tabs as you need and name them by category (e.g., "Development", "Graphics", "Office"). Tabs can be reordered via drag & drop.
+- Universal Organization Layer: Organize not only executable programs, but any documents, project folders, media files, scripts, and shortcuts. Your physical files remain untouched in their original filesystem locations.
+
+- Tab-based organization: Create as many tabs as you need and name them by category (e.g., "Development", "Graphics", "Office", "Projects"). Tabs can be reordered via drag & drop.
 
 - Two view modes: Switch between a tile view with large icons for quick visual access and a compact list view for large collections.
 
-- Drag & Drop: Simply drag EXE files, scripts, or any program shortcuts into the window -- done. No complicated setup required.
+- Drag & Drop for all types: Simply drag apps, documents, folders, or shortcuts directly into the board -- done. No complicated setup required.
 
-- Native system icons: SoftwareCenter automatically displays the original icons of your applications so you can instantly recognize your programs.
+- Native system icons: SoftwareCenter automatically displays original system icons so you can instantly recognize your tools and files.
 
 - Auto save: Your entire organization -- tabs, contents, window position, and view mode -- is automatically saved and restored on next launch.
 
-- Context menu: Right-click to launch programs or remove entries (only the shortcut is removed, never the program itself).
+- Context menu: Right-click to launch items, open file locations in Explorer, or remove entries (only the board entry is removed, never the file itself).
 
 - Profile export/import: Save your tab structure as `softwarecenter-profile-v1.json` and import it again later.
 
 **Who is SoftwareCenter for?**
 
-- Power users with many installed programs
-- Developers switching between various tools
-- Anyone looking for a fast, clean alternative to the Windows Start Menu
+- Power users with many installed programs and project files
+- Knowledge workers and developers switching between tools and working documents
+- Anyone looking for a fast, clean alternative to the Windows Start Menu and desktop clutter
 
 **Technical Details:**
 

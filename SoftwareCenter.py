@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 
 from PySide6.QtCore import QFileInfo, QPoint, QRect, QSettings, QSize, Qt, QTimer, Signal
-from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon, QPainter
+from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon, QPainter, QPalette
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from PySide6.QtWidgets import (
     QAbstractButton,
@@ -736,6 +736,47 @@ class SoftwareListWidget(QListWidget):
         self.setSpacing(2)
         self.setUniformItemSizes(True)
 
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        if self.count() == 0:
+            painter = QPainter(self.viewport())
+            try:
+                painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+                rect = self.viewport().rect()
+                if rect.width() < 50 or rect.height() < 50:
+                    return
+
+                palette = self.palette()
+                text_color = palette.color(QPalette.ColorRole.PlaceholderText)
+                if not text_color.isValid() or text_color.alpha() == 0:
+                    text_color = palette.text().color()
+                    text_color.setAlpha(130)
+
+                painter.setPen(text_color)
+                font = self.font()
+                font.setPointSize(max(10, font.pointSize() + 1))
+                font.setBold(True)
+                painter.setFont(font)
+
+                title_text = t("Dieses Board ist noch leer")
+                hint_text = t("Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.")
+
+                fm = painter.fontMetrics()
+                title_h = fm.height()
+
+                title_rect = QRect(rect.left() + 20, rect.center().y() - title_h - 4, rect.width() - 40, title_h + 4)
+                painter.drawText(title_rect, Qt.AlignmentFlag.AlignCenter, title_text)
+
+                font.setBold(False)
+                font.setPointSize(max(9, font.pointSize() - 1))
+                painter.setFont(font)
+                painter.setPen(text_color)
+
+                hint_rect = QRect(rect.left() + 20, rect.center().y() + 6, rect.width() - 40, max(40, rect.height() // 2))
+                painter.drawText(hint_rect, Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap, hint_text)
+            finally:
+                painter.end()
+
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
             event.acceptProposedAction()
@@ -1228,6 +1269,24 @@ class MainWindow(QMainWindow):
         self.act_quit.triggered.connect(self.quit_app)
         file_menu.addAction(self.act_quit)
 
+        help_menu = self.menuBar().addMenu(t("Hilfe"))
+        self.help_menu = help_menu
+        about_title = f"Über {self.profile.name}"
+        self.act_about = QAction(t(about_title), self)
+        self.act_about.triggered.connect(self.show_about_dialog)
+        help_menu.addAction(self.act_about)
+
+    def show_about_dialog(self):
+        """Zeigt den Info-Dialog mit Produktname, Version und Kurzbeschreibung."""
+        title = f"{self.profile.name} v{__version__}"
+        desc = t(
+            "Universeller Ordnungslayer außerhalb des Dateisystems.\n\n"
+            "Organisieren Sie beliebig viele Programme, Dokumente, Ordner und Verknüpfungen in übersichtlichen Boards."
+        )
+        if os.environ.get("QT_QPA_PLATFORM") == "offscreen" and not getattr(self, "_allow_modal_dialog_in_test", False):
+            return title, desc
+        QMessageBox.about(self, title, f"{title}\n\n{desc}")
+
     def set_language(self, lang: str):
         """Setzt die UI-Sprache und aktualisiert die Beschriftungen."""
         if lang in SUPPORTED_LANGUAGES:
@@ -1259,6 +1318,16 @@ class MainWindow(QMainWindow):
             self.act_view_list.setText(t("Liste"))
         if hasattr(self, "act_toggle_boards_panel"):
             self.act_toggle_boards_panel.setToolTip(t("Board-Verwaltung ein-/ausblenden"))
+        if hasattr(self, "help_menu"):
+            self.help_menu.setTitle(t("Hilfe"))
+        if hasattr(self, "act_about"):
+            about_title = f"Über {self.profile.name}"
+            self.act_about.setText(t(about_title))
+        if hasattr(self, "tabs"):
+            for i in range(self.tabs.count()):
+                page = self.tabs.widget(i)
+                if hasattr(page, "list") and hasattr(page.list, "viewport"):
+                    page.list.viewport().update()
 
     def _build_toolbar(self):
         tb = QToolBar("Hauptleiste")

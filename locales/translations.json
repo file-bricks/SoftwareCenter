@@ -1,682 +1,722 @@
 {
-  "Aktiv": {
-    "de": "Aktiv",
-    "en": "Active",
-    "es": "Activo",
-    "zh": "活动",
-    "ja": "アクティブ",
-    "ru": "Активный"
-  },
-  "Alphabetisch": {
-    "de": "Alphabetisch",
-    "en": "Alphabetical",
-    "es": "Alfabético",
-    "zh": "按字母顺序",
-    "ja": "アルファベット順",
-    "ru": "По алфавиту"
-  },
-  "Alphabetisch sortieren (A-Z)": {
-    "de": "Alphabetisch sortieren (A-Z)",
-    "en": "Sort alphabetically (A-Z)",
-    "es": "Ordenar alfabéticamente (A-Z)",
-    "zh": "按字母排序 (A-Z)",
-    "ja": "アルファベット順に並べ替え (A-Z)",
-    "ru": "Сортировать по алфавиту (А-Я)"
-  },
-  "Alle Dateien (*.*)": {
-    "de": "Alle Dateien (*.*)",
-    "en": "All files (*.*)",
-    "es": "Todos los archivos (*.*)",
-    "zh": "所有文件 (*.*)",
-    "ja": "すべてのファイル (*.*)",
-    "ru": "Все файлы (*.*)"
-  },
-  "Ansicht": {
-    "de": "Ansicht",
-    "en": "View",
-    "es": "Ver",
-    "zh": "视图",
-    "ja": "表示",
-    "ru": "Вид"
-  },
   "Abbrechen": {
     "de": "Abbrechen",
     "en": "Cancel",
     "es": "Cancelar",
-    "zh": "取消",
     "ja": "キャンセル",
-    "ru": "Отмена"
+    "ru": "Отмена",
+    "zh": "取消"
+  },
+  "Aktiv": {
+    "de": "Aktiv",
+    "en": "Active",
+    "es": "Activo",
+    "ja": "アクティブ",
+    "ru": "Активный",
+    "zh": "活动"
   },
   "Aktualisieren": {
     "de": "Aktualisieren",
     "en": "Refresh",
     "es": "Actualizar",
-    "zh": "刷新",
     "ja": "更新",
-    "ru": "Обновить"
+    "ru": "Обновить",
+    "zh": "刷新"
+  },
+  "Alle Dateien (*.*)": {
+    "de": "Alle Dateien (*.*)",
+    "en": "All files (*.*)",
+    "es": "Todos los archivos (*.*)",
+    "ja": "すべてのファイル (*.*)",
+    "ru": "Все файлы (*.*)",
+    "zh": "所有文件 (*.*)"
+  },
+  "Alphabetisch": {
+    "de": "Alphabetisch",
+    "en": "Alphabetical",
+    "es": "Alfabético",
+    "ja": "アルファベット順",
+    "ru": "По алфавиту",
+    "zh": "按字母顺序"
+  },
+  "Alphabetisch sortieren (A-Z)": {
+    "de": "Alphabetisch sortieren (A-Z)",
+    "en": "Sort alphabetically (A-Z)",
+    "es": "Ordenar alfabéticamente (A-Z)",
+    "ja": "アルファベット順に並べ替え (A-Z)",
+    "ru": "Сортировать по алфавиту (А-Я)",
+    "zh": "按字母排序 (A-Z)"
+  },
+  "Ansicht": {
+    "de": "Ansicht",
+    "en": "View",
+    "es": "Ver",
+    "ja": "表示",
+    "ru": "Вид",
+    "zh": "视图"
   },
   "Beenden": {
     "de": "Beenden",
     "en": "Quit",
     "es": "Salir",
-    "zh": "退出",
     "ja": "終了",
-    "ru": "Выход"
+    "ru": "Выход",
+    "zh": "退出"
   },
   "Beim Schließen in Systemtray minimieren": {
     "de": "Beim Schließen in Systemtray minimieren",
     "en": "Minimize to system tray on close",
     "es": "Minimizar a la bandeja del sistema al cerrar",
-    "zh": "关闭时最小化到系统托盘",
     "ja": "閉じる時にシステムトレイに最小化",
-    "ru": "Сворачивать в системный трей при закрытии"
+    "ru": "Сворачивать в системный трей при закрытии",
+    "zh": "关闭时最小化到系统托盘"
   },
   "Bezeichnung:": {
     "de": "Bezeichnung:",
     "en": "Label:",
     "es": "Etiqueta:",
-    "zh": "名称：",
     "ja": "ラベル:",
-    "ru": "Название:"
+    "ru": "Название:",
+    "zh": "名称："
   },
   "Board": {
     "de": "Board",
     "en": "Board",
     "es": "Tablero",
-    "zh": "面板",
     "ja": "ボード",
-    "ru": "Доска"
+    "ru": "Доска",
+    "zh": "面板"
   },
   "Board endgültig löschen": {
     "de": "Board endgültig löschen",
     "en": "Permanently delete board",
     "es": "Eliminar tablero permanentemente",
-    "zh": "永久删除面板",
     "ja": "ボードを完全に削除",
-    "ru": "Удалить доску навсегда"
+    "ru": "Удалить доску навсегда",
+    "zh": "永久删除面板"
   },
   "Board oder Eintrag suchen …": {
     "de": "Board oder Eintrag suchen …",
     "en": "Search board or entry …",
     "es": "Buscar tablero o entrada …",
-    "zh": "搜索面板或条目 …",
     "ja": "ボードまたはエントリを検索 …",
-    "ru": "Поиск доски или записи …"
+    "ru": "Поиск доски или записи …",
+    "zh": "搜索面板或条目 …"
   },
   "Board öffnen": {
     "de": "Board öffnen",
     "en": "Open board",
     "es": "Abrir tablero",
-    "zh": "打开面板",
     "ja": "ボードを開く",
-    "ru": "Открыть доску"
+    "ru": "Открыть доску",
+    "zh": "打开面板"
   },
   "Board-Leiste": {
     "de": "Board-Leiste",
     "en": "Board Bar",
     "es": "Barra de tableros",
-    "zh": "面板栏",
     "ja": "ボードバー",
-    "ru": "Панель досок"
+    "ru": "Панель досок",
+    "zh": "面板栏"
   },
   "Board-Verwaltung ein-/ausblenden": {
     "de": "Board-Verwaltung ein-/ausblenden",
     "en": "Toggle board management",
     "es": "Mostrar/ocultar gestión de tableros",
-    "zh": "显示/隐藏面板管理",
     "ja": "ボード管理の表示/非表示",
-    "ru": "Показать/скрыть управление досками"
+    "ru": "Показать/скрыть управление досками",
+    "zh": "显示/隐藏面板管理"
   },
   "Boards": {
     "de": "Boards",
     "en": "Boards",
     "es": "Tableros",
-    "zh": "面板",
     "ja": "ボード",
-    "ru": "Доски"
-  },
-  "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?": {
-    "de": "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
-    "en": "The current profile will be replaced by the import. Continue?",
-    "es": "El perfil actual será reemplazado por la importación. ¿Continuar?",
-    "zh": "当前配置文件将被导入替换。是否继续？",
-    "ja": "現在のプロファイルはインポートによって上書きされます。続行しますか？",
-    "ru": "Текущий профиль будет заменен импортированным. Продолжить?"
+    "ru": "Доски",
+    "zh": "面板"
   },
   "Das Profil enthält keine Tabs.": {
     "de": "Das Profil enthält keine Tabs.",
     "en": "The profile does not contain any tabs.",
     "es": "El perfil no contiene ninguna pestaña.",
-    "zh": "配置文件不包含任何标签页。",
     "ja": "プロファイルにタブが含まれていません。",
-    "ru": "В профиле нет вкладок."
+    "ru": "В профиле нет вкладок.",
+    "zh": "配置文件不包含任何标签页。"
   },
   "Das Profil enthält keine lesbaren Tabs.": {
     "de": "Das Profil enthält keine lesbaren Tabs.",
     "en": "The profile contains no readable tabs.",
     "es": "El perfil no contiene pestañas legibles.",
-    "zh": "配置文件不包含可读取的标签页。",
     "ja": "プロファイルに読み取り可能なタブがありません。",
-    "ru": "В профиле нет доступных для чтения вкладок."
+    "ru": "В профиле нет доступных для чтения вкладок.",
+    "zh": "配置文件不包含可读取的标签页。"
   },
   "Das Profil ist kein JSON-Objekt.": {
     "de": "Das Profil ist kein JSON-Objekt.",
     "en": "The profile is not a valid JSON object.",
     "es": "El perfil no es un objeto JSON válido.",
-    "zh": "配置文件不是有效的 JSON 对象。",
     "ja": "プロファイルは有効なJSONオブジェクトではありません。",
-    "ru": "Профиль не является допустимым объектом JSON."
+    "ru": "Профиль не является допустимым объектом JSON.",
+    "zh": "配置文件不是有效的 JSON 对象。"
+  },
+  "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?": {
+    "de": "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
+    "en": "The current profile will be replaced by the import. Continue?",
+    "es": "El perfil actual será reemplazado por la importación. ¿Continuar?",
+    "ja": "現在のプロファイルはインポートによって上書きされます。続行しますか？",
+    "ru": "Текущий профиль будет заменен импортированным. Продолжить?",
+    "zh": "当前配置文件将被导入替换。是否继续？"
   },
   "Datei": {
     "de": "Datei",
     "en": "File",
     "es": "Archivo",
-    "zh": "文件",
     "ja": "ファイル",
-    "ru": "Файл"
+    "ru": "Файл",
+    "zh": "文件"
   },
   "Datei nicht gefunden": {
     "de": "Datei nicht gefunden",
     "en": "File not found",
     "es": "Archivo no encontrado",
-    "zh": "文件未找到",
     "ja": "ファイルが見つかりません",
-    "ru": "Файл не найден"
-  },
-  "Der letzte Tab kann nicht geschlossen werden.": {
-    "de": "Der letzte Tab kann nicht geschlossen werden.",
-    "en": "The last tab cannot be closed.",
-    "es": "No se puede cerrar la última pestaña.",
-    "zh": "无法关闭最后一个标签页。",
-    "ja": "最後のタブは閉じることができません。",
-    "ru": "Последнюю вкладку нельзя закрыть."
+    "ru": "Файл не найден",
+    "zh": "文件未找到"
   },
   "Der Systemtray ist auf diesem System nicht verfügbar.": {
     "de": "Der Systemtray ist auf diesem System nicht verfügbar.",
     "en": "System tray is not available on this system.",
     "es": "La bandeja del sistema no está disponible en este sistema.",
-    "zh": "系统托盘在此系统上不可用。",
     "ja": "このシステムではシステムトレイが利用できません。",
-    "ru": "Системный трей недоступен в этой системе."
+    "ru": "Системный трей недоступен в этой системе.",
+    "zh": "系统托盘在此系统上不可用。"
+  },
+  "Der letzte Tab kann nicht geschlossen werden.": {
+    "de": "Der letzte Tab kann nicht geschlossen werden.",
+    "en": "The last tab cannot be closed.",
+    "es": "No se puede cerrar la última pestaña.",
+    "ja": "最後のタブは閉じることができません。",
+    "ru": "Последнюю вкладку нельзя закрыть.",
+    "zh": "无法关闭最后一个标签页。"
+  },
+  "Dieses Board ist noch leer": {
+    "de": "Dieses Board ist noch leer",
+    "en": "This board is empty",
+    "es": "Este panel está vacío",
+    "ja": "このボードは空です",
+    "ru": "Эта доска пуста",
+    "zh": "此面板为空"
   },
   "Duplizieren auf": {
     "de": "Duplizieren auf",
     "en": "Duplicate to",
     "es": "Duplicar en",
-    "zh": "复制到",
     "ja": "次に複製",
-    "ru": "Дублировать в"
+    "ru": "Дублировать в",
+    "zh": "复制到"
   },
   "Einfacher Modus (Board-Verlauf ohne Favoriten)": {
     "de": "Einfacher Modus (Board-Verlauf ohne Favoriten)",
     "en": "Simple mode (board history without favorites)",
     "es": "Modo simple (historial de tableros sin favoritos)",
-    "zh": "简易模式（无收藏的面板历史）",
     "ja": "シンプルモード（お気に入りのないボード履歴）",
-    "ru": "Простой режим (история досок без избранного)"
+    "ru": "Простой режим (история досок без избранного)",
+    "zh": "简易模式（无收藏的面板历史）"
   },
   "Einstellungen": {
     "de": "Einstellungen",
     "en": "Settings",
     "es": "Configuración",
-    "zh": "设置",
     "ja": "設定",
-    "ru": "Настройки"
+    "ru": "Настройки",
+    "zh": "设置"
   },
   "Eintrag bearbeiten": {
     "de": "Eintrag bearbeiten",
     "en": "Edit entry",
     "es": "Editar entrada",
-    "zh": "编辑条目",
     "ja": "エントリを編集",
-    "ru": "Редактировать запись"
+    "ru": "Редактировать запись",
+    "zh": "编辑条目"
   },
   "Eintrag bearbeiten...": {
     "de": "Eintrag bearbeiten...",
     "en": "Edit entry...",
     "es": "Editar entrada...",
-    "zh": "编辑条目...",
     "ja": "エントリを編集...",
-    "ru": "Редактировать запись..."
+    "ru": "Редактировать запись...",
+    "zh": "编辑条目..."
   },
   "Entfernen": {
     "de": "Entfernen",
     "en": "Remove",
     "es": "Quitar",
-    "zh": "移除",
     "ja": "削除",
-    "ru": "Удалить"
+    "ru": "Удалить",
+    "zh": "移除"
   },
   "Erfolg": {
     "de": "Erfolg",
     "en": "Success",
     "es": "Éxito",
-    "zh": "成功",
     "ja": "成功",
-    "ru": "Успех"
+    "ru": "Успех",
+    "zh": "成功"
   },
   "Export abgeschlossen": {
     "de": "Export abgeschlossen",
     "en": "Export completed",
     "es": "Exportación completada",
-    "zh": "导出完成",
     "ja": "エクスポート完了",
-    "ru": "Экспорт завершен"
+    "ru": "Экспорт завершен",
+    "zh": "导出完成"
   },
   "Export fehlgeschlagen": {
     "de": "Export fehlgeschlagen",
     "en": "Export failed",
     "es": "Error al exportar",
-    "zh": "导出失败",
     "ja": "エクスポート失敗",
-    "ru": "Ошибка экспорта"
+    "ru": "Ошибка экспорта",
+    "zh": "导出失败"
   },
   "Favorit": {
     "de": "Favorit",
     "en": "Favorite",
     "es": "Favorito",
-    "zh": "收藏",
     "ja": "お気に入り",
-    "ru": "Избранное"
+    "ru": "Избранное",
+    "zh": "收藏"
   },
   "Favorit entfernen": {
     "de": "Favorit entfernen",
     "en": "Remove favorite",
     "es": "Eliminar favorito",
-    "zh": "取消收藏",
     "ja": "お気に入りから削除",
-    "ru": "Удалить из избранного"
+    "ru": "Удалить из избранного",
+    "zh": "取消收藏"
   },
   "Fehler": {
     "de": "Fehler",
     "en": "Error",
     "es": "Error",
-    "zh": "错误",
     "ja": "エラー",
-    "ru": "Ошибка"
+    "ru": "Ошибка",
+    "zh": "错误"
   },
   "Fehler beim Starten": {
     "de": "Fehler beim Starten",
     "en": "Failed to start",
     "es": "Error al iniciar",
-    "zh": "启动失败",
     "ja": "起動エラー",
-    "ru": "Ошибка запуска"
+    "ru": "Ошибка запуска",
+    "zh": "启动失败"
   },
   "Fehler beim Öffnen des Dateimanagers": {
     "de": "Fehler beim Öffnen des Dateimanagers",
     "en": "Failed to open file manager",
     "es": "Error al abrir el gestor de archivos",
-    "zh": "打开文件管理器失败",
     "ja": "ファイルマネージャーを開けませんでした",
-    "ru": "Ошибка при открытии файлового менеджера"
+    "ru": "Ошибка при открытии файлового менеджера",
+    "zh": "打开文件管理器失败"
   },
   "Hauptleiste": {
     "de": "Hauptleiste",
     "en": "Main Toolbar",
     "es": "Barra principal",
-    "zh": "主工具栏",
     "ja": "メインツールバー",
-    "ru": "Главная панель"
+    "ru": "Главная панель",
+    "zh": "主工具栏"
   },
   "Hilfe": {
     "de": "Hilfe",
     "en": "Help",
     "es": "Ayuda",
-    "zh": "帮助",
     "ja": "ヘルプ",
-    "ru": "Справка"
-  },
-  "Hinzufügen": {
-    "de": "Hinzufügen",
-    "en": "Add",
-    "es": "Añadir",
-    "zh": "添加",
-    "ja": "追加",
-    "ru": "Добавить"
+    "ru": "Справка",
+    "zh": "帮助"
   },
   "Hinweis": {
     "de": "Hinweis",
     "en": "Notice",
     "es": "Aviso",
-    "zh": "提示",
     "ja": "通知",
-    "ru": "Примечание"
+    "ru": "Примечание",
+    "zh": "提示"
+  },
+  "Hinzufügen": {
+    "de": "Hinzufügen",
+    "en": "Add",
+    "es": "Añadir",
+    "ja": "追加",
+    "ru": "Добавить",
+    "zh": "添加"
   },
   "Im Dateimanager anzeigen": {
     "de": "Im Dateimanager anzeigen",
     "en": "Show in file manager",
     "es": "Mostrar en el gestor de archivos",
-    "zh": "在文件管理器中显示",
     "ja": "ファイルマネージャーで表示",
-    "ru": "Показать в проводнике"
+    "ru": "Показать в проводнике",
+    "zh": "在文件管理器中显示"
   },
   "Im Finder anzeigen": {
     "de": "Im Finder anzeigen",
     "en": "Show in Finder",
     "es": "Mostrar en Finder",
-    "zh": "在访达中显示",
     "ja": "Finderで表示",
-    "ru": "Показать в Finder"
+    "ru": "Показать в Finder",
+    "zh": "在访达中显示"
   },
   "Import abgeschlossen": {
     "de": "Import abgeschlossen",
     "en": "Import completed",
     "es": "Importación completada",
-    "zh": "导入完成",
     "ja": "インポート完了",
-    "ru": "Импорт завершен"
+    "ru": "Импорт завершен",
+    "zh": "导入完成"
   },
   "Import fehlgeschlagen": {
     "de": "Import fehlgeschlagen",
     "en": "Import failed",
     "es": "Error al importar",
-    "zh": "导入失败",
     "ja": "インポート失敗",
-    "ru": "Ошибка импорта"
+    "ru": "Ошибка импорта",
+    "zh": "导入失败"
   },
   "In Datei-Explorer anzeigen": {
     "de": "In Datei-Explorer anzeigen",
     "en": "Show in File Explorer",
     "es": "Mostrar en el Explorador de archivos",
-    "zh": "在文件资源管理器中显示",
     "ja": "エクスプローラーで表示",
-    "ru": "Показать в проводнике"
+    "ru": "Показать в проводнике",
+    "zh": "在文件资源管理器中显示"
   },
   "JSON-Dateien (*.json)": {
     "de": "JSON-Dateien (*.json)",
     "en": "JSON files (*.json)",
     "es": "Archivos JSON (*.json)",
-    "zh": "JSON 文件 (*.json)",
     "ja": "JSON ファイル (*.json)",
-    "ru": "Файлы JSON (*.json)"
+    "ru": "Файлы JSON (*.json)",
+    "zh": "JSON 文件 (*.json)"
   },
   "Ja": {
     "de": "Ja",
     "en": "Yes",
     "es": "Sí",
-    "zh": "是",
     "ja": "はい",
-    "ru": "Да"
+    "ru": "Да",
+    "zh": "是"
   },
   "Kacheln": {
     "de": "Kacheln",
     "en": "Tiles",
     "es": "Mosaicos",
-    "zh": "平铺",
     "ja": "タイル",
-    "ru": "Плитка"
+    "ru": "Плитка",
+    "zh": "平铺"
   },
   "Keine Treffer": {
     "de": "Keine Treffer",
     "en": "No matches found",
     "es": "Sin coincidencias",
-    "zh": "未找到匹配项",
     "ja": "一致する項目がありません",
-    "ru": "Совпадений не найдено"
+    "ru": "Совпадений не найдено",
+    "zh": "未找到匹配项"
   },
   "Keine aktiven Boards": {
     "de": "Keine aktiven Boards",
     "en": "No active boards",
     "es": "No hay tableros activos",
-    "zh": "无活动面板",
     "ja": "アクティブなボードがありません",
-    "ru": "Нет активных досок"
+    "ru": "Нет активных досок",
+    "zh": "无活动面板"
   },
   "Konnte Dateimanager nicht öffnen:": {
     "de": "Konnte Dateimanager nicht öffnen:",
     "en": "Could not open file manager:",
     "es": "No se pudo abrir el gestor de archivos:",
-    "zh": "无法打开文件管理器：",
     "ja": "ファイルマネージャーを開けませんでした:",
-    "ru": "Не удалось открыть проводник:"
+    "ru": "Не удалось открыть проводник:",
+    "zh": "无法打开文件管理器："
   },
   "Liste": {
     "de": "Liste",
     "en": "List",
     "es": "Lista",
-    "zh": "列表",
     "ja": "リスト",
-    "ru": "Список"
+    "ru": "Список",
+    "zh": "列表"
   },
   "Löschen": {
     "de": "Löschen",
     "en": "Delete",
     "es": "Eliminar",
-    "zh": "删除",
     "ja": "削除",
-    "ru": "Удалить"
+    "ru": "Удалить",
+    "zh": "删除"
   },
   "Löschen bestätigen": {
     "de": "Löschen bestätigen",
     "en": "Confirm deletion",
     "es": "Confirmar eliminación",
-    "zh": "确认删除",
     "ja": "削除の確認",
-    "ru": "Подтвердить удаление"
+    "ru": "Подтвердить удаление",
+    "zh": "确认删除"
   },
   "Nein": {
     "de": "Nein",
     "en": "No",
     "es": "No",
-    "zh": "否",
     "ja": "いいえ",
-    "ru": "Нет"
+    "ru": "Нет",
+    "zh": "否"
   },
   "Neuer Tab": {
     "de": "Neuer Tab",
     "en": "New tab",
     "es": "Nueva pestaña",
-    "zh": "新建标签页",
     "ja": "新しいタブ",
-    "ru": "Новая вкладка"
+    "ru": "Новая вкладка",
+    "zh": "新建标签页"
   },
   "Neuer Tab-Name:": {
     "de": "Neuer Tab-Name:",
     "en": "New tab name:",
     "es": "Nombre de nueva pestaña:",
-    "zh": "新标签页名称：",
     "ja": "新しいタブ名:",
-    "ru": "Имя новой вкладки:"
+    "ru": "Имя новой вкладки:",
+    "zh": "新标签页名称："
   },
   "Nicht möglich": {
     "de": "Nicht möglich",
     "en": "Not possible",
     "es": "No es posible",
-    "zh": "操作不可行",
     "ja": "実行できません",
-    "ru": "Невозможно"
+    "ru": "Невозможно",
+    "zh": "操作不可行"
   },
   "Notiz:": {
     "de": "Notiz:",
     "en": "Note:",
     "es": "Nota:",
-    "zh": "备注：",
     "ja": "メモ:",
-    "ru": "Примечание:"
+    "ru": "Примечание:",
+    "zh": "备注："
   },
   "OK": {
     "de": "OK",
     "en": "OK",
     "es": "Aceptar",
-    "zh": "确定",
     "ja": "OK",
-    "ru": "ОК"
+    "ru": "ОК",
+    "zh": "确定"
   },
   "Optionale Notiz eingeben...": {
     "de": "Optionale Notiz eingeben...",
     "en": "Enter optional note...",
     "es": "Introducir nota opcional...",
-    "zh": "输入可选备注...",
     "ja": "任意のメモを入力...",
-    "ru": "Введите примечание (необязательно)..."
+    "ru": "Введите примечание (необязательно)...",
+    "zh": "输入可选备注..."
   },
   "Pfad kopieren": {
     "de": "Pfad kopieren",
     "en": "Copy path",
     "es": "Copiar ruta",
-    "zh": "复制路径",
     "ja": "パスをコピー",
-    "ru": "Копировать путь"
+    "ru": "Копировать путь",
+    "zh": "复制路径"
   },
   "Pfad:": {
     "de": "Pfad:",
     "en": "Path:",
     "es": "Ruta:",
-    "zh": "路径：",
     "ja": "パス:",
-    "ru": "Путь:"
+    "ru": "Путь:",
+    "zh": "路径："
   },
   "Profil exportieren": {
     "de": "Profil exportieren",
     "en": "Export profile",
     "es": "Exportar perfil",
-    "zh": "导出配置文件",
     "ja": "プロファイルをエクスポート",
-    "ru": "Экспорт профиля"
+    "ru": "Экспорт профиля",
+    "zh": "导出配置文件"
   },
   "Profil geladen:": {
     "de": "Profil geladen:",
     "en": "Profile loaded:",
     "es": "Perfil cargado:",
-    "zh": "配置文件已加载：",
     "ja": "プロファイルが読み込まれました:",
-    "ru": "Профиль загружен:"
-  },
-  "Profil importieren": {
-    "de": "Profil importieren",
-    "en": "Import profile",
-    "es": "Importar perfil",
-    "zh": "导入配置文件",
-    "ja": "プロファイルをインポート",
-    "ru": "Импорт профиля"
+    "ru": "Профиль загружен:",
+    "zh": "配置文件已加载："
   },
   "Profil gespeichert:": {
     "de": "Profil gespeichert:",
     "en": "Profile saved:",
     "es": "Perfil guardado:",
-    "zh": "配置文件已保存：",
     "ja": "プロファイルが保存されました:",
-    "ru": "Профиль сохранен:"
+    "ru": "Профиль сохранен:",
+    "zh": "配置文件已保存："
+  },
+  "Profil importieren": {
+    "de": "Profil importieren",
+    "en": "Import profile",
+    "es": "Importar perfil",
+    "ja": "プロファイルをインポート",
+    "ru": "Импорт профиля",
+    "zh": "导入配置文件"
   },
   "Profil konnte nicht gespeichert werden:": {
     "de": "Profil konnte nicht gespeichert werden:",
     "en": "Profile could not be saved:",
     "es": "No se pudo guardar el perfil:",
-    "zh": "无法保存配置文件：",
     "ja": "プロファイルを保存できませんでした:",
-    "ru": "Не удалось сохранить профиль:"
+    "ru": "Не удалось сохранить профиль:",
+    "zh": "无法保存配置文件："
   },
   "Profil konnte nicht importiert werden:": {
     "de": "Profil konnte nicht importiert werden:",
     "en": "Profile could not be imported:",
     "es": "No se pudo importar el perfil:",
-    "zh": "无法导入配置文件：",
     "ja": "プロファイルをインポートできませんでした:",
-    "ru": "Не удалось импортировать профиль:"
+    "ru": "Не удалось импортировать профиль:",
+    "zh": "无法导入配置文件："
   },
   "Schließen": {
     "de": "Schließen",
     "en": "Close",
     "es": "Cerrar",
-    "zh": "关闭",
     "ja": "閉じる",
-    "ru": "Закрыть"
+    "ru": "Закрыть",
+    "zh": "关闭"
   },
   "Senden an": {
     "de": "Senden an",
     "en": "Send to",
     "es": "Enviar a",
-    "zh": "发送到",
     "ja": "送信先",
-    "ru": "Отправить в"
+    "ru": "Отправить в",
+    "zh": "发送到"
   },
   "Speichern": {
     "de": "Speichern",
     "en": "Save",
     "es": "Guardar",
-    "zh": "保存",
     "ja": "保存",
-    "ru": "Сохранить"
+    "ru": "Сохранить",
+    "zh": "保存"
   },
   "Sprache": {
     "de": "Sprache",
     "en": "Language",
     "es": "Idioma",
-    "zh": "语言",
     "ja": "言語",
-    "ru": "Язык"
+    "ru": "Язык",
+    "zh": "语言"
   },
   "Suchen": {
     "de": "Suchen",
     "en": "Search",
     "es": "Buscar",
-    "zh": "搜索",
     "ja": "検索",
-    "ru": "Поиск"
+    "ru": "Поиск",
+    "zh": "搜索"
   },
   "Tab": {
     "de": "Tab",
     "en": "Tab",
     "es": "Pestaña",
-    "zh": "标签页",
     "ja": "タブ",
-    "ru": "Вкладка"
+    "ru": "Вкладка",
+    "zh": "标签页"
   },
   "Tab umbenennen": {
     "de": "Tab umbenennen",
     "en": "Rename tab",
     "es": "Renombrar pestaña",
-    "zh": "重命名标签页",
     "ja": "タブの名前を変更",
-    "ru": "Переименовать вкладку"
+    "ru": "Переименовать вкладку",
+    "zh": "重命名标签页"
   },
   "Tab-Name:": {
     "de": "Tab-Name:",
     "en": "Tab name:",
     "es": "Nombre de pestaña:",
-    "zh": "标签页名称：",
     "ja": "タブ名:",
-    "ru": "Имя вкладки:"
+    "ru": "Имя вкладки:",
+    "zh": "标签页名称："
+  },
+  "Universeller Ordnungslayer außerhalb des Dateisystems.\n\nOrganisieren Sie beliebig viele Programme, Dokumente, Ordner und Verknüpfungen in übersichtlichen Boards.": {
+    "de": "Universeller Ordnungslayer außerhalb des Dateisystems.\n\nOrganisieren Sie beliebig viele Programme, Dokumente, Ordner und Verknüpfungen in übersichtlichen Boards.",
+    "en": "Universal organization layer beyond the file system.\n\nOrganize apps, documents, folders, and shortcuts in customizable boards.",
+    "es": "Capa de organización universal más allá del sistema de archivos.\n\nOrganice aplicaciones, documentos, carpetas y accesos directos en paneles personalizados.",
+    "ja": "ファイルシステムを超えたユニバーサルな整理レイヤー。\n\nアプリ、ドキュメント、フォルダー、ショートカットをカスタムボードで整理します。",
+    "ru": "Универсальный уровень организации поверх файловой системы.\n\nУпорядочивайте приложения, документы, папки и ярлыки на настраиваемых досках.",
+    "zh": "独立于文件系统的通用整理层。\n\n在自定义面板中整理应用程序、文档、文件夹和快捷方式。"
   },
   "Verlauf": {
     "de": "Verlauf",
     "en": "History",
     "es": "Historial",
-    "zh": "历史记录",
     "ja": "履歴",
-    "ru": "История"
+    "ru": "История",
+    "zh": "历史记录"
   },
   "Verlauf leeren": {
     "de": "Verlauf leeren",
     "en": "Clear history",
     "es": "Limpiar historial",
-    "zh": "清空历史",
     "ja": "履歴を消去",
-    "ru": "Очистить историю"
+    "ru": "Очистить историю",
+    "zh": "清空历史"
   },
   "Warnung": {
     "de": "Warnung",
     "en": "Warning",
     "es": "Advertencia",
-    "zh": "警告",
     "ja": "警告",
-    "ru": "Предупреждение"
+    "ru": "Предупреждение",
+    "zh": "警告"
+  },
+  "Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.": {
+    "de": "Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.",
+    "en": "Drag and drop any apps, documents, folders, or shortcuts here.",
+    "es": "Arrastra aquí cualquier aplicación, documento, carpeta o acceso directo.",
+    "ja": "アプリ、ドキュメント、フォルダー、ショートカットをここにドラッグ＆ドロップしてください。",
+    "ru": "Перетащите сюда любые приложения, документы, папки или ярлыки.",
+    "zh": "将任意应用程序、文档、文件夹或快捷方式拖放到此处。"
   },
   "Öffnen/Anzeigen": {
     "de": "Öffnen/Anzeigen",
     "en": "Open/Show",
     "es": "Abrir/Mostrar",
-    "zh": "打开/显示",
     "ja": "開く/表示",
-    "ru": "Открыть/Показать"
+    "ru": "Открыть/Показать",
+    "zh": "打开/显示"
   },
   "Öffnen/Starten": {
     "de": "Öffnen/Starten",
     "en": "Open/Launch",
     "es": "Abrir/Iniciar",
-    "zh": "打开/启动",
     "ja": "開く/起動",
-    "ru": "Открыть/Запустить"
+    "ru": "Открыть/Запустить",
+    "zh": "打开/启动"
+  },
+  "Über LaunchBoards": {
+    "de": "Über LaunchBoards",
+    "en": "About LaunchBoards",
+    "es": "Acerca de LaunchBoards",
+    "ja": "LaunchBoards について",
+    "ru": "О LaunchBoards",
+    "zh": "关于 LaunchBoards"
+  },
+  "Über SoftwareCenter": {
+    "de": "Über SoftwareCenter",
+    "en": "About SoftwareCenter",
+    "es": "Acerca de SoftwareCenter",
+    "ja": "SoftwareCenter について",
+    "ru": "О SoftwareCenter",
+    "zh": "关于 SoftwareCenter"
   }
 }
