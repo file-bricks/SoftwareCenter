@@ -46,6 +46,8 @@ def test_readme_quick_navigation_anchors():
     for anchor in [
         "#quick-reference",
         "#features",
+        "#target-personas--discoverability",
+        "#comparative-matrix-vs-alternatives",
         "#system-architecture",
         "#lifecycle-sequence-flow",
         "#core-capabilities--safety-invariants",
@@ -58,6 +60,7 @@ def test_readme_quick_navigation_anchors():
         "#build-executable",
         "#quality-checks",
         "#security-policy",
+        "#third-party-licenses--governance",
         "#license",
     ]:
         assert f"({anchor})" in text_en, f"Missing anchor {anchor} in README.md"
@@ -66,6 +69,8 @@ def test_readme_quick_navigation_anchors():
     for anchor in [
         "#einstieg",
         "#funktionen",
+        "#zielgruppen--auffindbarkeit",
+        "#vergleichsmatrix-gegenüber-alternativen",
         "#systemarchitektur",
         "#lebenszyklus-ablaufdiagramm",
         "#kernfähigkeiten--sicherheitsinvarianten",
@@ -78,9 +83,36 @@ def test_readme_quick_navigation_anchors():
         "#exe-erstellen",
         "#qualitätssicherung",
         "#sicherheitsrichtlinie",
+        "#drittanbieter-lizenzen--governance",
         "#lizenz",
     ]:
         assert f"({anchor})" in text_de, f"Missing anchor {anchor} in README_de.md"
+
+    # Verify key sections exist in Spanish
+    readme_es = ROOT / "README.es.md"
+    text_es = readme_es.read_text(encoding="utf-8")
+    assert "## Navegación rápida" in text_es
+    for anchor in [
+        "#referencia-rápida",
+        "#características",
+        "#personas-objetivo-y-descubribilidad",
+        "#matriz-comparativa-frente-a-alternativas",
+        "#arquitectura-del-sistema",
+        "#flujo-del-ciclo-de-vida",
+        "#capacidades-centrales-e-invariantes-de-seguridad",
+        "#ecosistema-hermano-y-productos-relacionados",
+        "#contexto-de-descubrimiento",
+        "#requisitos",
+        "#instalación",
+        "#ejecución",
+        "#uso",
+        "#compilar-ejecutable",
+        "#controles-de-calidad",
+        "#política-de-seguridad",
+        "#licencias-de-terceros-y-gobernanza",
+        "#licencia",
+    ]:
+        assert f"({anchor})" in text_es, f"Missing anchor {anchor} in README.es.md"
 
 
 def test_readme_contains_mermaid_diagrams():
@@ -105,7 +137,7 @@ def test_readme_badges_parity_and_test_count():
 
     common_badges = [
         "python-3.10",
-        "pytest-223%20passed",
+        "pytest-236%20passed",
         "GUI-PySide6",
         "file--bricks",
         "open--bricks",
@@ -169,6 +201,7 @@ def test_pyproject_pep621_metadata_and_urls():
     assert urls["Umbrella Ecosystem"] == "https://github.com/open-bricks"
     assert urls["LLM Ready"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/llms.txt"
     assert urls["Marketing Log"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/MARKETING-LOG.txt"
+    assert urls["Third-Party Licenses"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/THIRD_PARTY_LICENSES.md"
 
     classifiers = project["classifiers"]
     assert "Programming Language :: Python :: 3.13" in classifiers
@@ -209,9 +242,9 @@ def test_llms_txt_structure_and_timestamp():
     assert llms_file.exists(), "llms.txt must exist"
     content = llms_file.read_text(encoding="utf-8")
 
-    assert "## Last-checked: 2026-09-11" in content
+    assert "## Last-checked: 2026-09-14" in content
     assert "https://github.com/file-bricks/SoftwareCenter" in content
-    assert "223 tests" in content
+    assert "THIRD_PARTY_LICENSES.md" in content
     assert "Disambiguation" in content
     assert "MARKETING-LOG.txt" in content
 
@@ -221,6 +254,8 @@ def test_changelog_recent_entry():
     assert changelog_file.exists(), "CHANGELOG.md must exist"
     content = changelog_file.read_text(encoding="utf-8")
 
+    assert "2026-09-14" in content
+    assert "Pfad B" in content
     assert "2026-09-11" in content
     assert "Pfad A" in content
 
@@ -255,12 +290,71 @@ def test_marketing_log_contract_and_invariants():
     content = mkt_file.read_text(encoding="utf-8")
 
     assert "file-bricks/SoftwareCenter" in content
-    assert "2026-09-11" in content
+    assert "2026-09-14" in content
     assert "INV-LOCAL-01" in content
     assert "INV-SEC-02" in content
     assert "INV-PROFILE-03" in content
     assert "INV-LAUNCH-04" in content
     assert "INV-DUAL-05" in content
+    assert "INV-PARITY-09" in content
+    assert "INV-ZEROCOPY-10" in content
+
+
+def test_target_personas_present_in_all_readmes():
+    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
+    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
+
+    assert "Persona 1:" in text_en and "Persona 2:" in text_en and "Persona 3:" in text_en and "Persona 4:" in text_en
+    assert "Persona 1:" in text_de and "Persona 2:" in text_de and "Persona 3:" in text_de and "Persona 4:" in text_de
+    assert "Persona 1:" in text_es and "Persona 2:" in text_es and "Persona 3:" in text_es and "Persona 4:" in text_es
+
+
+def test_comparative_matrix_present_in_all_readmes():
+    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
+    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
+
+    for text in [text_en, text_de, text_es]:
+        assert "Stardock Fences" in text
+        assert "SyMenu" in text
+        assert "Launchy / Flow Launcher" in text
+
+
+def test_third_party_licenses_md_contract_and_invariants():
+    tpl_file = ROOT / "THIRD_PARTY_LICENSES.md"
+    assert tpl_file.exists(), "THIRD_PARTY_LICENSES.md must exist"
+    content = tpl_file.read_text(encoding="utf-8")
+
+    assert "PySide6" in content
+    assert "shiboken6" in content
+    assert "PyInstaller" in content
+    assert "LGPL-3.0" in content
+    assert "RunAsInvoker" in content
+
+    # All 10 invariants verified
+    for inv_id in [
+        "INV-LOCAL-01",
+        "INV-SEC-02",
+        "INV-PROFILE-03",
+        "INV-LAUNCH-04",
+        "INV-DUAL-05",
+        "INV-A11Y-06",
+        "INV-HYGIENE-07",
+        "INV-SLA-08",
+        "INV-PARITY-09",
+        "INV-ZEROCOPY-10",
+    ]:
+        assert inv_id in content, f"Missing {inv_id} in THIRD_PARTY_LICENSES.md"
+
+
+def test_third_party_licenses_referenced_in_all_readmes():
+    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
+    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
+
+    for text in [text_en, text_de, text_es]:
+        assert "[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)" in text
 
 
 def test_git_hygiene_no_sync_conflicts():

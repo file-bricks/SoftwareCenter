@@ -3,7 +3,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 223 Passed](https://img.shields.io/badge/pytest-223%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 236 Passed](https://img.shields.io/badge/pytest-236%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Plattformen: Windows | macOS | Linux](https://img.shields.io/badge/Plattformen-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
 [![Datenschutz: 100% Local-First](https://img.shields.io/badge/Datenschutz-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
 [![Sicherheit: 48h SLA](https://img.shields.io/badge/Sicherheit-48h%20SLA-blue.svg)](SECURITY.md)
@@ -26,6 +26,8 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 
 - [Einstieg](#einstieg)
 - [Funktionen](#funktionen)
+- [Zielgruppen & Auffindbarkeit](#zielgruppen--auffindbarkeit)
+- [Vergleichsmatrix gegenüber Alternativen](#vergleichsmatrix-gegenüber-alternativen)
 - [Systemarchitektur](#systemarchitektur)
 - [Lebenszyklus-Ablaufdiagramm](#lebenszyklus-ablaufdiagramm)
 - [Kernfähigkeiten & Sicherheitsinvarianten](#kernfähigkeiten--sicherheitsinvarianten)
@@ -43,6 +45,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - [Windows-Store-Artefakte](#windows-store-artefakte)
 - [Technik](#technik)
 - [Sicherheitsrichtlinie](#sicherheitsrichtlinie)
+- [Drittanbieter-Lizenzen & Governance](#drittanbieter-lizenzen--governance)
 - [Lizenz](#lizenz)
 - [Haftung](#haftung)
 
@@ -53,7 +56,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-09-09 (lokal: 196 Tests, Plattform-Smokes, Compileall, Ruff, Dependency-Audit, Dateimanager-Kontextmenü-Integration; WACK weiterhin nur Dry-Run) |
+| **Letzte Prüfung** | 2026-09-14 (lokal: vollständige Pytest-Suite, Plattform-Smokes, Compileall, Ruff, Dependency-Audit, Dateimanager-Kontextmenü-Integration; WACK weiterhin nur Dry-Run) |
 
 ## Funktionen
 
@@ -71,6 +74,41 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und Backups
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
 - **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
+
+## Zielgruppen & Auffindbarkeit
+
+SoftwareCenter adressiert gezielte Workflow-Engpässe über vier klar definierte Nutzerprofile:
+
+| Persona | Profil & Kernaufgaben | Zentrales Problem | SoftwareCenter Lösung |
+|---|---|---|---|
+| **Persona 1: Desktop-Power-User & Kuratoren** | Fachanwender mit Dutzenden parallel genutzten Tools, Projektordnern und Skripten. | Überladener Windows-Desktop, träge Startmenü-Suche, fehlende persistente Board-Gruppierung. | Schnelle tab-basierte Boards, Drag & Drop Dateiablage, individuelle Notizen und sofortiger Wechsel. |
+| **Persona 2: Software-Entwickler & DevOps-Engineers** | Entwickler mit projektbezogenen Launchern, CLI-Tools, portablen Apps und venv-Skripten. | Vermischung von Dev-Toolchains im allgemeinen Startmenü; speicherhungrige Launcher-Hintergrunddienste. | Isolierte Multi-Profil-Trennung, Beibehaltung des Arbeitsverzeichnisses (`_startfile_in_dir`), 0% Daemon-Overhead. |
+| **Persona 3: Multi-PC- & Cloud-Sync-Anwender** | Nutzer, die Konfigurationen über mehrere Arbeitsplatzrechner (z. B. Workstation & Laptop) spiegeln. | Fest codierte absolute Pfade, abweichende Laufwerksbuchstaben und ungewollter Secret-Leakage. | Schema-validierter Export (`softwarecenter-profile-v1.json`), Secret-Bereinigung, zerstörungsfreier Import. |
+| **Persona 4: Datenschutz- & Sicherheits-Teams** | Sicherheitsbewusste Teams und Behördenumgebungen mit strikter Zero-Egress-Vorgabe. | Kommerzielle Launcher mit Kontozwang, Telemetrie und Hintergrund-Trackern. | 100% Offline-Ausführung (INV-LOCAL-01), null Netzwerk-Egress, unprivilegierte Rechte (`RunAsInvoker`). |
+
+### Relevante Suchbegriffe
+
+- `SoftwareCenter Desktop Schnellstarter Python`
+- `file-bricks SoftwareCenter Anwendungsverwaltung`
+- `Lokaler Programmstarter mit Reitern und Kategorien`
+- `Desktop Verknüpfungs-Manager ohne Cloud-Zwang`
+- `Open Source App Launcher Deutsch Windows`
+- `SoftwareCenter vs LaunchBoards Profil Umschaltung`
+
+## Vergleichsmatrix gegenüber Alternativen
+
+| Fähigkeit / Dimension | SoftwareCenter | Windows-Startmenü | Stardock Fences | SyMenu | Launchy / Flow Launcher |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **Tab-basierte Kategorisierung** | **JA** (Dynamische Boards) | NEIN (Flache Liste) | JA (Desktop-Bereiche) | JA (Hierarchisches Menü)| NEIN (Nur Suchfeld) |
+| **Open Source (MIT-Lizenz)** | **JA** (100% Freie Lizenz) | NEIN (Proprietär) | NEIN (Kommerziell) | JA (Freeware, Closed) | JA (Open Source) |
+| **Keine Telemetrie / 100% Offline**| **JA** (Strikt Zero-Egress) | NEIN (Bing-Suche/Cloud) | NEIN (Lizenz/Telemetrie)| JA (Offline-fähig) | TEILWEISE (Plugins) |
+| **Multi-Profil-Trennung** | **JA** (Dual-Identity Core) | NEIN (Ein Profil) | NEIN (Nur Desktop) | TEILWEISE (Konfig-Profile)| NEIN (Eine Konfiguration) |
+| **Portabler Export ohne Secrets** | **JA** (`softwarecenter-profile-v1.json`) | NEIN (Registry-gebunden)| NEIN (Proprietär) | TEILWEISE (XML-Format) | NEIN (Kein Exportstandard)|
+| **Arbeitsverzeichnis-Erhalt** | **JA** (Ziel-CWD garantiert) | TEILWEISE (Variabel) | TEILWEISE (Explorer) | JA (Konfigurierbar) | TEILWEISE (Root CWD) |
+| **Universelle Datei/Ordner-Ebene**| **JA** (Alle Dateitypen) | TEILWEISE (Feste Pins) | JA (Desktop-Dateien) | JA (Menü-Einträge) | TEILWEISE (Crawler) |
+| **Headless Batch-Katalogpflege** | **JA** (Automatischer Reconciler) | NEIN (Nur GUI) | NEIN (Nur GUI) | NEIN (Nur manuelle GUI)| NEIN (Nur GUI) |
+| **Schnellzugriff über System-Tray**| **JA** (Integriertes Tray-Menü)| NEIN (Taskleiste fest) | NEIN (Desktop-Fokus) | JA (Tray-zentriert) | NEIN (Nur Hotkey) |
+| **Unprivilegierte Rechte (`RunAsInvoker`)** | **JA** (Keine UAC-Elevation)| SYSTEM / Admin | Standard / Admin | Standard-Benutzer | Standard-Benutzer |
 
 ## Systemarchitektur
 
@@ -265,6 +303,15 @@ aktualisiert `README/screenshots/store/` mit vier bereinigten Store-Grafiken und
 ## Sicherheitsrichtlinie
 
 Sicherheit und Datenschutz stehen an erster Stelle. Siehe [SECURITY.md](SECURITY.md) für vollständige Richtlinien zur Meldung von Schwachstellen, unser 48-Stunden-SLA und die Kern-Invarianten.
+
+## Drittanbieter-Lizenzen & Governance
+
+SoftwareCenter bindet Drittanbieter-Open-Source-Komponenten unter konformen, permissiven Lizenzen ein. Vollständige Audit-Details, SPDX-Identifikatoren und dynamische Verlinkungshinweise finden sich in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+
+- **PySide6 & shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (dynamisch über Qt for Python gelinkt; vollständige Ersetzbarkeit für Endnutzer gemäß LGPLv3 § 4 gewährleistet).
+- **Python-Standardbibliothek:** [PSFL-2.0](https://docs.python.org/3/license.html) (100% offline, kein Netzwerk-Egress).
+- **PyInstaller:** [GPL-2.0-or-later mit PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (Build-Tooling; generierte Binärdateien sind von der GPL-Copyleft-Pflicht ausgenommen).
+- **Governance-Invarianten:** 10 zentrale Laufzeit-Garantien (INV-LOCAL-01 bis INV-ZEROCOPY-10) werden durch automatisierte Vertragstests gesichert.
 
 ## Lizenz
 

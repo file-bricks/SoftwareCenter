@@ -3,7 +3,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 223 Passed](https://img.shields.io/badge/pytest-223%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 236 Passed](https://img.shields.io/badge/pytest-236%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Plataformas: Windows | macOS | Linux](https://img.shields.io/badge/plataformas-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
 [![Privacidad: 100% Local-First](https://img.shields.io/badge/privacidad-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
 [![Seguridad: 48h SLA](https://img.shields.io/badge/seguridad-48h%20SLA-blue.svg)](SECURITY.md)
@@ -26,6 +26,8 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 
 - [Referencia rápida](#referencia-rápida)
 - [Características](#características)
+- [Personas objetivo y descubribilidad](#personas-objetivo-y-descubribilidad)
+- [Matriz comparativa frente a alternativas](#matriz-comparativa-frente-a-alternativas)
 - [Arquitectura del sistema](#arquitectura-del-sistema)
 - [Flujo del ciclo de vida](#flujo-del-ciclo-de-vida)
 - [Capacidades centrales e invariantes de seguridad](#capacidades-centrales-e-invariantes-de-seguridad)
@@ -43,6 +45,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 - [Activos de Windows Store](#activos-de-windows-store)
 - [Pila tecnológica](#pila-tecnológica)
 - [Política de seguridad](#política-de-seguridad)
+- [Licencias de terceros y gobernanza](#licencias-de-terceros-y-gobernanza)
 - [Licencia](#licencia)
 - [Responsabilidad](#responsabilidad)
 
@@ -53,7 +56,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 | **Pila tecnológica** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Licencia** | MIT (PySide6 vinculado dinámicamente bajo LGPLv3) |
 | **Formato de intercambio** | `softwarecenter-profile-v1.json` (ver [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Última verificación** | 2026-09-11 (local: 223 pruebas, pruebas de plataforma, compileall, Ruff, auditoría de dependencias, integración con menús contextuales) |
+| **Última verificación** | 2026-09-14 (local: suite completa pytest, pruebas de plataforma, compileall, Ruff, auditoría de dependencias, integración con menús contextuales) |
 
 ## Características
 
@@ -70,6 +73,41 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 - **Exportación e importación de perfiles** - Formato versionado `softwarecenter-profile-v1.json` para copias de seguridad y migraciones
 - **Selección múltiple** - Eliminación masiva de accesos directos seleccionados
 - **Local-First y sin telemetría** - Sin cuentas, sin servicios en la nube, sin recopilación de datos
+
+## Personas objetivo y descubribilidad
+
+SoftwareCenter está diseñado para resolver cuellos de botella de flujo de trabajo específicos para cuatro perfiles de usuario:
+
+| Persona | Perfil y responsabilidades clave | Punto de fricción principal | Solución de SoftwareCenter |
+|---|---|---|---|
+| **Persona 1: Usuarios avanzados de escritorio y curadores** | Usuarios que gestionan decenas de herramientas, carpetas de trabajo y utilidades a diario. | Escritorio de Windows saturado, lentitud de búsqueda en el Menú Inicio, falta de agrupación personalizada. | Tableros basados en pestañas rápidas, organización de archivos por arrastrar y soltar, cambio instantáneo. |
+| **Persona 2: Desarrolladores de software y DevOps** | Ingenieros que gestionan toolchains, lanzadores de CLI, entornos virtuales y aplicaciones portátiles. | Mezcla de herramientas de desarrollo en el menú de inicio general; lanzadores pesados con consumo de RAM. | Aislamiento multi-perfil, preservación del directorio de trabajo (`_startfile_in_dir`), cero sobrecarga en segundo plano. |
+| **Persona 3: Operadores multi-PC y sincronización** | Usuarios que sincronizan configuraciones entre múltiples estaciones de trabajo (p. ej. sobremesa y portátil). | Rutas absolutas fijas, diferencias en letras de unidad y filtraciones de credenciales locales. | Exportación validada por esquema (`softwarecenter-profile-v1.json`), depuración de secretos, importación no destructiva. |
+| **Persona 4: Equipos de privacidad y seguridad** | Ingenieros de seguridad y entornos corporativos con requisitos estrictos de zero-egress. | Organizadores comerciales con cuentas en la nube obligatorias, telemetría y rastreo constante. | Ejecución 100% local y sin conexión (INV-LOCAL-01), cero salida a la red, permisos de usuario estándar (`RunAsInvoker`). |
+
+### Términos de búsqueda destacados
+
+- `SoftwareCenter lanzador de aplicaciones de escritorio Python`
+- `gestor de accesos directos PySide6 local`
+- `organizador de escritorio por pestañas sin nube`
+- `lanzador portátil de programas sin telemetría`
+- `SoftwareCenter vs LaunchBoards cambio de perfil`
+- `organizador de programas de escritorio de código abierto`
+
+## Matriz comparativa frente a alternativas
+
+| Capacidad / Dimensión | SoftwareCenter | Menú Inicio de Windows | Stardock Fences | SyMenu | Launchy / Flow Launcher |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **Categorización por pestañas** | **SÍ** (Tableros dinámicos) | NO (Lista plana / Carpetas) | SÍ (Áreas de escritorio) | SÍ (Menú jerárquico) | NO (Solo caja de búsqueda) |
+| **Código abierto (Licencia MIT)** | **SÍ** (100% Permisivo) | NO (Propietario integrado) | NO (Comercial cerrado) | SÍ (Freeware cerrado) | SÍ (Código abierto) |
+| **Cero telemetría / 100% Offline**| **SÍ** (Estricto Zero-Egress) | NO (Búsqueda Bing y telemetría)| NO (Licencia y telemetría)| SÍ (Capacidad offline) | PARCIAL (Red de plugins) |
+| **Separación multi-perfil** | **SÍ** (Núcleo de doble identidad) | NO (Perfil de usuario único) | NO (Solo superficie escritorio)| PARCIAL (Perfiles de config)| NO (Configuración única) |
+| **Exportación portátil sin secretos**| **SÍ** (`softwarecenter-profile-v1.json`)| NO (Dependiente del registro)| NO (Copia propietaria) | PARCIAL (Formato XML) | NO (Sin estándar de exportación)|
+| **Preservación directorio de trabajo**| **SÍ** (CWD padre garantizado) | PARCIAL (CWD variable) | PARCIAL (Por defecto Explorer)| SÍ (Configurable) | PARCIAL (CWD raíz de ejecución)|
+| **Capa universal de archivos/carpetas**| **SÍ** (Cualquier destino/objeto)| PARCIAL (Apps y pines fijos) | SÍ (Archivos de escritorio) | SÍ (Entradas de menú) | PARCIAL (Rastreador de índice)|
+| **Mantenimiento desatendido de catálogo**| **SÍ** (Conciliador automático) | NO (Solo interactivo) | NO (Solo interactivo) | NO (Solo interfaz manual) | NO (Solo interactivo) |
+| **Navegación rápida en bandeja del sistema**| **SÍ** (Menú integrado en bandeja)| NO (Barra de tareas fija) | NO (Superficie de escritorio) | SÍ (Centrado en bandeja) | NO (Solo atajo de teclado) |
+| **Ejecución no elevada (`RunAsInvoker`)**| **SÍ** (Sin elevación UAC) | SYSTEM / Alto privilegio | Usuario estándar / Admin | Usuario estándar | Usuario estándar |
 
 ## Arquitectura del sistema
 
@@ -247,6 +285,15 @@ La vía de Windows Store incluye un generador reproducible de capturas de pantal
 ## Política de seguridad
 
 La seguridad y la privacidad son prioridades arquitectónicas fundamentales. Consulte [SECURITY.md](SECURITY.md) para consultar nuestra política completa de divulgación de vulnerabilidades, el SLA de respuesta de 48 horas y las garantías locales.
+
+## Licencias de terceros y gobernanza
+
+SoftwareCenter incorpora componentes de código abierto de terceros bajo licencias permisivas y conformes. Los detalles completos de la auditoría, los identificadores SPDX y las declaraciones de enlace dinámico están disponibles en [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+
+- **PySide6 y shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (enlazado dinámicamente mediante Qt for Python; garantiza la sustitución completa por parte del usuario según LGPLv3 §4).
+- **Biblioteca estándar de Python:** [PSFL-2.0](https://docs.python.org/3/license.html) (100% sin conexión, cero tráfico de red saliente).
+- **PyInstaller:** [GPL-2.0-or-later con PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (herramienta de compilación; los ejecutables empaquetados están exentos del copyleft de GPL).
+- **Invariantes de gobernanza:** 10 garantías de tiempo de ejecución (INV-LOCAL-01 a INV-ZEROCOPY-10) verificadas mediante pruebas automatizadas.
 
 ## Licencia
 

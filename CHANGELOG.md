@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-09-14 (Pfad B: Discoverability, Branding & Governance Parity)
+
+### Added & Enhanced
+- Discoverability & Target Personas: Documented 4 distinct target personas (Desktop Power Users, Solo Software Developers & DevOps Engineers, Multi-PC Workstation Operators, Privacy-Conscious Teams) with core responsibilities, pain points, and SoftwareCenter solutions in `README.md`, `README_de.md`, and `README.es.md`.
+- Competitive 10-Dimension Matrix: Embedded detailed comparison matrix evaluating SoftwareCenter against Windows Start Menu, Stardock Fences, SyMenu, and Launchy / Flow Launcher across all three README documentation hubs.
+- Third-Party License Audit & Governance: Added comprehensive `THIRD_PARTY_LICENSES.md` documenting SPDX license identifiers, dynamic linking compliance for PySide6 (`LGPL-3.0-only`), standalone PyInstaller exception, zero-egress guarantees, and 10 runtime invariants (`INV-LOCAL-01` through `INV-ZEROCOPY-10`).
+- Navigation Parity: Unified 24-point Quick Navigation structure across `README.md`, `README_de.md`, and `README.es.md`.
+- PEP 621 Metadata: Added `Third-Party Licenses` project URL to `pyproject.toml`.
+- LLM Indexing & Context: Synchronized `llms.txt` with latest verification timestamp (2026-09-14) and direct references to `THIRD_PARTY_LICENSES.md`.
+- Automated Contracts: Expanded `tests/test_metadata.py` with contract tests asserting target personas, comparative matrix presence, license governance statement, and tri-lingual navigation anchor parity.
+
 ## [Unreleased] - 2026-09-13
 
 ### Added

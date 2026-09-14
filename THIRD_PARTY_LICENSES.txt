@@ -13,5 +13,7 @@ License: GPLv2-or-later with a special exception for building and distributing
 non-free programs
 URL: https://pyinstaller.org/
 
+For the complete, audited dependency matrix, SPDX identifiers, LGPL-3.0 dynamic linking guarantees, and governance invariants, see THIRD_PARTY_LICENSES.md.
+
 The runtime dependency inventory is `requirements.txt` (PySide6 only). Pytest
-is a development/test dependency and is not bundled into the Store artifact.
+and ruff are development/test dependencies and are not bundled into the Store artifact.

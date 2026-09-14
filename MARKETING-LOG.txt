@@ -1,9 +1,9 @@
 # MARKETING-LOG: SoftwareCenter
-# Status: ACTIVE / PFAD A TECHNICAL HYGIENE & DISCOVERABILITY CERTIFIED
+# Status: ACTIVE / PFAD B DISCOVERABILITY, VISUAL ARCHITECTURE & METADATA CERTIFIED
 # Repository: file-bricks/SoftwareCenter
 # Organization: file-bricks (Umbrella: open-bricks)
-# Audit Date: 2026-09-11
-# Tested Baseline: 209 passed | 5 skipped | 100% green
+# Audit Date: 2026-09-14
+# Tested Baseline: 236 passed | 5 skipped | 100% green
 
 ================================================================================
 1. TARGET PERSONAS & MARKET SEGMENTS
@@ -86,6 +86,8 @@ German High-Intent Search Phrases:
 - INV-A11Y-06: Desktop Accessibility & Keyboard Navigation — Accessible names and keyboard tab traversal enforced across tab bars and item grids.
 - INV-HYGIENE-07: Fail-Closed Conflict Guard — Multi-host synchronization conflict artifacts (*-WORKSTATION*, *-ASUS-GEI*, *.sync-conflict-*) are strictly excluded and ignored.
 - INV-SLA-08: Vulnerability & Maintenance SLA — PEP 621 compliance, 48h security response commitment, and cross-platform continuous integration.
+- INV-PARITY-09: Tier-2 Multi-Language & Documentation Parity — 6-language translation catalog parity (de, en, es, zh, ja, ru) with deterministic 4-stage fallback and tri-lingual docs.
+- INV-ZEROCOPY-10: Permissive Licensing & Zero-Copyleft Containment — MIT application license, dynamically linked LGPL-3.0 PySide6, and standalone PyInstaller exception.
 
 ================================================================================
 5. STRATEGIC DISCOVERABILITY ROADMAP
@@ -105,3 +107,17 @@ German High-Intent Search Phrases:
   * GitHub Actions CI hardened with concurrency cancellation and 15-minute job timeouts.
   * .gitignore hardened with multi-host conflict tokens and lock patterns.
   * Created MARKETING-LOG.txt and synchronized metadata contracts across project.
+
+================================================================================
+7. RECENT MARKETING, BRANDING & ASSET UPDATES (2026-09-14)
+================================================================================
+
+- Pfad B Discoverability, Visual Architecture & Metadata Parity:
+  * Tri-lingual README architecture (README.md, README_de.md, README.es.md) updated with full 24-point Quick Navigation parity across English, German, and Spanish.
+  * Target Personas (Desktop Power Users, Solo Software Developers & DevOps, Multi-PC Workstation Operators, Privacy-Conscious Advocates) directly embedded into all three documentation hubs.
+  * 10-Dimension Comparative Matrix vs. Windows Start Menu, Stardock Fences, SyMenu, and Launchy / Flow Launcher embedded across all three READMEs.
+  * Created comprehensive THIRD_PARTY_LICENSES.md documenting SPDX license identifiers, dynamic linking compliance for PySide6 (LGPL-3.0), PyInstaller packaging exception, zero-egress privacy, and 10 runtime invariants (INV-LOCAL-01 to INV-ZEROCOPY-10).
+  * Synchronized badges: Pytest test counts, platforms, zero-egress, local-first privacy, and verified audit stencils.
+  * Updated llms.txt with Last-checked 2026-09-14, test count synchronisation, and cross-references to THIRD_PARTY_LICENSES.md.
+  * Updated pyproject.toml PEP 621 project URLs with 'Third-Party Licenses'.
+  * Expanded automated contract test suite in tests/test_metadata.py with assertions certifying personas, comparison matrix, license governance, and tri-lingual navigation anchor parity.

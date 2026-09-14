@@ -3,7 +3,7 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 223 Passed](https://img.shields.io/badge/pytest-223%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Pytest 236 Passed](https://img.shields.io/badge/pytest-236%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Platforms: Windows | macOS | Linux](https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
 [![Privacy: 100% Local-First](https://img.shields.io/badge/privacy-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
 [![Security: 48h SLA](https://img.shields.io/badge/security-48h%20SLA-blue.svg)](SECURITY.md)
@@ -26,6 +26,8 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 
 - [Quick Reference](#quick-reference)
 - [Features](#features)
+- [Target Personas & Discoverability](#target-personas--discoverability)
+- [Comparative Matrix vs. Alternatives](#comparative-matrix-vs-alternatives)
 - [System Architecture](#system-architecture)
 - [Lifecycle Sequence Flow](#lifecycle-sequence-flow)
 - [Core Capabilities & Safety Invariants](#core-capabilities--safety-invariants)
@@ -43,6 +45,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - [Windows Store Assets](#windows-store-assets)
 - [Tech Stack](#tech-stack)
 - [Security Policy](#security-policy)
+- [Third-Party Licenses & Governance](#third-party-licenses--governance)
 - [License](#license)
 - [Liability](#liability)
 
@@ -53,7 +56,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-09-09 (local: 196 tests, platform smokes, compileall, Ruff, dependency audit, file manager context menu integration; WACK remains dry-run only) |
+| **Last Checked** | 2026-09-14 (local: full pytest suite, platform smokes, compileall, Ruff, dependency audit, file manager context menu integration; WACK remains dry-run only) |
 
 ## Features
 
@@ -71,6 +74,41 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - **Profile Export/Import** - Versioned `softwarecenter-profile-v1.json` format for migrations and backups
 - **Multi-Selection** - Delete multiple entries at once
 - **Offline-First** - No telemetry, no accounts, no cloud connection
+
+## Target Personas & Discoverability
+
+SoftwareCenter is designed to address specific workflow bottlenecks across four distinct user personas:
+
+| Persona | Core Profile & Responsibilities | Key Pain Point | SoftwareCenter Solution |
+|---|---|---|---|
+| **Persona 1: Desktop Power Users & Curators** | Power users running dozens of tools, workspace folders, and utilities daily. | Cluttered Windows desktop, slow Start Menu search latency, lack of persistent custom grouping. | Fast tab-based boards, drag-and-drop file organization, custom notes, and instant switching. |
+| **Persona 2: Solo Developers & DevOps Engineers** | Developers managing toolchains, CLI wrappers, portable apps, and virtual environments. | Mixing dev tools into consumer start menus; heavy launcher daemons consuming memory. | Isolated multi-profile identity, working directory preservation (`_startfile_in_dir`), zero daemon overhead. |
+| **Persona 3: Multi-PC Workstation Operators** | Users synchronizing configurations across multiple workstations (e.g. Workstation and Laptop). | Hardcoded absolute paths, drive letter mismatches, and machine-local secret leakages. | Schema-validated export (`softwarecenter-profile-v1.json`), strict secret scrubbing, non-destructive import. |
+| **Persona 4: Privacy-Conscious & Security Teams** | Security engineers and enterprise users requiring complete data confidentiality. | Commercial organizers with forced cloud accounts, telemetry, and background trackers. | 100% local-first offline execution (INV-LOCAL-01), zero network egress, unprivileged user rights (`RunAsInvoker`). |
+
+### High-Intent Search Phrases
+
+- `SoftwareCenter Python desktop launcher`
+- `PySide6 desktop shortcut manager`
+- `local-first desktop organizer python`
+- `portable shortcut launcher without cloud account`
+- `SoftwareCenter vs LaunchBoards profile switcher`
+- `privacy friendly Windows app launcher with tabs`
+
+## Comparative Matrix vs. Alternatives
+
+| Capability / Dimension | SoftwareCenter | Windows Start Menu | Stardock Fences | SyMenu | Launchy / Flow Launcher |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **Tab-Based Categorization** | **YES** (Dynamic Boards) | NO (Flat List / Folders) | YES (Desktop Fences) | YES (Hierarchical Menu) | NO (Search Box Only) |
+| **Open Source (MIT License)** | **YES** (100% Permissive) | NO (Proprietary Bundled) | NO (Commercial Closed) | YES (Freeware Closed) | YES (Open Source) |
+| **Zero Telemetry & 100% Offline** | **YES** (Strict Zero-Egress) | NO (Bing Search & Telemetry) | NO (License & Telemetry) | YES (Offline Capable) | PARTIAL (Plugin Network) |
+| **Multi-Profile Separation** | **YES** (Dual-Identity Core) | NO (Single User Profile) | NO (Desktop Surface Only) | PARTIAL (Config Profiles) | NO (Single Configuration) |
+| **Portable Redacted Profile Export** | **YES** (`softwarecenter-profile-v1.json`) | NO (Registry Dependent) | NO (Proprietary Backup) | PARTIAL (Custom XML) | NO (No Export Standard) |
+| **Working Directory Preservation** | **YES** (Parent CWD Guaranteed) | PARTIAL (Variable CWD) | PARTIAL (Explorer Default) | YES (Configurable CWD) | PARTIAL (Launch Root CWD) |
+| **Universal File/Doc/Folder Layer** | **YES** (Any FS Target / Droppable) | PARTIAL (Apps & Fixed Pins) | YES (Desktop Files) | YES (Menu Entries) | PARTIAL (Index Crawler) |
+| **Headless Batch Catalog Care** | **YES** (Automated Reconciler) | NO (Interactive Only) | NO (Interactive Only) | NO (Manual GUI) | NO (Interactive Only) |
+| **System Tray Quick Navigation** | **YES** (Integrated Tray Menu) | NO (Taskbar Fixed) | NO (Desktop Surface) | YES (Tray Centric) | NO (Keyboard Shortcut) |
+| **Unprivileged Execution (`RunAsInvoker`)** | **YES** (Strict Non-Elevation) | SYSTEM / High Privilege | Standard User / Admin | Standard User | Standard User |
 
 ## System Architecture
 
@@ -263,6 +301,15 @@ current desktop UI. Run `python generate_store_screenshots.py` to refresh
 ## Security Policy
 
 Security and privacy are core architectural priorities. See [SECURITY.md](SECURITY.md) for our full vulnerability disclosure guidelines, 48-hour response SLA, and local-first invariants.
+
+## Third-Party Licenses & Governance
+
+SoftwareCenter incorporates third-party open-source components under compliant, permissive licensing. Complete audit details, SPDX identifiers, and dynamic linking compliance statements are available in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+
+- **PySide6 & shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (dynamically linked via Qt for Python, preserving full user replaceability under LGPLv3 §4).
+- **Python Standard Library:** [PSF-2.0](https://docs.python.org/3/license.html) (100% offline, zero network egress).
+- **PyInstaller:** [GPL-2.0-or-later with PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (build-time tooling; output executables are exempt from GPL copyleft).
+- **Governance Invariants:** 10 core runtime guarantees (INV-LOCAL-01 through INV-ZEROCOPY-10) enforced by automated tests.
 
 ## License
 
