@@ -13,8 +13,18 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from PySide6.QtCore import QFileInfo, QPoint, QRect, QSettings, QSize, Qt, QTimer, Signal
-from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon, QPainter, QPalette
+from PySide6.QtCore import QFileInfo, QPoint, QRect, QSettings, QSize, Qt, QTimer, QUrl, Signal
+from PySide6.QtGui import (
+    QAction,
+    QActionGroup,
+    QColor,
+    QDesktopServices,
+    QIcon,
+    QKeySequence,
+    QPainter,
+    QPalette,
+    QShortcut,
+)
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from PySide6.QtWidgets import (
     QAbstractButton,
@@ -282,9 +292,17 @@ def _sanitize_desktop_exec_token(token: str) -> str | None:
         return None
     return sanitized
 
+def is_web_url(path: str) -> bool:
+    if not isinstance(path, str) or not path.strip():
+        return False
+    lower = path.strip().lower()
+    return lower.startswith(("http://", "https://"))
+
 def is_supported_launch_target(path: str) -> bool:
     if not isinstance(path, str) or not path:
         return False
+    if is_web_url(path):
+        return True
     return bool(os.path.isfile(path) or os.path.isdir(path))
 
 def is_supported_windows_shortcut_target(path: str) -> bool:
@@ -352,6 +370,13 @@ def normalize_new_launch_path(path: str) -> str:
 def default_entry_label(path: str) -> str:
     if not isinstance(path, str) or not path:
         return ""
+    if is_web_url(path):
+        clean = path.strip()
+        for prefix in ("https://", "http://"):
+            if clean.lower().startswith(prefix):
+                clean = clean[len(prefix):]
+                break
+        return clean.rstrip("/") or path
     name = desktop_entry_display_name(path) if is_linux_desktop_entry(path) else None
     if name:
         return name
@@ -362,6 +387,8 @@ def default_entry_label(path: str) -> str:
 def detect_entry_kind(path: str) -> str:
     if not isinstance(path, str) or not path:
         return "unknown"
+    if is_web_url(path):
+        return "url"
     lower_path = path.lower()
     if lower_path.endswith(".url"):
         return "url"
@@ -492,6 +519,20 @@ def _startfile_in_dir(path: str, workdir: str | None) -> None:
 
 
 def open_file(path: str) -> None:
+    if is_web_url(path):
+        try:
+            if QDesktopServices.openUrl(QUrl(path)):
+                return
+        except Exception:
+            pass
+        try:
+            import webbrowser
+            webbrowser.open(path)
+            return
+        except Exception as e:
+            QMessageBox.critical(None, t("Fehler beim Starten"), f"Konnte nicht starten:\n{path}\n\n{e}")
+            return
+
     if not os.path.exists(path):
         QMessageBox.warning(None, "Datei nicht gefunden", f"Pfad existiert nicht:\n{path}")
         return
@@ -518,8 +559,10 @@ def open_file(path: str) -> None:
         QMessageBox.critical(None, "Fehler beim Starten", f"Konnte nicht starten:\n{path}\n\n{e}")
 
 
-def get_file_manager_action_title() -> str:
+def get_file_manager_action_title(path: str | None = None) -> str:
     """Liefert den plattformspezifischen Titel für die Dateimanager-Aktion."""
+    if path and is_web_url(path):
+        return t("Im Browser öffnen")
     if sys.platform.startswith("win"):
         return "Im Explorer anzeigen"
     elif sys.platform == "darwin":
@@ -530,6 +573,9 @@ def get_file_manager_action_title() -> str:
 def show_in_file_manager(path: str) -> None:
     """Öffnet den Dateimanager (Explorer/Finder/xdg-open) und hebt die Datei hervor."""
     if not isinstance(path, str) or not path.strip():
+        return
+    if is_web_url(path):
+        open_file(path)
         return
     if not os.path.exists(path):
         QMessageBox.warning(None, "Datei nicht gefunden", f"Pfad existiert nicht:\n{path}")
@@ -778,33 +824,93 @@ class SoftwareListWidget(QListWidget):
                 painter.end()
 
     def dragEnterEvent(self, event):
-        if event.mimeData().hasUrls():
+        if event.mimeData().hasUrls() or event.mimeData().hasText():
             event.acceptProposedAction()
         else:
             event.ignore()
 
     def dragMoveEvent(self, event):
-        if event.mimeData().hasUrls():
+        if event.mimeData().hasUrls() or event.mimeData().hasText():
             event.acceptProposedAction()
         else:
             event.ignore()
 
     def dropEvent(self, event):
-        urls = event.mimeData().urls()
-        if not urls:
-            return
+        urls = event.mimeData().urls() if event.mimeData().hasUrls() else []
         paths = []
         for url in urls:
             if url.isLocalFile():
                 p = url.toLocalFile()
                 if is_supported_launch_target(p):
                     paths.append(p)
+            elif url.scheme() in ("http", "https"):
+                u_str = url.toString()
+                if is_supported_launch_target(u_str):
+                    paths.append(u_str)
+        if not paths and event.mimeData().hasText():
+            text = event.mimeData().text().strip()
+            if is_supported_launch_target(text):
+                paths.append(text)
         if paths:
             self.add_paths(paths)
             self.entriesChanged.emit()
             event.acceptProposedAction()
         else:
             event.ignore()
+
+    def filter_entries(self, query: str) -> int:
+        """Filtert die Einträge im ListWidget anhand eines Suchbegriffs.
+
+        Prüft Label, Pfad und Notizen (case-insensitive).
+        Leere Anfrage zeigt alle Einträge.
+        Gibt die Anzahl sichtbarer Einträge zurück.
+        """
+        self._current_filter = query or ""
+        needle = self._current_filter.strip().casefold()
+        visible_count = 0
+        for i in range(self.count()):
+            item = self.item(i)
+            if not item:
+                continue
+            if not needle:
+                item.setHidden(False)
+                visible_count += 1
+                continue
+            metadata = item.data(ENTRY_METADATA_ROLE) or {}
+            label = (item.text() or "").casefold()
+            path = (metadata.get("path") or item.data(Qt.ItemDataRole.UserRole) or "").casefold()
+            notes = (metadata.get("notes") or "").casefold()
+            if needle in label or needle in path or needle in notes:
+                item.setHidden(False)
+                visible_count += 1
+            else:
+                item.setHidden(True)
+        return visible_count
+
+    def get_visible_count(self) -> int:
+        """Gibt die Anzahl aktuell nicht-ausgeblendeter Einträge zurück."""
+        count = 0
+        for i in range(self.count()):
+            item = self.item(i)
+            if item and not item.isHidden():
+                count += 1
+        return count
+
+    def get_first_visible_entry(self) -> dict | None:
+        """Gibt das Metadaten-Dict des ersten sichtbaren Eintrags zurück."""
+        for i in range(self.count()):
+            item = self.item(i)
+            if item and not item.isHidden():
+                metadata = item.data(ENTRY_METADATA_ROLE)
+                if isinstance(metadata, dict):
+                    return metadata
+                return {
+                    "path": item.data(Qt.ItemDataRole.UserRole),
+                    "label": item.text(),
+                    "kind": detect_entry_kind(item.data(Qt.ItemDataRole.UserRole)),
+                    "notes": None,
+                }
+        return None
 
     def sort_entries(self, ascending: bool = True):
         """Sortiert die Einträge im aktuellen Board alphabetisch nach Bezeichnung."""
@@ -866,7 +972,8 @@ class SoftwareListWidget(QListWidget):
         act_open = menu.addAction("Öffnen/Starten")
         act_open.setEnabled(has_selection)
 
-        act_show_fm = menu.addAction(get_file_manager_action_title())
+        selected_path = str(selected[0].data(Qt.ItemDataRole.UserRole)) if len(selected) == 1 else None
+        act_show_fm = menu.addAction(get_file_manager_action_title(selected_path))
         act_show_fm.setEnabled(has_selection)
 
         act_copy_path = menu.addAction("Pfad kopieren")
@@ -1000,6 +1107,10 @@ class SoftwareListWidget(QListWidget):
         path = entry["path"]
         info = QFileInfo(path)
         icon = desktop_entry_icon(path) if is_linux_desktop_entry(path) else None
+        if (icon is None or icon.isNull()) and (is_web_url(path) or entry.get("kind") == "url"):
+            style = QApplication.style()
+            if style:
+                icon = style.standardIcon(QStyle.StandardPixmap.SP_DriveNetIcon)
         if icon is None or icon.isNull():
             icon = self._icon_provider.icon(info)
         name = entry["label"]
@@ -1008,6 +1119,14 @@ class SoftwareListWidget(QListWidget):
         item.setToolTip(f"{path}\n\nNotizen: {notes}" if notes else path)
         item.setData(Qt.ItemDataRole.UserRole, path)
         item.setData(ENTRY_METADATA_ROLE, entry)
+        if getattr(self, "_current_filter", ""):
+            needle = self._current_filter.strip().casefold()
+            if needle:
+                label_cf = name.casefold()
+                path_cf = path.casefold()
+                notes_cf = (notes or "").casefold()
+                if needle not in label_cf and needle not in path_cf and needle not in notes_cf:
+                    item.setHidden(True)
         self.addItem(item)
 
     def remove_paths(self, paths: list[str]):
@@ -1075,6 +1194,15 @@ class TabPage(QWidget):
 
     def add_entries(self, entries: list[str | dict]):
         self.list.add_entries(entries)
+
+    def filter_entries(self, query: str) -> int:
+        return self.list.filter_entries(query)
+
+    def get_visible_count(self) -> int:
+        return self.list.get_visible_count()
+
+    def get_first_visible_entry(self) -> dict | None:
+        return self.list.get_first_visible_entry()
 
     def on_request_delete(self, paths: list[str]):
         if not paths:
@@ -1215,6 +1343,9 @@ class MainWindow(QMainWindow):
         self.tabs.tabCloseRequested.connect(self.on_close_tab)
         self.tabs.tabBarDoubleClicked.connect(self.on_rename_tab)
         self.tabs.currentChanged.connect(self._sync_view_actions)
+        tab_bar = self.tabs.tabBar()
+        tab_bar.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        tab_bar.customContextMenuRequested.connect(self._on_tab_bar_context_menu)
         self.setCentralWidget(self.tabs)
         self._force_quit = False
         self.tray = None
@@ -1323,6 +1454,14 @@ class MainWindow(QMainWindow):
         if hasattr(self, "act_about"):
             about_title = f"Über {self.profile.name}"
             self.act_about.setText(t(about_title))
+        if hasattr(self, "act_new_tab"):
+            self.act_new_tab.setText(t("Neuer Tab"))
+        if hasattr(self, "act_rename_tab"):
+            self.act_rename_tab.setText(t("Tab umbenennen"))
+        if hasattr(self, "act_duplicate_tab"):
+            self.act_duplicate_tab.setText(t("Tab duplizieren"))
+        if hasattr(self, "search_edit"):
+            self.search_edit.setPlaceholderText(t("Einträge im Board filtern… (Strg+F)"))
         if hasattr(self, "tabs"):
             for i in range(self.tabs.count()):
                 page = self.tabs.widget(i)
@@ -1336,12 +1475,18 @@ class MainWindow(QMainWindow):
         tb.setObjectName("Hauptleiste")
         tb.setMovable(False)
         self.addToolBar(tb)
-        act_new_tab = QAction("Neuer Tab", self)
+        act_new_tab = QAction(t("Neuer Tab"), self)
         act_new_tab.triggered.connect(self.on_new_tab)
         tb.addAction(act_new_tab)
-        act_rename_tab = QAction("Tab umbenennen", self)
+        self.act_new_tab = act_new_tab
+        act_rename_tab = QAction(t("Tab umbenennen"), self)
         act_rename_tab.triggered.connect(self.on_rename_tab_action)
         tb.addAction(act_rename_tab)
+        self.act_rename_tab = act_rename_tab
+        act_duplicate_tab = QAction(t("Tab duplizieren"), self)
+        act_duplicate_tab.triggered.connect(lambda: self.duplicate_board())
+        tb.addAction(act_duplicate_tab)
+        self.act_duplicate_tab = act_duplicate_tab
         tb.addSeparator()
         self.view_group = QActionGroup(self)
         self.view_group.setExclusive(True)
@@ -1357,6 +1502,24 @@ class MainWindow(QMainWindow):
         tb.addSeparator()
         tb.addAction(self.act_export_profile)
         tb.addAction(self.act_import_profile)
+        tb.addSeparator()
+
+        # Schnellsuchfeld für Einträge im aktuellen Board (Strg+F)
+        self.search_edit = QLineEdit(self)
+        self.search_edit.setObjectName("BoardQuickFilter")
+        self.search_edit.setPlaceholderText(t("Einträge im Board filtern… (Strg+F)"))
+        self.search_edit.setClearButtonEnabled(True)
+        self.search_edit.setMaximumWidth(260)
+        self.search_edit.textChanged.connect(self._on_search_text_changed)
+        self.search_edit.returnPressed.connect(self._on_search_return_pressed)
+        tb.addWidget(self.search_edit)
+
+        # Tastatur-Shortcuts
+        self.search_shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
+        self.search_shortcut.activated.connect(self._focus_search)
+        self.search_esc_shortcut = QShortcut(QKeySequence(Qt.Key.Key_Escape), self.search_edit)
+        self.search_esc_shortcut.activated.connect(self._clear_search)
+
         # Spacer schiebt den Hamburger-Button (Board-Verwaltung) an den rechten Rand.
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
@@ -1412,6 +1575,71 @@ class MainWindow(QMainWindow):
         finally:
             self.act_view_tiles.blockSignals(False)
             self.act_view_list.blockSignals(False)
+
+        if hasattr(self, "search_edit") and self.search_edit.text().strip():
+            page.filter_entries(self.search_edit.text())
+
+    def _focus_search(self):
+        """Fokussiert das Schnellsuchfeld und markiert den aktuellen Text."""
+        if hasattr(self, "search_edit"):
+            self.search_edit.setFocus()
+            self.search_edit.selectAll()
+
+    def _clear_search(self):
+        """Leert das Schnellsuchfeld und nimmt den Fokus weg."""
+        if hasattr(self, "search_edit"):
+            self.search_edit.clear()
+            self.search_edit.clearFocus()
+
+    def _on_search_text_changed(self, text: str):
+        """Filtert die Einträge des aktiven Tabs live beim Tippen."""
+        current_page = self.current_page()
+        if current_page:
+            current_page.filter_entries(text)
+
+    def _on_search_return_pressed(self):
+        """Startet bei Enter im Suchfeld den ersten sichtbaren Treffer."""
+        current_page = self.current_page()
+        if current_page:
+            first = current_page.get_first_visible_entry()
+            if first and first.get("path"):
+                open_file(first["path"])
+
+    def duplicate_board(self, index: int | None = None):
+        """Dupliziert das Board am angegebenen Index (oder das aktive Board)."""
+        if index is None:
+            index = self.tabs.currentIndex()
+        if index < 0 or index >= self.tabs.count():
+            return
+        page = self.tabs.widget(index)
+        if not isinstance(page, TabPage):
+            return
+        orig_name = self.tabs.tabText(index)
+        copy_suffix = t("Kopie")
+        new_name = f"{orig_name} ({copy_suffix})"
+        entries = page.list.get_all_entries()
+        self.add_new_tab(name=new_name, view_mode=page.view_mode, entries=entries)
+        self.save_settings()
+
+    def _on_tab_bar_context_menu(self, pos: QPoint):
+        """Kontextmenü für Tabs in der Board-Leiste."""
+        tab_bar = self.tabs.tabBar()
+        tab_index = tab_bar.tabAt(pos)
+        if tab_index < 0:
+            return
+        menu = QMenu(self)
+        act_rename = menu.addAction(t("Tab umbenennen"))
+        act_dup = menu.addAction(t("Tab duplizieren"))
+        act_close = None
+        if self.tabs.count() > 1:
+            act_close = menu.addAction(t("Tab schließen"))
+        action = _exec_menu(menu, tab_bar.mapToGlobal(pos))
+        if action == act_rename:
+            self.on_rename_tab(tab_index)
+        elif action == act_dup:
+            self.duplicate_board(tab_index)
+        elif act_close and action == act_close:
+            self.on_close_tab(tab_index)
 
     def _update_tab_closable_state(self):
         closable = self.tabs.count() > 1

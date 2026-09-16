@@ -11,6 +11,7 @@ SoftwareCenter soll **nicht nur App-Verknüpfungen** aufnehmen, sondern **alles,
   - [x] Klar kommunizieren, dass **beliebige** Dateien/Ordner/Dokumente ablegbar sind (nicht nur EXEs) — UI-Hinweis (leeres Board Placeholder mit 6-Sprachen-Parität), Doku (README/README_de), Store-Listing (DE/EN) und Hilfe/Über-Dialog. -- DONE 2026-09-13
   - [x] Komfort für Nicht-App-Einträge: Kontextmenü „Im Explorer anzeigen" (bzw. Finder/Dateimanager), optionale Notiz/Bearbeitung, alphabetische Sortierung (A-Z). -- DONE 2026-09-09
   - [x] Robustes Verhalten bei fehlenden Zielen: Eintrag bleibt im Board sichtbar, optischer Warnindikator `[Nicht gefunden: <Pfad>]` in Listenansicht/Tooltip und klare Warnmeldung beim Startversuch. -- DONE 2026-09-10
+  - [x] Live-Schnellsuche & Filterung im Board (Strg+F, Esc, Enter-Launch), direkte Web-URL-Unterstützung (http/https Drag&Drop, Browser-Start), Board-Duplikation und Tab-Kontextmenü. -- DONE 2026-09-16
 
 ## Idee: Zwillings-Produkt „Project-Boards"
 

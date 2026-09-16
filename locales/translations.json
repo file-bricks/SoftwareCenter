@@ -135,13 +135,13 @@
     "ru": "Доски",
     "zh": "面板"
   },
-  "Das Profil enthält keine Tabs.": {
-    "de": "Das Profil enthält keine Tabs.",
-    "en": "The profile does not contain any tabs.",
-    "es": "El perfil no contiene ninguna pestaña.",
-    "ja": "プロファイルにタブが含まれていません。",
-    "ru": "В профиле нет вкладок.",
-    "zh": "配置文件不包含任何标签页。"
+  "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?": {
+    "de": "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
+    "en": "The current profile will be replaced by the import. Continue?",
+    "es": "El perfil actual será reemplazado por la importación. ¿Continuar?",
+    "ja": "現在のプロファイルはインポートによって上書きされます。続行しますか？",
+    "ru": "Текущий профиль будет заменен импортированным. Продолжить?",
+    "zh": "当前配置文件将被导入替换。是否继续？"
   },
   "Das Profil enthält keine lesbaren Tabs.": {
     "de": "Das Profil enthält keine lesbaren Tabs.",
@@ -151,6 +151,14 @@
     "ru": "В профиле нет доступных для чтения вкладок.",
     "zh": "配置文件不包含可读取的标签页。"
   },
+  "Das Profil enthält keine Tabs.": {
+    "de": "Das Profil enthält keine Tabs.",
+    "en": "The profile does not contain any tabs.",
+    "es": "El perfil no contiene ninguna pestaña.",
+    "ja": "プロファイルにタブが含まれていません。",
+    "ru": "В профиле нет вкладок.",
+    "zh": "配置文件不包含任何标签页。"
+  },
   "Das Profil ist kein JSON-Objekt.": {
     "de": "Das Profil ist kein JSON-Objekt.",
     "en": "The profile is not a valid JSON object.",
@@ -158,14 +166,6 @@
     "ja": "プロファイルは有効なJSONオブジェクトではありません。",
     "ru": "Профиль не является допустимым объектом JSON.",
     "zh": "配置文件不是有效的 JSON 对象。"
-  },
-  "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?": {
-    "de": "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
-    "en": "The current profile will be replaced by the import. Continue?",
-    "es": "El perfil actual será reemplazado por la importación. ¿Continuar?",
-    "ja": "現在のプロファイルはインポートによって上書きされます。続行しますか？",
-    "ru": "Текущий профиль будет заменен импортированным. Продолжить?",
-    "zh": "当前配置文件将被导入替换。是否继续？"
   },
   "Datei": {
     "de": "Datei",
@@ -183,14 +183,6 @@
     "ru": "Файл не найден",
     "zh": "文件未找到"
   },
-  "Der Systemtray ist auf diesem System nicht verfügbar.": {
-    "de": "Der Systemtray ist auf diesem System nicht verfügbar.",
-    "en": "System tray is not available on this system.",
-    "es": "La bandeja del sistema no está disponible en este sistema.",
-    "ja": "このシステムではシステムトレイが利用できません。",
-    "ru": "Системный трей недоступен в этой системе.",
-    "zh": "系统托盘在此系统上不可用。"
-  },
   "Der letzte Tab kann nicht geschlossen werden.": {
     "de": "Der letzte Tab kann nicht geschlossen werden.",
     "en": "The last tab cannot be closed.",
@@ -198,6 +190,14 @@
     "ja": "最後のタブは閉じることができません。",
     "ru": "Последнюю вкладку нельзя закрыть.",
     "zh": "无法关闭最后一个标签页。"
+  },
+  "Der Systemtray ist auf diesem System nicht verfügbar.": {
+    "de": "Der Systemtray ist auf diesem System nicht verfügbar.",
+    "en": "System tray is not available on this system.",
+    "es": "La bandeja del sistema no está disponible en este sistema.",
+    "ja": "このシステムではシステムトレイが利用できません。",
+    "ru": "Системный трей недоступен в этой системе.",
+    "zh": "系统托盘在此系统上不可用。"
   },
   "Dieses Board ist noch leer": {
     "de": "Dieses Board ist noch leer",
@@ -246,6 +246,14 @@
     "ja": "エントリを編集...",
     "ru": "Редактировать запись...",
     "zh": "编辑条目..."
+  },
+  "Einträge im Board filtern… (Strg+F)": {
+    "de": "Einträge im Board filtern… (Strg+F)",
+    "en": "Filter entries in board… (Ctrl+F)",
+    "es": "Filtrar entradas en el tablero… (Ctrl+F)",
+    "ja": "ボード内の項目をフィルター… (Ctrl+F)",
+    "ru": "Фильтр элементов на доске… (Ctrl+F)",
+    "zh": "在看板中筛选条目… (Ctrl+F)"
   },
   "Entfernen": {
     "de": "Entfernen",
@@ -351,6 +359,14 @@
     "ru": "Добавить",
     "zh": "添加"
   },
+  "Im Browser öffnen": {
+    "de": "Im Browser öffnen",
+    "en": "Open in browser",
+    "es": "Abrir en el navegador",
+    "ja": "ブラウザで開く",
+    "ru": "Открыть в браузере",
+    "zh": "在浏览器中打开"
+  },
   "Im Dateimanager anzeigen": {
     "de": "Im Dateimanager anzeigen",
     "en": "Show in file manager",
@@ -391,14 +407,6 @@
     "ru": "Показать в проводнике",
     "zh": "在文件资源管理器中显示"
   },
-  "JSON-Dateien (*.json)": {
-    "de": "JSON-Dateien (*.json)",
-    "en": "JSON files (*.json)",
-    "es": "Archivos JSON (*.json)",
-    "ja": "JSON ファイル (*.json)",
-    "ru": "Файлы JSON (*.json)",
-    "zh": "JSON 文件 (*.json)"
-  },
   "Ja": {
     "de": "Ja",
     "en": "Yes",
@@ -406,6 +414,14 @@
     "ja": "はい",
     "ru": "Да",
     "zh": "是"
+  },
+  "JSON-Dateien (*.json)": {
+    "de": "JSON-Dateien (*.json)",
+    "en": "JSON files (*.json)",
+    "es": "Archivos JSON (*.json)",
+    "ja": "JSON ファイル (*.json)",
+    "ru": "Файлы JSON (*.json)",
+    "zh": "JSON 文件 (*.json)"
   },
   "Kacheln": {
     "de": "Kacheln",
@@ -415,14 +431,6 @@
     "ru": "Плитка",
     "zh": "平铺"
   },
-  "Keine Treffer": {
-    "de": "Keine Treffer",
-    "en": "No matches found",
-    "es": "Sin coincidencias",
-    "ja": "一致する項目がありません",
-    "ru": "Совпадений не найдено",
-    "zh": "未找到匹配项"
-  },
   "Keine aktiven Boards": {
     "de": "Keine aktiven Boards",
     "en": "No active boards",
@@ -431,6 +439,14 @@
     "ru": "Нет активных досок",
     "zh": "无活动面板"
   },
+  "Keine Treffer": {
+    "de": "Keine Treffer",
+    "en": "No matches found",
+    "es": "Sin coincidencias",
+    "ja": "一致する項目がありません",
+    "ru": "Совпадений не найдено",
+    "zh": "未找到匹配项"
+  },
   "Konnte Dateimanager nicht öffnen:": {
     "de": "Konnte Dateimanager nicht öffnen:",
     "en": "Could not open file manager:",
@@ -438,6 +454,14 @@
     "ja": "ファイルマネージャーを開けませんでした:",
     "ru": "Не удалось открыть проводник:",
     "zh": "无法打开文件管理器："
+  },
+  "Kopie": {
+    "de": "Kopie",
+    "en": "Copy",
+    "es": "Copia",
+    "ja": "コピー",
+    "ru": "Копия",
+    "zh": "副本"
   },
   "Liste": {
     "de": "Liste",
@@ -630,6 +654,22 @@
     "ja": "タブ",
     "ru": "Вкладка",
     "zh": "标签页"
+  },
+  "Tab duplizieren": {
+    "de": "Tab duplizieren",
+    "en": "Duplicate tab",
+    "es": "Duplicar pestaña",
+    "ja": "タブを複製",
+    "ru": "Дублировать вкладку",
+    "zh": "复制标签页"
+  },
+  "Tab schließen": {
+    "de": "Tab schließen",
+    "en": "Close tab",
+    "es": "Cerrar pestaña",
+    "ja": "タブを閉じる",
+    "ru": "Закрыть вкладку",
+    "zh": "关闭标签页"
   },
   "Tab umbenennen": {
     "de": "Tab umbenennen",
