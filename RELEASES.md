@@ -1,9 +1,9 @@
 # Releases
 
-## v1.2.0 — lokaler Build, keine Freigabe (Readback 2026-08-25)
+## v1.2.0 — lokaler Build, keine Freigabe (Readback 2026-09-17)
 
-`releases/v1.2.0/SoftwareCenter-1.2.0-win64.exe` ist lokal vorhanden und
-hashgleich zur gespeicherten `SHA256SUMS.txt`:
+`releases/v1.2.0/SoftwareCenter-1.2.0-win64.exe` ist lokal vorhanden; der
+SHA-256-Readback des lokalen Artefakts lautet:
 
 - SHA-256: `1AD7F9FE5AA89A004402E4F6833A67FBF85810C20B8444B3C634474F0B59C6C7`
 - Status: **UNSIGNIERT · NICHT WACK-ZERTIFIZIERT · KEIN STORE-RELEASE**
