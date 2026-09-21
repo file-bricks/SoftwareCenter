@@ -1,4 +1,28 @@
 {
+  "&Bezeichnung:": {
+    "de": "&Bezeichnung:",
+    "en": "&Name:",
+    "es": "&Nombre:",
+    "ja": "&名前:",
+    "ru": "&Имя:",
+    "zh": "&名称:"
+  },
+  "&Notiz:": {
+    "de": "&Notiz:",
+    "en": "&Note:",
+    "es": "&Nota:",
+    "ja": "&メモ:",
+    "ru": "&Заметка:",
+    "zh": "&备注:"
+  },
+  "&Pfad:": {
+    "de": "&Pfad:",
+    "en": "&Path:",
+    "es": "&Ruta:",
+    "ja": "&パス:",
+    "ru": "&Путь:",
+    "zh": "&路径:"
+  },
   "Abbrechen": {
     "de": "Abbrechen",
     "en": "Cancel",
@@ -22,6 +46,22 @@
     "ja": "更新",
     "ru": "Обновить",
     "zh": "刷新"
+  },
+  "Aktuelles Board duplizieren (Kopie erstellen)": {
+    "de": "Aktuelles Board duplizieren (Kopie erstellen)",
+    "en": "Duplicate current board (create copy)",
+    "es": "Duplicar panel actual (crear copia)",
+    "ja": "現在のボードを複製 (コピーを作成)",
+    "ru": "Дублировать текущую доску (создать копию)",
+    "zh": "复制当前面板 (创建副本)"
+  },
+  "Aktuelles Board umbenennen": {
+    "de": "Aktuelles Board umbenennen",
+    "en": "Rename current board",
+    "es": "Renombrar panel actual",
+    "ja": "現在のボードの名前を変更",
+    "ru": "Переименовать текущую доску",
+    "zh": "重命名当前面板"
   },
   "Alle Dateien (*.*)": {
     "de": "Alle Dateien (*.*)",
@@ -47,6 +87,14 @@
     "ru": "Сортировать по алфавиту (А-Я)",
     "zh": "按字母排序 (A-Z)"
   },
+  "Alphabetische Board-Liste": {
+    "de": "Alphabetische Board-Liste",
+    "en": "Alphabetical board list",
+    "es": "Lista alfabética de paneles",
+    "ja": "アルファベット順のボード一覧",
+    "ru": "Алфавитный список досок",
+    "zh": "按字母排序的面板列表"
+  },
   "Ansicht": {
     "de": "Ansicht",
     "en": "View",
@@ -54,6 +102,54 @@
     "ja": "表示",
     "ru": "Вид",
     "zh": "视图"
+  },
+  "Anwendung beenden": {
+    "de": "Anwendung beenden",
+    "en": "Quit application",
+    "es": "Salir de la aplicación",
+    "ja": "アプリケーションを終了",
+    "ru": "Завершить работу приложения",
+    "zh": "退出应用程序"
+  },
+  "Anzeigename für diesen Eintrag im Board.": {
+    "de": "Anzeigename für diesen Eintrag im Board.",
+    "en": "Display name for this entry on the board.",
+    "es": "Nombre visible de esta entrada en el panel.",
+    "ja": "ボード上のこのエントリの表示名。",
+    "ru": "Отображаемое имя этой записи на доске.",
+    "zh": "此条目在面板中的显示名称。"
+  },
+  "Ausgewählte(n) Eintrag/Einträge aus dem Board entfernen": {
+    "de": "Ausgewählte(n) Eintrag/Einträge aus dem Board entfernen",
+    "en": "Remove selected entry/entries from the board",
+    "es": "Eliminar la(s) entrada(s) seleccionada(s) del panel",
+    "ja": "選択したエントリをボードから削除",
+    "ru": "Удалить выбранную(-ые) запись(-и) с доски",
+    "zh": "从面板中移除选定的条目"
+  },
+  "Ausgewählten Eintrag starten / öffnen": {
+    "de": "Ausgewählten Eintrag starten / öffnen",
+    "en": "Launch / open selected entry",
+    "es": "Iniciar / abrir entrada seleccionada",
+    "ja": "選択したエントリを起動 / 開く",
+    "ru": "Запустить / открыть выбранную запись",
+    "zh": "启动 / 打开选定的条目"
+  },
+  "Ausgewählten Eintrag umbenennen / bearbeiten": {
+    "de": "Ausgewählten Eintrag umbenennen / bearbeiten",
+    "en": "Rename / edit selected entry",
+    "es": "Renombrar / editar entrada seleccionada",
+    "ja": "選択したエントリの名前変更 / 編集",
+    "ru": "Переименовать / изменить выбранную запись",
+    "zh": "重命名 / 编辑选定的条目"
+  },
+  "Barrierefreiheit: Vollständige Tastaturbedienung gemäß WCAG 2.1 AA / BITV 2.0. Screenreader-Unterstützung für Tab-Leiste, Einträge, Suchfeld und Dialoge.": {
+    "de": "Barrierefreiheit: Vollständige Tastaturbedienung gemäß WCAG 2.1 AA / BITV 2.0. Screenreader-Unterstützung für Tab-Leiste, Einträge, Suchfeld und Dialoge.",
+    "en": "Accessibility: Full keyboard operation complying with WCAG 2.1 AA / BITV 2.0. Screen reader support for tab bar, entries, search field, and dialogs.",
+    "es": "Accesibilidad: Operación completa por teclado según WCAG 2.1 AA / BITV 2.0. Compatibilidad con lectores de pantalla para pestañas, entradas, búsqueda y diálogos.",
+    "ja": "アクセシビリティ: WCAG 2.1 AA / BITV 2.0 に準拠した完全なキーボード操作。タブバー、エントリ、検索フィールド、ダイアログのスクリーンリーダー対応。",
+    "ru": "Доступность: Полное управление с клавиатуры по стандартам WCAG 2.1 AA / BITV 2.0. Поддержка программ чтения с экрана для вкладок, записей, поиска и диалогов.",
+    "zh": "无障碍：完全支持符合 WCAG 2.1 AA / BITV 2.0 标准的键盘操作。屏幕阅读器支持选项卡栏、条目、搜索栏及对话框。"
   },
   "Beenden": {
     "de": "Beenden",
@@ -70,6 +166,14 @@
     "ja": "閉じる時にシステムトレイに最小化",
     "ru": "Сворачивать в системный трей при закрытии",
     "zh": "关闭时最小化到系统托盘"
+  },
+  "Bezeichnung": {
+    "de": "Bezeichnung",
+    "en": "Name",
+    "es": "Nombre",
+    "ja": "名前",
+    "ru": "Имя",
+    "zh": "名称"
   },
   "Bezeichnung:": {
     "de": "Bezeichnung:",
@@ -111,6 +215,14 @@
     "ru": "Открыть доску",
     "zh": "打开面板"
   },
+  "Board-Katalog": {
+    "de": "Board-Katalog",
+    "en": "Board Catalog",
+    "es": "Catálogo de paneles",
+    "ja": "ボードカタログ",
+    "ru": "Каталог досок",
+    "zh": "面板目录"
+  },
   "Board-Leiste": {
     "de": "Board-Leiste",
     "en": "Board Bar",
@@ -118,6 +230,22 @@
     "ja": "ボードバー",
     "ru": "Панель досок",
     "zh": "面板栏"
+  },
+  "Board-Verwaltung": {
+    "de": "Board-Verwaltung",
+    "en": "Board Management",
+    "es": "Gestión de paneles",
+    "ja": "ボード管理",
+    "ru": "Управление досками",
+    "zh": "面板管理"
+  },
+  "Board-Verwaltung (Seitenleiste) ein-/ausblenden": {
+    "de": "Board-Verwaltung (Seitenleiste) ein-/ausblenden",
+    "en": "Toggle board management (sidebar)",
+    "es": "Alternar gestión de paneles (barra lateral)",
+    "ja": "ボード管理（サイドバー）の切り替え",
+    "ru": "Переключить управление досками (боковая панель)",
+    "zh": "切换面板管理 (侧边栏)"
   },
   "Board-Verwaltung ein-/ausblenden": {
     "de": "Board-Verwaltung ein-/ausblenden",
@@ -127,6 +255,14 @@
     "ru": "Показать/скрыть управление досками",
     "zh": "显示/隐藏面板管理"
   },
+  "Board-Verwaltung ein-/ausblenden (Strg+B)": {
+    "de": "Board-Verwaltung ein-/ausblenden (Strg+B)",
+    "en": "Toggle board management (Ctrl+B)",
+    "es": "Alternar gestión de paneles (Ctrl+B)",
+    "ja": "ボード管理の切り替え (Ctrl+B)",
+    "ru": "Переключить управление досками (Ctrl+B)",
+    "zh": "切换面板管理 (Ctrl+B)"
+  },
   "Boards": {
     "de": "Boards",
     "en": "Boards",
@@ -135,21 +271,21 @@
     "ru": "Доски",
     "zh": "面板"
   },
-  "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?": {
-    "de": "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
-    "en": "The current profile will be replaced by the import. Continue?",
-    "es": "El perfil actual será reemplazado por la importación. ¿Continuar?",
-    "ja": "現在のプロファイルはインポートによって上書きされます。続行しますか？",
-    "ru": "Текущий профиль будет заменен импортированным. Продолжить?",
-    "zh": "当前配置文件将被导入替换。是否继续？"
+  "Boards und Einträge als JSON-Profil exportieren": {
+    "de": "Boards und Einträge als JSON-Profil exportieren",
+    "en": "Export boards and entries as JSON profile",
+    "es": "Exportar paneles y entradas como perfil JSON",
+    "ja": "ボードとエントリをJSONプロファイルとしてエクスポート",
+    "ru": "Экспортировать доски и записи как JSON-профиль",
+    "zh": "将面板和条目导出为JSON配置文件"
   },
-  "Das Profil enthält keine lesbaren Tabs.": {
-    "de": "Das Profil enthält keine lesbaren Tabs.",
-    "en": "The profile contains no readable tabs.",
-    "es": "El perfil no contiene pestañas legibles.",
-    "ja": "プロファイルに読み取り可能なタブがありません。",
-    "ru": "В профиле нет доступных для чтения вкладок.",
-    "zh": "配置文件不包含可读取的标签页。"
+  "Boards und Einträge aus JSON-Profil importieren": {
+    "de": "Boards und Einträge aus JSON-Profil importieren",
+    "en": "Import boards and entries from JSON profile",
+    "es": "Importar paneles y entradas desde perfil JSON",
+    "ja": "JSONプロファイルからボードとエントリをインポート",
+    "ru": "Импортировать доски и записи из JSON-профиля",
+    "zh": "从JSON配置文件导入面板和条目"
   },
   "Das Profil enthält keine Tabs.": {
     "de": "Das Profil enthält keine Tabs.",
@@ -159,6 +295,14 @@
     "ru": "В профиле нет вкладок.",
     "zh": "配置文件不包含任何标签页。"
   },
+  "Das Profil enthält keine lesbaren Tabs.": {
+    "de": "Das Profil enthält keine lesbaren Tabs.",
+    "en": "The profile contains no readable tabs.",
+    "es": "El perfil no contiene pestañas legibles.",
+    "ja": "プロファイルに読み取り可能なタブがありません。",
+    "ru": "В профиле нет доступных для чтения вкладок.",
+    "zh": "配置文件不包含可读取的标签页。"
+  },
   "Das Profil ist kein JSON-Objekt.": {
     "de": "Das Profil ist kein JSON-Objekt.",
     "en": "The profile is not a valid JSON object.",
@@ -166,6 +310,14 @@
     "ja": "プロファイルは有効なJSONオブジェクトではありません。",
     "ru": "Профиль не является допустимым объектом JSON.",
     "zh": "配置文件不是有效的 JSON 对象。"
+  },
+  "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?": {
+    "de": "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
+    "en": "The current profile will be replaced by the import. Continue?",
+    "es": "El perfil actual será reemplazado por la importación. ¿Continuar?",
+    "ja": "現在のプロファイルはインポートによって上書きされます。続行しますか？",
+    "ru": "Текущий профиль будет заменен импортированным. Продолжить?",
+    "zh": "当前配置文件将被导入替换。是否继续？"
   },
   "Datei": {
     "de": "Datei",
@@ -183,6 +335,14 @@
     "ru": "Файл не найден",
     "zh": "文件未找到"
   },
+  "Der Systemtray ist auf diesem System nicht verfügbar.": {
+    "de": "Der Systemtray ist auf diesem System nicht verfügbar.",
+    "en": "System tray is not available on this system.",
+    "es": "La bandeja del sistema no está disponible en este sistema.",
+    "ja": "このシステムではシステムトレイが利用できません。",
+    "ru": "Системный трей недоступен в этой системе.",
+    "zh": "系统托盘在此系统上不可用。"
+  },
   "Der letzte Tab kann nicht geschlossen werden.": {
     "de": "Der letzte Tab kann nicht geschlossen werden.",
     "en": "The last tab cannot be closed.",
@@ -191,13 +351,21 @@
     "ru": "Последнюю вкладку нельзя закрыть.",
     "zh": "无法关闭最后一个标签页。"
   },
-  "Der Systemtray ist auf diesem System nicht verfügbar.": {
-    "de": "Der Systemtray ist auf diesem System nicht verfügbar.",
-    "en": "System tray is not available on this system.",
-    "es": "La bandeja del sistema no está disponible en este sistema.",
-    "ja": "このシステムではシステムトレイが利用できません。",
-    "ru": "Системный трей недоступен в этой системе.",
-    "zh": "系统托盘在此系统上不可用。"
+  "Dialog zum Anpassen von Bezeichnung und Notizen des Eintrags.": {
+    "de": "Dialog zum Anpassen von Bezeichnung und Notizen des Eintrags.",
+    "en": "Dialog for adjusting name and notes of the entry.",
+    "es": "Diálogo para ajustar nombre y notas de la entrada.",
+    "ja": "エントリの名前とメモを調整するダイアログ。",
+    "ru": "Диалог для настройки имени и заметок записи.",
+    "zh": "用于调整条目名称和备注的对话框。"
+  },
+  "Diese Übersicht zu Tastaturkürzeln und Barrierefreiheit anzeigen": {
+    "de": "Diese Übersicht zu Tastaturkürzeln und Barrierefreiheit anzeigen",
+    "en": "Show this overview of keyboard shortcuts and accessibility",
+    "es": "Mostrar este resumen de atajos de teclado y accesibilidad",
+    "ja": "このキーボードショートカットとアクセシビリティの概要を表示",
+    "ru": "Показать эту справку по сочетаниям клавиш и доступности",
+    "zh": "显示此键盘快捷键与无障碍功能概览"
   },
   "Dieses Board ist noch leer": {
     "de": "Dieses Board ist noch leer",
@@ -263,6 +431,14 @@
     "ru": "Удалить",
     "zh": "移除"
   },
+  "Entfernt alle geschlossenen Boards aus dem Verlauf.": {
+    "de": "Entfernt alle geschlossenen Boards aus dem Verlauf.",
+    "en": "Removes all closed boards from history.",
+    "es": "Elimina todos los paneles cerrados del historial.",
+    "ja": "履歴から閉じたボードをすべて削除します。",
+    "ru": "Удаляет все закрытые доски из истории.",
+    "zh": "从历史记录中移除所有已关闭的面板。"
+  },
   "Erfolg": {
     "de": "Erfolg",
     "en": "Success",
@@ -326,6 +502,22 @@
     "ja": "ファイルマネージャーを開けませんでした",
     "ru": "Ошибка при открытии файлового менеджера",
     "zh": "打开文件管理器失败"
+  },
+  "Filtert die Einträge im aktuellen Board nach Name oder Pfad.": {
+    "de": "Filtert die Einträge im aktuellen Board nach Name oder Pfad.",
+    "en": "Filters entries in the current board by name or path.",
+    "es": "Filtra las entradas del panel actual por nombre o ruta.",
+    "ja": "現在のボード内のエントリを名前またはパスでフィルタリングします。",
+    "ru": "Фильтрует записи на текущей доске по имени или пути.",
+    "zh": "按名称或路径过滤当前面板中的条目。"
+  },
+  "Funktion": {
+    "de": "Funktion",
+    "en": "Function",
+    "es": "Función",
+    "ja": "機能",
+    "ru": "Функция",
+    "zh": "功能"
   },
   "Hauptleiste": {
     "de": "Hauptleiste",
@@ -407,6 +599,14 @@
     "ru": "Показать в проводнике",
     "zh": "在文件资源管理器中显示"
   },
+  "JSON-Dateien (*.json)": {
+    "de": "JSON-Dateien (*.json)",
+    "en": "JSON files (*.json)",
+    "es": "Archivos JSON (*.json)",
+    "ja": "JSON ファイル (*.json)",
+    "ru": "Файлы JSON (*.json)",
+    "zh": "JSON 文件 (*.json)"
+  },
   "Ja": {
     "de": "Ja",
     "en": "Yes",
@@ -415,13 +615,13 @@
     "ru": "Да",
     "zh": "是"
   },
-  "JSON-Dateien (*.json)": {
-    "de": "JSON-Dateien (*.json)",
-    "en": "JSON files (*.json)",
-    "es": "Archivos JSON (*.json)",
-    "ja": "JSON ファイル (*.json)",
-    "ru": "Файлы JSON (*.json)",
-    "zh": "JSON 文件 (*.json)"
+  "Kachelansicht mit großen Symbolen": {
+    "de": "Kachelansicht mit großen Symbolen",
+    "en": "Tile view with large icons",
+    "es": "Vista de mosaicos con iconos grandes",
+    "ja": "大きなアイコンのタイル表示",
+    "ru": "Вид плиткой с большими значками",
+    "zh": "大图标平铺视图"
   },
   "Kacheln": {
     "de": "Kacheln",
@@ -431,6 +631,14 @@
     "ru": "Плитка",
     "zh": "平铺"
   },
+  "Keine Treffer": {
+    "de": "Keine Treffer",
+    "en": "No matches found",
+    "es": "Sin coincidencias",
+    "ja": "一致する項目がありません",
+    "ru": "Совпадений не найдено",
+    "zh": "未找到匹配项"
+  },
   "Keine aktiven Boards": {
     "de": "Keine aktiven Boards",
     "en": "No active boards",
@@ -439,13 +647,13 @@
     "ru": "Нет активных досок",
     "zh": "无活动面板"
   },
-  "Keine Treffer": {
-    "de": "Keine Treffer",
-    "en": "No matches found",
-    "es": "Sin coincidencias",
-    "ja": "一致する項目がありません",
-    "ru": "Совпадений не найдено",
-    "zh": "未找到匹配项"
+  "Kompakte Listenansicht": {
+    "de": "Kompakte Listenansicht",
+    "en": "Compact list view",
+    "es": "Vista de lista compacta",
+    "ja": "コンパクトなリスト表示",
+    "ru": "Компактный вид списка",
+    "zh": "紧凑列表视图"
   },
   "Konnte Dateimanager nicht öffnen:": {
     "de": "Konnte Dateimanager nicht öffnen:",
@@ -471,6 +679,22 @@
     "ru": "Список",
     "zh": "列表"
   },
+  "Liste aller Boards in alphabetischer Reihenfolge.": {
+    "de": "Liste aller Boards in alphabetischer Reihenfolge.",
+    "en": "List of all boards in alphabetical order.",
+    "es": "Lista de todos los paneles en orden alfabético.",
+    "ja": "すべてのボードのアルファベット順一覧。",
+    "ru": "Список всех досок в алфавитном порядке.",
+    "zh": "按字母顺序列出的所有面板列表。"
+  },
+  "Liste der Boards nach letzter Nutzung.": {
+    "de": "Liste der Boards nach letzter Nutzung.",
+    "en": "List of boards by last use.",
+    "es": "Lista de paneles por último uso.",
+    "ja": "最終使用順のボード一覧。",
+    "ru": "Список досок по последнему использованию.",
+    "zh": "按最近使用顺序列出的面板列表。"
+  },
   "Löschen": {
     "de": "Löschen",
     "en": "Delete",
@@ -487,6 +711,14 @@
     "ru": "Подтвердить удаление",
     "zh": "确认删除"
   },
+  "Name der Verknüpfung im Board": {
+    "de": "Name der Verknüpfung im Board",
+    "en": "Name of the shortcut on the board",
+    "es": "Nombre del acceso directo en el panel",
+    "ja": "ボード上のショートカット名",
+    "ru": "Имя ярлыка на доске",
+    "zh": "面板中快捷方式的名称"
+  },
   "Nein": {
     "de": "Nein",
     "en": "No",
@@ -494,6 +726,14 @@
     "ja": "いいえ",
     "ru": "Нет",
     "zh": "否"
+  },
+  "Neuen Board-Tab erstellen": {
+    "de": "Neuen Board-Tab erstellen",
+    "en": "Create new board tab",
+    "es": "Crear nueva pestaña de panel",
+    "ja": "新しいボードタブを作成",
+    "ru": "Создать новую вкладку доски",
+    "zh": "创建新面板选项卡"
   },
   "Neuer Tab": {
     "de": "Neuer Tab",
@@ -511,6 +751,14 @@
     "ru": "Имя новой вкладки:",
     "zh": "新标签页名称："
   },
+  "Neues Board erstellen (Strg+T)": {
+    "de": "Neues Board erstellen (Strg+T)",
+    "en": "Create new board (Ctrl+T)",
+    "es": "Crear nuevo panel (Ctrl+T)",
+    "ja": "新しいボードを作成 (Ctrl+T)",
+    "ru": "Создать новую доску (Ctrl+T)",
+    "zh": "创建新面板 (Ctrl+T)"
+  },
   "Nicht möglich": {
     "de": "Nicht möglich",
     "en": "Not possible",
@@ -518,6 +766,14 @@
     "ja": "実行できません",
     "ru": "Невозможно",
     "zh": "操作不可行"
+  },
+  "Notiz": {
+    "de": "Notiz",
+    "en": "Note",
+    "es": "Nota",
+    "ja": "メモ",
+    "ru": "Заметка",
+    "zh": "备注"
   },
   "Notiz:": {
     "de": "Notiz:",
@@ -543,6 +799,14 @@
     "ru": "Введите примечание (необязательно)...",
     "zh": "输入可选备注..."
   },
+  "Optionale Notiz oder Beschreibung für diesen Eintrag.": {
+    "de": "Optionale Notiz oder Beschreibung für diesen Eintrag.",
+    "en": "Optional note or description for this entry.",
+    "es": "Nota o descripción opcional para esta entrada.",
+    "ja": "このエントリの任意のメモまたは説明。",
+    "ru": "Необязательная заметка или описание для этой записи.",
+    "zh": "此条目的可选备注或描述。"
+  },
   "Pfad kopieren": {
     "de": "Pfad kopieren",
     "en": "Copy path",
@@ -551,6 +815,22 @@
     "ru": "Копировать путь",
     "zh": "复制路径"
   },
+  "Pfad oder Web-Adresse": {
+    "de": "Pfad oder Web-Adresse",
+    "en": "Path or web address",
+    "es": "Ruta o dirección web",
+    "ja": "パスまたはWebアドレス",
+    "ru": "Путь или веб-адрес",
+    "zh": "路径或网址"
+  },
+  "Pfad/URL der ausgewählten Einträge in Zwischenablage kopieren": {
+    "de": "Pfad/URL der ausgewählten Einträge in Zwischenablage kopieren",
+    "en": "Copy path/URL of selected entries to clipboard",
+    "es": "Copiar ruta/URL de las entradas seleccionadas al portapapeles",
+    "ja": "選択したエントリのパス/URLをクリップボードにコピー",
+    "ru": "Копировать путь/URL выбранных записей в буфер обмена",
+    "zh": "复制所选条目的路径/URL到剪贴板"
+  },
   "Pfad:": {
     "de": "Pfad:",
     "en": "Path:",
@@ -558,6 +838,14 @@
     "ja": "パス:",
     "ru": "Путь:",
     "zh": "路径："
+  },
+  "Pfeiltasten": {
+    "de": "Pfeiltasten",
+    "en": "Arrow keys",
+    "es": "Teclas de flecha",
+    "ja": "矢印キー",
+    "ru": "Клавиши со стрелками",
+    "zh": "方向键"
   },
   "Profil exportieren": {
     "de": "Profil exportieren",
@@ -607,6 +895,14 @@
     "ru": "Не удалось импортировать профиль:",
     "zh": "无法导入配置文件："
   },
+  "Reiter zur Anzeige aller Boards als Verlauf oder alphabetisch.": {
+    "de": "Reiter zur Anzeige aller Boards als Verlauf oder alphabetisch.",
+    "en": "Tabs to display all boards as history or alphabetically.",
+    "es": "Pestañas para mostrar todos los paneles como historial o alfabéticamente.",
+    "ja": "すべてのボードを履歴またはアルファベット順に表示するタブ。",
+    "ru": "Вкладки для отображения всех досок по истории или по алфавиту.",
+    "zh": "按历史记录或字母顺序显示所有面板的选项卡。"
+  },
   "Schließen": {
     "de": "Schließen",
     "en": "Close",
@@ -615,6 +911,54 @@
     "ru": "Закрыть",
     "zh": "关闭"
   },
+  "Schnellfilter für Einträge im aktuellen Board (Strg+F, Esc zum Leeren)": {
+    "de": "Schnellfilter für Einträge im aktuellen Board (Strg+F, Esc zum Leeren)",
+    "en": "Quick filter for entries in current board (Ctrl+F, Esc to clear)",
+    "es": "Filtro rápido para entradas en panel actual (Ctrl+F, Esc para limpiar)",
+    "ja": "現在のボードのエントリ用クイックフィルター (Ctrl+F、Escでクリア)",
+    "ru": "Быстрый фильтр записей на текущей доске (Ctrl+F, Esc для сброса)",
+    "zh": "当前面板条目快速过滤 (Ctrl+F，Esc清空)"
+  },
+  "Schnellsuche": {
+    "de": "Schnellsuche",
+    "en": "Quick search",
+    "es": "Búsqueda rápida",
+    "ja": "クイック検索",
+    "ru": "Быстрый поиск",
+    "zh": "快速搜索"
+  },
+  "Schnellsuche im aktuellen Board fokussieren": {
+    "de": "Schnellsuche im aktuellen Board fokussieren",
+    "en": "Focus quick search in the current board",
+    "es": "Enfocar búsqueda rápida en el panel actual",
+    "ja": "現在のボードのクイック検索にフォーカス",
+    "ru": "Фокусировать быстрый поиск на текущей доске",
+    "zh": "聚焦当前面板中的快速搜索"
+  },
+  "Schnellsuche leeren / Fokus aufheben": {
+    "de": "Schnellsuche leeren / Fokus aufheben",
+    "en": "Clear quick search / release focus",
+    "es": "Limpiar búsqueda rápida / quitar enfoque",
+    "ja": "クイック検索をクリア / フォーカス解除",
+    "ru": "Очистить быстрый поиск / снять фокус",
+    "zh": "清空快速搜索 / 释放焦点"
+  },
+  "Schreibgeschützter Pfad oder Web-Adresse des Eintrags": {
+    "de": "Schreibgeschützter Pfad oder Web-Adresse des Eintrags",
+    "en": "Read-only path or web address of the entry",
+    "es": "Ruta o dirección web de solo lectura de la entrada",
+    "ja": "エントリの読み取り専用パスまたはWebアドレス",
+    "ru": "Путь или веб-адрес записи (только для чтения)",
+    "zh": "条目的只读路径或网址"
+  },
+  "Schreibgeschützter Pfad oder Web-Adresse des Eintrags.": {
+    "de": "Schreibgeschützter Pfad oder Web-Adresse des Eintrags.",
+    "en": "Read-only path or web address of the entry.",
+    "es": "Ruta o dirección web de solo lectura de la entrada.",
+    "ja": "エントリの読み取り専用パスまたはWebアドレス。",
+    "ru": "Путь или веб-адрес записи (только для чтения).",
+    "zh": "条目的只读路径或网址。"
+  },
   "Senden an": {
     "de": "Senden an",
     "en": "Send to",
@@ -622,6 +966,14 @@
     "ja": "送信先",
     "ru": "Отправить в",
     "zh": "发送到"
+  },
+  "Software- und Dokumentenliste": {
+    "de": "Software- und Dokumentenliste",
+    "en": "Software and document list",
+    "es": "Lista de software y documentos",
+    "ja": "ソフトウェアとドキュメントの一覧",
+    "ru": "Список программ и документов",
+    "zh": "软件和文档列表"
   },
   "Speichern": {
     "de": "Speichern",
@@ -687,6 +1039,30 @@
     "ru": "Имя вкладки:",
     "zh": "标签页名称："
   },
+  "Tabelle der Tastaturkürzel": {
+    "de": "Tabelle der Tastaturkürzel",
+    "en": "Table of keyboard shortcuts",
+    "es": "Tabla de atajos de teclado",
+    "ja": "キーボードショートカット一覧表",
+    "ru": "Таблица сочетаний клавиш",
+    "zh": "键盘快捷键表格"
+  },
+  "Tastaturkürzel & Barrierefreiheit": {
+    "de": "Tastaturkürzel & Barrierefreiheit",
+    "en": "Keyboard Shortcuts & Accessibility",
+    "es": "Atajos de teclado y accesibilidad",
+    "ja": "キーボードショートカットとアクセシビリティ",
+    "ru": "Сочетания клавиш и специальные возможности",
+    "zh": "键盘快捷键与无障碍"
+  },
+  "Tastenkürzel": {
+    "de": "Tastenkürzel",
+    "en": "Shortcut",
+    "es": "Atajo",
+    "ja": "ショートカット",
+    "ru": "Сочетание",
+    "zh": "快捷键"
+  },
   "Universeller Ordnungslayer außerhalb des Dateisystems.\n\nOrganisieren Sie beliebig viele Programme, Dokumente, Ordner und Verknüpfungen in übersichtlichen Boards.": {
     "de": "Universeller Ordnungslayer außerhalb des Dateisystems.\n\nOrganisieren Sie beliebig viele Programme, Dokumente, Ordner und Verknüpfungen in übersichtlichen Boards.",
     "en": "Universal organization layer beyond the file system.\n\nOrganize apps, documents, folders, and shortcuts in customizable boards.",
@@ -694,6 +1070,14 @@
     "ja": "ファイルシステムを超えたユニバーサルな整理レイヤー。\n\nアプリ、ドキュメント、フォルダー、ショートカットをカスタムボードで整理します。",
     "ru": "Универсальный уровень организации поверх файловой системы.\n\nУпорядочивайте приложения, документы, папки и ярлыки на настраиваемых досках.",
     "zh": "独立于文件系统的通用整理层。\n\n在自定义面板中整理应用程序、文档、文件夹和快捷方式。"
+  },
+  "Verknüpfungen des aktuellen Boards. Mit Pfeiltasten navigieren, Eingabetaste zum Starten, F2 zum Bearbeiten, Entf zum Entfernen.": {
+    "de": "Verknüpfungen des aktuellen Boards. Mit Pfeiltasten navigieren, Eingabetaste zum Starten, F2 zum Bearbeiten, Entf zum Entfernen.",
+    "en": "Shortcuts of current board. Navigate with arrows, Enter to launch, F2 to edit, Del to remove.",
+    "es": "Accesos directos del panel actual. Navegar con flechas, Intro para iniciar, F2 para editar, Supr para eliminar.",
+    "ja": "現在のボードのショートカット。矢印キーで移動、Enterで起動、F2で編集、Delで削除。",
+    "ru": "Ярлыки текущей доски. Стрелки для навигации, Enter для запуска, F2 для правки, Del для удаления.",
+    "zh": "当前面板快捷方式。方向键导航，Enter启动，F2编辑，Del移除。"
   },
   "Verlauf": {
     "de": "Verlauf",
@@ -727,6 +1111,38 @@
     "ru": "Перетащите сюда любые приложения, документы, папки или ярлыки.",
     "zh": "将任意应用程序、文档、文件夹或快捷方式拖放到此处。"
   },
+  "Zuletzt geschlossene und aktive Boards": {
+    "de": "Zuletzt geschlossene und aktive Boards",
+    "en": "Recently closed and active boards",
+    "es": "Paneles activos y cerrados recientemente",
+    "ja": "最近閉じたボードとアクティブなボード",
+    "ru": "Недавно закрытые и активные доски",
+    "zh": "最近关闭和活动面板"
+  },
+  "Zwischen Einträgen im Board navigieren": {
+    "de": "Zwischen Einträgen im Board navigieren",
+    "en": "Navigate between entries in the board",
+    "es": "Navegar entre entradas del panel",
+    "ja": "ボード内のエントリ間を移動",
+    "ru": "Перемещение между записями на доске",
+    "zh": "在面板条目间导航"
+  },
+  "Zwischen Steuerelementen wechseln": {
+    "de": "Zwischen Steuerelementen wechseln",
+    "en": "Switch between controls",
+    "es": "Alternar entre controles",
+    "ja": "コントロール間を切り替え",
+    "ru": "Переключение между элементами управления",
+    "zh": "在控件之间切换"
+  },
+  "Änderungen speichern": {
+    "de": "Änderungen speichern",
+    "en": "Save changes",
+    "es": "Guardar cambios",
+    "ja": "変更を保存",
+    "ru": "Сохранить изменения",
+    "zh": "保存更改"
+  },
   "Öffnen/Anzeigen": {
     "de": "Öffnen/Anzeigen",
     "en": "Open/Show",
@@ -758,5 +1174,13 @@
     "ja": "SoftwareCenter について",
     "ru": "О SoftwareCenter",
     "zh": "关于 SoftwareCenter"
+  },
+  "Übersicht aller verfügbaren Tastaturkürzel zur barrierefreien Bedienung.": {
+    "de": "Übersicht aller verfügbaren Tastaturkürzel zur barrierefreien Bedienung.",
+    "en": "Overview of all available keyboard shortcuts for accessible operation.",
+    "es": "Resumen de todos los atajos de teclado disponibles para una operación accesible.",
+    "ja": "アクセシブルな操作のための利用可能なすべてのキーボードショートカットの概要。",
+    "ru": "Обзор всех доступных сочетаний клавиш для удобного управления.",
+    "zh": "用于无障碍操作的所有可用键盘快捷键概览。"
   }
 }
