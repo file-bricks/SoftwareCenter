@@ -63,6 +63,7 @@ from PySide6.QtWidgets import (
     QWidgetAction,
 )
 
+from app_icon_loader import load_app_icon
 from translator import (
     LANGUAGE_DISPLAY_NAMES,
     SUPPORTED_LANGUAGES,
@@ -1416,6 +1417,10 @@ class MainWindow(QMainWindow):
         icon_path = resource_path(profile.icon_file)
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
+        else:
+            fallback_icon = load_app_icon(profile)
+            if not fallback_icon.isNull():
+                self.setWindowIcon(fallback_icon)
         self.settings = settings or QSettings("LukasGeiger", profile.settings_app)
         # Board-Lebenszyklus: geschlossene Boards leben hier (id -> Board-Dict), aktive Boards
         # sind die aktuellen self.tabs-Seiten. Favoriten gelten fuer beide Gruppen gleichermassen.
@@ -2636,6 +2641,10 @@ def main(profile: AppProfile = PROFILE_SOFTWARECENTER):
     icon_path = resource_path(profile.icon_file)
     if os.path.exists(icon_path):
         app.setWindowIcon(QIcon(icon_path))
+    else:
+        fallback_icon = load_app_icon(profile)
+        if not fallback_icon.isNull():
+            app.setWindowIcon(fallback_icon)
     win = MainWindow(profile=profile)
 
     # Lokalen Server starten, der bei Start einer zweiten Instanz benachrichtigt wird.
