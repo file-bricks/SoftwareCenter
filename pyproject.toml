@@ -16,7 +16,7 @@ license-files = [
 ]
 requires-python = ">=3.10"
 authors = [
-    { name = "file-bricks" }
+    { name = "file-bricks", email = "support@lukasgeiger.com" }
 ]
 keywords = [
     "app-launcher",
@@ -43,7 +43,19 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "PySide6>=6.0.0",
+    "PySide6>=6.5.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=9.1.1",
+    "ruff>=0.9.0",
+    "Pillow>=12.3.0",
+]
+build = [
+    "PyInstaller>=6.10.0",
+    "altgraph>=0.17.4",
+    "packaging>=24.0",
 ]
 
 [project.urls]

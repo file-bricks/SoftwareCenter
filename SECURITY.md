@@ -22,10 +22,12 @@ We provide security updates and patches for the following versions of SoftwareCe
 If you discover a potential security vulnerability in SoftwareCenter, please do NOT open a public issue. We follow coordinated vulnerability disclosure:
 
 1. **GitHub Private Vulnerability Reporting (Preferred):**
-   Navigate to **Security > Advisories > Report a vulnerability** in the GitHub repository to open a confidential report.
+   Navigate to [Report a vulnerability](https://github.com/file-bricks/SoftwareCenter/security/advisories/new) in the GitHub repository to open a confidential report.
 2. **Direct Contact:**
    Send an email to:
+   - `security@file-bricks.org`
    - `security@open-bricks.org`
+   - `security@ellmos.ai`
    - `support@lukasgeiger.com`
    - `lukas@open-bricks.org`
 
@@ -76,10 +78,12 @@ Sicherheitsupdates und Patches werden für folgende SoftwareCenter-Versionen ber
 Wenn Sie eine Sicherheitslücke in SoftwareCenter vermuten, eröffnen Sie bitte KEIN öffentliches Issue. Wir bitten um vertrauliche Koordinierung:
 
 1. **GitHub Private Vulnerability Reporting (Bevorzugt):**
-   Navigieren Sie im GitHub-Repository zu **Security > Advisories > Report a vulnerability** für einen vertraulichen Bericht.
+   Navigieren Sie im GitHub-Repository zu [Schwachstelle melden (Security Advisory)](https://github.com/file-bricks/SoftwareCenter/security/advisories/new) für einen vertraulichen Bericht.
 2. **Direkter Kontakt:**
    Senden Sie eine E-Mail an:
+   - `security@file-bricks.org`
    - `security@open-bricks.org`
+   - `security@ellmos.ai`
    - `support@lukasgeiger.com`
    - `lukas@open-bricks.org`
 

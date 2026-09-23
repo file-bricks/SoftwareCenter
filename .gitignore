@@ -40,7 +40,11 @@ _USER/
 credentials.json
 client_secret*.json
 token.json
+secrets.*
 *.pfx
+*.p12
+*.cer
+*.crt
 *.pem
 *.key
 keyring/
@@ -91,6 +95,9 @@ ehthumbs.db
 *-Mac Studio*
 *-MacBook*
 *.sync-conflict-*
+*.conflict
+*-conflict-*
+*-CONFLIT-*
 *.orig
 *.rej
 DECISIONS.md
@@ -102,6 +109,7 @@ DONE.md
 LOCK
 LOCK.*
 LOCK*.txt
+*.lock
 LOCK.user.*
 LOCK.until.*
 LOCK.condition.*
@@ -119,6 +127,8 @@ wheelhouse/
 .turbo/
 .nyc_output/
 .tox/
+pytest_out.txt
+pytest*.txt
 
 # Personal-Builds (BUILD-VERFAHREN §9) und lokale Backups
 *-personal.exe
