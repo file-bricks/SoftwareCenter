@@ -1,10 +1,11 @@
 # Third-Party Licenses & Governance Statement
 
-> **Project:** `file-bricks/SoftwareCenter`  
-> **Audited:** 2026-09-14  
-> **Repository License:** [MIT License](LICENSE)  
-> **Architecture & Privacy:** 100% Local-First, Zero-Egress, Unprivileged User-Mode (`RunAsInvoker`)  
-> **Umbrella:** [open-bricks](https://github.com/open-bricks)  
+> **Project:** `file-bricks/SoftwareCenter`<br>
+> **Audited:** 2026-09-23<br>
+> **Repository License:** [MIT License](LICENSE)<br>
+> **Attribution:** [NOTICE](NOTICE)<br>
+> **Architecture & Privacy:** 100% Local-First, Zero-Egress, Unprivileged User-Mode (`RunAsInvoker`)<br>
+> **Umbrella:** [open-bricks](https://github.com/open-bricks)
 
 ---
 

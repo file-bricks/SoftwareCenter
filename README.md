@@ -3,7 +3,8 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 236 Passed](https://img.shields.io/badge/pytest-236%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
+[![Pytest 260+ Passed](https://img.shields.io/badge/pytest-260%2B%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Platforms: Windows | macOS | Linux](https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
 [![Privacy: 100% Local-First](https://img.shields.io/badge/privacy-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
 [![Security: 48h SLA](https://img.shields.io/badge/security-48h%20SLA-blue.svg)](SECURITY.md)
@@ -56,7 +57,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **License** | MIT (PySide6 dynamically linked under LGPLv3) |
 | **Exchange Format** | `softwarecenter-profile-v1.json` (see [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Last Checked** | 2026-09-14 (local: full pytest suite, platform smokes, compileall, Ruff, dependency audit, file manager context menu integration; WACK remains dry-run only) |
+| **Last Checked** | 2026-09-23 (local: full pytest suite, platform smokes, compileall, Ruff, dependency audit, file manager context menu integration, NOTICE attribution, CI lifecycle hardening; WACK remains dry-run only) |
 
 ## Features
 
@@ -306,6 +307,7 @@ Security and privacy are core architectural priorities. See [SECURITY.md](SECURI
 
 SoftwareCenter incorporates third-party open-source components under compliant, permissive licensing. Complete audit details, SPDX identifiers, and dynamic linking compliance statements are available in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
+- **Attribution:** [NOTICE](NOTICE) (Canonical open-source copyright attribution Lukas Geiger, file-bricks and open-bricks umbrella).
 - **PySide6 & shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (dynamically linked via Qt for Python, preserving full user replaceability under LGPLv3 §4).
 - **Python Standard Library:** [PSF-2.0](https://docs.python.org/3/license.html) (100% offline, zero network egress).
 - **PyInstaller:** [GPL-2.0-or-later with PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (build-time tooling; output executables are exempt from GPL copyleft).

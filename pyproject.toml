@@ -7,8 +7,14 @@ name = "file-bricks-softwarecenter"
 version = "1.2.0"
 description = "Lightweight, local-first PySide6 desktop shortcut organizer and application launcher."
 readme = "README.md"
-requires-python = ">=3.10"
 license = { text = "MIT" }
+license-files = [
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_LICENSES.md",
+    "THIRD_PARTY_LICENSES.txt",
+]
+requires-python = ">=3.10"
 authors = [
     { name = "file-bricks" }
 ]
@@ -48,6 +54,7 @@ Issues = "https://github.com/file-bricks/SoftwareCenter/issues"
 "Bug Tracker" = "https://github.com/file-bricks/SoftwareCenter/issues"
 Changelog = "https://github.com/file-bricks/SoftwareCenter/blob/master/CHANGELOG.md"
 Security = "https://github.com/file-bricks/SoftwareCenter/blob/master/SECURITY.md"
+Notice = "https://github.com/file-bricks/SoftwareCenter/blob/master/NOTICE"
 "Parent Organization" = "https://github.com/file-bricks"
 "Umbrella Ecosystem" = "https://github.com/open-bricks"
 "LLM Ready" = "https://github.com/file-bricks/SoftwareCenter/blob/master/llms.txt"
@@ -74,6 +81,18 @@ ignore = ["E501", "UP009", "RUF001"]
 "tests/*_platform_smoke.py" = ["E402"]
 
 [tool.pytest.ini_options]
+minversion = "7.0"
 addopts = "-ra -v"
 pythonpath = "."
 testpaths = ["tests"]
+norecursedirs = [
+    ".git",
+    ".pytest_cache",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    "venv",
+    "_WARTUNG",
+    "releases",
+]

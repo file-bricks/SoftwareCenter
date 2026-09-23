@@ -1,6 +1,6 @@
 # SoftwareCenter
 
-## Last-checked: 2026-09-14
+## Last-checked: 2026-09-23
 
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
@@ -24,11 +24,12 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 
 - `README.md`: English GitHub entry point; `README_de.md`: German documentation; `README.es.md`: Spanish documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
+- `NOTICE`: Open-source attribution notice (Lukas Geiger, file-bricks, open-bricks umbrella).
 - `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
 - `THIRD_PARTY_LICENSES.md`: Dependency inventory, SPDX identifiers, LGPLv3 dynamic linking guarantees, and 10 runtime invariants.
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
 - `MARKETING-LOG.txt`: Target personas, dual-language search term matrices, competitive comparison, and governance invariants.
-- `tests/`: Pytest suite (232+ tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, Tier-2 6-language internationalization, and trusted WACK tool discovery).
+- `tests/`: Pytest suite (260+ tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, Tier-2 6-language internationalization, and trusted WACK tool discovery).
 
 ## Verification
 
@@ -45,8 +46,8 @@ The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
 `web_companion/` has no npm test; if reintroduced, CI runs `npm test` and
 `node --check` for `app.js`, `library.js`, and `sw.js`.
 
-The 2026-09-14 local verification passed all tests plus compile, multi-rule ruff lint,
-dependency, file manager integration, and trusted WACK tool-discovery checks. No signed/WACK-verified Store
+The 2026-09-23 local verification passed all tests (260+ passed) plus compile, multi-rule ruff lint,
+dependency, NOTICE attribution, and CI lifecycle guardrails. No signed/WACK-verified Store
 submission candidate is claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
 
 ## Disambiguation

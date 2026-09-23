@@ -3,7 +3,8 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 236 Passed](https://img.shields.io/badge/pytest-236%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
+[![Pytest 260+ Passed](https://img.shields.io/badge/pytest-260%2B%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Plattformen: Windows | macOS | Linux](https://img.shields.io/badge/Plattformen-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
 [![Datenschutz: 100% Local-First](https://img.shields.io/badge/Datenschutz-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
 [![Sicherheit: 48h SLA](https://img.shields.io/badge/Sicherheit-48h%20SLA-blue.svg)](SECURITY.md)
@@ -56,7 +57,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Letzte Prüfung** | 2026-09-14 (lokal: vollständige Pytest-Suite, Plattform-Smokes, Compileall, Ruff, Dependency-Audit, Dateimanager-Kontextmenü-Integration; WACK weiterhin nur Dry-Run) |
+| **Letzte Prüfung** | 2026-09-23 (lokal: vollständige Pytest-Suite, Plattform-Smokes, Compileall, Ruff, Dependency-Audit, Dateimanager-Kontextmenü-Integration, NOTICE-Attribution, CI-Lifecycle-Härtung; WACK weiterhin nur Dry-Run) |
 
 ## Funktionen
 
@@ -308,6 +309,7 @@ Sicherheit und Datenschutz stehen an erster Stelle. Siehe [SECURITY.md](SECURITY
 
 SoftwareCenter bindet Drittanbieter-Open-Source-Komponenten unter konformen, permissiven Lizenzen ein. Vollständige Audit-Details, SPDX-Identifikatoren und dynamische Verlinkungshinweise finden sich in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
+- **Attribution:** [NOTICE](NOTICE) (Kanonische Open-Source-Attribution Lukas Geiger, file-bricks und open-bricks Dachorganisation).
 - **PySide6 & shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (dynamisch über Qt for Python gelinkt; vollständige Ersetzbarkeit für Endnutzer gemäß LGPLv3 § 4 gewährleistet).
 - **Python-Standardbibliothek:** [PSFL-2.0](https://docs.python.org/3/license.html) (100% offline, kein Netzwerk-Egress).
 - **PyInstaller:** [GPL-2.0-or-later mit PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (Build-Tooling; generierte Binärdateien sind von der GPL-Copyleft-Pflicht ausgenommen).

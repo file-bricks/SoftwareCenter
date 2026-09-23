@@ -8,16 +8,16 @@ Prüft:
 - Tastaturkürzel- und Barrierefreiheits-Übersichtsdialog (F1)
 """
 import os
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+import pytest
 from PySide6.QtCore import QEvent, Qt
 from PySide6.QtGui import QKeyEvent, QKeySequence
-from PySide6.QtWidgets import QApplication, QDialog, QLabel, QLineEdit, QTextEdit
+from PySide6.QtWidgets import QApplication, QLabel
 
 import SoftwareCenter as sc
-import pytest
 
 _APP = QApplication.instance() or QApplication([])
 _APP.setQuitOnLastWindowClosed(False)

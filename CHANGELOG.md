@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
+
+### Hygiene & Governance
+- Linter Zero-Tolerance: Resolved 7 ruff lint diagnostics (unused imports and import sorting in `SoftwareCenter.py` and `tests/test_ui_accessibility.py`); verified 100% clean across all rule-sets.
+- Open-Source Attribution: Created canonical root `NOTICE` attribution file (Lukas Geiger, file-bricks, open-bricks umbrella).
+- CI Lifecycle Workflows: Hardened `.github/workflows/stale.yml` (concurrency group, 10-minute timeout) and `.github/workflows/welcome.yml` (concurrency group, 5-minute timeout).
+- Multi-Host & Lock Defense: Hardened `.gitignore` with multi-host conflict tokens (`*conflicted copy*`, `* (Kopie)*`, `*-ASUS*`, `*-LAPTOP*`, `*-Mac Studio*`, `*-MacBook*`, `*.rej`, `*.orig`) and fail-closed lock defense (`LOCK*.txt`, `LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `.automation-lock`, `uv.lock`, `!package-lock.json`).
+- PEP 621 Metadata: Added `license-files` and `Notice` project URL to `pyproject.toml`; configured pytest `norecursedirs` and `minversion = "7.0"` while strictly preserving release version `1.2.0` per T-20260920-167562623.
+- Documentation & Context Parity: Synchronized tri-lingual documentation (`README.md`, `README_de.md`, `README.es.md`), `THIRD_PARTY_LICENSES.md`, `MARKETING-LOG.txt`, and `llms.txt` with NOTICE attribution and updated test suite count (260+ passed).
+- Contract Testing: Expanded `tests/test_metadata.py` with contract tests asserting `NOTICE` file integrity, workflow lifecycle timeouts, and multi-host gitignore defense.
+
 ## [1.2.0] - 2026-09-14 (Pfad B: Discoverability, Branding & Governance Parity)
 
 ### Added & Enhanced

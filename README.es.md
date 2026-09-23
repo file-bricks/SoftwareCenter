@@ -3,7 +3,8 @@
 # SoftwareCenter
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Pytest 236 Passed](https://img.shields.io/badge/pytest-236%20passed-brightgreen.svg)](https://docs.pytest.org/)
+[![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
+[![Pytest 260+ Passed](https://img.shields.io/badge/pytest-260%2B%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Plataformas: Windows | macOS | Linux](https://img.shields.io/badge/plataformas-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
 [![Privacidad: 100% Local-First](https://img.shields.io/badge/privacidad-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
 [![Seguridad: 48h SLA](https://img.shields.io/badge/seguridad-48h%20SLA-blue.svg)](SECURITY.md)
@@ -56,7 +57,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 | **Pila tecnológica** | Python 3.10+ / PySide6 (Qt) / QSettings |
 | **Licencia** | MIT (PySide6 vinculado dinámicamente bajo LGPLv3) |
 | **Formato de intercambio** | `softwarecenter-profile-v1.json` (ver [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
-| **Última verificación** | 2026-09-14 (local: suite completa pytest, pruebas de plataforma, compileall, Ruff, auditoría de dependencias, integración con menús contextuales) |
+| **Última verificación** | 2026-09-23 (local: suite completa pytest, pruebas de plataforma, compileall, Ruff, auditoría de dependencias, integración con menús contextuales, atribución NOTICE, blindaje CI) |
 
 ## Características
 
@@ -290,6 +291,7 @@ La seguridad y la privacidad son prioridades arquitectónicas fundamentales. Con
 
 SoftwareCenter incorpora componentes de código abierto de terceros bajo licencias permisivas y conformes. Los detalles completos de la auditoría, los identificadores SPDX y las declaraciones de enlace dinámico están disponibles en [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
+- **Atribución:** [NOTICE](NOTICE) (Atribución canónica de código abierto Lukas Geiger, organizaciones file-bricks y open-bricks).
 - **PySide6 y shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (enlazado dinámicamente mediante Qt for Python; garantiza la sustitución completa por parte del usuario según LGPLv3 §4).
 - **Biblioteca estándar de Python:** [PSFL-2.0](https://docs.python.org/3/license.html) (100% sin conexión, cero tráfico de red saliente).
 - **PyInstaller:** [GPL-2.0-or-later con PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (herramienta de compilación; los ejecutables empaquetados están exentos del copyleft de GPL).

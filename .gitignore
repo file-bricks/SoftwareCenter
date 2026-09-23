@@ -78,12 +78,21 @@ desktop.ini
 Thumbs.db
 .DS_Store
 ehthumbs.db
+*conflicted copy*
+* (kopie)*
+* (Kopie)*
+* (copy)*
+* (Copy)*
+*-ASUS*
 *-ASUS-GEI*
 *-WORKSTATION*
 *-WORKSTATION-LG*
-* (kopie)*
-* (copy)*
+*-LAPTOP*
+*-Mac Studio*
+*-MacBook*
 *.sync-conflict-*
+*.orig
+*.rej
 DECISIONS.md
 PORTIERUNGSPLAN.md
 TODO.md
@@ -92,14 +101,24 @@ DONE.md
 # ---- Lock-Dateien & Multi-Agent ----
 LOCK
 LOCK.*
+LOCK*.txt
+LOCK.user.*
+LOCK.until.*
+LOCK.condition.*
 LOCK.permissions.json
+.automation-lock
 uv.lock
+!package-lock.json
 
-# ---- Test- & Wheel-Artefakte ----
+# ---- Test-, Cache- & Wheel-Artefakte ----
 .coverage.*
 coverage/
 .wheel-smoke/
 wheelhouse/
+.hypothesis/
+.turbo/
+.nyc_output/
+.tox/
 
 # Personal-Builds (BUILD-VERFAHREN §9) und lokale Backups
 *-personal.exe

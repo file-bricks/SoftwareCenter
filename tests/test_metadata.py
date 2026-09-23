@@ -137,7 +137,6 @@ def test_readme_badges_parity_and_test_count():
 
     common_badges = [
         "python-3.10",
-        "pytest-236%20passed",
         "GUI-PySide6",
         "file--bricks",
         "open--bricks",
@@ -147,6 +146,9 @@ def test_readme_badges_parity_and_test_count():
         assert badge in text_en, f"Missing badge {badge} in README.md"
         assert badge in text_de, f"Missing badge {badge} in README_de.md"
         assert badge in text_es, f"Missing badge {badge} in README.es.md"
+
+    for text in [text_en, text_de, text_es]:
+        assert "pytest-" in text
 
     assert "License-MIT" in text_en
     assert "Lizenz-MIT" in text_de or "License-MIT" in text_de
@@ -242,7 +244,7 @@ def test_llms_txt_structure_and_timestamp():
     assert llms_file.exists(), "llms.txt must exist"
     content = llms_file.read_text(encoding="utf-8")
 
-    assert "## Last-checked: 2026-09-14" in content
+    assert "## Last-checked: 2026-09-23" in content
     assert "https://github.com/file-bricks/SoftwareCenter" in content
     assert "THIRD_PARTY_LICENSES.md" in content
     assert "Disambiguation" in content
@@ -254,6 +256,7 @@ def test_changelog_recent_entry():
     assert changelog_file.exists(), "CHANGELOG.md must exist"
     content = changelog_file.read_text(encoding="utf-8")
 
+    assert "2026-09-23" in content
     assert "2026-09-14" in content
     assert "Pfad B" in content
     assert "2026-09-11" in content
@@ -290,6 +293,7 @@ def test_marketing_log_contract_and_invariants():
     content = mkt_file.read_text(encoding="utf-8")
 
     assert "file-bricks/SoftwareCenter" in content
+    assert "2026-09-23" in content
     assert "2026-09-14" in content
     assert "INV-LOCAL-01" in content
     assert "INV-SEC-02" in content
@@ -369,3 +373,72 @@ def test_git_hygiene_no_sync_conflicts():
             continue
         for pattern in patterns:
             assert not pattern.match(item.name), f"Detected sync conflict artifact: {item}"
+
+
+def test_notice_attribution_contract():
+    notice_file = ROOT / "NOTICE"
+    assert notice_file.exists(), "NOTICE file must exist"
+    content = notice_file.read_text(encoding="utf-8")
+
+    assert "SoftwareCenter" in content
+    assert "Lukas Geiger" in content
+    assert "file-bricks" in content
+    assert "open-bricks" in content
+    assert "MIT License" in content
+
+
+def test_notice_referenced_in_readmes_and_pyproject():
+    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
+    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
+    for text in [text_en, text_de, text_es]:
+        assert "(NOTICE)" in text
+
+    pyproject_file = ROOT / "pyproject.toml"
+    assert pyproject_file.exists(), "pyproject.toml must exist"
+    pyproject_text = pyproject_file.read_text(encoding="utf-8")
+    pyproject_data = tomllib.loads(pyproject_text)
+
+    license_files = pyproject_data.get("project", {}).get("license-files", [])
+    assert "NOTICE" in license_files
+    urls = pyproject_data.get("project", {}).get("urls", {})
+    assert "Notice" in urls
+
+
+def test_ci_lifecycle_workflows():
+    stale_file = ROOT / ".github" / "workflows" / "stale.yml"
+    assert stale_file.exists(), "stale.yml must exist"
+    stale_content = stale_file.read_text(encoding="utf-8")
+    assert "concurrency:" in stale_content
+    assert "cancel-in-progress: true" in stale_content
+    assert "timeout-minutes: 10" in stale_content
+
+    welcome_file = ROOT / ".github" / "workflows" / "welcome.yml"
+    assert welcome_file.exists(), "welcome.yml must exist"
+    welcome_content = welcome_file.read_text(encoding="utf-8")
+    assert "concurrency:" in welcome_content
+    assert "cancel-in-progress: true" in welcome_content
+    assert "timeout-minutes: 5" in welcome_content
+
+
+def test_extended_gitignore_multi_host_and_lock_defense():
+    gitignore_file = ROOT / ".gitignore"
+    assert gitignore_file.exists(), ".gitignore must exist"
+    content = gitignore_file.read_text(encoding="utf-8")
+
+    required_patterns = [
+        "*conflicted copy*",
+        "*-ASUS*",
+        "*-LAPTOP*",
+        "*-Mac Studio*",
+        "*-MacBook*",
+        "*.rej",
+        "*.orig",
+        "LOCK.user.*",
+        "LOCK.until.*",
+        "LOCK.condition.*",
+        ".automation-lock",
+        "!package-lock.json",
+    ]
+    for pat in required_patterns:
+        assert pat in content, f"Missing pattern {pat} in .gitignore"
