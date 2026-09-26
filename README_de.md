@@ -42,6 +42,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - [Qualitätssicherung](#qualitätssicherung)
 - [Headless-Katalogpflege](#headless-katalogpflege)
 - [Austauschformat](#austauschformat)
+- [LaunchBoards](#launchboards)
 - [Schwesterprodukt-Grenze](#schwesterprodukt-grenze)
 - [Windows-Store-Artefakte](#windows-store-artefakte)
 - [Technik](#technik)
@@ -277,6 +278,16 @@ Rollback stehen in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 ## Austauschformat
 
 Profile lassen sich als `softwarecenter-profile-v1.json` exportieren und wieder importieren. Das Format enthält Tabs, Ansichtsmodus und Einträge mit `label`, `path`, `kind` und optionalen `notes`, aber keine kopierten Dateien und keine Credentials. Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
+
+## LaunchBoards
+
+<img src="assets/banner-launchboards.png" width="100%" alt="LaunchBoards Banner">
+
+[LaunchBoards](https://github.com/file-bricks/SoftwareCenter) ist das Schwesterprodukt
+von SoftwareCenter: dieselbe Codebasis, aber eigenes Branding und eigene Identität,
+ausgerichtet auf umschaltbare Arbeits-Boards statt eines allgemeinen Shortcut-Launchers.
+Es teilt sich dieses Repository und die Release-Pipeline — es gibt keinen separaten
+LaunchBoards-Quellbaum zu pflegen.
 
 ## Schwesterprodukt-Grenze
 

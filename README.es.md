@@ -42,6 +42,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 - [Controles de calidad](#controles-de-calidad)
 - [Mantenimiento desatendido del catálogo](#mantenimiento-desatendido-del-catálogo)
 - [Formato de intercambio](#formato-de-intercambio)
+- [LaunchBoards](#launchboards)
 - [Límites de producto hermano](#límites-de-producto-hermano)
 - [Activos de Windows Store](#activos-de-windows-store)
 - [Pila tecnológica](#pila-tecnológica)
@@ -265,6 +266,16 @@ El reconciliador opcional de catálogo se proporciona como código de tiempo de 
 ## Formato de intercambio
 
 Los perfiles se pueden exportar como `softwarecenter-profile-v1.json` e importar posteriormente. El formato transporta pestañas, modos de vista y entradas con `label`, `path`, `kind` y notas opcionales, pero no copia archivos locales ni credenciales. Las rutas inexistentes permanecen visibles como referencias. Consulte [EXPORTFORMAT.md](EXPORTFORMAT.md) para más detalles.
+
+## LaunchBoards
+
+<img src="assets/banner-launchboards.png" width="100%" alt="Banner de LaunchBoards">
+
+[LaunchBoards](https://github.com/file-bricks/SoftwareCenter) es el producto hermano de
+SoftwareCenter: misma base de código, pero con marca e identidad propias, orientado a
+tableros de trabajo intercambiables en lugar de un lanzador general de accesos directos.
+Comparte este repositorio y el mismo proceso de publicación — no existe un árbol de
+código independiente para LaunchBoards.
 
 ## Límites de producto hermano
 

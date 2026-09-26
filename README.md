@@ -42,6 +42,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - [Quality Checks](#quality-checks)
 - [Headless Launcher Catalog Care](#headless-launcher-catalog-care)
 - [Exchange Format](#exchange-format)
+- [LaunchBoards](#launchboards)
 - [Sister-product boundary](#sister-product-boundary)
 - [Windows Store Assets](#windows-store-assets)
 - [Tech Stack](#tech-stack)
@@ -276,6 +277,15 @@ procedure are documented in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 ## Exchange Format
 
 Profiles can be exported as `softwarecenter-profile-v1.json` and imported again later. The format carries tabs, view modes, and entries with `label`, `path`, `kind`, and optional `notes`, but does not copy local files or credentials. Missing paths remain visible as references. See [EXPORTFORMAT.md](EXPORTFORMAT.md) for details.
+
+## LaunchBoards
+
+<img src="assets/banner-launchboards.png" width="100%" alt="LaunchBoards Banner">
+
+[LaunchBoards](https://github.com/file-bricks/SoftwareCenter) is the sister product of
+SoftwareCenter: same codebase, own branding and identity, framed around switchable
+workspace boards instead of a general shortcut launcher. It shares this repository and
+release pipeline — there is no separate LaunchBoards source tree to maintain.
 
 ## Sister-product boundary
 
