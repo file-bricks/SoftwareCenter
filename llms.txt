@@ -27,8 +27,8 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 - `NOTICE`: Open-source attribution notice (Lukas Geiger, file-bricks, open-bricks umbrella).
 - `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
 - `THIRD_PARTY_LICENSES.md`: Dependency inventory, SPDX identifiers, LGPLv3 dynamic linking guarantees, and 10 runtime invariants.
+- `CHANGELOG.md`: Public project history and discovery metadata changes.
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
-- `MARKETING-LOG.txt`: Target personas, dual-language search term matrices, competitive comparison, and governance invariants.
 - `tests/`: Pytest suite (260+ tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, Tier-2 6-language internationalization, and trusted WACK tool discovery).
 
 ## Verification

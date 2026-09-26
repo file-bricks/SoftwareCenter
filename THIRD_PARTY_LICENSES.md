@@ -21,7 +21,7 @@ SoftwareCenter strictly guarantees:
 3. **Dynamic Linking & Zero-Copyleft Compliance (LGPL-3.0):** PySide6 (Qt for Python) is dynamically linked in compliance with LGPLv3 Section 4. The application source code is licensed under permissive MIT and is not affected by copyleft obligations. Users are free to replace Qt runtime shared libraries.
 4. **Standalone PyInstaller Exemption:** Executable packaging via PyInstaller uses the standard PyInstaller exception to GPL-2.0-or-later, permitting independent binary distribution without licensing contagion.
 5. **Non-Destructive Operations (INV-LAUNCH-04):** Managing or removing shortcuts never touches, modifies, or deletes the underlying executable or filesystem files.
-6. **Machine-Readable Metadata & Internationalization Parity:** Complete metadata alignment across `llms.txt`, `MARKETING-LOG.txt`, and Tier-2 6-language translations (`de`, `en`, `es`, `zh`, `ja`, `ru`).
+6. **Machine-Readable Metadata & Internationalization Parity:** Complete metadata alignment across `llms.txt`, `CHANGELOG.md`, and Tier-2 6-language translations (`de`, `en`, `es`, `zh`, `ja`, `ru`).
 
 ---
 
