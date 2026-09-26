@@ -136,7 +136,14 @@ SoftwareCenter_PRE_*.py
 
 # ---- Agenten-interne Arbeitsnotizen (GITHUB-POLICY.md §3, T-20260926-510472849) ----
 BEFUNDE.md
+# MARKETING-LOG.txt und RUNTIME_DAILY_CARE.md sind hier bewusst NICHT gelistet: sie
+# sind in pyproject.toml/llms.txt/README verlinkt und durch tests/test_metadata.py
+# bzw. tests/test_softwarecenter_sync.py als oeffentlicher Konsistenzvertrag
+# verankert (T-20260926-510472849, Team-Lead-Entscheid). Muster trotzdem als
+# Kommentar dokumentiert, damit kein neues Repo diese Namen unbedacht committet:
+# *MARKETING-LOG.txt, *_DAILY_CARE.md
 *STATUS-LOG.txt
+TASKPLAN_STATUS_*.md
 STORE_CONTRACT.md
 STORE_READINESS.md
 _WARTUNG/
