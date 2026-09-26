@@ -277,7 +277,14 @@ procedure are documented in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 
 Profiles can be exported as `softwarecenter-profile-v1.json` and imported again later. The format carries tabs, view modes, and entries with `label`, `path`, `kind`, and optional `notes`, but does not copy local files or credentials. Missing paths remain visible as references. See [EXPORTFORMAT.md](EXPORTFORMAT.md) for details.
 
-## Sister-product boundary
+## LaunchBoards
+
+<img src="assets/banner-launchboards.png" width="100%" alt="LaunchBoards Banner">
+
+[LaunchBoards](https://github.com/file-bricks/SoftwareCenter) is the sister product of
+SoftwareCenter: same codebase, own branding and identity, framed around switchable
+workspace boards instead of a general shortcut launcher. It shares this repository and
+release pipeline — there is no separate LaunchBoards source tree to maintain.
 
 LaunchBoards shares the implementation but has its own QSettings namespace,
 single-instance endpoint, icon, executable, Store identity, and release path.

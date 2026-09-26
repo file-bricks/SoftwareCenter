@@ -34,6 +34,11 @@ All notable changes to this project will be documented in this file.
 - README main-window screenshot: `README/screenshots/main.png` predated the reproducible Store screenshot generator and showed an empty, freshly-installed board ("Allgemein", 0 entries) instead of the app's real functionality (T-20260926-413277423). Replaced the README (EN/DE/ES) and `STORE_LISTING.md` reference with the already-existing, regenerated `README/screenshots/store/main-window.png` (populated `Dev` board, produced by `generate_store_screenshots.py`), and removed the stale `main.png`. No LaunchBoards equivalent existed to check -- LaunchBoards has no tracked UI screenshot in this repo.
 
 ### Added
+- LaunchBoards Banner: Added a dedicated `assets/banner-launchboards.png` (2400x680, blue
+  gradient, LaunchBoards shield icon) analogous to the existing SoftwareCenter banner, and
+  a new "LaunchBoards" section with the banner in `README.md`, `README_de.md`, and
+  `README.es.md`, ahead of the existing sister-product-boundary section
+  (T-20260926-802873568).
 - Empty-Board Placeholder UI: When a board has 0 items, `SoftwareListWidget.paintEvent` renders a clean, non-intrusive empty-state overlay with title ("Dieses Board ist noch leer") and explanatory hint ("Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.") adapting dynamically to system theme palettes.
 - Help / About Dialog: Added `Hilfe` -> `Über SoftwareCenter` (and `Über LaunchBoards` for sister profile) menu action with version and concise description of the universal organization layer.
 - Multi-Language 6-Language Parity: Added translations for the empty-board placeholder, help menu, and about dialog across all 6 Tier-2 languages (`de`, `en`, `es`, `zh`, `ja`, `ru`), maintaining 100% catalog parity (90 keys total).
