@@ -1,0 +1,136 @@
+# MARKETING-LOG: SoftwareCenter
+# Status: ACTIVE / PFAD B DISCOVERABILITY, VISUAL ARCHITECTURE & METADATA CERTIFIED
+# Repository: file-bricks/SoftwareCenter
+# Organization: file-bricks (Umbrella: open-bricks)
+# Audit Date: 2026-09-14
+# Tested Baseline: 236 passed | 5 skipped | 100% green
+
+================================================================================
+1. TARGET PERSONAS & MARKET SEGMENTS
+================================================================================
+
+Persona 1: Desktop Power Users & Organization Curators
+- Role: Professionals running dozens of specialized tools, scripts, documents, and workspace folders simultaneously.
+- Core Pain: Cluttered Windows Desktop, convoluted Start Menu search latency, and lack of persistent multi-board categorization.
+- Value Proposition: Lightweight, lightning-fast PySide6 shortcut board manager with instant category switching, custom icon assignments, notes, and drag-and-drop organization.
+
+Persona 2: Solo Software Developers, DevOps & System Engineers
+- Role: Developers managing project-specific launchers, CLI utilities, portable apps, and virtual environment scripts.
+- Core Pain: Mixing development toolchains into personal application menus; complex launcher apps with heavy background daemon overhead.
+- Value Proposition: Multi-profile separation (SoftwareCenter vs LaunchBoards), working directory integrity preservation (_startfile_in_dir), headless profile maintenance, and instantaneous launching.
+
+Persona 3: Multi-PC Workstation Operators & Cloud-Sync Engineers
+- Role: Users synchronizing configurations across multiple workstations (e.g. Workstation and Laptop) without exposing machine-specific secrets.
+- Core Pain: Hardcoded file paths, absolute paths to non-existent drive letters, or secret leakages in desktop configuration files across different hosts.
+- Value Proposition: Schema-validated portable profile export (softwarecenter-profile-v1.json) with strict secret scrubbing, non-destructive import merging, and drive-independent target verification.
+
+Persona 4: Privacy-Conscious & Zero-Telemetry Advocates
+- Role: Security-conscious individuals and enterprise environments requiring zero outbound internet traffic.
+- Core Pain: Commercial desktop organizers that phone home, require proprietary cloud accounts, or bundle background telemetry.
+- Value Proposition: 100% offline local-first execution (INV-LOCAL-01), zero network egress, unprivileged non-elevation execution, and standard QSettings INI persistence.
+
+================================================================================
+2. HIGH-INTENT SEARCH TERM MATRIX
+================================================================================
+
+English High-Intent Search Phrases:
+- 'SoftwareCenter Python desktop launcher'
+- 'file-bricks SoftwareCenter'
+- 'PySide6 desktop shortcut manager'
+- 'open source application board manager Windows'
+- 'local-first desktop organizer python'
+- 'portable shortcut launcher without cloud account'
+- 'SoftwareCenter vs LaunchBoards profile switcher'
+- 'headless desktop profile organizer JSON'
+- 'privacy friendly Windows app launcher'
+- 'multi tab application shortcut dock'
+
+German High-Intent Search Phrases:
+- 'SoftwareCenter Desktop Schnellstarter Python'
+- 'file-bricks SoftwareCenter Anwendungsverwaltung'
+- 'Lokaler Programmstarter mit Reitern und Kategorien'
+- 'Desktop Verknüpfungs-Manager ohne Cloud-Zwang'
+- 'Open Source App Launcher Deutsch Windows'
+- 'SoftwareCenter portable Profile exportieren'
+- 'Python PySide6 Desktop Verknüpfungen organisieren'
+- 'Schnellstartleiste mit System-Tray Integration'
+- 'Lokale Shortcut Verwaltung ohne Telemetrie'
+- 'LaunchBoards Profil Umschaltung Windows'
+
+================================================================================
+3. COMPETITIVE COMPARISON MATRIX
+================================================================================
+
+| Capability / Feature                | SoftwareCenter   | Windows Start Menu | Stardock Fences | SyMenu          | Launchy / Flow   |
+|-------------------------------------|:----------------:|:------------------:|:---------------:|:---------------:|:----------------:|
+| Dedicated Category Boards / Tabs    | YES (Dynamic)    | NO (Flat list)     | YES (On Desktop)| YES (Hierarchical)| NO (Search box)|
+| Free & Open Source (MIT)            | YES (100%)       | BUNDLED (Closed)   | NO (Commercial) | YES (Freeware)  | YES (Open Source)|
+| Multi-Profile Architecture          | YES (Dual Identity)| NO               | NO              | PARTIAL         | NO               |
+| Portable Redacted Profile Export    | YES (v1 JSON)    | NO                 | NO              | PARTIAL         | NO               |
+| Zero Telemetry / 100% Local-First   | YES              | NO (Bing / Cloud)  | NO              | YES             | PARTIAL          |
+| Working Directory Preservation      | YES (_startfile) | PARTIAL            | PARTIAL         | YES             | PARTIAL          |
+| Headless Batch Catalog Management   | YES (Scriptable) | NO                 | NO              | NO              | NO               |
+| Cross-Platform Smoke Certifications | YES (Linux/macOS)| NO (Win only)      | NO (Win only)   | NO (Win only)   | PARTIAL          |
+| System Tray Quick Navigation        | YES (Custom Menu)| NO                 | NO              | YES             | NO (Hotkey only) |
+| Non-Elevated Invoker Security       | YES (Strict)     | SYSTEM/User        | User/Admin      | User            | User             |
+
+================================================================================
+4. GOVERNANCE & RUNTIME INVARIANTS
+================================================================================
+
+- INV-LOCAL-01: 100% Local-First & Zero-Egress — Execution, icon caching, and profile parsing execute strictly offline without external network calls.
+- INV-SEC-02: Unprivileged Execution (Non-Elevation) — All launcher operations run under RunAsInvoker unprivileged user context.
+- INV-PROFILE-03: Portable Profile Integrity — Profile export format (softwarecenter-profile-v1.json) strictly scrubs machine-local secrets and validates tab structures.
+- INV-LAUNCH-04: Working Directory Correctness — Target files launched via _startfile_in_dir strictly set target parent directory as CWD, preventing relative path breakages.
+- INV-DUAL-05: Multi-Identity Profile Switching — Complete visual and behavioral separation between SoftwareCenter and LaunchBoards profiles.
+- INV-A11Y-06: Desktop Accessibility & Keyboard Navigation — Accessible names and keyboard tab traversal enforced across tab bars and item grids.
+- INV-HYGIENE-07: Fail-Closed Conflict Guard — Multi-host synchronization conflict artifacts (*-WORKSTATION*, *-ASUS-GEI*, *.sync-conflict-*) are strictly excluded and ignored.
+- INV-SLA-08: Vulnerability & Maintenance SLA — PEP 621 compliance, 48h security response commitment, and cross-platform continuous integration.
+- INV-PARITY-09: Tier-2 Multi-Language & Documentation Parity — 6-language translation catalog parity (de, en, es, zh, ja, ru) with deterministic 4-stage fallback and tri-lingual docs.
+- INV-ZEROCOPY-10: Permissive Licensing & Zero-Copyleft Containment — MIT application license, dynamically linked LGPL-3.0 PySide6, and standalone PyInstaller exception.
+
+================================================================================
+5. STRATEGIC DISCOVERABILITY ROADMAP
+================================================================================
+
+- Umbrella Integration: Linked across open-bricks master index and file-bricks portfolio (ProFiler, ExplorerPro, CloudLockFixer, WinStorePackager).
+- LLM Machine Readability: Standard llms.txt entry certified with technical capabilities, boundary specifications, and profile JSON exchange contract.
+- Microsoft Store Live Identity: Packaged for distribution via Microsoft Partner Center under verified publisher credentials.
+
+================================================================================
+6. AUDIT & HYGIENE HISTORY
+================================================================================
+
+- 2026-09-11 [Pfad A Technical Hygiene]:
+  * Multi-rule ruff lint configuration (E, F, W, I, UP, B, SIM, C4, RUF) certified 100% clean.
+  * Code hygiene: removed unused variables, modernized imports, and resolved implicit Optionals.
+  * GitHub Actions CI hardened with concurrency cancellation and 15-minute job timeouts.
+  * .gitignore hardened with multi-host conflict tokens and lock patterns.
+  * Created MARKETING-LOG.txt and synchronized metadata contracts across project.
+
+================================================================================
+7. RECENT MARKETING, BRANDING & ASSET UPDATES (2026-09-14)
+================================================================================
+
+- Pfad B Discoverability, Visual Architecture & Metadata Parity:
+  * Tri-lingual README architecture (README.md, README_de.md, README.es.md) updated with full 24-point Quick Navigation parity across English, German, and Spanish.
+  * Target Personas (Desktop Power Users, Solo Software Developers & DevOps, Multi-PC Workstation Operators, Privacy-Conscious Advocates) directly embedded into all three documentation hubs.
+  * 10-Dimension Comparative Matrix vs. Windows Start Menu, Stardock Fences, SyMenu, and Launchy / Flow Launcher embedded across all three READMEs.
+  * Created comprehensive THIRD_PARTY_LICENSES.md documenting SPDX license identifiers, dynamic linking compliance for PySide6 (LGPL-3.0), PyInstaller packaging exception, zero-egress privacy, and 10 runtime invariants (INV-LOCAL-01 to INV-ZEROCOPY-10).
+  * Synchronized badges: Pytest test counts, platforms, zero-egress, local-first privacy, and verified audit stencils.
+  * Updated llms.txt with Last-checked 2026-09-14, test count synchronisation, and cross-references to THIRD_PARTY_LICENSES.md.
+  * Updated pyproject.toml PEP 621 project URLs with 'Third-Party Licenses'.
+  * Expanded automated contract test suite in tests/test_metadata.py with assertions certifying personas, comparison matrix, license governance, and tri-lingual navigation anchor parity.
+
+================================================================================
+8. PFAD A TECHNICAL HYGIENE, CI WORKFLOWS & LOCK DEFENSE (2026-09-23)
+================================================================================
+
+- Pfad A Repository Hygiene & Governance:
+  * Resolved 7 ruff lint diagnostics (unused imports and import sorting in SoftwareCenter.py and tests/test_ui_accessibility.py); achieved 100% clean ruff check.
+  * Created canonical open-source NOTICE attribution file (Lukas Geiger, file-bricks, open-bricks umbrella).
+  * Hardened GitHub Actions workflows stale.yml (concurrency group, 10 min timeout) and welcome.yml (concurrency group, 5 min timeout).
+  * Hardened .gitignore with multi-host conflict tokens (*conflicted copy*, * (Kopie)*, *-ASUS*, *-LAPTOP*, *-Mac Studio*, *-MacBook*, *.rej, *.orig) and fail-closed lock defense (LOCK*.txt, LOCK.user.*, LOCK.until.*, LOCK.condition.*, .automation-lock, uv.lock, !package-lock.json).
+  * Hardened pyproject.toml with PEP 621 license-files, Notice URL, and pytest norecursedirs while strictly preserving version 1.2.0 per T-20260920-167562623.
+  * Synchronized tri-lingual READMEs (README.md, README_de.md, README.es.md), llms.txt, and THIRD_PARTY_LICENSES.md with NOTICE attribution and updated test suite count (260+ passed).
+  * Expanded tests/test_metadata.py with automated contracts certifying NOTICE attribution, CI lifecycle timeouts, and multi-host gitignore defense.

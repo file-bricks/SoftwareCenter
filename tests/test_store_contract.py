@@ -1,4 +1,10 @@
-"""Regression contract for versioned SoftwareCenter Store metadata."""
+"""Regression contract for versioned SoftwareCenter Store metadata.
+
+STORE_CONTRACT.md and _WARTUNG/msix_staging/ (staged MSIX build output) were
+untracked as agent-internal / build-artifact material (T-20260926-510472849,
+GITHUB-POLICY.md SS3). This contract now checks only files that stay public:
+store_package.json, pyproject.toml, SoftwareCenter.py, and STORE_LISTING.md.
+"""
 
 import json
 import re
@@ -24,7 +30,6 @@ def _project_version() -> str:
 def test_store_package_is_the_documented_canonical_contract():
     package = json.loads((ROOT / "store_package.json").read_text(encoding="utf-8"))
     listing = (ROOT / "STORE_LISTING.md").read_text(encoding="utf-8")
-    contract = (ROOT / "STORE_CONTRACT.md").read_text(encoding="utf-8")
 
     assert package["app_name"] == "SoftwareCenter"
     assert package["publisher"] == "CN=52596601-BAB4-4F3F-B182-E8F3F273B202"
@@ -38,8 +43,6 @@ def test_store_package_is_the_documented_canonical_contract():
     assert package["support_url"].endswith("/issues")
 
     assert "### Category\nUtilities & Tools" in listing
-    assert "`store_package.json` ist die kanonische" in contract
-    assert "`runFullTrust`" in contract
 
 
 def test_version_is_identical_in_every_store_relevant_source():
@@ -54,12 +57,5 @@ def test_version_is_identical_in_every_store_relevant_source():
     assert runtime == project, f"SoftwareCenter.py {runtime} != pyproject.toml {project}"
     assert package["version"] == four_part
 
-    manifest = (ROOT / "_WARTUNG" / "msix_staging" / "AppxManifest.xml").read_text(
-        encoding="utf-8-sig"
-    )
-    assert f'Version="{four_part}"' in manifest
-
-    contract = (ROOT / "STORE_CONTRACT.md").read_text(encoding="utf-8")
     listing = (ROOT / "STORE_LISTING.md").read_text(encoding="utf-8")
-    assert f"`{four_part}`" in contract
     assert f"| Version | {four_part} |" in listing

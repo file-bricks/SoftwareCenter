@@ -136,9 +136,7 @@ SoftwareCenter_PRE_*.py
 
 # ---- Agenten-interne Arbeitsnotizen (GITHUB-POLICY.md §3, T-20260926-510472849) ----
 BEFUNDE.md
-*MARKETING-LOG.txt
 *STATUS-LOG.txt
-*_DAILY_CARE.md
 STORE_CONTRACT.md
 STORE_READINESS.md
 _WARTUNG/

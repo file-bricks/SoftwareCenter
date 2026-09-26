@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
+### Fixed (Repo Hygiene, T-20260926-510472849)
+- Untracked `BEFUNDE.md`, `STORE_CONTRACT.md` (internal Store release/versioning bookkeeping) and `_WARTUNG/msix_staging/` (staged MSIX build output) -- all stay on disk locally (gitignored), nothing was deleted. `PRODUCT_BOUNDARIES.md`, `scripts/verify_product_boundaries.py` and `tests/test_store_contract.py` now cite/check `STORE_LISTING.md`/`WINDOWS_STORE_PREP.md`/`store_package.json` only.
+- `MARKETING-LOG.txt` and `RUNTIME_DAILY_CARE.md` were untracked in an earlier, over-eager pass on this branch and are restored here: `MARKETING-LOG.txt` is a deliberate public artifact (`pyproject.toml` project.url, a dedicated test); `RUNTIME_DAILY_CARE.md` is linked from README.md/README_de.md/README.es.md and is genuine migration/ops documentation, not agent scratch state.
+
 ### Hygiene & Governance
 - Linter Zero-Tolerance: Resolved 7 ruff lint diagnostics (unused imports and import sorting in `SoftwareCenter.py` and `tests/test_ui_accessibility.py`); verified 100% clean across all rule-sets.
 - Open-Source Attribution: Created canonical root `NOTICE` attribution file (Lukas Geiger, file-bricks, open-bricks umbrella).

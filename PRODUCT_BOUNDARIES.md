@@ -17,9 +17,11 @@ identity, or release artifact.
 | Store metadata | `store_package.json` | `store_package_launchboards.json` |
 | Local release artifact | versioned SoftwareCenter path | `releases/v1.0.0/LaunchBoards-1.0.0-win64.exe` |
 
-`STORE_CONTRACT.md`, `STORE_LISTING.md`, and `WINDOWS_STORE_PREP.md` remain the
-canonical SoftwareCenter Store contract and contain no LaunchBoards identity or
-artifact. LaunchBoards metadata is intentionally separate and does not alter
+`STORE_LISTING.md` and `WINDOWS_STORE_PREP.md` remain the canonical, public
+SoftwareCenter Store contract and contain no LaunchBoards identity or
+artifact (the former `STORE_CONTRACT.md` covered the same invariant but was
+agent-internal release bookkeeping, untracked per T-20260926-510472849).
+LaunchBoards metadata is intentionally separate and does not alter
 SoftwareCenter release hashes.
 
 ## Reproducible verification
