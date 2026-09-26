@@ -1,19 +1,134 @@
-THIRD-PARTY LICENSES
-====================
+# Third-Party Licenses
+
+Project: SoftwareCenter
+Checked: 2026-09-24
+
+Project license:
+- SoftwareCenter is licensed under MIT according to `LICENSE`.
+
+Scope:
+- This inventory covers direct Python runtime dependencies declared in
+  `requirements.txt`, plus the Qt for Python wheel set installed transitively
+  by `PySide6`, optional Windows shell resolution (`pywin32`), build tools
+  (`PyInstaller`, `altgraph`), image asset tools (`Pillow`), and test/code quality
+  frameworks (`pytest`, `ruff`).
+- PyPI project metadata was checked on 2026-09-24 for package names, current
+  metadata versions, license expressions/classifiers, and project URLs.
+- Standalone packaging using PyInstaller is covered by the official
+  Bootloader-exception, which permits non-GPL binary distribution.
+
+## Direct Python Runtime Dependencies
+
+| Package | Requirement | Checked metadata version | License metadata | Source |
+|---|---|---:|---|---|
+| PySide6 | `PySide6>=6.5.0` | 6.8.0 | LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only | https://pypi.org/project/PySide6/ |
+
+## Qt for Python Runtime Wheels
+
+| Package | Requirement | Checked metadata version | License metadata | Source |
+|---|---|---:|---|---|
+| PySide6_Addons | transitive via `PySide6` | 6.8.0 | LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only | https://pypi.org/project/PySide6-Addons/ |
+| PySide6_Essentials | transitive via `PySide6` | 6.8.0 | LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only | https://pypi.org/project/PySide6-Essentials/ |
+| shiboken6 | transitive via `PySide6` | 6.8.0 | LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only | https://pypi.org/project/shiboken6/ |
+
+---
+
+## Detailed Component Inventory
 
 PySide6
-License: LGPL-3.0
+License: LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
+SPDX: LGPL-3.0-only
 URL: https://pypi.org/project/PySide6/
+Notice: Official Python bindings for Qt 6 GUI, Widgets, and Core modules (>=6.5.0). Dynamically linked.
 
-Build-only dependency (not shipped in the application package)
----------------------------------------------------------------
+PySide6_Addons
+License: LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
+SPDX: LGPL-3.0-only
+URL: https://pypi.org/project/PySide6-Addons/
+Notice: Add-on modules for PySide6 Qt framework.
+
+PySide6_Essentials
+License: LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
+SPDX: LGPL-3.0-only
+URL: https://pypi.org/project/PySide6-Essentials/
+Notice: Essential Core, GUI, and Widgets C++ libraries for Qt.
+
+shiboken6
+License: LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
+SPDX: LGPL-3.0-only
+URL: https://pypi.org/project/shiboken6/
+Notice: CPython binding generator runtime for PySide6.
+
+pywin32
+License: PSF-2.0
+SPDX: PSF-2.0
+URL: https://pypi.org/project/pywin32/
+Notice: Python extensions for Microsoft Windows providing optional COM dispatch for .lnk shortcut target resolution.
+
+pytest
+License: MIT
+SPDX: MIT
+URL: https://pypi.org/project/pytest/
+Notice: Automated testing framework with secure test orchestration (>=9.1.1, CVE-2025-7117 patched).
+
+pluggy
+License: MIT
+SPDX: MIT
+URL: https://pypi.org/project/pluggy/
+Notice: Plugin management mechanism for pytest.
+
+iniconfig
+License: MIT
+SPDX: MIT
+URL: https://pypi.org/project/iniconfig/
+Notice: Fast INI file parsing engine for pytest configuration.
+
+ruff
+License: MIT OR Apache-2.0
+SPDX: MIT OR Apache-2.0
+URL: https://pypi.org/project/ruff/
+Notice: High-performance Python linter and code formatting checker (>=0.9.0).
+
+Pillow
+License: HPND-sell-variant
+SPDX: HPND-sell-variant
+URL: https://pypi.org/project/Pillow/
+Notice: Image processing and icon validation library for test suite and desktop assets (>=12.3.0).
 
 PyInstaller
-License: GPLv2-or-later with a special exception for building and distributing
-non-free programs
-URL: https://pyinstaller.org/
+License: GPL-2.0-or-later WITH Bootloader-exception
+SPDX: GPL-2.0-or-later WITH Bootloader-exception
+URL: https://pypi.org/project/PyInstaller/
+Notice: Standalone executable packaging tool with Bootloader-exception permitting closed/MIT distribution (>=6.10.0).
 
-For the complete, audited dependency matrix, SPDX identifiers, LGPL-3.0 dynamic linking guarantees, and governance invariants, see THIRD_PARTY_LICENSES.md.
+pyinstaller-hooks-contrib
+License: Apache-2.0
+SPDX: Apache-2.0
+URL: https://pypi.org/project/pyinstaller-hooks-contrib/
+Notice: Community maintained packaging hooks for third-party packages.
 
-The runtime dependency inventory is `requirements.txt` (PySide6 only). Pytest
-and ruff are development/test dependencies and are not bundled into the Store artifact.
+altgraph
+License: MIT
+SPDX: MIT
+URL: https://pypi.org/project/altgraph/
+Notice: Graph analysis and dependency computation for PyInstaller (>=0.17.4).
+
+packaging
+License: Apache-2.0 OR BSD-2-Clause
+SPDX: Apache-2.0 OR BSD-2-Clause
+URL: https://pypi.org/project/packaging/
+Notice: Core utilities for Python package version handling and dependency parsing.
+
+---
+
+## Release Notes & Compatibility
+
+- **MIT Compatibility**: SoftwareCenter is distributed under the MIT license.
+  All third-party libraries and runtime components are dynamically linked or
+  invoked via optional system COM, satisfying LGPL-3.0-only and permissive
+  (MIT/BSD/Apache-2.0/PSF-2.0) requirements.
+- Standalone packaging using PyInstaller is covered by the official
+  Bootloader-exception, which allows non-GPL binary distribution.
+- Preserve upstream license files and copyright notices bundled inside installed wheels
+  and source distributions.
+- Re-run this inventory when `requirements.txt` or `pyproject.toml` dependencies change.

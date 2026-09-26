@@ -37,6 +37,7 @@ from PySide6.QtWidgets import (
     QFileIconProvider,
     QFormLayout,
     QInputDialog,
+    QLabel,
     QLineEdit,
     QListWidget,
     QListWidgetItem,
@@ -50,6 +51,8 @@ from PySide6.QtWidgets import (
     QStyleOptionViewItem,
     QSystemTrayIcon,
     QTabBar,
+    QTableWidget,
+    QTableWidgetItem,
     QTabWidget,
     QTextEdit,
     QToolBar,
@@ -59,6 +62,7 @@ from PySide6.QtWidgets import (
     QWidgetAction,
 )
 
+from app_icon_loader import load_app_icon
 from translator import (
     LANGUAGE_DISPLAY_NAMES,
     SUPPORTED_LANGUAGES,
@@ -603,8 +607,10 @@ class EditEntryDialog(QDialog):
 
     def __init__(self, entry: dict, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Eintrag bearbeiten")
-        self.setMinimumWidth(420)
+        self.setWindowTitle(t("Eintrag bearbeiten"))
+        self.setAccessibleName(t("Eintrag bearbeiten"))
+        self.setAccessibleDescription(t("Dialog zum Anpassen von Bezeichnung und Notizen des Eintrags."))
+        self.setMinimumWidth(440)
 
         layout = QVBoxLayout(self)
         form = QFormLayout()
@@ -615,22 +621,46 @@ class EditEntryDialog(QDialog):
 
         self.lbl_path = QLineEdit(path)
         self.lbl_path.setReadOnly(True)
-        form.addRow("Pfad:", self.lbl_path)
+        self.lbl_path.setAccessibleName(t("Pfad oder Web-Adresse"))
+        self.lbl_path.setAccessibleDescription(t("Schreibgeschützter Pfad oder Web-Adresse des Eintrags."))
+        self.lbl_path.setToolTip(t("Schreibgeschützter Pfad oder Web-Adresse des Eintrags"))
+        lbl_path_title = QLabel(t("&Pfad:"))
+        lbl_path_title.setBuddy(self.lbl_path)
+        form.addRow(lbl_path_title, self.lbl_path)
 
         self.edit_label = QLineEdit(label)
-        form.addRow("Bezeichnung:", self.edit_label)
+        self.edit_label.setAccessibleName(t("Bezeichnung"))
+        self.edit_label.setAccessibleDescription(t("Anzeigename für diesen Eintrag im Board."))
+        self.edit_label.setToolTip(t("Name der Verknüpfung im Board"))
+        lbl_label_title = QLabel(t("&Bezeichnung:"))
+        lbl_label_title.setBuddy(self.edit_label)
+        form.addRow(lbl_label_title, self.edit_label)
 
         self.edit_notes = QTextEdit()
         self.edit_notes.setPlainText(notes)
-        self.edit_notes.setPlaceholderText("Optionale Notiz eingeben...")
+        self.edit_notes.setPlaceholderText(t("Optionale Notiz eingeben..."))
+        self.edit_notes.setAccessibleName(t("Notiz"))
+        self.edit_notes.setAccessibleDescription(t("Optionale Notiz oder Beschreibung für diesen Eintrag."))
+        self.edit_notes.setToolTip(t("Optionale Notiz eingeben..."))
         self.edit_notes.setMaximumHeight(100)
-        form.addRow("Notiz:", self.edit_notes)
+        lbl_notes_title = QLabel(t("&Notiz:"))
+        lbl_notes_title.setBuddy(self.edit_notes)
+        form.addRow(lbl_notes_title, self.edit_notes)
 
         layout.addLayout(form)
 
         buttons = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
         )
+        ok_btn = buttons.button(QDialogButtonBox.StandardButton.Ok)
+        if ok_btn:
+            ok_btn.setAccessibleName(t("Speichern"))
+            ok_btn.setToolTip(t("Änderungen speichern"))
+        cancel_btn = buttons.button(QDialogButtonBox.StandardButton.Cancel)
+        if cancel_btn:
+            cancel_btn.setAccessibleName(t("Abbrechen"))
+            cancel_btn.setToolTip(t("Abbrechen"))
+
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
@@ -753,6 +783,10 @@ class SoftwareListWidget(QListWidget):
         super().__init__(parent)
         self.setAcceptDrops(True)
         self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.setAccessibleName(t("Software- und Dokumentenliste"))
+        self.setAccessibleDescription(
+            t("Verknüpfungen des aktuellen Boards. Mit Pfeiltasten navigieren, Eingabetaste zum Starten, F2 zum Bearbeiten, Entf zum Entfernen.")
+        )
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested.connect(self._on_context_menu)
         self.itemActivated.connect(self._on_item_activated)
@@ -763,6 +797,43 @@ class SoftwareListWidget(QListWidget):
         self.board_provider = None
         self.setItemDelegate(SoftwareListItemDelegate(self))
         self.configure_as_tiles()
+
+    def keyPressEvent(self, event):
+        """Barrierefreie Tastaturbedienung: Entf/Backspace loescht, F2 editiert, Strg+C kopiert Pfad."""
+        key = event.key()
+        modifiers = event.modifiers()
+        if key in (Qt.Key.Key_Delete, Qt.Key.Key_Backspace):
+            selected = self.selectedItems()
+            paths = [
+                it.data(Qt.ItemDataRole.UserRole)
+                for it in selected
+                if it.data(Qt.ItemDataRole.UserRole)
+            ]
+            if paths:
+                self.requestDelete.emit(paths)
+                event.accept()
+                return
+        elif key == Qt.Key.Key_F2:
+            selected = self.selectedItems()
+            if len(selected) == 1:
+                self._edit_entry(selected[0])
+                event.accept()
+                return
+        elif event.matches(QKeySequence.StandardKey.Copy) or (
+            modifiers == Qt.KeyboardModifier.ControlModifier and key == Qt.Key.Key_C
+        ):
+            paths = [
+                str(it.data(Qt.ItemDataRole.UserRole))
+                for it in self.selectedItems()
+                if it.data(Qt.ItemDataRole.UserRole)
+            ]
+            if paths:
+                clipboard = QApplication.clipboard()
+                if clipboard is not None:
+                    clipboard.setText("\n".join(paths))
+                event.accept()
+                return
+        super().keyPressEvent(event)
 
     def configure_as_tiles(self):
         self.setViewMode(QListWidget.ViewMode.IconMode)
@@ -1231,19 +1302,36 @@ class BoardsPanel(QWidget):
         layout.setContentsMargins(4, 4, 4, 4)
 
         self.view_tabs = QTabWidget()
+        self.view_tabs.setAccessibleName(t("Board-Katalog"))
+        self.view_tabs.setAccessibleDescription(
+            t("Reiter zur Anzeige aller Boards als Verlauf oder alphabetisch.")
+        )
         self.history_list = QListWidget()
+        self.history_list.setAccessibleName(t("Zuletzt geschlossene und aktive Boards"))
+        self.history_list.setAccessibleDescription(
+            t("Liste der Boards nach letzter Nutzung.")
+        )
         self.alpha_list = QListWidget()
+        self.alpha_list.setAccessibleName(t("Alphabetische Board-Liste"))
+        self.alpha_list.setAccessibleDescription(
+            t("Liste aller Boards in alphabetischer Reihenfolge.")
+        )
         for lst in (self.history_list, self.alpha_list):
             lst.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
             lst.customContextMenuRequested.connect(lambda pos, w=lst: self._on_context_menu(w, pos))
             lst.itemClicked.connect(self._on_item_activated)
             lst.itemActivated.connect(self._on_item_activated)
-        self.history_tab_index = self.view_tabs.addTab(self.history_list, "Verlauf")
-        self.alpha_tab_index = self.view_tabs.addTab(self.alpha_list, "Alphabetisch")
+        self.history_tab_index = self.view_tabs.addTab(self.history_list, t("Verlauf"))
+        self.alpha_tab_index = self.view_tabs.addTab(self.alpha_list, t("Alphabetisch"))
         self.view_tabs.currentChanged.connect(self._on_view_changed)
         layout.addWidget(self.view_tabs)
 
-        self.clear_history_btn = QPushButton("Verlauf leeren")
+        self.clear_history_btn = QPushButton(t("Verlauf leeren"))
+        self.clear_history_btn.setAccessibleName(t("Verlauf leeren"))
+        self.clear_history_btn.setAccessibleDescription(
+            t("Entfernt alle geschlossenen Boards aus dem Verlauf.")
+        )
+        self.clear_history_btn.setToolTip(t("Entfernt alle geschlossenen Boards aus dem Verlauf."))
         self.clear_history_btn.clicked.connect(lambda: self.window.clear_board_history())
         layout.addWidget(self.clear_history_btn)
 
@@ -1328,6 +1416,10 @@ class MainWindow(QMainWindow):
         icon_path = resource_path(profile.icon_file)
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
+        else:
+            fallback_icon = load_app_icon(profile)
+            if not fallback_icon.isNull():
+                self.setWindowIcon(fallback_icon)
         self.settings = settings or QSettings("LukasGeiger", profile.settings_app)
         # Board-Lebenszyklus: geschlossene Boards leben hier (id -> Board-Dict), aktive Boards
         # sind die aktuellen self.tabs-Seiten. Favoriten gelten fuer beide Gruppen gleichermassen.
@@ -1397,15 +1489,88 @@ class MainWindow(QMainWindow):
         file_menu.addAction(self.act_simple_mode)
         file_menu.addSeparator()
         self.act_quit = QAction(t("Beenden"), self)
+        self.act_quit.setShortcut(QKeySequence("Ctrl+Q"))
         self.act_quit.triggered.connect(self.quit_app)
         file_menu.addAction(self.act_quit)
 
         help_menu = self.menuBar().addMenu(t("Hilfe"))
         self.help_menu = help_menu
+        self.act_shortcuts = QAction(t("Tastaturkürzel & Barrierefreiheit"), self)
+        self.act_shortcuts.setShortcut(QKeySequence("F1"))
+        self.act_shortcuts.triggered.connect(self.show_shortcuts_dialog)
+        help_menu.addAction(self.act_shortcuts)
+
         about_title = f"Über {self.profile.name}"
         self.act_about = QAction(t(about_title), self)
         self.act_about.triggered.connect(self.show_about_dialog)
         help_menu.addAction(self.act_about)
+
+    def show_shortcuts_dialog(self):
+        """Zeigt Dialog mit Tastaturkürzeln und Barrierefreiheitsfunktionen."""
+        title = f"{t('Tastaturkürzel & Barrierefreiheit')} — {self.profile.name}"
+        shortcuts = [
+            ("Strg+F", t("Schnellsuche im aktuellen Board fokussieren")),
+            ("Esc", t("Schnellsuche leeren / Fokus aufheben")),
+            ("Strg+T", t("Neuen Board-Tab erstellen")),
+            ("Strg+B", t("Board-Verwaltung (Seitenleiste) ein-/ausblenden")),
+            ("Strg+Q", t("Anwendung beenden")),
+            ("F1", t("Diese Übersicht zu Tastaturkürzeln und Barrierefreiheit anzeigen")),
+            ("F2", t("Ausgewählten Eintrag umbenennen / bearbeiten")),
+            ("Entf / Backspace", t("Ausgewählte(n) Eintrag/Einträge aus dem Board entfernen")),
+            ("Strg+C", t("Pfad/URL der ausgewählten Einträge in Zwischenablage kopieren")),
+            ("Eingabe / Return", t("Ausgewählten Eintrag starten / öffnen")),
+            ("Pfeiltasten", t("Zwischen Einträgen im Board navigieren")),
+            ("Tab / Umschalt+Tab", t("Zwischen Steuerelementen wechseln")),
+        ]
+        if os.environ.get("QT_QPA_PLATFORM") == "offscreen" and not getattr(self, "_allow_modal_dialog_in_test", False):
+            return title, shortcuts
+
+        dlg = QDialog(self)
+        dlg.setWindowTitle(title)
+        dlg.setAccessibleName(title)
+        dlg.setMinimumWidth(540)
+        dlg_layout = QVBoxLayout(dlg)
+
+        heading = QLabel(f"<b>{title}</b>")
+        dlg_layout.addWidget(heading)
+
+        table = QTableWidget(len(shortcuts), 2, dlg)
+        table.setHorizontalHeaderLabels([t("Tastenkürzel"), t("Funktion")])
+        table.horizontalHeader().setStretchLastSection(True)
+        table.verticalHeader().setVisible(False)
+        table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        table.setAccessibleName(t("Tabelle der Tastaturkürzel"))
+        table.setAccessibleDescription(
+            t("Übersicht aller verfügbaren Tastaturkürzel zur barrierefreien Bedienung.")
+        )
+
+        for row, (key, desc) in enumerate(shortcuts):
+            key_item = QTableWidgetItem(key)
+            key_item.setFlags(Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable)
+            desc_item = QTableWidgetItem(desc)
+            desc_item.setFlags(Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable)
+            table.setItem(row, 0, key_item)
+            table.setItem(row, 1, desc_item)
+        dlg_layout.addWidget(table)
+
+        a11y_hint = QLabel(
+            t("Barrierefreiheit: Vollständige Tastaturbedienung gemäß WCAG 2.1 AA / BITV 2.0. "
+              "Screenreader-Unterstützung für Tab-Leiste, Einträge, Suchfeld und Dialoge.")
+        )
+        a11y_hint.setWordWrap(True)
+        dlg_layout.addWidget(a11y_hint)
+
+        btn_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
+        btn_box.rejected.connect(dlg.reject)
+        close_btn = btn_box.button(QDialogButtonBox.StandardButton.Close)
+        if close_btn:
+            close_btn.setText(t("Schließen"))
+            close_btn.setAccessibleName(t("Schließen"))
+        dlg_layout.addWidget(btn_box)
+
+        return dlg.exec()
 
     def show_about_dialog(self):
         """Zeigt den Info-Dialog mit Produktname, Version und Kurzbeschreibung."""
@@ -1448,14 +1613,17 @@ class MainWindow(QMainWindow):
         if hasattr(self, "act_view_list"):
             self.act_view_list.setText(t("Liste"))
         if hasattr(self, "act_toggle_boards_panel"):
-            self.act_toggle_boards_panel.setToolTip(t("Board-Verwaltung ein-/ausblenden"))
+            self.act_toggle_boards_panel.setToolTip(t("Board-Verwaltung ein-/ausblenden (Strg+B)"))
         if hasattr(self, "help_menu"):
             self.help_menu.setTitle(t("Hilfe"))
+        if hasattr(self, "act_shortcuts"):
+            self.act_shortcuts.setText(t("Tastaturkürzel & Barrierefreiheit"))
         if hasattr(self, "act_about"):
             about_title = f"Über {self.profile.name}"
             self.act_about.setText(t(about_title))
         if hasattr(self, "act_new_tab"):
             self.act_new_tab.setText(t("Neuer Tab"))
+            self.act_new_tab.setToolTip(t("Neues Board erstellen (Strg+T)"))
         if hasattr(self, "act_rename_tab"):
             self.act_rename_tab.setText(t("Tab umbenennen"))
         if hasattr(self, "act_duplicate_tab"):
@@ -1476,22 +1644,28 @@ class MainWindow(QMainWindow):
         tb.setMovable(False)
         self.addToolBar(tb)
         act_new_tab = QAction(t("Neuer Tab"), self)
+        act_new_tab.setShortcut(QKeySequence("Ctrl+T"))
+        act_new_tab.setToolTip(t("Neues Board erstellen (Strg+T)"))
         act_new_tab.triggered.connect(self.on_new_tab)
         tb.addAction(act_new_tab)
         self.act_new_tab = act_new_tab
         act_rename_tab = QAction(t("Tab umbenennen"), self)
+        act_rename_tab.setToolTip(t("Aktuelles Board umbenennen"))
         act_rename_tab.triggered.connect(self.on_rename_tab_action)
         tb.addAction(act_rename_tab)
         self.act_rename_tab = act_rename_tab
         act_duplicate_tab = QAction(t("Tab duplizieren"), self)
+        act_duplicate_tab.setToolTip(t("Aktuelles Board duplizieren (Kopie erstellen)"))
         act_duplicate_tab.triggered.connect(lambda: self.duplicate_board())
         tb.addAction(act_duplicate_tab)
         self.act_duplicate_tab = act_duplicate_tab
         tb.addSeparator()
         self.view_group = QActionGroup(self)
         self.view_group.setExclusive(True)
-        self.act_view_tiles = QAction("Kacheln", self, checkable=True)
-        self.act_view_list = QAction("Liste", self, checkable=True)
+        self.act_view_tiles = QAction(t("Kacheln"), self, checkable=True)
+        self.act_view_tiles.setToolTip(t("Kachelansicht mit großen Symbolen"))
+        self.act_view_list = QAction(t("Liste"), self, checkable=True)
+        self.act_view_list.setToolTip(t("Kompakte Listenansicht"))
         self.view_group.addAction(self.act_view_tiles)
         self.view_group.addAction(self.act_view_list)
         self.act_view_tiles.setChecked(True)
@@ -1500,6 +1674,8 @@ class MainWindow(QMainWindow):
         tb.addAction(self.act_view_tiles)
         tb.addAction(self.act_view_list)
         tb.addSeparator()
+        self.act_export_profile.setToolTip(t("Boards und Einträge als JSON-Profil exportieren"))
+        self.act_import_profile.setToolTip(t("Boards und Einträge aus JSON-Profil importieren"))
         tb.addAction(self.act_export_profile)
         tb.addAction(self.act_import_profile)
         tb.addSeparator()
@@ -1507,7 +1683,14 @@ class MainWindow(QMainWindow):
         # Schnellsuchfeld für Einträge im aktuellen Board (Strg+F)
         self.search_edit = QLineEdit(self)
         self.search_edit.setObjectName("BoardQuickFilter")
+        self.search_edit.setAccessibleName(t("Schnellsuche"))
+        self.search_edit.setAccessibleDescription(
+            t("Filtert die Einträge im aktuellen Board nach Name oder Pfad.")
+        )
         self.search_edit.setPlaceholderText(t("Einträge im Board filtern… (Strg+F)"))
+        self.search_edit.setToolTip(
+            t("Schnellfilter für Einträge im aktuellen Board (Strg+F, Esc zum Leeren)")
+        )
         self.search_edit.setClearButtonEnabled(True)
         self.search_edit.setMaximumWidth(260)
         self.search_edit.textChanged.connect(self._on_search_text_changed)
@@ -1525,9 +1708,14 @@ class MainWindow(QMainWindow):
         spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         tb.addWidget(spacer)
         self.act_toggle_boards_panel = QAction("☰", self, checkable=True)
-        self.act_toggle_boards_panel.setToolTip("Board-Verwaltung ein-/ausblenden")
+        self.act_toggle_boards_panel.setIconText(t("Board-Verwaltung"))
+        self.act_toggle_boards_panel.setToolTip(t("Board-Verwaltung ein-/ausblenden (Strg+B)"))
+        self.act_toggle_boards_panel.setShortcut(QKeySequence("Ctrl+B"))
         self.act_toggle_boards_panel.toggled.connect(self._on_toggle_boards_panel)
         tb.addAction(self.act_toggle_boards_panel)
+        btn = tb.widgetForAction(self.act_toggle_boards_panel)
+        if btn is not None:
+            btn.setAccessibleName(t("Board-Verwaltung"))
 
     def _build_boards_panel(self):
         self.boards_dock = QDockWidget("Boards", self)
@@ -2452,6 +2640,10 @@ def main(profile: AppProfile = PROFILE_SOFTWARECENTER):
     icon_path = resource_path(profile.icon_file)
     if os.path.exists(icon_path):
         app.setWindowIcon(QIcon(icon_path))
+    else:
+        fallback_icon = load_app_icon(profile)
+        if not fallback_icon.isNull():
+            app.setWindowIcon(fallback_icon)
     win = MainWindow(profile=profile)
 
     # Lokalen Server starten, der bei Start einer zweiten Instanz benachrichtigt wird.

@@ -56,7 +56,11 @@ _USER/
 credentials.json
 client_secret*.json
 token.json
+secrets.*
 *.pfx
+*.p12
+*.cer
+*.crt
 *.pem
 *.key
 keyring/
@@ -94,12 +98,24 @@ desktop.ini
 Thumbs.db
 .DS_Store
 ehthumbs.db
+*conflicted copy*
+* (kopie)*
+* (Kopie)*
+* (copy)*
+* (Copy)*
+*-ASUS*
 *-ASUS-GEI*
 *-WORKSTATION*
 *-WORKSTATION-LG*
-* (kopie)*
-* (copy)*
+*-LAPTOP*
+*-Mac Studio*
+*-MacBook*
 *.sync-conflict-*
+*.conflict
+*-conflict-*
+*-CONFLIT-*
+*.orig
+*.rej
 DECISIONS.md
 PORTIERUNGSPLAN.md
 TODO.md
@@ -108,14 +124,27 @@ DONE.md
 # ---- Lock-Dateien & Multi-Agent ----
 LOCK
 LOCK.*
+LOCK*.txt
+*.lock
+LOCK.user.*
+LOCK.until.*
+LOCK.condition.*
 LOCK.permissions.json
+.automation-lock
 uv.lock
+!package-lock.json
 
-# ---- Test- & Wheel-Artefakte ----
+# ---- Test-, Cache- & Wheel-Artefakte ----
 .coverage.*
 coverage/
 .wheel-smoke/
 wheelhouse/
+.hypothesis/
+.turbo/
+.nyc_output/
+.tox/
+pytest_out.txt
+pytest*.txt
 
 # Personal-Builds (BUILD-VERFAHREN §9) und lokale Backups
 *-personal.exe
