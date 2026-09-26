@@ -70,6 +70,7 @@ Notice = "https://github.com/file-bricks/SoftwareCenter/blob/master/NOTICE"
 "Parent Organization" = "https://github.com/file-bricks"
 "Umbrella Ecosystem" = "https://github.com/open-bricks"
 "LLM Ready" = "https://github.com/file-bricks/SoftwareCenter/blob/master/llms.txt"
+"Marketing Log" = "https://github.com/file-bricks/SoftwareCenter/blob/master/MARKETING-LOG.txt"
 "Third-Party Licenses" = "https://github.com/file-bricks/SoftwareCenter/blob/master/THIRD_PARTY_LICENSES.md"
 
 [tool.ruff]

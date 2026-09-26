@@ -5,8 +5,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
 ### Fixed (Repo Hygiene, T-20260926-510472849)
-- Untracked agent-internal files that a public repo should never publish: `MARKETING-LOG.txt` (operational discoverability log), `STORE_CONTRACT.md` (internal Store release/versioning bookkeeping), `_WARTUNG/msix_staging/` (staged MSIX build output). All three stay on disk locally (gitignored), nothing was deleted.
-- Rebuilt the parts of the public contract that referenced them: `pyproject.toml` project.url and `llms.txt` no longer list `MARKETING-LOG.txt` (llms.txt gained a `CHANGELOG.md` entry instead, which already carries the same "public project history" role); `PRODUCT_BOUNDARIES.md` and `scripts/verify_product_boundaries.py` now cite `STORE_LISTING.md`/`WINDOWS_STORE_PREP.md` only; `tests/test_store_contract.py` checks the same version-consistency invariant against `store_package.json`/`pyproject.toml`/`SoftwareCenter.py`/`STORE_LISTING.md` instead of the untracked files.
+- Untracked two agent-internal files that a public repo should not publish: `STORE_CONTRACT.md` (internal Store release/versioning bookkeeping) and `_WARTUNG/msix_staging/` (staged MSIX build output). Both stay on disk locally (gitignored), nothing was deleted. `MARKETING-LOG.txt` was considered but is a deliberate public artifact here (`pyproject.toml` project.url, a dedicated test) and stays tracked.
+- Rebuilt the parts of the public contract that referenced them: `PRODUCT_BOUNDARIES.md` and `scripts/verify_product_boundaries.py` now cite `STORE_LISTING.md`/`WINDOWS_STORE_PREP.md` only; `tests/test_store_contract.py` checks the same version-consistency invariant against `store_package.json`/`pyproject.toml`/`SoftwareCenter.py`/`STORE_LISTING.md` instead of the untracked files.
 
 ### Hygiene & Governance
 - Linter Zero-Tolerance: Resolved 7 ruff lint diagnostics (unused imports and import sorting in `SoftwareCenter.py` and `tests/test_ui_accessibility.py`); verified 100% clean across all rule-sets.

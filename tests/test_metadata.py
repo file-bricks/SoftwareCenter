@@ -202,6 +202,7 @@ def test_pyproject_pep621_metadata_and_urls():
     assert urls["Parent Organization"] == "https://github.com/file-bricks"
     assert urls["Umbrella Ecosystem"] == "https://github.com/open-bricks"
     assert urls["LLM Ready"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/llms.txt"
+    assert urls["Marketing Log"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/MARKETING-LOG.txt"
     assert urls["Third-Party Licenses"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/THIRD_PARTY_LICENSES.md"
 
     classifiers = project["classifiers"]
@@ -247,7 +248,7 @@ def test_llms_txt_structure_and_timestamp():
     assert "https://github.com/file-bricks/SoftwareCenter" in content
     assert "THIRD_PARTY_LICENSES.md" in content
     assert "Disambiguation" in content
-    assert "CHANGELOG.md" in content
+    assert "MARKETING-LOG.txt" in content
 
 
 def test_changelog_recent_entry():
@@ -284,6 +285,23 @@ def test_gitignore_multi_host_and_lock_hardening():
     assert "LOCK.*" in content
     assert "uv.lock" in content
     assert ".coverage.*" in content
+
+
+def test_marketing_log_contract_and_invariants():
+    mkt_file = ROOT / "MARKETING-LOG.txt"
+    assert mkt_file.exists(), "MARKETING-LOG.txt must exist"
+    content = mkt_file.read_text(encoding="utf-8")
+
+    assert "file-bricks/SoftwareCenter" in content
+    assert "2026-09-23" in content
+    assert "2026-09-14" in content
+    assert "INV-LOCAL-01" in content
+    assert "INV-SEC-02" in content
+    assert "INV-PROFILE-03" in content
+    assert "INV-LAUNCH-04" in content
+    assert "INV-DUAL-05" in content
+    assert "INV-PARITY-09" in content
+    assert "INV-ZEROCOPY-10" in content
 
 
 def test_target_personas_present_in_all_readmes():
