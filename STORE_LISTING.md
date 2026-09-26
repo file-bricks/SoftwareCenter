@@ -123,7 +123,7 @@ Es wird **keine Einreichung** behauptet. `pyproject.toml`, `SoftwareCenter.py` u
 - [x] No hardcoded paths in source code
 - [x] No debug print statements
 - [x] PySide6 (LGPL) -- license compatible with Store distribution
-- [x] README-Screenshot vorhanden (`README/screenshots/main.png`)
+- [x] README-Screenshot vorhanden (`README/screenshots/store/main-window.png`, generiert via `generate_store_screenshots.py`)
 - [x] Store-Screenshot-Set erzeugbar: `python generate_store_screenshots.py` schreibt `README/screenshots/store/main-window.png`, `tab-organization.png`, `tiles-view.png`, `list-view.png` und `summary.json`
 - [ ] Aktuelles MSIX als Einreichkandidat vorhanden (historisches OneDrive-Artefakt 2026-03-13; nicht frisch signiert/WACK-geprüft)
 - [ ] Code-Signing (.pfx) -- noch nicht konfiguriert in store_settings.json
