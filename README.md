@@ -21,7 +21,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 > [!NOTE]
 > **LLM / AI Integration & Machine-Readable Index:** SoftwareCenter provides structured machine-readable metadata in [`llms.txt`](llms.txt) and supports profile migrations via versioned JSON (`softwarecenter-profile-v1.json`).
 
-![SoftwareCenter main window](README/screenshots/main.png)
+![SoftwareCenter main window](README/screenshots/store/main-window.png)
 
 ## Quick Navigation
 

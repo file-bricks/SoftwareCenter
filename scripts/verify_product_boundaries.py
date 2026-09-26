@@ -39,7 +39,7 @@ def verify_static_contract() -> dict[str, str]:
     build_script = (ROOT / "build_exe_launchboards.bat").read_text(encoding="utf-8")
     software_store_docs = "\n".join(
         (ROOT / name).read_text(encoding="utf-8")
-        for name in ("STORE_CONTRACT.md", "STORE_LISTING.md", "WINDOWS_STORE_PREP.md")
+        for name in ("STORE_LISTING.md", "WINDOWS_STORE_PREP.md")
     )
 
     assert sc.PROFILE_SOFTWARECENTER.name == "SoftwareCenter"

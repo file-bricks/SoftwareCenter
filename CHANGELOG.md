@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
+### Fixed (Repo Hygiene, T-20260926-510472849)
+- Untracked `BEFUNDE.md`, `STORE_CONTRACT.md` (internal Store release/versioning bookkeeping) and `_WARTUNG/msix_staging/` (staged MSIX build output) -- all stay on disk locally (gitignored), nothing was deleted. `PRODUCT_BOUNDARIES.md`, `scripts/verify_product_boundaries.py` and `tests/test_store_contract.py` now cite/check `STORE_LISTING.md`/`WINDOWS_STORE_PREP.md`/`store_package.json` only.
+- `MARKETING-LOG.txt` and `RUNTIME_DAILY_CARE.md` were untracked in an earlier, over-eager pass on this branch and are restored here: `MARKETING-LOG.txt` is a deliberate public artifact (`pyproject.toml` project.url, a dedicated test); `RUNTIME_DAILY_CARE.md` is linked from README.md/README_de.md/README.es.md and is genuine migration/ops documentation, not agent scratch state.
+
 ### Hygiene & Governance
 - Linter Zero-Tolerance: Resolved 7 ruff lint diagnostics (unused imports and import sorting in `SoftwareCenter.py` and `tests/test_ui_accessibility.py`); verified 100% clean across all rule-sets.
 - Open-Source Attribution: Created canonical root `NOTICE` attribution file (Lukas Geiger, file-bricks, open-bricks umbrella).
@@ -25,6 +29,9 @@ All notable changes to this project will be documented in this file.
 - Automated Contracts: Expanded `tests/test_metadata.py` with contract tests asserting target personas, comparative matrix presence, license governance statement, and tri-lingual navigation anchor parity.
 
 ## [Unreleased] - 2026-09-13
+
+### Fixed
+- README main-window screenshot: `README/screenshots/main.png` predated the reproducible Store screenshot generator and showed an empty, freshly-installed board ("Allgemein", 0 entries) instead of the app's real functionality (T-20260926-413277423). Replaced the README (EN/DE/ES) and `STORE_LISTING.md` reference with the already-existing, regenerated `README/screenshots/store/main-window.png` (populated `Dev` board, produced by `generate_store_screenshots.py`), and removed the stale `main.png`. No LaunchBoards equivalent existed to check -- LaunchBoards has no tracked UI screenshot in this repo.
 
 ### Added
 - Empty-Board Placeholder UI: When a board has 0 items, `SoftwareListWidget.paintEvent` renders a clean, non-intrusive empty-state overlay with title ("Dieses Board ist noch leer") and explanatory hint ("Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.") adapting dynamically to system theme palettes.

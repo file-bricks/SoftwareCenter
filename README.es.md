@@ -21,7 +21,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 > [!NOTE]
 > **Integración de IA / LLM e índice legible por máquinas:** SoftwareCenter proporciona metadatos estructurados en [`llms.txt`](llms.txt) y admite migraciones de perfiles a través de JSON versionado (`softwarecenter-profile-v1.json`).
 
-![Ventana principal de SoftwareCenter](README/screenshots/main.png)
+![Ventana principal de SoftwareCenter](README/screenshots/store/main-window.png)
 
 ## Navegación rápida
 

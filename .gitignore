@@ -133,3 +133,11 @@ pytest*.txt
 # Personal-Builds (BUILD-VERFAHREN §9) und lokale Backups
 *-personal.exe
 SoftwareCenter_PRE_*.py
+
+# ---- Agenten-interne Arbeitsnotizen (GITHUB-POLICY.md §3, T-20260926-510472849) ----
+BEFUNDE.md
+*STATUS-LOG.txt
+STORE_CONTRACT.md
+STORE_READINESS.md
+_WARTUNG/
+_STAGING/

@@ -21,7 +21,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 > [!NOTE]
 > **KI / LLM Integration & Maschinelles Register:** SoftwareCenter bietet maschinenlesbare Metadaten in [`llms.txt`](llms.txt) und unterstützt Profil-Migrationen über versioniertes JSON (`softwarecenter-profile-v1.json`).
 
-![SoftwareCenter Hauptfenster](README/screenshots/main.png)
+![SoftwareCenter Hauptfenster](README/screenshots/store/main-window.png)
 
 ## Schnellnavigation
 
