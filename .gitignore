@@ -32,6 +32,22 @@ TESTERGEBNISSE.txt
 BUGREPORT.md
 DIAGNOSE_REPORT.md
 LOCK*.txt
+BEFUNDE.md
+# Diese vier sind hier noch getrackt: MARKETING-LOG.txt, STORE_CONTRACT.md und
+# RUNTIME_DAILY_CARE.md sind in pyproject.toml/llms.txt/README verlinkt und
+# durch tests/test_metadata.py, tests/test_store_contract.py bzw.
+# tests/test_softwarecenter_sync.py als Konsistenzvertrag verankert; _WARTUNG/
+# ist Fixture fuer tests/test_store_contract.py. Aus dem Tracking nehmen
+# erfordert zuerst diese Referenzen aufzuloesen (T-20260926-510472849, offene
+# Entscheidung -- nicht Teil dieser Bereinigung). Das Muster steht trotzdem
+# hier, damit KEIN NEUES Repo diese Namen unbedacht wieder committet.
+*MARKETING-LOG.txt
+*STATUS-LOG.txt
+*_DAILY_CARE.md
+TASKPLAN_STATUS_*.md
+STORE_CONTRACT.md
+_WARTUNG/
+_STAGING/
 
 # ---- Persoenliche / Sensible Daten ----
 _USER/
