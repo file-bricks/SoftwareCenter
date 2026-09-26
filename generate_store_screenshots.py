@@ -202,7 +202,15 @@ def _entry(path: Path, label: str, kind: str, notes: str | None = None) -> dict[
 def _board_entries(items: list[tuple[Path, str]]) -> list[dict[str, str | None]]:
     # "file" ist der Typ, den detect_entry_kind() fuer eine existierende .exe
     # liefert; das Icon zieht SoftwareCenter dann aus der Datei selbst.
-    return [_entry(path, label, "file") for path, label in items]
+    #
+    # notes wird bewusst gesetzt: SoftwareListItemDelegate.paint() zeigt in der
+    # Listenansicht sonst den echten Pfad als Sekundaertext an (notes hat
+    # Vorrang vor path). Ohne diesen Wert waeren die realen lokalen
+    # Installationspfade dieses Hosts (inkl. Windows-Benutzername) direkt im
+    # oeffentlichen Store-Screenshot lesbar -- verifiziert im Listenansicht-
+    # Screenshot vom 2026-09-26. Der Pfad bleibt fuer Icon-Extraktion/Start
+    # unveraendert real, nur die sichtbare Sekundaerzeile wird neutralisiert.
+    return [_entry(path, label, "file", notes="Lokal installiert") for path, label in items]
 
 
 def _configure_demo_window(window: MainWindow, targets: dict[str, list[Path]]) -> None:
