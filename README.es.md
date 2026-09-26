@@ -42,6 +42,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 - [Controles de calidad](#controles-de-calidad)
 - [Mantenimiento desatendido del catálogo](#mantenimiento-desatendido-del-catálogo)
 - [Formato de intercambio](#formato-de-intercambio)
+- [LaunchBoards](#launchboards)
 - [Límites de producto hermano](#límites-de-producto-hermano)
 - [Activos de Windows Store](#activos-de-windows-store)
 - [Pila tecnológica](#pila-tecnológica)

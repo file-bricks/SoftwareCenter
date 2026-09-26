@@ -42,6 +42,7 @@ A lightweight, cross-platform desktop organizer for managing software shortcuts 
 - [Quality Checks](#quality-checks)
 - [Headless Launcher Catalog Care](#headless-launcher-catalog-care)
 - [Exchange Format](#exchange-format)
+- [LaunchBoards](#launchboards)
 - [Sister-product boundary](#sister-product-boundary)
 - [Windows Store Assets](#windows-store-assets)
 - [Tech Stack](#tech-stack)
@@ -285,6 +286,8 @@ Profiles can be exported as `softwarecenter-profile-v1.json` and imported again 
 SoftwareCenter: same codebase, own branding and identity, framed around switchable
 workspace boards instead of a general shortcut launcher. It shares this repository and
 release pipeline — there is no separate LaunchBoards source tree to maintain.
+
+## Sister-product boundary
 
 LaunchBoards shares the implementation but has its own QSettings namespace,
 single-instance endpoint, icon, executable, Store identity, and release path.

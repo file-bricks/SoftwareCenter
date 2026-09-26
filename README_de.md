@@ -42,6 +42,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - [Qualitätssicherung](#qualitätssicherung)
 - [Headless-Katalogpflege](#headless-katalogpflege)
 - [Austauschformat](#austauschformat)
+- [LaunchBoards](#launchboards)
 - [Schwesterprodukt-Grenze](#schwesterprodukt-grenze)
 - [Windows-Store-Artefakte](#windows-store-artefakte)
 - [Technik](#technik)
