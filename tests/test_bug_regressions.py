@@ -12,6 +12,7 @@ Batch #21 (2026-06-21):
 """
 
 import inspect
+import ntpath
 import os
 import tempfile
 from pathlib import Path
@@ -238,17 +239,28 @@ class TestBugsweep42ShortcutResolutionAndExecSanitization:
     normalizes relative paths, and desktop entry parsing handles malformed exec lines safely.
     """
 
-    def test_is_supported_windows_shortcut_target_expands_env_vars(self):
-        from SoftwareCenter import is_supported_windows_shortcut_target
-        raw_notepad = r"%SystemRoot%\System32\notepad.exe"
-        assert is_supported_windows_shortcut_target(raw_notepad) is True
+    def test_is_supported_windows_shortcut_target_expands_env_vars(self, tmp_path, monkeypatch):
+        import SoftwareCenter as sc
+        target = tmp_path / "notepad.exe"
+        target.write_bytes(b"synthetic executable")
+        monkeypatch.setenv("SOFTWARECENTER_TEST_ROOT", str(tmp_path))
+        # Simulate Windows percent expansion while retaining real file checks.
+        monkeypatch.setattr(sc.os.path, "expandvars", ntpath.expandvars)
+        raw_notepad = "%SOFTWARECENTER_TEST_ROOT%/notepad.exe"
+        assert sc.is_supported_windows_shortcut_target(raw_notepad) is True
+        target.unlink()
+        assert sc.is_supported_windows_shortcut_target(raw_notepad) is False
 
-    def test_resolve_windows_shortcut_target_expands_env_vars(self, tmp_path):
+    def test_resolve_windows_shortcut_target_expands_env_vars(self, tmp_path, monkeypatch):
         import SoftwareCenter as sc
         shortcut = tmp_path / "notepad_test.lnk"
         shortcut.write_text("dummy", encoding="utf-8")
-        raw_target = r"%SystemRoot%\System32\notepad.exe"
-        expected = os.path.normpath(os.path.expandvars(raw_target))
+        target = tmp_path / "notepad.exe"
+        target.write_bytes(b"synthetic executable")
+        monkeypatch.setenv("SOFTWARECENTER_TEST_ROOT", str(tmp_path))
+        monkeypatch.setattr(sc.os.path, "expandvars", ntpath.expandvars)
+        raw_target = "%SOFTWARECENTER_TEST_ROOT%/notepad.exe"
+        expected = str(target)
 
         with patch.object(sc.sys, "platform", "win32"), \
              patch.object(sc, "_resolve_windows_shortcut_target_com", return_value=raw_target), \

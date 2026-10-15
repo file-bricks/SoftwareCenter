@@ -96,7 +96,7 @@ def test_assets_folder_parity() -> None:
     softwarecenter_png = assets_dir / "SoftwareCenter.png"
     icon_ico = assets_dir / "icon.ico"
     app_icon_ico = assets_dir / "app_icon.ico"
-    softwarecenter_ico = assets_dir / "softwarecenter.ico"
+    softwarecenter_ico = assets_dir / "SoftwareCenter.ico"
     desktop_ico = assets_dir / "DesktopIcon.ico"
     lb_ico = assets_dir / "launchboards.ico"
     favicon_png = assets_dir / "favicon.png"
@@ -107,7 +107,7 @@ def test_assets_folder_parity() -> None:
     assert softwarecenter_png.is_file(), "assets/SoftwareCenter.png fehlt"
     assert icon_ico.is_file(), "assets/icon.ico fehlt"
     assert app_icon_ico.is_file(), "assets/app_icon.ico fehlt"
-    assert softwarecenter_ico.is_file(), "assets/softwarecenter.ico fehlt"
+    assert softwarecenter_ico.is_file(), "assets/SoftwareCenter.ico fehlt"
     assert desktop_ico.is_file(), "assets/DesktopIcon.ico fehlt"
     assert lb_ico.is_file(), "assets/launchboards.ico fehlt"
     assert favicon_png.is_file(), "assets/favicon.png fehlt"
@@ -127,7 +127,7 @@ def test_assets_folder_parity() -> None:
     assert (24, 24) in app_sizes, "assets/app_icon.ico fehlt 24x24 Layer"
 
     sc_sizes = _read_ico_sizes(softwarecenter_ico)
-    assert len(sc_sizes) == 7, "assets/softwarecenter.ico muss 7 Layer haben"
+    assert len(sc_sizes) == 7, "assets/SoftwareCenter.ico muss 7 Layer haben"
 
     icon_sizes = _read_ico_sizes(icon_ico)
     assert len(icon_sizes) == 7, "assets/icon.ico muss 7 Layer haben"
