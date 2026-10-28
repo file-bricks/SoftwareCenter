@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
+### Documentation and localization
+- Added the Simplified Chinese README (`README_zh.md`) and synchronized the EN/DE/ES language selectors and `llms.txt` index. The runtime UI language set remains six locales (`de`, `en`, `es`, `zh`, `ja`, `ru`).
+
 ### Fixed (Repo Hygiene, T-20260926-510472849)
 - Untracked `BEFUNDE.md`, `STORE_CONTRACT.md` (internal Store release/versioning bookkeeping) and `_WARTUNG/msix_staging/` (staged MSIX build output) -- all stay on disk locally (gitignored), nothing was deleted. `PRODUCT_BOUNDARIES.md`, `scripts/verify_product_boundaries.py` and `tests/test_store_contract.py` now cite/check `STORE_LISTING.md`/`WINDOWS_STORE_PREP.md`/`store_package.json` only.
 - `MARKETING-LOG.txt` and `RUNTIME_DAILY_CARE.md` were untracked in an earlier, over-eager pass on this branch and are restored here: `MARKETING-LOG.txt` is a deliberate public artifact (`pyproject.toml` project.url, a dedicated test); `RUNTIME_DAILY_CARE.md` is linked from README.md/README_de.md/README.es.md and is genuine migration/ops documentation, not agent scratch state.

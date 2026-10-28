@@ -14,7 +14,7 @@
 [![Paraguas: open-bricks](https://img.shields.io/badge/Paraguas-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![Indexación LLM lista](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
 
-[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md)
+[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md)
 
 Un organizador de escritorio ligero y multiplataforma para gestionar accesos directos de software mediante categorización basada en pestañas.
 

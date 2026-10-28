@@ -18,11 +18,12 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 
 - Primary platform: Cross-platform desktop (Windows, macOS, Linux).
 - Build targets: PyInstaller standalone executables.
+- Runtime UI languages: German, English, Spanish, Chinese (zh), Japanese, and Russian (six); README editions describe documentation availability and do not add UI locales.
 - Non-goals: Network package installation, automatic software updates, cloud-account synchronizations.
 
 ## Important Files
 
-- `README.md`: English GitHub entry point; `README_de.md`: German documentation; `README.es.md`: Spanish documentation.
+- `README.md`: English canonical GitHub entry point and source of truth; `README_de.md`: German documentation; `README.es.md`: Spanish documentation; `README_zh.md`: Simplified Chinese documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
 - `NOTICE`: Open-source attribution notice (Lukas Geiger, file-bricks, open-bricks umbrella).
 - `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
