@@ -119,15 +119,15 @@ graph TD
     A["User / Drag & Drop Input"] --> B["PySide6 Application Window (SoftwareCenter.py)"]
     B --> C["Tab & Board Manager"]
     B --> D["Tiles & List Views"]
-    
+
     C --> E["Platform Resolvers"]
     E --> E1["Windows (.lnk / .exe / Folders)"]
     E --> E2["macOS (.app Bundles)"]
     E --> E3["Linux (.desktop Launchers)"]
-    
+
     C --> F["State Persistence (QSettings / Registry)"]
     C --> G["JSON Profile Importer/Exporter (softwarecenter-profile-v1.json)"]
-    
+
     B --> H["Windows Store & Build Pipeline"]
     H --> H1["PyInstaller EXE Build"]
     H --> H2["WACK Dry-Run / MSIX Packaging"]
