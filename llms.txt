@@ -23,7 +23,7 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 
 ## Important Files
 
-- `README.md`: English canonical GitHub entry point and source of truth; `README_de.md`: German documentation; `README.es.md`: Spanish documentation; `README_zh.md`: Simplified Chinese documentation.
+- `README.md`: English canonical GitHub entry point and source of truth; `README_de.md`: German documentation; `README.es.md`: Spanish documentation; `README_zh.md`: Simplified Chinese documentation. `README_ja.md`: Japanese documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
 - `NOTICE`: Open-source attribution notice (Lukas Geiger, file-bricks, open-bricks umbrella).
 - `SECURITY.md`: Bilingual security policy, supported versions, reporting channels, and published response commitments.
