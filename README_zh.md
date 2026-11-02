@@ -21,7 +21,7 @@
 SoftwareCenter 是一款轻量、跨平台的桌面整理工具，可通过标签页分类管理软件快捷方式。
 
 > [!NOTE]
-> **LLM / AI 集成与机器可读索引：** SoftwareCenter 在 `llms.txt` 中提供结构化、机器可读的元数据，并通过带版本的 JSON（`softwarecenter-profile-v1.json`）支持配置文件迁移。
+> **LLM / AI 集成与机器可读索引：** SoftwareCenter 在 [`llms.txt`](llms.txt) 中提供结构化、机器可读的元数据，并通过带版本的 JSON（`softwarecenter-profile-v1.json`）支持配置文件迁移。
 
 ![SoftwareCenter 主窗口](README/screenshots/store/main-window.png)
 
