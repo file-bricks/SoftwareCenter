@@ -6,7 +6,7 @@
 [![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
 [![Pytest 260+ Passed](https://img.shields.io/badge/pytest-260%2B%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Platforms: Windows | macOS | Linux](https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
-[![Privacy: 100% Local-First](https://img.shields.io/badge/privacy-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
+[![隐私：本地优先设计](https://img.shields.io/badge/privacy-local--first-brightgreen.svg)](SECURITY.md)
 [![Security: 48h SLA](https://img.shields.io/badge/security-48h%20SLA-blue.svg)](SECURITY.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GUI: PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
@@ -30,10 +30,10 @@ SoftwareCenter 是一款轻量、跨平台的桌面整理工具，可通过标�
 - [快速参考](#快速参考)
 - [功能](#功能)
 - [目标用户与搜索发现](#目标用户与搜索发现)
-- [与替代方案的对比矩阵](#与替代方案的对比矩阵)
+- [SoftwareCenter 的能力与边界](#与替代方案的对比矩阵)
 - [系统架构](#系统架构)
 - [生命周期顺序流程](#生命周期顺序流程)
-- [核心能力与安全不变量](#核心能力与安全不变量)
+- [核心能力与证据边界](#核心能力与安全不变量)
 - [关联生态与姐妹产品](#关联生态与姐妹产品)
 - [搜索发现背景](#搜索发现背景)
 - [系统要求](#系统要求)
@@ -58,7 +58,7 @@ SoftwareCenter 是一款轻量、跨平台的桌面整理工具，可通过标�
 | 属性 | 详情 |
 |---|---|
 | **技术栈** | Python 3.10+ / PySide6 (Qt) / QSettings |
-| **许可证** | MIT（PySide6 以动态链接方式使用，遵循 LGPLv3） |
+| **许可证** | 项目源码：MIT；PySide6 和其他依赖有各自的许可条件（见 [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)） |
 | **交换格式** | `softwarecenter-profile-v1.json`（详见 [EXPORTFORMAT.md](EXPORTFORMAT.md)） |
 | **最后检查** | 2026-09-23（本地：完整 pytest 套件、平台 smoke、compileall、Ruff、依赖审计、文件管理器上下文菜单集成、NOTICE 署名和 CI 生命周期加固；WACK 仍仅为 dry-run） |
 
@@ -77,7 +77,7 @@ SoftwareCenter 是一款轻量、跨平台的桌面整理工具，可通过标�
 - **Linux 桌面启动器** - `.desktop` 条目会显示应用名称，并通过其桌面命令启动
 - **配置文件导出/导入** - 使用带版本的 `softwarecenter-profile-v1.json` 格式进行迁移和备份
 - **多选** - 一次删除多个条目
-- **离线优先** - 无遥测、无账号、无云连接
+- **本地优先运行** - 整理器代码未实现账号、遥测或云同步功能；HTTP(S) URL 和启动的程序通过平台打开，可能使用网络
 
 ## 目标用户与搜索发现
 
@@ -86,9 +86,9 @@ SoftwareCenter 面向四类具有明确工作流程需求的用户：
 | 用户类型 | 主要特点与职责 | 核心痛点 | SoftwareCenter 的解决方式 |
 |---|---|---|---|
 | **用户类型 1：桌面高级用户与整理者** | 每天使用大量工具、工作区文件夹和实用程序的用户。 | Windows 桌面杂乱、开始菜单搜索缓慢、缺少可持续使用的自定义分组。 | 快速的标签式工作区、拖放式文件整理、自定义备注和即时切换。 |
-| **用户类型 2：独立开发者与 DevOps 工程师** | 管理工具链、CLI 包装器、便携式应用和虚拟环境的开发者。 | 开发工具与普通开始菜单混杂；占用内存的启动器后台进程过重。 | 相互隔离的多配置身份、保留工作目录（`_startfile_in_dir`），且无需守护进程。 |
-| **用户类型 3：多 PC 工作站操作人员** | 在多台工作站（例如工作站与笔记本电脑）之间同步配置的用户。 | 绝对路径写死、驱动器盘符不一致、机器本地秘密泄漏。 | 通过架构校验的导出（`softwarecenter-profile-v1.json`）、严格清除秘密信息、非破坏性导入。 |
-| **用户类型 4：重视隐私的用户与安全团队** | 需要完整数据机密性的安全工程师和企业用户。 | 商业整理工具强制要求云账号、遥测和后台跟踪。 | 100% 本地优先、离线运行（INV-LOCAL-01）、零网络外连、以非特权用户权限运行（`RunAsInvoker`）。 |
+| **用户类型 2：独立开发者与 DevOps 工程师** | 管理工具链、CLI 包装器、便携式应用和虚拟环境的开发者。 | 开发工具与普通开始菜单混杂；占用内存的启动器后台进程过重。 | SoftwareCenter 与 LaunchBoards 具有彼此独立的产品身份；在 Windows 上，启动文件时会在支持的情况下请求将目标目录设为工作目录。这不是项目环境管理器；实际行为取决于操作系统和目标程序。 |
+| **用户类型 3：多工作站用户** | 在多台工作站之间手动迁移配置文件的用户。 | 绝对路径在另一台设备上可能无效；标签和可选备注可能包含私人信息。 | 使用带版本的 `softwarecenter-profile-v1.json` 导出/导入；分享前检查路径和备注。确认后，导入会替换当前配置文件；不会复制目标文件。 |
+| **用户类型 4：重视隐私的用户** | 希望整理器设置保存在本地、且应用不内置账号或遥测功能的人。 | 保存的路径和备注可能泄露本地信息；打开 URL 或启动程序可能进行网络通信。 | 经审查的整理器代码未实现账号、遥测或云同步功能。它不保证数据保密、启动进程零外连或目标程序的权限行为。 |
 
 ### 高意图搜索词
 
@@ -99,20 +99,21 @@ SoftwareCenter 面向四类具有明确工作流程需求的用户：
 - `SoftwareCenter vs LaunchBoards profile switcher`
 - `privacy friendly Windows app launcher with tabs`
 
-## 与替代方案的对比矩阵
+<a id="与替代方案的对比矩阵"></a>
+## SoftwareCenter 的能力与边界
 
-| 能力 / 维度 | SoftwareCenter | Windows 开始菜单 | Stardock Fences | SyMenu | Launchy / Flow Launcher |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **基于标签页分类** | **是**（动态工作区） | 否（平面列表 / 文件夹） | 是（桌面围栏） | 是（分层菜单） | 否（仅搜索框） |
-| **开放源代码（MIT 许可证）** | **是**（完全宽松） | 否（捆绑专有） | 否（商业闭源） | 是（免费软件、闭源） | 是（开放源代码） |
-| **零遥测与完全离线** | **是**（严格零外连） | 否（Bing 搜索与遥测） | 否（许可证与遥测） | 是（可离线使用） | 部分（插件会联网） |
-| **多配置文件隔离** | **是**（双身份核心） | 否（单用户配置） | 否（仅桌面表层） | 部分（配置文件） | 否（单一配置） |
-| **可移植的脱敏配置导出** | **是**（`softwarecenter-profile-v1.json`） | 否（依赖注册表） | 否（专有备份） | 部分（自定义 XML） | 否（无标准导出格式） |
-| **保留工作目录** | **是**（保证父进程工作目录） | 部分（工作目录可变） | 部分（资源管理器默认值） | 是（可配置工作目录） | 部分（启动根目录） |
-| **通用文件/文档/文件夹整理层** | **是**（任意文件系统目标 / 可拖放） | 部分（应用与固定项目） | 是（桌面文件） | 是（菜单条目） | 部分（索引爬取器） |
-| **无头批量目录维护** | **是**（自动协调器） | 否（仅交互式） | 否（仅交互式） | 否（仅 GUI） | 否（仅交互式） |
-| **系统托盘快速导航** | **是**（集成托盘菜单） | 否（任务栏固定） | 否（桌面表层） | 是（以托盘为中心） | 否（键盘快捷键） |
-| **以非特权权限运行（`RunAsInvoker`）** | **是**（严格不提权） | SYSTEM / 高权限 | 标准用户 / 管理员 | 标准用户 | 标准用户 |
+| 能力 | 已实现的行为 | 边界 |
+|---|---|---|
+| **标签页整理** | 将路径条目分组到可命名标签页，并提供平铺和列表视图。 | 标签页整理的是引用；它们不是按项目隔离的运行环境。 |
+| **本地路径与 URL** | 可通过拖放登记受支持的本地路径和 HTTP(S) URL。 | 条目引用目标；整理器不会复制目标内容。 |
+| **平台目标处理** | Windows 的 `.lnk` 解析接受现有 `.exe` 或文件夹目标；macOS 应用包通过 `open` 打开；Linux `.desktop` 条目会读取名称、图标和 `Exec`。 | 解析和启动方式因操作系统而异。Linux 会将 `Exec` 作为命令启动；这不是脚本沙箱。 |
+| **工作目录** | 在 Windows 上，启动文件时会在支持的情况下请求将目标所在目录设为工作目录。 | 回退路径可能不会显式设置工作目录；不保证父进程 CWD 或跨平台工作目录。 |
+| **本地设置** | Qt `QSettings` 在产品设置命名空间中保存标签页、条目、视图和窗口状态。 | 存储后端由 Qt 和操作系统提供；不保证原子写入或进程安全描述符。 |
+| **配置文件导出** | `softwarecenter-profile-v1.json` 包含配置文件元数据、标签页、视图，以及带有 `label`、`path`、`kind` 和可选 `notes` 的条目。 | 路径、标签和备注可能泄露本地信息；不会复制目标文件。 |
+| **配置文件导入** | 导入器会检查格式和版本、规范化条目，并在替换前请求确认。 | 确认后会替换当前配置文件；这不是合并，也不构成一般性的数据不丢失保证。 |
+| **产品身份** | SoftwareCenter 与 LaunchBoards 共用实现，但使用独立的设置命名空间、单实例端点和 Store 身份。 | 这是两个产品之间的隔离，不是 SoftwareCenter 内供用户选择的配置文件。 |
+| **网络边界** | 经审查的整理器代码未实现账号、遥测或云同步功能。 | 打开 HTTP(S) URL 和外部目标可能使用网络；不保证应用或其启动进程零外连。 |
+| **验证范围** | 仓库测试覆盖明确列出的契约；CI 在 Ubuntu 上运行 Python 版本矩阵，并分别运行 Linux/macOS smoke 作业。 | 这不意味着有 Windows runner CI、WACK 认证、Store 发布或普遍运行时安全保证。 |
 
 ## 系统架构
 
@@ -127,12 +128,12 @@ graph TD
     E --> E2["macOS (.app Bundles)"]
     E --> E3["Linux (.desktop Launchers)"]
 
-    C --> F["State Persistence (QSettings / Registry)"]
+    C --> F["State Persistence (QSettings; OS-dependent backend)"]
     C --> G["JSON Profile Importer/Exporter (softwarecenter-profile-v1.json)"]
 
     B --> H["Windows Store & Build Pipeline"]
     H --> H1["PyInstaller EXE Build"]
-    H --> H2["WACK Dry-Run / MSIX Packaging"]
+    H --> H2["WACK dry-run / MSIX preflight (not certification)"]
     H --> H3["Reproducible Store Screenshot Generator"]
 ```
 
@@ -145,37 +146,39 @@ sequenceDiagram
     participant SC as SoftwareCenter UI (PySide6)
     participant Res as Platform Resolver (.lnk / .app / .desktop)
     participant Tab as Tab & Board Manager
-    participant Set as QSettings Persistence (Registry / INI)
+    participant Set as QSettings Persistence (OS-dependent backend)
     participant Exp as Profile Exporter (softwarecenter-profile-v1.json)
+    participant OS as Operating System
 
     User->>SC: Drag & drop file / shortcut into tab
     SC->>Res: Resolve path (e.g. .lnk -> original target EXE / folder)
-    Res-->>SC: Validated target path & system icon
+    Res-->>SC: Resolved path and available system icon
     SC->>Tab: Check duplicate & register item
     Tab->>SC: Render item tile / list row
-    Tab->>Set: Persist tabs, order & geometry atomically
+    Tab->>Set: Write tabs, order & geometry through QSettings
     Set-->>SC: State saved locally
     User->>SC: Double-click item or trigger "Export Profile"
     alt Launch item
-        SC->>User: Execute target binary via standard unprivileged launch
+        SC->>OS: Open configured file, application, or URL using platform launch APIs
     else Export profile
-        SC->>Exp: Serialize boards, tabs, and items
-        Exp-->>User: Write redacted softwarecenter-profile-v1.json (Zero secrets)
+        SC->>Exp: Serialize profile metadata, tabs, and item fields
+        Exp-->>User: Write softwarecenter-profile-v1.json from the current profile fields
     end
 ```
 
-## 核心能力与安全不变量
+<a id="核心能力与安全不变量"></a>
+## 核心能力与证据边界
 
-| 不变量 / 能力 | 架构保证 | 验证方式 |
+| 主题 | 经审查代码与测试中的证据 | 范围与限制 |
 |---|---|---|
-| **完全本地优先与零外连** | 完全在本机运行；无遥测、无云跟踪、无远程网络调用 | 源码审计、离线运行检查、测试套件 |
-| **不提权（最小权限）** | 严格以标准用户的非特权权限运行；不会请求 UAC 管理员权限 | 进程安全描述符验证 |
-| **非破坏性快捷方式操作** | 移除条目只会取消跟踪快捷方式元数据；不会触碰或删除目标可执行文件或文件系统文件 | UI 删除操作隔离测试 |
-| **安全的路径与链接解析** | 解析 Windows `.lnk`、macOS `.app` 和 Linux `.desktop` 目标时不会调用 shell 脚本 | 静态目标解析契约测试 |
-| **原子状态持久化** | QSettings 安全刷新窗口几何、标签页顺序和活动视图状态到本地 OS 存储 | 原子往返持久化测试套件 |
-| **可移植且经过脱敏的配置交换** | 通过架构校验的 JSON（`softwarecenter-profile-v1.json`）仅导出路径和标签；不会提取凭据 | `tests/test_export_contract.py` 回归测试 |
-| **姐妹产品隔离** | SoftwareCenter 与 LaunchBoards 使用独立的 QSettings 命名空间、互斥端点和 Store 身份 | `scripts/verify_product_boundaries.py` |
-| **多操作系统 CI 矩阵验证** | 已在 Windows、macOS 和 Linux runner 的 Python 3.10–3.12 环境中验证 | GitHub Actions 工作流和 smoke 检查 |
+| **整理器的网络行为** | 经审查的应用代码未实现账号、遥测或云同步客户端；`open_file` 会将 HTTP(S) URL 交给 Qt 或系统浏览器。 | 源码审查无法测量 SoftwareCenter、浏览器或启动进程的运行时网络活动。 |
+| **启动上下文** | 文件和 URL 通过平台 API 打开；在 Windows 上，启动代码会在支持时请求使用目标目录作为工作目录。 | 经审查的代码和测试未验证进程安全描述符，也不会强制子进程权限。 |
+| **移除条目** | UI 会从列表和已保存的配置文件状态中移除条目，但不会删除所引用的文件。 | 这不约束外部程序打开或修改的目标。 |
+| **平台解析** | Windows `.lnk` 目标解析通过 COM 执行，并以 PowerShell 作为回退；Linux `.desktop` 的 `Exec` 会被解析后启动。 | 这些处理程序不会隔离目标行为；它们可能启动配置的命令或外部程序。 |
+| **QSettings 持久化** | `save_settings` 通过 Qt `QSettings` 写入标签页、条目、视图、窗口几何和语言设置。 | 代码没有承诺原子事务或崩溃安全写入。 |
+| **配置文件数据** | `softwarecenter-profile-v1.json` 包含配置文件字段和带有 `label`、`path`、`kind`、可选 `notes` 的条目；确认后导入会替换当前配置文件。 | 字段值可能暴露本地信息；测试覆盖测试样例和往返流程，不能证明应用会自动识别或过滤用户输入中的敏感信息。见 `tests/test_export_contract.py`。 |
+| **姐妹产品隔离** | `scripts/verify_product_boundaries.py` 和产品测试检查 SoftwareCenter 与 LaunchBoards 的设置命名空间和单实例端点是否分离。 | 这是产品隔离，不是用户或项目配置文件。见 `PRODUCT_BOUNDARIES.md` 和 `tests/test_product_boundaries.py`。 |
+| **CI 与发布验证范围** | CI 在 Ubuntu 上运行 Python 版本矩阵，并分别运行 Linux/macOS smoke 作业。 | 这不代表 Windows runner CI、WACK 认证、Store 发布或普遍运行时安全。见 `CI_CONTRACT.md`。 |
 
 ## 关联生态与姐妹产品
 
@@ -204,7 +207,7 @@ SoftwareCenter 最容易被描述为**本地优先的 PySide6 应用启动器**�
 - `local-first app launcher Python PySide6`
 - `desktop shortcut organizer with tabs`
 - `softwarecenter-profile-v1.json`
-- `offline software launcher no cloud no telemetry`
+- `本地桌面整理器与配置文件导出`
 
 它不是 Microsoft Configuration Manager Software Center、应用商店、软件包管理器或远程部署门户。
 
@@ -265,7 +268,7 @@ python scripts/verify_product_boundaries.py
 GitHub Actions 会运行这些 smoke 检查。macOS smoke 会在 `macos-latest` 上验证 `.app` 导入、`open` 启动、QSettings 持久化和配置导出；Linux smoke 会在 `ubuntu-latest` 上覆盖 `.desktop` 导入、`Exec` / `xdg-open` 启动、QSettings 持久化和配置导出。构建产物以及本地任务/测试文件均被忽略，不应提交。
 
 对于 Windows Store 流程，运行 `python scripts/run_windows_wack.py --dry-run` 可检查本地 MSIX/AppCert 路径并输出可复现的 WACK 命令。正式认证检查应在提交前，针对新的已签名 MSIX，在提升权限的 PowerShell 中执行。
-运行 `python generate_store_screenshots.py` 可为当前桌面界面生成可复现的 Store 截图，更新 `README/screenshots/store/` 中的四张脱敏商店图片和 `summary.json`。
+运行 `python generate_store_screenshots.py` 可为当前桌面界面生成可复现的 Store 截图，更新 `README/screenshots/store/` 中的四张 Store 截图和 `summary.json`。
 
 ## 无头模式下的启动器目录维护
 
@@ -274,7 +277,7 @@ GitHub Actions 会运行这些 smoke 检查。macOS smoke 会在 `macos-latest` 
 
 ## 交换格式
 
-配置文件可导出为 `softwarecenter-profile-v1.json`，之后再导入。该格式包含标签页、视图模式以及带有 `label`、`path`、`kind` 和可选 `notes` 的条目，但不会复制本地文件或凭据。缺失的路径仍会作为引用保留。详情请参阅 [EXPORTFORMAT.md](EXPORTFORMAT.md)。
+配置文件可导出为 `softwarecenter-profile-v1.json`，之后再导入。该格式包含配置文件元数据、标签页、视图模式以及带有 `label`、`path`、`kind` 和可选 `notes` 的条目。应用不会复制所引用的本地文件，但路径、标签和备注可能包含敏感信息，应用不会自动识别或过滤其中的敏感信息。确认后，导入会替换当前配置文件。缺失路径仍会作为引用保留。详情请参阅 [EXPORTFORMAT.md](EXPORTFORMAT.md)。
 
 ## LaunchBoards
 
@@ -298,27 +301,27 @@ Windows Store 流程现包含当前桌面界面的可复现截图生成器。运
 | 语言 | Python 3.10+ |
 | GUI 框架 | PySide6 (Qt for Python) |
 | 存储 | QSettings (Windows 注册表 / INI) |
-| 代码规模 | 约 690 行 |
+| 代码规模 | 不再列固定行数 |
 
 ## 安全策略
 
-安全与隐私是核心架构目标。完整的漏洞披露指南、48 小时响应 SLA 和本地优先不变量，详见 [SECURITY.md](SECURITY.md)。
+[SECURITY.md](SECURITY.md) 说明受支持版本、漏洞报告渠道、声明的 48 小时首次响应时间和 5 个工作日的分流时限。策略文本不等同于运行时验证。
 
 ## 第三方许可证与治理
 
-SoftwareCenter 使用符合许可证要求且许可宽松的第三方开源组件。完整审计详情、SPDX 许可证标识和动态链接合规说明见 [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)。
+仓库的 MIT 许可证适用于项目源码。第三方依赖有各自的许可条件；[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) 记录组件元数据，但不表示所有依赖都采用宽松许可证，也不构成所有打包方式的合规保证。
 
 - **署名：** [NOTICE](NOTICE)（Lukas Geiger、file-bricks 和 open-bricks 计划的规范开源版权署名）。
-- **PySide6 与 shiboken6：** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html)（通过 Qt for Python 动态链接，依据 LGPLv3 §4 保留用户完整替换能力）。
-- **Python 标准库：** [PSF-2.0](https://docs.python.org/3/license.html)（100% 离线，零网络外连）。
-- **PyInstaller：** [GPL-2.0-or-later with PyInstaller-exception](https://pyinstaller.org/en/stable/license.html)（构建工具；输出的可执行文件不受 GPL copyleft 约束）。
-- **治理不变量：** 10 项核心运行保证（INV-LOCAL-01 至 INV-ZEROCOPY-10）由自动化测试强制执行。
+- **PySide6 与 shiboken6：** 清单记录了 LGPL-3.0-only 条款；请参阅 [LGPL-3.0 正文](https://www.gnu.org/licenses/lgpl-3.0.html) 和[组件元数据](THIRD_PARTY_LICENSES.md)。项目的 MIT 许可证不笼统适用于这些依赖。
+- **Python 标准库：** [PSF-2.0](https://docs.python.org/3/license.html)。该许可证并不说明整理器或其启动的程序是否离线运行。
+- **PyInstaller：** [GPL-2.0-or-later with PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) 是构建工具；对于分发的打包程序，应查看上游许可证和分发声明，不应据此推断存在普遍豁免。
+- **验证范围：** 测试检查明确列出的代码和文档契约；它们不能证明普遍运行时保证。
 
 ## 许可证
 
 [MIT](LICENSE)
 
-**注意：** 本应用使用 [PySide6](https://doc.qt.io/qtforpython-6/)，其许可证为 LGPLv3。PySide6 采用动态链接。
+**注意：** MIT 是本仓库项目源码的许可证。本应用使用 [PySide6](https://doc.qt.io/qtforpython-6/)，其依赖许可证条件另行适用；见 [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)。
 
 ---
 

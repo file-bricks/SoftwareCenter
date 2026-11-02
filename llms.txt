@@ -6,13 +6,13 @@ Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
 Primary language: Python
 Primary UI stack: PySide6
-License: MIT
+License: MIT for project source; dependencies have separate terms
 
 ## Summary
 
 SoftwareCenter is a lightweight, cross-platform desktop organizer for software shortcuts. It organizes files and apps into renamable tabs using a clean PySide6 UI, saves view/tab states dynamically, and supports profile import/export (`softwarecenter-profile-v1.json`).
 
-Discovery positioning: local-first PySide6 app launcher, desktop shortcut organizer, offline software launcher, tab-based program organizer, portable app profile manager.
+Discovery positioning: local-first PySide6 app launcher, desktop shortcut organizer, tab-based program organizer, profile export and confirmed replacement import.
 
 ## Current Scope
 
@@ -26,11 +26,11 @@ Discovery positioning: local-first PySide6 app launcher, desktop shortcut organi
 - `README.md`: English canonical GitHub entry point and source of truth; `README_de.md`: German documentation; `README.es.md`: Spanish documentation; `README_zh.md`: Simplified Chinese documentation.
 - `SoftwareCenter.py`: Main PySide6 application.
 - `NOTICE`: Open-source attribution notice (Lukas Geiger, file-bricks, open-bricks umbrella).
-- `SECURITY.md`: Hardened bilingual security policy (Supported versions, 48h SLA, invariants).
-- `THIRD_PARTY_LICENSES.md`: Dependency inventory, SPDX identifiers, LGPLv3 dynamic linking guarantees, and 10 runtime invariants.
+- `SECURITY.md`: Bilingual security policy, supported versions, reporting channels, and published response commitments.
+- `THIRD_PARTY_LICENSES.md`: Dependency metadata and license inventory; not a blanket permissive-license or packaged-build compliance guarantee.
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
 - `MARKETING-LOG.txt`: Target personas, dual-language search term matrices, competitive comparison, and governance invariants.
-- `tests/`: Pytest suite (260+ tests certifying platform, metadata parity, boundaries, persistence, context-menu entry management, Tier-2 6-language internationalization, and trusted WACK tool discovery).
+- `tests/`: Regression and metadata tests for named fixtures and contracts, including persistence, product separation, six UI languages, and WACK tool discovery; tests are not certification.
 
 ## Verification
 
@@ -59,12 +59,12 @@ SoftwareCenter is a local desktop application (PySide6/Python) for shortcut mana
 - A cloud-synced launcher platform
 - Microsoft Configuration Manager Software Center, SCCM/MECM, Intune Company Portal, or a remote deployment portal
 
-## Architecture & Security Invariants
+## Implementation Scope and Boundaries
 
-- **100% Local-First:** Zero network egress, no background servers, no telemetry.
-- **Unprivileged Execution:** Runs strictly in user space without requesting administrative (UAC) elevation.
-- **Non-Destructive Operations:** Shortcut deletion only detaches UI metadata; target executables are never modified or removed.
-- **Safe Link Resolution:** Safely parses Windows `.lnk`, macOS `.app`, and Linux `.desktop` targets without executing shell scripts.
+- **Network:** The inspected organizer code has no account, telemetry, or cloud-sync implementation. URLs and launched programs can use the network; no runtime egress guarantee is made.
+- **Launch context:** Platform APIs open targets; child-process privileges are not enforced or verified by the organizer.
+- **Entry removal and import:** Removing an entry removes its saved reference without deleting the target. Import replaces the current profile after confirmation. Exported labels, paths, and notes can contain private details.
+- **Platform handlers:** Windows shortcut lookup uses COM with a PowerShell fallback; Linux desktop commands and external applications may execute. Target behavior is not sandboxed.
 
 ## Audience
 
@@ -80,10 +80,10 @@ local-first software shortcuts manager tab organizer
 PySide6 application launcher cross-platform Windows macOS Linux
 softwarecenter-profile-v1.json profile export import
 drag and drop desktop shortcut organizer Python
-offline desktop organizer no cloud no telemetry
+local desktop organizer with profile export
 PyInstaller PySide6 portable app launcher
 desktop shortcut organizer with tabs
-offline software launcher no cloud no telemetry
+desktop shortcut launcher with local settings
 local PySide6 app launcher for Windows macOS Linux
 portable software profile export import JSON
 ```
