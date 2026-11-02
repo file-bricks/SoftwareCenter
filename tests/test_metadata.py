@@ -317,15 +317,15 @@ def test_target_personas_present_in_all_readmes():
     assert "Persona 1:" in text_es and "Persona 2:" in text_es and "Persona 3:" in text_es and "Persona 4:" in text_es
 
 
-def test_comparative_matrix_present_in_all_readmes():
+def test_capability_boundaries_present_in_all_readmes():
     text_en = (ROOT / "README.md").read_text(encoding="utf-8")
     text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
     text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
 
     for text in [text_en, text_de, text_es]:
-        assert "Stardock Fences" in text
-        assert "SyMenu" in text
-        assert "Launchy / Flow Launcher" in text
+        assert "QSettings" in text
+        assert "softwarecenter-profile-v1.json" in text
+        assert "CI_CONTRACT.md" in text
 
 
 def test_third_party_licenses_md_contract_and_invariants():

@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
 ### Documentation and localization
+- Correct EN/DE/ES/ZH source descriptions before further translations: describe confirmed profile replacement, user-controlled export fields, platform launch and network limits, QSettings persistence, product separation, actual CI scope, and separate dependency licenses. Replace unsupported competitor guarantees with project capabilities and limits; align discovery text and existing metadata checks. No runtime or version change.
 - Added the Simplified Chinese README (`README_zh.md`) and synchronized the EN/DE/ES language selectors and `llms.txt` index. The runtime UI language set remains six locales (`de`, `en`, `es`, `zh`, `ja`, `ru`).
 
 ### Fixed (Repo Hygiene, T-20260926-510472849)
