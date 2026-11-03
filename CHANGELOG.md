@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
 ### Documentation and localization
+- Add the complete Arabic guide with reciprocal nine-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
 - Add the complete Hindi guide with reciprocal eight-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
 - Add the complete French guide with reciprocal seven-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
 - Add the complete Russian guide, reciprocal six-language navigation and discovery indexing. Documentation languages and the existing six runtime UI languages remain distinct; no runtime or version change.

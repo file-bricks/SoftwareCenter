@@ -14,7 +14,7 @@
 [![傘下プロジェクト: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![LLMインデックス対応](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
 
-[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md)
+[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md) · [العربية](README_ar.md)
 
 > 本ページは日本語ドキュメントの翻訳です。アプリのUIでは、ドイツ語、英語、スペイン語、簡体字中国語、日本語、ロシア語の6つの実行時言語を引き続き利用できます。ドキュメントの言語とアプリのUI言語は別です。
 
