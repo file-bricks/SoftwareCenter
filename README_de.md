@@ -6,7 +6,7 @@
 [![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
 [![Pytest 260+ Passed](https://img.shields.io/badge/pytest-260%2B%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Plattformen: Windows | macOS | Linux](https://img.shields.io/badge/Plattformen-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
-[![Datenschutz: 100% Local-First](https://img.shields.io/badge/Datenschutz-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
+[![Datenschutz: lokal orientiert](https://img.shields.io/badge/Datenschutz-lokal--orientiert-brightgreen.svg)](SECURITY.md)
 [![Sicherheit: 48h SLA](https://img.shields.io/badge/Sicherheit-48h%20SLA-blue.svg)](SECURITY.md)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
 [![GUI: PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
@@ -14,7 +14,7 @@
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![LLM Indexing Ready](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
 
-[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md)
+[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md) · [العربية](README_ar.md) · [বাংলা](README_bn.md) · [Português](README_pt.md)
 
 Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-Verknüpfungen mit Tab-basierter Kategorisierung.
 
@@ -28,10 +28,10 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - [Einstieg](#einstieg)
 - [Funktionen](#funktionen)
 - [Zielgruppen & Auffindbarkeit](#zielgruppen--auffindbarkeit)
-- [Vergleichsmatrix gegenüber Alternativen](#vergleichsmatrix-gegenüber-alternativen)
+- [Fähigkeiten und Grenzen von SoftwareCenter](#vergleichsmatrix-gegenüber-alternativen)
 - [Systemarchitektur](#systemarchitektur)
 - [Lebenszyklus-Ablaufdiagramm](#lebenszyklus-ablaufdiagramm)
-- [Kernfähigkeiten & Sicherheitsinvarianten](#kernfähigkeiten--sicherheitsinvarianten)
+- [Kernfähigkeiten und Beleggrenzen](#kernfähigkeiten--sicherheitsinvarianten)
 - [Geschwister-Ökosystem & Schwesterprodukte](#geschwister-ökosystem--schwesterprodukte)
 - [Auffindbarkeit](#auffindbarkeit)
 - [Voraussetzungen](#voraussetzungen)
@@ -56,7 +56,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 | Eigenschaft | Details |
 |---|---|
 | **Tech Stack** | Python 3.10+ / PySide6 (Qt) / QSettings |
-| **Lizenz** | MIT (PySide6 dynamisch gelinkt unter LGPLv3) |
+| **Lizenz** | Projektquellcode: MIT; PySide6 und weitere Abhängigkeiten haben eigene Bedingungen (siehe [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)) |
 | **Austauschformat** | `softwarecenter-profile-v1.json` (siehe [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
 | **Letzte Prüfung** | 2026-09-23 (lokal: vollständige Pytest-Suite, Plattform-Smokes, Compileall, Ruff, Dependency-Audit, Dateimanager-Kontextmenü-Integration, NOTICE-Attribution, CI-Lifecycle-Härtung; WACK weiterhin nur Dry-Run) |
 
@@ -75,7 +75,7 @@ Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-
 - **Linux-Desktop-Starter** - `.desktop`-Launcher werden mit ihrem App-Namen angezeigt und korrekt gestartet
 - **Profil-Export/Import** - Versioniertes Austauschformat `softwarecenter-profile-v1.json` für Migrationen und Backups
 - **Mehrfachauswahl** - Mehrere Einträge können gemeinsam gelöscht werden
-- **Offline-first** - keine Telemetrie, keine Accounts, keine Cloud-Anbindung
+- **Lokal orientierter Betrieb** - Der Organizer-Code enthält keine Konto-, Telemetrie- oder Cloud-Sync-Funktion. HTTP(S)-URLs und gestartete Programme werden über die Plattform geöffnet und können das Netzwerk nutzen.
 
 ## Zielgruppen & Auffindbarkeit
 
@@ -84,9 +84,9 @@ SoftwareCenter adressiert gezielte Workflow-Engpässe über vier klar definierte
 | Persona | Profil & Kernaufgaben | Zentrales Problem | SoftwareCenter Lösung |
 |---|---|---|---|
 | **Persona 1: Desktop-Power-User & Kuratoren** | Fachanwender mit Dutzenden parallel genutzten Tools, Projektordnern und Skripten. | Überladener Windows-Desktop, träge Startmenü-Suche, fehlende persistente Board-Gruppierung. | Schnelle tab-basierte Boards, Drag & Drop Dateiablage, individuelle Notizen und sofortiger Wechsel. |
-| **Persona 2: Software-Entwickler & DevOps-Engineers** | Entwickler mit projektbezogenen Launchern, CLI-Tools, portablen Apps und venv-Skripten. | Vermischung von Dev-Toolchains im allgemeinen Startmenü; speicherhungrige Launcher-Hintergrunddienste. | Isolierte Multi-Profil-Trennung, Beibehaltung des Arbeitsverzeichnisses (`_startfile_in_dir`), 0% Daemon-Overhead. |
-| **Persona 3: Multi-PC- & Cloud-Sync-Anwender** | Nutzer, die Konfigurationen über mehrere Arbeitsplatzrechner (z. B. Workstation & Laptop) spiegeln. | Fest codierte absolute Pfade, abweichende Laufwerksbuchstaben und ungewollter Secret-Leakage. | Schema-validierter Export (`softwarecenter-profile-v1.json`), Secret-Bereinigung, zerstörungsfreier Import. |
-| **Persona 4: Datenschutz- & Sicherheits-Teams** | Sicherheitsbewusste Teams und Behördenumgebungen mit strikter Zero-Egress-Vorgabe. | Kommerzielle Launcher mit Kontozwang, Telemetrie und Hintergrund-Trackern. | 100% Offline-Ausführung (INV-LOCAL-01), null Netzwerk-Egress, unprivilegierte Rechte (`RunAsInvoker`). |
+| **Persona 2: Software-Entwickler & DevOps-Engineers** | Entwickler mit projektbezogenen Launchern, CLI-Tools, portablen Apps und venv-Skripten. | Vermischung von Dev-Toolchains im allgemeinen Startmenü; speicherhungrige Launcher-Hintergrunddienste. | SoftwareCenter und LaunchBoards haben getrennte Produktidentitäten; Windows-Dateistarts fordern, soweit unterstützt, das Zielverzeichnis als Arbeitsverzeichnis an. Das ist keine projektbezogene Entwicklungsumgebung; das Verhalten hängt vom Betriebssystem und Zielprogramm ab. |
+| **Persona 3: Nutzer mit mehreren Workstations** | Nutzer, die Profile manuell zwischen mehreren Workstations übertragen. | Absolute Pfade funktionieren auf einem anderen Gerät möglicherweise nicht; Labels und optionale Notizen können private Details enthalten. | Versionierter Export/Import über `softwarecenter-profile-v1.json`; Pfade und Notizen vor dem Teilen prüfen. Nach Bestätigung ersetzt der Import das aktuelle Profil; Zieldateien werden nicht kopiert. |
+| **Persona 4: Datenschutzbewusste Nutzer** | Nutzer, die lokal gespeicherte Organizer-Einstellungen und keine integrierten Konto- oder Telemetriefunktionen bevorzugen. | Gespeicherte Pfade und Notizen können lokale Details offenlegen; geöffnete URLs oder gestartete Programme können Netzwerkkommunikation auslösen. | Im geprüften Organizer-Code gibt es keine Konto-, Telemetrie- oder Cloud-Sync-Funktion. Vertraulichkeit, Null-Egress für gestartete Prozesse und die Rechte von Zielprogrammen werden nicht garantiert. |
 
 ### Relevante Suchbegriffe
 
@@ -97,20 +97,21 @@ SoftwareCenter adressiert gezielte Workflow-Engpässe über vier klar definierte
 - `Open Source App Launcher Deutsch Windows`
 - `SoftwareCenter vs LaunchBoards Profil Umschaltung`
 
-## Vergleichsmatrix gegenüber Alternativen
+<a id="vergleichsmatrix-gegenüber-alternativen"></a>
+## Fähigkeiten und Grenzen von SoftwareCenter
 
-| Fähigkeit / Dimension | SoftwareCenter | Windows-Startmenü | Stardock Fences | SyMenu | Launchy / Flow Launcher |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **Tab-basierte Kategorisierung** | **JA** (Dynamische Boards) | NEIN (Flache Liste) | JA (Desktop-Bereiche) | JA (Hierarchisches Menü)| NEIN (Nur Suchfeld) |
-| **Open Source (MIT-Lizenz)** | **JA** (100% Freie Lizenz) | NEIN (Proprietär) | NEIN (Kommerziell) | JA (Freeware, Closed) | JA (Open Source) |
-| **Keine Telemetrie / 100% Offline**| **JA** (Strikt Zero-Egress) | NEIN (Bing-Suche/Cloud) | NEIN (Lizenz/Telemetrie)| JA (Offline-fähig) | TEILWEISE (Plugins) |
-| **Multi-Profil-Trennung** | **JA** (Dual-Identity Core) | NEIN (Ein Profil) | NEIN (Nur Desktop) | TEILWEISE (Konfig-Profile)| NEIN (Eine Konfiguration) |
-| **Portabler Export ohne Secrets** | **JA** (`softwarecenter-profile-v1.json`) | NEIN (Registry-gebunden)| NEIN (Proprietär) | TEILWEISE (XML-Format) | NEIN (Kein Exportstandard)|
-| **Arbeitsverzeichnis-Erhalt** | **JA** (Ziel-CWD garantiert) | TEILWEISE (Variabel) | TEILWEISE (Explorer) | JA (Konfigurierbar) | TEILWEISE (Root CWD) |
-| **Universelle Datei/Ordner-Ebene**| **JA** (Alle Dateitypen) | TEILWEISE (Feste Pins) | JA (Desktop-Dateien) | JA (Menü-Einträge) | TEILWEISE (Crawler) |
-| **Headless Batch-Katalogpflege** | **JA** (Automatischer Reconciler) | NEIN (Nur GUI) | NEIN (Nur GUI) | NEIN (Nur manuelle GUI)| NEIN (Nur GUI) |
-| **Schnellzugriff über System-Tray**| **JA** (Integriertes Tray-Menü)| NEIN (Taskleiste fest) | NEIN (Desktop-Fokus) | JA (Tray-zentriert) | NEIN (Nur Hotkey) |
-| **Unprivilegierte Rechte (`RunAsInvoker`)** | **JA** (Keine UAC-Elevation)| SYSTEM / Admin | Standard / Admin | Standard-Benutzer | Standard-Benutzer |
+| Fähigkeit | Verhalten laut Quellcode | Grenze |
+|---|---|---|
+| **Tab-Organisation** | Ordnet Pfadeinträge in benannten Tabs mit Kachel- und Listenansicht. | Tabs organisieren Verweise; sie sind keine projektbezogenen Laufzeitumgebungen. |
+| **Lokale Pfade und URLs** | Drag-and-drop kann unterstützte lokale Pfade und HTTP(S)-URLs als Einträge übernehmen. | Einträge verweisen auf Ziele; der Organizer kopiert deren Inhalte nicht. |
+| **Plattformziele** | Windows löst `.lnk`-Ziele zu vorhandenen `.exe`-Dateien oder Ordnern auf; macOS-App-Bundles werden über `open` geöffnet; Linux-`.desktop`-Einträge werden für Namen, Symbole und `Exec` ausgewertet. | Auflösung und Start sind plattformspezifisch. Linux `Exec` wird als Befehl gestartet; dies ist keine Skript-Sandbox. |
+| **Arbeitsverzeichnis** | Windows-Dateistarts verwenden `_startfile_in_dir`, um nach Möglichkeit das Zielverzeichnis als Arbeitsverzeichnis anzufordern. | Fallbacks können ohne explizites Arbeitsverzeichnis starten; es gibt keine Garantie für das Eltern-CWD oder ein plattformübergreifendes Arbeitsverzeichnis. |
+| **Lokale Einstellungen** | Qt `QSettings` speichert Tabs, Einträge, Ansichten und Fensterzustand im Produkt-Namespace. | Qt und Betriebssystem stellen das Backend bereit; atomare Schreibvorgänge oder Sicherheitsdeskriptoren werden nicht garantiert. |
+| **Profilexport** | `softwarecenter-profile-v1.json` enthält Profilmetadaten, Tabs, Ansichten sowie Einträge mit `label`, `path`, `kind` und optionalen `notes`. | Pfade, Labels und Notizen können lokale Details preisgeben; Zieldateien werden nicht kopiert. |
+| **Profilimport** | Der Import prüft Format und Version, normalisiert Einträge und fragt vor dem Ersetzen nach Bestätigung. | Ein bestätigter Import ersetzt das aktuelle Profil; er führt Profile nicht zusammen und bietet keine allgemeine Garantie gegen Datenverlust. |
+| **Produktidentitäten** | SoftwareCenter und LaunchBoards teilen die Implementierung, haben aber getrennte Settings-Namespaces, Single-Instance-Endpunkte und Store-Identitäten. | Das trennt zwei Produkte; es gibt keine Profile je Nutzer oder Projekt innerhalb von SoftwareCenter. |
+| **Netzwerkgrenze** | Im geprüften Organizer-Code gibt es keine Konto-, Telemetrie- oder Cloud-Sync-Implementierung. | HTTP(S)-URLs und externe Ziele können Netzwerkzugriff auslösen; für die Anwendung und gestartete Prozesse wird kein Null-Egress garantiert. |
+| **Prüfumfang** | Repository-Tests prüfen benannte Verträge; CI führt die Python-Versionsmatrix auf Ubuntu sowie separate Linux/macOS-Smokejobs aus. | Daraus folgen weder Windows-Runner-CI, WACK-Zertifizierung, Store-Veröffentlichung noch allgemeine Laufzeitsicherheit. |
 
 ## Systemarchitektur
 
@@ -125,12 +126,12 @@ graph TD
     E --> E2["macOS (.app Bundles)"]
     E --> E3["Linux (.desktop Launcher)"]
     
-    C --> F["Status-Persistenz (QSettings / Registry)"]
+    C --> F["Status-Persistenz (QSettings; Backend abhängig vom Betriebssystem)"]
     C --> G["JSON-Profil Import/Export (softwarecenter-profile-v1.json)"]
     
     B --> H["Windows Store & Build-Pipeline"]
     H --> H1["PyInstaller EXE Build"]
-    H --> H2["WACK Dry-Run / MSIX-Paketierung"]
+    H --> H2["WACK-Dry-Run / MSIX-Vorprüfung (keine Zertifizierung)"]
     H --> H3["Reproduzierbarer Store-Screenshot-Generator"]
 ```
 
@@ -143,37 +144,39 @@ sequenceDiagram
     participant SC as SoftwareCenter UI (PySide6)
     participant Res as Plattform-Auflöser (.lnk / .app / .desktop)
     participant Tab as Tab- & Board-Manager
-    participant Set as QSettings-Persistenz (Registry / INI)
+    participant Set as QSettings-Persistenz (plattformabhängiges Backend)
     participant Exp as Profil-Exporter (softwarecenter-profile-v1.json)
+    participant OS as Betriebssystem
 
     User->>SC: Datei / Verknüpfung per Drag & Drop ablegen
     SC->>Res: Pfad auflösen (z. B. .lnk -> reales EXE-/Ordner-Ziel)
-    Res-->>SC: Valider Zielpfad & Systemicon ermittelt
+    Res-->>SC: Aufgelöster Zielpfad und verfügbares Systemsymbol
     SC->>Tab: Duplikatprüfung & Element im Board registrieren
     Tab->>SC: Kachel- / Listenzeile rendern
-    Tab->>Set: Tabs, Reihenfolge & Fenstergeometrie atomar speichern
+    Tab->>Set: Tabs, Reihenfolge und Geometrie über QSettings schreiben
     Set-->>SC: Zustand lokal persistent gesichert
     User->>SC: Doppelklick zum Start oder "Profil exportieren"
     alt Programm starten
-        SC->>User: Zielanwendung mit normalen Nutzerrechten ausführen
+        SC->>OS: Datei, Anwendung oder URL über Plattform-APIs öffnen
     else Profil exportieren
-        SC->>Exp: Boards, Tabs und Einträge serialisieren
-        Exp-->>User: Bereinigte softwarecenter-profile-v1.json schreiben (Null Secrets)
+        SC->>Exp: Profilmetadaten, Tabs und Eintragsfelder serialisieren
+        Exp-->>User: softwarecenter-profile-v1.json aus den aktuellen Profilfeldern schreiben
     end
 ```
 
-## Kernfähigkeiten & Sicherheitsinvarianten
+<a id="kernfähigkeiten--sicherheitsinvarianten"></a>
+## Kernfähigkeiten und Beleggrenzen
 
-| Invariante / Fähigkeit | Architektur-Garantie | Verifikations-Mechanismus |
+| Thema | Befund in geprüftem Code/Test | Umfang und Grenze |
 |---|---|---|
-| **100% Local-First & Zero Egress** | Agiert rein lokal auf dem Client; keinerlei Telemetrie, kein Cloud-Tracking, keine Remote-Netzwerkaufrufe | Quellcode-Audit, Offline-Laufzeitcheck, Testsuite |
-| **Unprivilegierter Betrieb (Non-Elevation)** | Läuft strikt mit Standard-Benutzerrechten; verlangt niemals UAC-Administratorrechte | Prozess-Sicherheitsdeskriptor-Prüfung |
-| **Nicht-destruktive Verknüpfungsverwaltung** | Das Entfernen eines Eintrags löscht lediglich die UI-Referenz; niemals die Zieldatei auf der Festplatte | UI-Entfernungs-Isolationstests |
-| **Sichere Pfad- & Link-Auflösung** | Löst Windows `.lnk`, macOS `.app` und Linux `.desktop` Ziele auf, ohne Skripte oder Befehle auszuführen | Statische Pfadauflösungs-Vertragstests |
-| **Atomare Status-Persistenz** | QSettings sichert Fenstergeometrie, Tab-Anordnung und aktive Ansichtsmodi sicher im Betriebssystem | Atomare Roundtrip-Persistenztests |
-| **Portables & Bereinigtes Austauschformat** | Schema-validierter JSON-Export (`softwarecenter-profile-v1.json`) ohne Passwörter, Token oder Secrets | `tests/test_export_contract.py` Regressionstests |
-| **Schwesterprodukt-Isolation** | Getrennte QSettings-Namespaces, Mutex-Endpunkte und Store-Identitäten zwischen SoftwareCenter und LaunchBoards | `scripts/verify_product_boundaries.py` |
-| **Multi-OS CI-Matrix-Garantie** | Validiert für Python 3.10-3.12 auf Windows, macOS und Linux Runnern | GitHub Actions Workflows und Plattform-Smokes |
+| **Netzwerkverhalten des Organizers** | Der geprüfte App-Code enthält keine Konto-, Telemetrie- oder Cloud-Sync-Implementierung; `open_file` übergibt HTTP(S)-URLs an Qt oder den Systembrowser. | Die Quellcodeprüfung misst nicht das Laufzeitnetzwerkverhalten von SoftwareCenter, Browser oder gestarteten Prozessen. |
+| **Startkontext** | Datei- und URL-Starts werden an Plattform-APIs delegiert; unter Windows fordert der Startcode nach Möglichkeit das Zielverzeichnis als Arbeitsverzeichnis an. | Code und Tests prüfen keine Prozess-Sicherheitsdeskriptoren und erzwingen keine Berechtigungen von Kindprozessen. |
+| **Einträge entfernen** | Die UI entfernt Einträge aus Liste und gespeichertem Profilzustand, ohne referenzierte Dateien zu löschen. | Daraus folgt nichts über Ziele, die ein externes Programm öffnet oder verändert. |
+| **Plattformauflösung** | Windows-`.lnk`-Ziele werden über COM mit PowerShell-Fallback ermittelt; Linux-`.desktop`-`Exec` wird ausgewertet und anschließend gestartet. | Diese Handler isolieren das Zielverhalten nicht; konfigurierte Befehle oder externe Programme können ausgeführt werden. |
+| **QSettings-Speicherung** | `save_settings` schreibt Tab-, Eintrags-, Ansichts-, Geometrie- und Sprachwerte über Qt `QSettings`. | Der Code verspricht weder eine atomare Transaktion noch crashsichere Speicherung. |
+| **Profildaten** | `softwarecenter-profile-v1.json` enthält Profilfelder und Einträge mit `label`, `path`, `kind` und optionalen `notes`; ein Import ersetzt nach Bestätigung das aktuelle Profil. | Werte können lokale Details preisgeben; Tests decken Test-Fixtures und einen Roundtrip ab; sie belegen keine allgemeine Erkennung oder Bereinigung vertraulicher Inhalte. Siehe `tests/test_export_contract.py`. |
+| **Trennung der Schwesterprodukte** | `scripts/verify_product_boundaries.py` und Produkttests prüfen getrennte Settings-Namespaces und Single-Instance-Endpunkte für SoftwareCenter und LaunchBoards. | Das ist Produkttrennung, keine Nutzer- oder Projektprofile. Siehe `PRODUCT_BOUNDARIES.md` und `tests/test_product_boundaries.py`. |
+| **CI- und Release-Umfang** | CI führt die Python-Versionsmatrix auf Ubuntu und separate Linux/macOS-Smokejobs aus. | Daraus folgen weder Windows-Runner-CI, WACK-Zertifizierung, Store-Veröffentlichung noch allgemeine Laufzeitsicherheit. Siehe `CI_CONTRACT.md`. |
 
 ## Geschwister-Ökosystem & Schwesterprodukte
 
@@ -202,7 +205,7 @@ Nützliche Suchphrasen:
 - `lokaler App Launcher Python PySide6`
 - `Desktop Verknüpfungen in Tabs organisieren`
 - `softwarecenter-profile-v1.json`
-- `Offline Software Launcher ohne Cloud ohne Telemetrie`
+- `Lokal orientierter Desktop-Organizer mit Profilexport`
 
 Es ist nicht Microsoft Configuration Manager Software Center, kein App Store, kein Paketmanager und kein Remote-Deployment-Portal.
 
@@ -277,7 +280,7 @@ Rollback stehen in [RUNTIME_DAILY_CARE.md](RUNTIME_DAILY_CARE.md).
 
 ## Austauschformat
 
-Profile lassen sich als `softwarecenter-profile-v1.json` exportieren und wieder importieren. Das Format enthält Tabs, Ansichtsmodus und Einträge mit `label`, `path`, `kind` und optionalen `notes`, aber keine kopierten Dateien und keine Credentials. Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
+Profile lassen sich als `softwarecenter-profile-v1.json` exportieren und wieder importieren. Das Format enthält Profilmetadaten, Tabs, Ansichtsmodi und Einträge mit `label`, `path`, `kind` und optionalen `notes`. Die Anwendung kopiert keine referenzierten Dateien; Pfade, Labels und Notizen können jedoch sensible Details enthalten und werden nicht als Geheimnisse bereinigt. Nach Bestätigung ersetzt der Import das aktuelle Profil. Fehlende Pfade bleiben als Verweise sichtbar. Details stehen in [EXPORTFORMAT.md](EXPORTFORMAT.md).
 
 ## LaunchBoards
 
@@ -301,7 +304,7 @@ sind in [PRODUCT_BOUNDARIES.md](PRODUCT_BOUNDARIES.md) dokumentiert.
 
 Der Windows-Store-Track beinhaltet einen reproduzierbaren Screenshot-Generator für
 die aktuelle Desktop-Benutzeroberfläche. `python generate_store_screenshots.py`
-aktualisiert `README/screenshots/store/` mit vier bereinigten Store-Grafiken und `summary.json`.
+aktualisiert `README/screenshots/store/` mit vier erzeugten Store-Screenshots und `summary.json`.
 
 ## Technik
 
@@ -310,27 +313,27 @@ aktualisiert `README/screenshots/store/` mit vier bereinigten Store-Grafiken und
 | Sprache | Python 3.10+ |
 | GUI-Framework | PySide6 (Qt for Python) |
 | Speicherung | QSettings (Windows Registry / INI) |
-| Codeumfang | ~690 Zeilen |
+| Codeumfang | Keine feste Zeilenangabe |
 
 ## Sicherheitsrichtlinie
 
-Sicherheit und Datenschutz stehen an erster Stelle. Siehe [SECURITY.md](SECURITY.md) für vollständige Richtlinien zur Meldung von Schwachstellen, unser 48-Stunden-SLA und die Kern-Invarianten.
+[SECURITY.md](SECURITY.md) beschreibt unterstützte Versionen, Meldewege für Schwachstellen, die erklärte erste Rückmeldung innerhalb von 48 Stunden und die Triage innerhalb von 5 Werktagen. Die Richtlinienaussagen sind kein Laufzeitnachweis.
 
 ## Drittanbieter-Lizenzen & Governance
 
-SoftwareCenter bindet Drittanbieter-Open-Source-Komponenten unter konformen, permissiven Lizenzen ein. Vollständige Audit-Details, SPDX-Identifikatoren und dynamische Verlinkungshinweise finden sich in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+Die MIT-Lizenz des Repositories gilt für den Projektquellcode. Abhängigkeiten haben eigene Lizenzbedingungen; [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) dokumentiert Paketmetadaten, ist aber weder eine pauschale Einstufung aller Komponenten als permissiv noch eine Compliance-Garantie für jedes Paket.
 
 - **Attribution:** [NOTICE](NOTICE) (Kanonische Open-Source-Attribution Lukas Geiger, file-bricks und open-bricks Dachorganisation).
-- **PySide6 & shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (dynamisch über Qt for Python gelinkt; vollständige Ersetzbarkeit für Endnutzer gemäß LGPLv3 § 4 gewährleistet).
-- **Python-Standardbibliothek:** [PSFL-2.0](https://docs.python.org/3/license.html) (100% offline, kein Netzwerk-Egress).
-- **PyInstaller:** [GPL-2.0-or-later mit PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (Build-Tooling; generierte Binärdateien sind von der GPL-Copyleft-Pflicht ausgenommen).
-- **Governance-Invarianten:** 10 zentrale Laufzeit-Garantien (INV-LOCAL-01 bis INV-ZEROCOPY-10) werden durch automatisierte Vertragstests gesichert.
+- **PySide6 & shiboken6:** Das Inventar führt LGPL-3.0-only-Bedingungen auf; siehe den [LGPL-3.0-Text](https://www.gnu.org/licenses/lgpl-3.0.html) und die [Komponentenmetadaten](THIRD_PARTY_LICENSES.md). Die MIT-Lizenz des Projekts gilt nicht pauschal für diese Abhängigkeiten.
+- **Python-Standardbibliothek:** [PSF-2.0](https://docs.python.org/3/license.html). Diese Lizenz sagt nicht aus, ob der Organizer oder gestartete Programme offline arbeiten.
+- **PyInstaller:** [GPL-2.0-or-later mit PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) ist ein Build-Werkzeug; für ein gepacktes Programm sind die Upstream-Lizenz und die Auslieferungshinweise maßgeblich, nicht eine pauschale Ausnahmebehauptung.
+- **Prüfumfang:** Tests prüfen benannte Code- und Dokumentationsverträge; sie belegen keine universellen Laufzeitgarantien.
 
 ## Lizenz
 
 [MIT](LICENSE)
 
-**Hinweis:** Diese Anwendung verwendet [PySide6](https://doc.qt.io/qtforpython-6/), lizenziert unter LGPLv3. PySide6 wird dynamisch gelinkt.
+**Hinweis:** MIT ist die Lizenz des Projektquellcodes in diesem Repository. Die Anwendung verwendet [PySide6](https://doc.qt.io/qtforpython-6/) mit eigenen Lizenzbedingungen; siehe [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
 ---
 

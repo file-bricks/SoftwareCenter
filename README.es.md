@@ -6,7 +6,7 @@
 [![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
 [![Pytest 260+ Passed](https://img.shields.io/badge/pytest-260%2B%20passed-brightgreen.svg)](https://docs.pytest.org/)
 [![Plataformas: Windows | macOS | Linux](https://img.shields.io/badge/plataformas-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/file-bricks/SoftwareCenter)
-[![Privacidad: 100% Local-First](https://img.shields.io/badge/privacidad-100%25%20Local--First-brightgreen.svg)](SECURITY.md)
+[![Privacidad: funcionamiento local](https://img.shields.io/badge/privacidad-funcionamiento--local-brightgreen.svg)](SECURITY.md)
 [![Seguridad: 48h SLA](https://img.shields.io/badge/seguridad-48h%20SLA-blue.svg)](SECURITY.md)
 [![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-yellow.svg)](LICENSE)
 [![GUI: PySide6](https://img.shields.io/badge/GUI-PySide6-green.svg)](https://doc.qt.io/qtforpython-6/)
@@ -14,7 +14,7 @@
 [![Paraguas: open-bricks](https://img.shields.io/badge/Paraguas-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![Indexación LLM lista](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
 
-[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md)
+[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md) · [العربية](README_ar.md) · [বাংলা](README_bn.md) · [Português](README_pt.md)
 
 Un organizador de escritorio ligero y multiplataforma para gestionar accesos directos de software mediante categorización basada en pestañas.
 
@@ -28,10 +28,10 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 - [Referencia rápida](#referencia-rápida)
 - [Características](#características)
 - [Personas objetivo y descubribilidad](#personas-objetivo-y-descubribilidad)
-- [Matriz comparativa frente a alternativas](#matriz-comparativa-frente-a-alternativas)
+- [Capacidades y límites de SoftwareCenter](#matriz-comparativa-frente-a-alternativas)
 - [Arquitectura del sistema](#arquitectura-del-sistema)
 - [Flujo del ciclo de vida](#flujo-del-ciclo-de-vida)
-- [Capacidades centrales e invariantes de seguridad](#capacidades-centrales-e-invariantes-de-seguridad)
+- [Capacidades centrales y límites de evidencia](#capacidades-centrales-e-invariantes-de-seguridad)
 - [Ecosistema hermano y productos relacionados](#ecosistema-hermano-y-productos-relacionados)
 - [Contexto de descubrimiento](#contexto-de-descubrimiento)
 - [Requisitos](#requisitos)
@@ -56,7 +56,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 | Atributo | Detalles |
 |---|---|
 | **Pila tecnológica** | Python 3.10+ / PySide6 (Qt) / QSettings |
-| **Licencia** | MIT (PySide6 vinculado dinámicamente bajo LGPLv3) |
+| **Licencia** | Código del proyecto: MIT; PySide6 y las demás dependencias tienen condiciones propias (véase [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)) |
 | **Formato de intercambio** | `softwarecenter-profile-v1.json` (ver [EXPORTFORMAT.md](EXPORTFORMAT.md)) |
 | **Última verificación** | 2026-09-23 (local: suite completa pytest, pruebas de plataforma, compileall, Ruff, auditoría de dependencias, integración con menús contextuales, atribución NOTICE, blindaje CI) |
 
@@ -74,7 +74,7 @@ Un organizador de escritorio ligero y multiplataforma para gestionar accesos dir
 - **Lanzadores de escritorio Linux** - Las entradas `.desktop` muestran su nombre real y se ejecutan mediante su comando nativo
 - **Exportación e importación de perfiles** - Formato versionado `softwarecenter-profile-v1.json` para copias de seguridad y migraciones
 - **Selección múltiple** - Eliminación masiva de accesos directos seleccionados
-- **Local-First y sin telemetría** - Sin cuentas, sin servicios en la nube, sin recopilación de datos
+- **Funcionamiento local** - El código del organizador no implementa cuentas, telemetría ni sincronización con la nube. Las URL HTTP(S) y los programas se abren mediante la plataforma y pueden usar la red.
 
 ## Personas objetivo y descubribilidad
 
@@ -83,9 +83,9 @@ SoftwareCenter está diseñado para resolver cuellos de botella de flujo de trab
 | Persona | Perfil y responsabilidades clave | Punto de fricción principal | Solución de SoftwareCenter |
 |---|---|---|---|
 | **Persona 1: Usuarios avanzados de escritorio y curadores** | Usuarios que gestionan decenas de herramientas, carpetas de trabajo y utilidades a diario. | Escritorio de Windows saturado, lentitud de búsqueda en el Menú Inicio, falta de agrupación personalizada. | Tableros basados en pestañas rápidas, organización de archivos por arrastrar y soltar, cambio instantáneo. |
-| **Persona 2: Desarrolladores de software y DevOps** | Ingenieros que gestionan toolchains, lanzadores de CLI, entornos virtuales y aplicaciones portátiles. | Mezcla de herramientas de desarrollo en el menú de inicio general; lanzadores pesados con consumo de RAM. | Aislamiento multi-perfil, preservación del directorio de trabajo (`_startfile_in_dir`), cero sobrecarga en segundo plano. |
-| **Persona 3: Operadores multi-PC y sincronización** | Usuarios que sincronizan configuraciones entre múltiples estaciones de trabajo (p. ej. sobremesa y portátil). | Rutas absolutas fijas, diferencias en letras de unidad y filtraciones de credenciales locales. | Exportación validada por esquema (`softwarecenter-profile-v1.json`), depuración de secretos, importación no destructiva. |
-| **Persona 4: Equipos de privacidad y seguridad** | Ingenieros de seguridad y entornos corporativos con requisitos estrictos de zero-egress. | Organizadores comerciales con cuentas en la nube obligatorias, telemetría y rastreo constante. | Ejecución 100% local y sin conexión (INV-LOCAL-01), cero salida a la red, permisos de usuario estándar (`RunAsInvoker`). |
+| **Persona 2: Desarrolladores de software y DevOps** | Ingenieros que gestionan toolchains, lanzadores de CLI, entornos virtuales y aplicaciones portátiles. | Mezcla de herramientas de desarrollo en el menú de inicio general; lanzadores pesados con consumo de RAM. | SoftwareCenter y LaunchBoards tienen identidades de producto separadas; en Windows, los lanzamientos de archivos solicitan el directorio de destino como directorio de trabajo cuando es posible. No es un gestor de entornos de proyecto; el comportamiento depende del sistema y de la aplicación objetivo. |
+| **Persona 3: Usuarios de varias estaciones de trabajo** | Usuarios que trasladan perfiles manualmente entre varios equipos. | Las rutas absolutas pueden no existir en otro dispositivo; las etiquetas y notas opcionales pueden revelar detalles privados. | Exportación/importación versionada con `softwarecenter-profile-v1.json`; revise rutas y notas antes de compartirlo. Tras la confirmación, la importación sustituye el perfil actual; no se copian los archivos de destino. |
+| **Persona 4: Usuarios preocupados por la privacidad** | Personas que prefieren ajustes del organizador guardados localmente y sin funciones integradas de cuenta o telemetría. | Las rutas y notas guardadas pueden revelar detalles locales; las URL abiertas y los programas ejecutados pueden comunicarse por la red. | El código revisado del organizador no implementa cuentas, telemetría ni sincronización con la nube. No garantiza confidencialidad, cero salida de red de los procesos iniciados ni los privilegios de los programas objetivo. |
 
 ### Términos de búsqueda destacados
 
@@ -96,20 +96,21 @@ SoftwareCenter está diseñado para resolver cuellos de botella de flujo de trab
 - `SoftwareCenter vs LaunchBoards cambio de perfil`
 - `organizador de programas de escritorio de código abierto`
 
-## Matriz comparativa frente a alternativas
+<a id="matriz-comparativa-frente-a-alternativas"></a>
+## Capacidades y límites de SoftwareCenter
 
-| Capacidad / Dimensión | SoftwareCenter | Menú Inicio de Windows | Stardock Fences | SyMenu | Launchy / Flow Launcher |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **Categorización por pestañas** | **SÍ** (Tableros dinámicos) | NO (Lista plana / Carpetas) | SÍ (Áreas de escritorio) | SÍ (Menú jerárquico) | NO (Solo caja de búsqueda) |
-| **Código abierto (Licencia MIT)** | **SÍ** (100% Permisivo) | NO (Propietario integrado) | NO (Comercial cerrado) | SÍ (Freeware cerrado) | SÍ (Código abierto) |
-| **Cero telemetría / 100% Offline**| **SÍ** (Estricto Zero-Egress) | NO (Búsqueda Bing y telemetría)| NO (Licencia y telemetría)| SÍ (Capacidad offline) | PARCIAL (Red de plugins) |
-| **Separación multi-perfil** | **SÍ** (Núcleo de doble identidad) | NO (Perfil de usuario único) | NO (Solo superficie escritorio)| PARCIAL (Perfiles de config)| NO (Configuración única) |
-| **Exportación portátil sin secretos**| **SÍ** (`softwarecenter-profile-v1.json`)| NO (Dependiente del registro)| NO (Copia propietaria) | PARCIAL (Formato XML) | NO (Sin estándar de exportación)|
-| **Preservación directorio de trabajo**| **SÍ** (CWD padre garantizado) | PARCIAL (CWD variable) | PARCIAL (Por defecto Explorer)| SÍ (Configurable) | PARCIAL (CWD raíz de ejecución)|
-| **Capa universal de archivos/carpetas**| **SÍ** (Cualquier destino/objeto)| PARCIAL (Apps y pines fijos) | SÍ (Archivos de escritorio) | SÍ (Entradas de menú) | PARCIAL (Rastreador de índice)|
-| **Mantenimiento desatendido de catálogo**| **SÍ** (Conciliador automático) | NO (Solo interactivo) | NO (Solo interactivo) | NO (Solo interfaz manual) | NO (Solo interactivo) |
-| **Navegación rápida en bandeja del sistema**| **SÍ** (Menú integrado en bandeja)| NO (Barra de tareas fija) | NO (Superficie de escritorio) | SÍ (Centrado en bandeja) | NO (Solo atajo de teclado) |
-| **Ejecución no elevada (`RunAsInvoker`)**| **SÍ** (Sin elevación UAC) | SYSTEM / Alto privilegio | Usuario estándar / Admin | Usuario estándar | Usuario estándar |
+| Capacidad | Comportamiento implementado | Límite |
+|---|---|---|
+| **Organización por pestañas** | Agrupa entradas de rutas en pestañas con nombre y vistas de mosaico o lista. | Las pestañas organizan referencias; no son entornos de ejecución por proyecto. |
+| **Rutas locales y URL** | El arrastrar y soltar puede registrar rutas locales compatibles y URL HTTP(S). | Las entradas apuntan a destinos; el organizador no copia su contenido. |
+| **Tratamiento de destinos según plataforma** | En Windows, la resolución de `.lnk` acepta destinos `.exe` o carpetas existentes; macOS abre paquetes de apps mediante `open`; Linux lee nombre, icono y `Exec` de entradas `.desktop`. | La resolución y el lanzamiento dependen del sistema. Linux ejecuta `Exec` como comando; no es un entorno aislado para scripts. |
+| **Directorio de trabajo** | En Windows, los lanzamientos de archivos solicitan la carpeta del destino como directorio de trabajo cuando es posible. | Los fallbacks pueden omitirlo; no se garantiza el CWD del proceso padre ni un directorio de trabajo común a todas las plataformas. |
+| **Ajustes locales** | Qt `QSettings` guarda pestañas, entradas, vistas y estado de ventana en el espacio de ajustes del producto. | Qt y el sistema operativo proporcionan el almacenamiento; no se garantiza escritura atómica ni descriptores de seguridad. |
+| **Exportación de perfiles** | `softwarecenter-profile-v1.json` incluye metadatos del perfil, pestañas, vistas y entradas con `label`, `path`, `kind` y `notes` opcionales. | Las rutas, etiquetas y notas pueden revelar detalles locales; no se copian los archivos de destino. |
+| **Importación de perfiles** | El importador comprueba el formato y la versión, normaliza las entradas y pide confirmación antes de sustituir el perfil. | Tras confirmar, la importación sustituye el perfil actual; no combina perfiles ni garantiza que no se pierdan datos en general. |
+| **Identidades de producto** | SoftwareCenter y LaunchBoards comparten implementación, pero tienen espacios de ajustes, endpoints de instancia única e identidades de Store separados. | Separa dos productos; no ofrece perfiles seleccionables por usuario dentro de SoftwareCenter. |
+| **Límite de red** | El código revisado del organizador no implementa cuentas, telemetría ni sincronización con la nube. | Abrir URL HTTP(S) o destinos externos puede usar la red; no se garantiza cero salida de red para la aplicación ni para los procesos iniciados. |
+| **Alcance de las verificaciones** | Las pruebas del repositorio cubren contratos concretos; CI ejecuta la matriz de versiones de Python en Ubuntu y trabajos smoke separados para Linux/macOS. | Esto no demuestra CI en un runner Windows, certificación WACK, publicación en Store ni seguridad universal en tiempo de ejecución. |
 
 ## Arquitectura del sistema
 
@@ -124,12 +125,12 @@ graph TD
     E --> E2["macOS (.app Bundles)"]
     E --> E3["Linux (.desktop Launchers)"]
     
-    C --> F["Persistencia de estado (QSettings / Registro)"]
+    C --> F["Persistencia de estado (QSettings; backend según el sistema operativo)"]
     C --> G["Importador/Exportador JSON (softwarecenter-profile-v1.json)"]
     
     B --> H["Pipeline de compilación y tienda"]
     H --> H1["Compilación PyInstaller EXE"]
-    H --> H2["Simulación WACK / Empaquetado MSIX"]
+    H --> H2["Preflight WACK / MSIX (no es certificación)"]
     H --> H3["Generador reproducible de capturas de pantalla"]
 ```
 
@@ -142,37 +143,39 @@ sequenceDiagram
     participant SC as Interfaz SoftwareCenter (PySide6)
     participant Res as Resolutor de plataforma (.lnk / .app / .desktop)
     participant Tab as Gestor de pestañas y tableros
-    participant Set as Persistencia QSettings (Registro / INI)
+    participant Set as Persistencia QSettings (backend según el sistema operativo)
     participant Exp as Exportador de perfiles (softwarecenter-profile-v1.json)
+    participant OS as Sistema operativo
 
     Usuario->>SC: Arrastra y suelta un archivo/acceso directo en una pestaña
     SC->>Res: Resuelve la ruta (p. ej. .lnk -> ejecutable/carpeta original)
-    Res-->>SC: Ruta de destino validada e icono del sistema
+    Res-->>SC: Ruta resuelta e icono del sistema disponible
     SC->>Tab: Comprueba duplicados y registra el elemento
     Tab->>SC: Renderiza mosaico / fila de lista
-    Tab->>Set: Persiste pestañas, orden y geometría de forma atómica
+    Tab->>Set: Escribe pestañas, orden y geometría mediante QSettings
     Set-->>SC: Estado guardado localmente
     Usuario->>SC: Doble clic en elemento o activa "Exportar perfil"
     alt Iniciar elemento
-        SC->>Usuario: Ejecuta el binario de destino con permisos estándar
+        SC->>OS: Abre el archivo, la aplicación o la URL mediante las API de la plataforma
     else Exportar perfil
-        SC->>Exp: Serializa tableros, pestañas y elementos
-        Exp-->>Usuario: Escribe softwarecenter-profile-v1.json sanitizado (sin secretos)
+        SC->>Exp: Serializa metadatos del perfil, pestañas y campos de elementos
+        Exp-->>Usuario: Escribe softwarecenter-profile-v1.json a partir de los campos del perfil actual
     end
 ```
 
-## Capacidades centrales e invariantes de seguridad
+<a id="capacidades-centrales-e-invariantes-de-seguridad"></a>
+## Capacidades centrales y límites de evidencia
 
-| Invariante / Capacidad | Garantía arquitectónica | Mecanismo de verificación |
+| Tema | Evidencia en código y pruebas revisados | Alcance y límite |
 |---|---|---|
-| **100% Local-First y Zero Egress** | Se ejecuta exclusivamente en el equipo local; cero telemetría, cero rastreo en la nube, sin llamadas remotas | Auditoría de código, comprobación offline en tiempo de ejecución, suite de pruebas |
-| **Mínimo privilegio (Sin elevación)** | Opera estrictamente con permisos de usuario estándar; nunca solicita elevación UAC | Verificación del descriptor de seguridad del proceso |
-| **Operaciones no destructivas** | Eliminar una entrada solo quita el metadato del acceso directo; nunca modifica ni borra archivos del disco | Pruebas de aislamiento de acción de borrado en UI |
-| **Resolución segura de rutas** | Resuelve destinos `.lnk` de Windows, `.app` de macOS y `.desktop` de Linux sin invocar scripts de shell | Pruebas de contrato de resolución estática |
-| **Persistencia de estado atómica** | QSettings guarda de forma segura la geometría, orden de pestañas y vista activa en el almacenamiento del SO | Suite de pruebas de persistencia de ida y vuelta |
-| **Intercambio de perfiles sanitizado** | Exportación JSON validada (`softwarecenter-profile-v1.json`) que solo contiene rutas y etiquetas; sin credenciales | Pruebas de regresión en `tests/test_export_contract.py` |
-| **Aislamiento de producto hermano** | Espacio de nombres QSettings independiente, mutex aislado e identidad propia entre SoftwareCenter y LaunchBoards | `scripts/verify_product_boundaries.py` |
-| **Verificación Multi-SO en CI** | Validado en Python 3.10-3.12 en entornos Windows, macOS y Linux | Flujos de trabajo de GitHub Actions y pruebas de plataforma |
+| **Red del organizador** | El código revisado no implementa cuentas, telemetría ni sincronización con la nube; `open_file` delega las URL HTTP(S) a Qt o al navegador del sistema. | Revisar el código no mide la actividad de red en ejecución de SoftwareCenter, del navegador ni de los procesos iniciados. |
+| **Contexto de lanzamiento** | La apertura de archivos y URL se delega a las API de la plataforma; en Windows, el código solicita el directorio de destino como directorio de trabajo cuando está disponible. | El código y las pruebas revisados no verifican descriptores de seguridad de procesos ni imponen privilegios a procesos secundarios. |
+| **Eliminación de entradas** | La interfaz quita entradas de la lista y del estado del perfil guardado sin borrar los archivos referenciados. | Esto no describe los destinos que abra o modifique un programa externo. |
+| **Resolución por plataforma** | La búsqueda de destinos Windows `.lnk` usa COM con una alternativa en PowerShell; se parsea `Exec` de Linux `.desktop` y después se ejecuta. | Estos controladores no aíslan el comportamiento del destino; pueden ejecutar comandos configurados o programas externos. |
+| **Persistencia QSettings** | `save_settings` escribe pestañas, entradas, vistas, geometría e idioma mediante Qt `QSettings`. | El código no afirma que las escrituras sean transaccionales o resistentes a fallos. |
+| **Datos del perfil** | `softwarecenter-profile-v1.json` incluye campos del perfil y entradas con `label`, `path`, `kind` y `notes` opcionales; la importación sustituye el perfil actual tras confirmación. | Los valores pueden revelar detalles locales; las pruebas cubren casos de prueba y una operación de exportación e importación de ida y vuelta, pero no demuestran la detección ni la eliminación de secretos arbitrarios. Véase `tests/test_export_contract.py`. |
+| **Separación de productos** | `scripts/verify_product_boundaries.py` y las pruebas de producto comprueban espacios de ajustes y endpoints de instancia única separados para SoftwareCenter y LaunchBoards. | Es separación entre productos, no perfiles de usuario o de proyecto. Véase `PRODUCT_BOUNDARIES.md` y `tests/test_product_boundaries.py`. |
+| **Alcance de CI y las versiones** | CI ejecuta la matriz de versiones de Python en Ubuntu y trabajos smoke independientes para Linux/macOS. | Esto no implica CI en un runner Windows, certificación WACK, publicación en Store ni seguridad universal en tiempo de ejecución. Véase `CI_CONTRACT.md`. |
 
 ## Ecosistema hermano y productos relacionados
 
@@ -201,7 +204,7 @@ Frases de búsqueda útiles:
 - `local-first app launcher Python PySide6`
 - `desktop shortcut organizer with tabs`
 - `softwarecenter-profile-v1.json`
-- `offline software launcher no cloud no telemetry`
+- `organizador de escritorio local con exportación de perfiles`
 
 No es Microsoft Configuration Manager Software Center, ni una tienda de aplicaciones, ni un gestor de paquetes de red, ni un portal de despliegue remoto.
 
@@ -265,7 +268,7 @@ El reconciliador opcional de catálogo se proporciona como código de tiempo de 
 
 ## Formato de intercambio
 
-Los perfiles se pueden exportar como `softwarecenter-profile-v1.json` e importar posteriormente. El formato transporta pestañas, modos de vista y entradas con `label`, `path`, `kind` y notas opcionales, pero no copia archivos locales ni credenciales. Las rutas inexistentes permanecen visibles como referencias. Consulte [EXPORTFORMAT.md](EXPORTFORMAT.md) para más detalles.
+Los perfiles se pueden exportar como `softwarecenter-profile-v1.json` e importar posteriormente. El formato incluye metadatos del perfil, pestañas, modos de vista y entradas con `label`, `path`, `kind` y notas opcionales. La aplicación no copia los archivos locales referenciados, pero las rutas, etiquetas y notas pueden contener datos sensibles; la aplicación no detecta ni elimina automáticamente los secretos que puedan contener. Tras la confirmación, la importación sustituye el perfil actual. Las rutas inexistentes permanecen visibles como referencias. Consulte [EXPORTFORMAT.md](EXPORTFORMAT.md) para más detalles.
 
 ## LaunchBoards
 
@@ -283,7 +286,7 @@ LaunchBoards comparte la implementación pero dispone de su propio espacio de no
 
 ## Activos de Windows Store
 
-La vía de Windows Store incluye un generador reproducible de capturas de pantalla para la interfaz actual. Ejecute `python generate_store_screenshots.py` para regenerar las imágenes sanitizadas de la tienda y `summary.json` en `README/screenshots/store/`.
+La vía de Windows Store incluye un generador reproducible de capturas de pantalla para la interfaz actual. Ejecute `python generate_store_screenshots.py` para regenerar las capturas de Store y `summary.json` en `README/screenshots/store/`.
 
 ## Pila tecnológica
 
@@ -292,27 +295,27 @@ La vía de Windows Store incluye un generador reproducible de capturas de pantal
 | Lenguaje | Python 3.10+ |
 | Framework de interfaz | PySide6 (Qt para Python) |
 | Almacenamiento | QSettings (Registro de Windows / INI) |
-| Tamaño de código | ~690 líneas |
+| Tamaño del código | No se fija un recuento de líneas |
 
 ## Política de seguridad
 
-La seguridad y la privacidad son prioridades arquitectónicas fundamentales. Consulte [SECURITY.md](SECURITY.md) para consultar nuestra política completa de divulgación de vulnerabilidades, el SLA de respuesta de 48 horas y las garantías locales.
+[SECURITY.md](SECURITY.md) describe las versiones compatibles, los canales para comunicar vulnerabilidades, una primera respuesta declarada dentro de 48 horas y un plazo de clasificación de 5 días laborables. Las afirmaciones de la política no equivalen a una verificación en tiempo de ejecución.
 
 ## Licencias de terceros y gobernanza
 
-SoftwareCenter incorpora componentes de código abierto de terceros bajo licencias permisivas y conformes. Los detalles completos de la auditoría, los identificadores SPDX y las declaraciones de enlace dinámico están disponibles en [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+La licencia MIT del repositorio se aplica al código fuente del proyecto. Las dependencias tienen condiciones propias; [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) recoge metadatos de componentes, pero no garantiza que todas las licencias sean permisivas ni la conformidad de cualquier paquete.
 
 - **Atribución:** [NOTICE](NOTICE) (Atribución canónica de código abierto Lukas Geiger, organizaciones file-bricks y open-bricks).
-- **PySide6 y shiboken6:** [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0.html) (enlazado dinámicamente mediante Qt for Python; garantiza la sustitución completa por parte del usuario según LGPLv3 §4).
-- **Biblioteca estándar de Python:** [PSFL-2.0](https://docs.python.org/3/license.html) (100% sin conexión, cero tráfico de red saliente).
-- **PyInstaller:** [GPL-2.0-or-later con PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) (herramienta de compilación; los ejecutables empaquetados están exentos del copyleft de GPL).
-- **Invariantes de gobernanza:** 10 garantías de tiempo de ejecución (INV-LOCAL-01 a INV-ZEROCOPY-10) verificadas mediante pruebas automatizadas.
+- **PySide6 y shiboken6:** El inventario recoge términos LGPL-3.0-only; consulte el [texto LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html) y los [metadatos del componente](THIRD_PARTY_LICENSES.md). La licencia MIT del proyecto no se aplica de forma general a estas dependencias.
+- **Biblioteca estándar de Python:** [PSF-2.0](https://docs.python.org/3/license.html). Esta licencia no indica si el organizador o los programas que inicia funcionan sin conexión.
+- **PyInstaller:** [GPL-2.0-or-later con PyInstaller-exception](https://pyinstaller.org/en/stable/license.html) es una herramienta de compilación; para un paquete distribuido, consulte la licencia upstream y los avisos de distribución en vez de asumir una exención general.
+- **Límite de verificación:** Las pruebas cubren contratos concretos de código y documentación; no establecen garantías universales de tiempo de ejecución.
 
 ## Licencia
 
 [MIT](LICENSE)
 
-**Nota:** Esta aplicación utiliza [PySide6](https://doc.qt.io/qtforpython-6/), bajo licencia LGPLv3. PySide6 se vincula de forma dinámica.
+**Nota:** MIT es la licencia del código fuente del proyecto en este repositorio. La aplicación utiliza [PySide6](https://doc.qt.io/qtforpython-6/), que tiene condiciones de licencia propias; véase [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
 ---
 
