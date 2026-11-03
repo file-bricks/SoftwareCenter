@@ -14,7 +14,7 @@
 [![Fédération : open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![Prêt pour l’indexation LLM](https://img.shields.io/badge/LLM-Ready-blueviolet.svg)](llms.txt)
 
-[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md)
+[English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md)
 
 Un organiseur de bureau léger et multiplateforme pour gérer des raccourcis logiciels au moyen d’une classification par onglets.
 
