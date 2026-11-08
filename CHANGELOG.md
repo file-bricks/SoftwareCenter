@@ -16,6 +16,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
+### Documentation and localization
+- Add complete Bengali and Portuguese guides, completing the eleven World Set documentation languages with reciprocal navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete Arabic guide with reciprocal nine-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete Hindi guide with reciprocal eight-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete French guide with reciprocal seven-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete Russian guide, reciprocal six-language navigation and discovery indexing. Documentation languages and the existing six runtime UI languages remain distinct; no runtime or version change.
+- Add the complete Japanese README against the corrected source, with reciprocal five-language navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 are unchanged.
+- Correct EN/DE/ES/ZH source descriptions before further translations: describe confirmed profile replacement, user-controlled export fields, platform launch and network limits, QSettings persistence, product separation, actual CI scope, and separate dependency licenses. Replace unsupported competitor guarantees with project capabilities and limits; align discovery text and existing metadata checks. No runtime or version change.
+- Added the Simplified Chinese README (`README_zh.md`) and synchronized the EN/DE/ES language selectors and `llms.txt` index. The runtime UI language set remains six locales (`de`, `en`, `es`, `zh`, `ja`, `ru`).
+
 ### Fixed (Repo Hygiene, T-20260926-510472849)
 - Untracked `BEFUNDE.md`, `STORE_CONTRACT.md` (internal Store release/versioning bookkeeping) and `_WARTUNG/msix_staging/` (staged MSIX build output) -- all stay on disk locally (gitignored), nothing was deleted. `PRODUCT_BOUNDARIES.md`, `scripts/verify_product_boundaries.py` and `tests/test_store_contract.py` now cite/check `STORE_LISTING.md`/`WINDOWS_STORE_PREP.md`/`store_package.json` only.
 - `MARKETING-LOG.txt` and `RUNTIME_DAILY_CARE.md` were untracked in an earlier, over-eager pass on this branch and are restored here: `MARKETING-LOG.txt` is a deliberate public artifact (`pyproject.toml` project.url, a dedicated test); `RUNTIME_DAILY_CARE.md` is linked from README.md/README_de.md/README.es.md and is genuine migration/ops documentation, not agent scratch state.
