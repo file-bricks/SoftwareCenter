@@ -92,6 +92,100 @@ Utilities & Tools
 
 ---
 
+## Español (es-ES)
+
+### Título
+SoftwareCenter — Organizador y Lanzador Universal de Escritorio
+
+### Kurzbeschreibung / Descripción corta (max 100 caracteres)
+Capa organizadora de escritorio y lanzador para aplicaciones, documentos, carpetas y enlaces.
+
+### Descripción (max 10.000 caracteres)
+SoftwareCenter es un organizador de escritorio moderno y una capa de organización universal que va más allá de las limitaciones del sistema de archivos. En lugar de buscar en menús de inicio saturados o escritorios desordenados, organice sus aplicaciones, documentos, carpetas, scripts y enlaces web en tableros limpios y pestañas personalizables adaptadas a su flujo de trabajo.
+
+**Características principales:**
+- **Capa de organización universal:** Organice no solo programas ejecutables (EXEs), sino también documentos, carpetas de trabajo, scripts y enlaces web. Los archivos originales permanecen intactos en su ubicación física.
+- **Flujo de trabajo Drag & Drop:** Arrastre y suelte archivos, accesos directos y direcciones web directamente en el tablero sin configuraciones complejas.
+- **Modos de vista dual:** Cambie al instante entre una vista de cuadrícula con iconos nativos del sistema y una vista de lista compacta para grandes colecciones.
+- **Búsqueda rápida en vivo (Ctrl+F):** Filtrado instantáneo por nombre, ruta o notas personalizadas con navegación fluida por teclado.
+- **Accesibilidad integral (WCAG 2.1 AA):** Control completo por teclado y soporte para lectores de pantalla en todas las pestañas y diálogos.
+- **100% Local y Privado:** Sin telemetría ni conexión a la nube obligatoria; todas las configuraciones se guardan localmente en su equipo.
+
+### Palabras clave / Keywords
+Lanzador de apps, Organizador escritorio, Inicio rapido, Gestor de archivos, Productividad, Categorizacion, App de escritorio
+
+---
+
+## 简体中文 (zh-CN)
+
+### 标题
+SoftwareCenter — 通用桌面文件与应用启动管理中心
+
+### Kurzbeschreibung / 简短说明（最多 100 字符）
+通用桌面文件与应用管理启动器：支持程序、文档、文件夹及网络链接的分类与快速启动。
+
+### 详细说明（最多 10,000 字符）
+SoftwareCenter 是一款现代化、轻量级的桌面通用整理器与启动中心。它打破了传统文件系统层级结构的局限，帮助您将日常工作中频繁使用的应用程序、工作文档、项目文件夹、脚本及常用网页链接，按任务与项目整理到直观的分类画板与标签页中。
+
+**核心功能特性：**
+- **通用组织架构：** 不仅支持可执行程序，更可自由收纳文档、工作文件夹、开发脚本及网络书签，原文件位置保持不变。
+- **直观拖拽操作：** 直接将任意文件、快捷方式或 URL 拖放到对应面板，即刻完成收纳与整理。
+- **双重视图模式：** 支持大图标网格平铺视图与高密度紧凑列表视图的一键平滑切换。
+- **实时快速筛选 (Ctrl+F)：** 键盘输入即刻按名称、路径与自定义备注高速定位目标，支持键盘回车直达启动。
+- **无障碍访问标准 (WCAG 2.1 AA)：** 完整支持纯键盘操作与屏幕阅读器无障碍提示。
+- **100% 本地离线安全：** 零遥测跟踪，无强制云端同步依赖，配置文件始终保存在本地磁盘。
+
+### 搜索关键词 / Keywords
+应用启动器, 桌面整理, 快速启动, 文件管理, 工作效率, 分类管理, 桌面应用
+
+---
+
+## 日本語 (ja-JP)
+
+### タイトル
+SoftwareCenter — デスクトップ整理レイヤー＆高速ランチャー
+
+### Kurzbeschreibung / 簡単な説明（最大 100 文字）
+デスクトップ整理レイヤー＆ランチャー：アプリ、文書、フォルダ、リンクの分類と起動。
+
+### 詳細説明（最大 10,000 文字）
+SoftwareCenter は、ファイルシステムの制約を超えた汎用デスクトップ整理ツール兼ランチャーです。複雑なスタートメニューや散らかったデスクトップから解放され、日常業務で使用するアプリケーション、ドキュメント、プロジェクトフォルダ、スクリプト、Webリンクを、直感的なタブ別ボードにスマートに整理できます。
+
+**主な機能：**
+- **汎用整理レイヤー：** 実行プログラムだけでなく、各種ドキュメント、作業フォルダ、URLも自在に配置。実ファイルは元の場所に保持されます。
+- **ドラッグ＆ドロップ対応：** ファイルやショートカットを画面上にドラッグするだけで即座に登録。面倒な設定は不要です。
+- **デュアル表示モード：** 視認性の高い大アイコンタイル表示と、情報密度の高い一覧リスト表示をワンクリック切替。
+- **リアルタイム検索 (Ctrl+F)：** 名称、ファイルパス、メモによる即時インクリメンタル検索とキーボード操作。
+- **アクセシビリティ対応 (WCAG 2.1 AA)：** 完全なキーボードナビゲーションとスクリーンリーダー配慮設計。
+- **100% ローカル完結＆プライバシー保護：** テレメトリ送信や外部通信なし。設定データはローカルにのみ保存。
+
+### 検索キーワード / Keywords
+アプリランチャー, デスクトップ整理, クイック起動, ファイル管理, 生産性向上, カテゴリ管理, デスクトップアプリ
+
+---
+
+## Русский (ru-RU)
+
+### Название
+SoftwareCenter — Универсальный органайзер рабочего стола и лаунчер
+
+### Kurzbeschreibung / Краткое описание (макс. 100 символов)
+Универсальный органайзер рабочего стола и лаунчер для приложений, документов, папок и ссылок.
+
+### Подробное описание (макс. 10 000 символов)
+SoftwareCenter — это современный органайзер рабочего стола и надфайловый слой упорядочивания данных. Вместо поиска по перегруженному меню «Пуск» или захламленному рабочему столу распределяйте нужные приложения, рабочие документы, каталоги проектов, скрипты и веб-ссылки по наглядным вкладкам и доскам.
+
+**Основные возможности:**
+- **Универсальный органайзер:** Свободная группировка не только программ, но и документов, папок, скриптов и ссылок без изменения их исходного расположения.
+- **Интуитивный Drag & Drop:** Добавление любых файлов, ярлыков и URL простым перетаскиванием на доску.
+- **Два режима отображения:** Мгновенное переключение между крупными плитками с системными иконками и компактным списком.
+- **Быстрый поиск (Ctrl+F):** Мгновенная фильтрация по названию, пути или заметкам с удобной навигацией клавишами.
+- **Доступность (WCAG 2.1 AA):** Полная поддержка управления с клавиатуры и совместимость с экранными дикторами.
+- **100% Локально и безопасно:** Никакой телеметрии и привязки к облаку — все профили хранятся строго на вашем ПК.
+
+### Ключевые слова / Keywords
+Лаунчер приложений, Органайзер рабочего стола, Быстрый запуск, Файловый менеджер, Продуктивность, Категоризация, Десктопное приложение
+
 ## Store Submission Metadata
 
 ### Readback-Status 2026-08-25

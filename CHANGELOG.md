@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-11-08 (Tier-2 6-Sprachen Windows Store Packaging & Preflight-Linter / TW-SC-15)
+
+### Windows Store Packaging & Policy P-006 Tier-2 Harmonization
+- Store Package Metadata: Upgraded `store_package.json` and `store_settings.json` with all 6 target languages (`de-DE`, `en-US`, `es-ES`, `zh-CN`, `ja-JP`, `ru-RU`), policy-compliant short descriptions (`<= 100` characters), and exactly 7 keywords per language (`<= 30` characters, zero third-party trademarks) per Microsoft Partner Center Policy 10.1.3; pinned Store ID `9NHZN7S3FD5F` and identity `Geiger.SoftwareCenter`.
+- Multilingual Staging Directory: Created canonical `releases/windowsstore/` staging directory containing `BUILD.md` (build, package, sign and WACK instructions), `WACK_PROTOCOL.md` (metadata & verification matrix), `store_settings.json`, `StoreLogo.png` (50x50), and all 6 localized staging listings (`store_listing_de.md`, `store_listing_en.md`, `store_listing_es.md`, `store_listing_zh.md`, `store_listing_ja.md`, `store_listing_ru.md`).
+- Store Listing Harmonization: Expanded `STORE_LISTING.md` with dedicated, comprehensive sections for Español, 简体中文, 日本語, and Русский, complementing existing Deutsch and English listings.
+- AppxManifest Multi-Language Resources: Updated `store_package/SoftwareCenter/AppxManifest.xml` `<Resources>` to include all 6 language declarations (`de-DE`, `en-US`, `es-ES`, `zh-CN`, `ja-JP`, `ru-RU`).
+- Automated Store Readiness Linter: Implemented `scripts/check_store_readiness.py` with 50+ automated preflight checks across metadata, character limits, manifest resources, store assets, documentation, and translation parity (`STORE READINESS CHECK PASSED, 0 findings`).
+- Translation Management CLI Hardening: Hardened `manage_translations.py` with CWD-independent path resolution via `resolve_translation_file()` (148 translation keys with 100% 6-language parity).
+- Automated Contract Tests: Expanded `tests/test_store_materials.py` to 7 automated contract tests; overall test suite passes 277 tests, 5 skipped (100% green).
+- Version Preservation: Release version `1.2.0` / Store `1.2.0.0` strictly frozen per T-20260920-167562623.
+
 ## [Unreleased] - 2026-09-23 (Pfad A: Technical Hygiene, CI Lifecycle & Lock Defense)
 
 ### Fixed (Repo Hygiene, T-20260926-510472849)

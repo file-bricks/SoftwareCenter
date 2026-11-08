@@ -4,11 +4,83 @@
   "publisher_display": "Geiger",
   "identity_name": "Geiger.SoftwareCenter",
   "version": "1.2.0.0",
+  "store_id": "9NHZN7S3FD5F",
   "description": "Desktop-App-Organizer und Launcher. Kategorisierung, Schnellstart, Übersicht installierter Software.",
+  "description_de": "Universeller Desktop-Ordnungslayer und Launcher für Apps, Dokumente, Ordner und Links.",
+  "description_en": "Universal desktop organization layer and launcher for apps, documents, folders, and links.",
+  "description_es": "Capa organizadora de escritorio y lanzador para aplicaciones, documentos, carpetas y enlaces.",
+  "description_zh": "通用桌面文件与应用管理启动器：支持程序、文档、文件夹及网络链接的分类与快速启动。",
+  "description_ja": "デスクトップ整理レイヤー＆ランチャー：アプリ、文書、フォルダ、リンクの分類と起動。",
+  "description_ru": "Универсальный органайзер рабочего стола и лаунчер для приложений, документов, папок и ссылок.",
+  "keywords_de": [
+    "App-Launcher",
+    "Desktop-Organizer",
+    "Schnellstart",
+    "Dateimanager",
+    "Produktivitaet",
+    "Kategorisierung",
+    "Desktop-App"
+  ],
+  "keywords_en": [
+    "App Launcher",
+    "Desktop Organizer",
+    "Quick Launch",
+    "File Manager",
+    "Productivity",
+    "Categorization",
+    "Desktop App"
+  ],
+  "keywords_es": [
+    "Lanzador de apps",
+    "Organizador escritorio",
+    "Inicio rapido",
+    "Gestor de archivos",
+    "Productividad",
+    "Categorizacion",
+    "App de escritorio"
+  ],
+  "keywords_zh": [
+    "应用启动器",
+    "桌面整理",
+    "快速启动",
+    "文件管理",
+    "工作效率",
+    "分类管理",
+    "桌面应用"
+  ],
+  "keywords_ja": [
+    "アプリランチャー",
+    "デスクトップ整理",
+    "クイック起動",
+    "ファイル管理",
+    "生産性向上",
+    "カテゴリ管理",
+    "デスクトップアプリ"
+  ],
+  "keywords_ru": [
+    "Лаунчер приложений",
+    "Органайзер рабочего стола",
+    "Быстрый запуск",
+    "Файловый менеджер",
+    "Продуктивность",
+    "Категоризация",
+    "Десктопное приложение"
+  ],
   "executable": "SoftwareCenter.exe",
   "capabilities": "runFullTrust",
   "category": "Utilities & Tools",
   "age_rating": "3+",
   "privacy_url": "https://github.com/file-bricks/SoftwareCenter/blob/master/PRIVACY_POLICY.md",
-  "support_url": "https://github.com/file-bricks/SoftwareCenter/issues"
+  "support_url": "https://github.com/file-bricks/SoftwareCenter/issues",
+  "license": "MIT",
+  "pricing": "Free",
+  "languages": [
+    "de-DE",
+    "en-US",
+    "es-ES",
+    "zh-CN",
+    "ja-JP",
+    "ru-RU"
+  ],
+  "logo": "store_assets/StoreLogo.png"
 }

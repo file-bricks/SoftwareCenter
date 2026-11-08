@@ -82,6 +82,29 @@ def find_german_strings(source_dir: str | Path) -> set[str]:
     return german_strings
 
 
+def resolve_translation_file(source_dir: str | Path | None = None) -> tuple[Path, Path]:
+    """Löst die translations.json CWD-unabhängig und deterministisch auf."""
+    script_dir = Path(__file__).resolve().parent
+    if source_dir and str(source_dir) != ".":
+        candidate = Path(source_dir)
+        if candidate.is_file():
+            return candidate.parent, candidate
+        candidate_file = candidate / TRANSLATION_FILE
+        if candidate_file.is_file():
+            return candidate, candidate_file
+
+    script_file = script_dir / TRANSLATION_FILE
+    if script_file.is_file():
+        return script_dir, script_file
+
+    cwd = Path.cwd()
+    cwd_file = cwd / TRANSLATION_FILE
+    if cwd_file.is_file():
+        return cwd, cwd_file
+
+    return script_dir, script_file
+
+
 def manage_translations(
     source_dir: str | Path = ".",
     check_mode: bool = False,
@@ -92,8 +115,7 @@ def manage_translations(
     Returns:
         0 bei Erfolg, 1 bei Fehlern (z.B. fehlende Übersetzungen im check-Modus).
     """
-    root_path = Path(source_dir)
-    trans_file = root_path / TRANSLATION_FILE
+    root_path, trans_file = resolve_translation_file(source_dir)
 
     translations: dict[str, dict[str, str]] = {}
     if trans_file.exists():
