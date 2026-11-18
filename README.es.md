@@ -225,7 +225,7 @@ pip install -r requirements.txt
 python SoftwareCenter.py
 ```
 
-En Windows, también puede utilizar `START.bat` o el ejecutable precompilado `SoftwareCenter.exe` desde [Releases](https://github.com/file-bricks/SoftwareCenter/releases).
+En Windows, también puede utilizar `START.bat`. Para compilar un ejecutable local, también está disponible `build_exe.bat`.
 
 ## Uso
 

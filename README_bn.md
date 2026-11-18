@@ -236,7 +236,7 @@ pip install -r requirements.txt
 python SoftwareCenter.py
 ```
 
-Windows-এ [Releases](https://github.com/file-bricks/SoftwareCenter/releases) থেকে আগে তৈরি `SoftwareCenter.exe` অথবা `START.bat` ব্যবহার করতে পারেন।
+Windows-এ আপনি `START.bat`-ও ব্যবহার করতে পারেন। স্থানীয়ভাবে এক্সিকিউটেবল তৈরি করতে `build_exe.bat`-ও রয়েছে।
 
 <a id="usage"></a>
 ## ব্যবহার

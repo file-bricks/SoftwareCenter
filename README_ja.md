@@ -238,7 +238,7 @@ pip install -r requirements.txt
 python SoftwareCenter.py
 ```
 
-Windows では `START.bat`、または [リリース](https://github.com/file-bricks/SoftwareCenter/releases) から入手できるビルド済み `SoftwareCenter.exe` も利用できます。
+Windows では `START.bat` も利用できます。ローカルで実行ファイルをビルドするための `build_exe.bat` も用意されています。
 
 <a id="usage"></a>
 ## 使い方
