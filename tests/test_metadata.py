@@ -10,6 +10,20 @@ except ModuleNotFoundError:
 
 ROOT = Path(__file__).resolve().parents[1]
 
+ALL_READMES = (
+    "README.md",
+    "README_de.md",
+    "README.es.md",
+    "README_ar.md",
+    "README_bn.md",
+    "README_fr.md",
+    "README_hi.md",
+    "README_ja.md",
+    "README_pt.md",
+    "README_ru.md",
+    "README_zh.md",
+)
+
 
 def test_readme_files_exist_and_language_switch():
     readme_en = ROOT / "README.md"
@@ -318,14 +332,11 @@ def test_target_personas_present_in_all_readmes():
 
 
 def test_capability_boundaries_present_in_all_readmes():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    for text in [text_en, text_de, text_es]:
-        assert "QSettings" in text
-        assert "softwarecenter-profile-v1.json" in text
-        assert "CI_CONTRACT.md" in text
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        assert "QSettings" in text, f"Missing QSettings in {filename}"
+        assert "softwarecenter-profile-v1.json" in text, f"Missing profile schema in {filename}"
+        assert "CI_CONTRACT.md" in text, f"Missing CI_CONTRACT.md in {filename}"
 
 
 def test_third_party_licenses_md_contract_and_invariants():
@@ -356,12 +367,11 @@ def test_third_party_licenses_md_contract_and_invariants():
 
 
 def test_third_party_licenses_referenced_in_all_readmes():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    for text in [text_en, text_de, text_es]:
-        assert "[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)" in text
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        assert "[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)" in text, (
+            f"Missing THIRD_PARTY_LICENSES.md link in {filename}"
+        )
 
 
 def test_git_hygiene_no_sync_conflicts():
@@ -391,11 +401,9 @@ def test_notice_attribution_contract():
 
 
 def test_notice_referenced_in_readmes_and_pyproject():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-    for text in [text_en, text_de, text_es]:
-        assert "(NOTICE)" in text
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        assert "(NOTICE)" in text, f"Missing NOTICE reference in {filename}"
 
     pyproject_file = ROOT / "pyproject.toml"
     assert pyproject_file.exists(), "pyproject.toml must exist"
