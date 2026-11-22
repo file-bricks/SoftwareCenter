@@ -25,42 +25,32 @@ ALL_READMES = (
 )
 
 
+LANGUAGE_SWITCH_LINKS = (
+    "[English](README.md)",
+    "[Deutsch](README_de.md)",
+    "[Español](README.es.md)",
+    "[简体中文](README_zh.md)",
+    "[日本語](README_ja.md)",
+    "[Русский](README_ru.md)",
+    "[Français](README_fr.md)",
+    "[हिन्दी](README_hi.md)",
+    "[العربية](README_ar.md)",
+    "[বাংলা](README_bn.md)",
+    "[Português](README_pt.md)",
+)
+
+
 def test_readme_files_exist_and_language_switch():
-    readme_en = ROOT / "README.md"
-    readme_de = ROOT / "README_de.md"
-    readme_es = ROOT / "README.es.md"
-
-    assert readme_en.exists(), "README.md must exist"
-    assert readme_de.exists(), "README_de.md must exist"
-    assert readme_es.exists(), "README.es.md must exist"
-
-    text_en = readme_en.read_text(encoding="utf-8")
-    text_de = readme_de.read_text(encoding="utf-8")
-    text_es = readme_es.read_text(encoding="utf-8")
-
-    assert "[English](README.md)" in text_en
-    assert "[Deutsch](README_de.md)" in text_en
-    assert "[Español](README.es.md)" in text_en
-    assert "[English](README.md)" in text_de
-    assert "[Deutsch](README_de.md)" in text_de
-    assert "[Español](README.es.md)" in text_de
-    assert "[English](README.md)" in text_es
-    assert "[Deutsch](README_de.md)" in text_es
-    assert "[Español](README.es.md)" in text_es
+    for filename in ALL_READMES:
+        readme = ROOT / filename
+        assert readme.exists(), f"{filename} must exist"
+        text = readme.read_text(encoding="utf-8")
+        for link in LANGUAGE_SWITCH_LINKS:
+            assert link in text, f"Missing language link {link} in {filename}"
 
 
 def test_readme_quick_navigation_anchors():
-    readme_en = ROOT / "README.md"
-    readme_de = ROOT / "README_de.md"
-
-    text_en = readme_en.read_text(encoding="utf-8")
-    text_de = readme_de.read_text(encoding="utf-8")
-
-    assert "## Quick Navigation" in text_en
-    assert "## Schnellnavigation" in text_de
-
-    # Verify key sections exist in English
-    for anchor in [
+    english_anchors = [
         "#quick-reference",
         "#features",
         "#target-personas--discoverability",
@@ -79,10 +69,27 @@ def test_readme_quick_navigation_anchors():
         "#security-policy",
         "#third-party-licenses--governance",
         "#license",
-    ]:
-        assert f"({anchor})" in text_en, f"Missing anchor {anchor} in README.md"
+    ]
+
+    for filename in (
+        "README.md",
+        "README_ar.md",
+        "README_bn.md",
+        "README_fr.md",
+        "README_hi.md",
+        "README_ja.md",
+        "README_pt.md",
+        "README_ru.md",
+    ):
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        for anchor in english_anchors:
+            assert f"({anchor})" in text, f"Missing anchor {anchor} in {filename}"
+
+    assert "## Quick Navigation" in (ROOT / "README.md").read_text(encoding="utf-8")
 
     # Verify key sections exist in German
+    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    assert "## Schnellnavigation" in text_de
     for anchor in [
         "#einstieg",
         "#funktionen",
@@ -106,8 +113,7 @@ def test_readme_quick_navigation_anchors():
         assert f"({anchor})" in text_de, f"Missing anchor {anchor} in README_de.md"
 
     # Verify key sections exist in Spanish
-    readme_es = ROOT / "README.es.md"
-    text_es = readme_es.read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
     assert "## Navegación rápida" in text_es
     for anchor in [
         "#referencia-rápida",
@@ -130,6 +136,31 @@ def test_readme_quick_navigation_anchors():
         "#licencia",
     ]:
         assert f"({anchor})" in text_es, f"Missing anchor {anchor} in README.es.md"
+
+    # Verify key sections exist in Simplified Chinese
+    text_zh = (ROOT / "README_zh.md").read_text(encoding="utf-8")
+    assert "## 快速导航" in text_zh or "## 快速参考" in text_zh
+    for anchor in [
+        "#快速参考",
+        "#功能",
+        "#目标用户与搜索发现",
+        "#与替代方案的对比矩阵",
+        "#系统架构",
+        "#生命周期顺序流程",
+        "#核心能力与安全不变量",
+        "#关联生态与姐妹产品",
+        "#搜索发现背景",
+        "#系统要求",
+        "#安装",
+        "#运行",
+        "#使用",
+        "#构建可执行文件",
+        "#质量检查",
+        "#安全策略",
+        "#第三方许可证与治理",
+        "#许可证",
+    ]:
+        assert f"({anchor})" in text_zh, f"Missing anchor {anchor} in README_zh.md"
 
 
 def test_readme_contains_mermaid_diagrams():
