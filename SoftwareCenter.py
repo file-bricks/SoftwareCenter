@@ -1040,26 +1040,26 @@ class SoftwareListWidget(QListWidget):
         has_selection = bool(selected)
 
         menu = QMenu(self)
-        act_open = menu.addAction("Öffnen/Starten")
+        act_open = menu.addAction(t("Öffnen/Starten"))
         act_open.setEnabled(has_selection)
 
         selected_path = str(selected[0].data(Qt.ItemDataRole.UserRole)) if len(selected) == 1 else None
         act_show_fm = menu.addAction(get_file_manager_action_title(selected_path))
         act_show_fm.setEnabled(has_selection)
 
-        act_copy_path = menu.addAction("Pfad kopieren")
+        act_copy_path = menu.addAction(t("Pfad kopieren"))
         act_copy_path.setEnabled(has_selection)
 
         act_edit = None
         if len(selected) == 1:
-            act_edit = menu.addAction("Eintrag bearbeiten...")
+            act_edit = menu.addAction(t("Eintrag bearbeiten..."))
 
         menu.addSeparator()
-        act_sort = menu.addAction("Alphabetisch sortieren (A-Z)")
+        act_sort = menu.addAction(t("Alphabetisch sortieren (A-Z)"))
         act_sort.setEnabled(self.count() > 1)
 
         menu.addSeparator()
-        act_del = menu.addAction("Löschen")
+        act_del = menu.addAction(t("Löschen"))
         act_del.setEnabled(has_selection)
 
         # "Senden an" (verschieben) / "Duplizieren auf" (kopieren) nur anbieten,
@@ -1069,8 +1069,8 @@ class SoftwareListWidget(QListWidget):
         boards = self.board_provider() if callable(self.board_provider) else []
         if has_selection and boards:
             menu.addSeparator()
-            move_menu = menu.addMenu("Senden an")
-            copy_menu = menu.addMenu("Duplizieren auf")
+            move_menu = menu.addMenu(t("Senden an"))
+            copy_menu = menu.addMenu(t("Duplizieren auf"))
             for index, name in boards:
                 move_actions[move_menu.addAction(name)] = index
                 copy_actions[copy_menu.addAction(name)] = index

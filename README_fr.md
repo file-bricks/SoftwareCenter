@@ -246,7 +246,7 @@ Sous Windows, vous pouvez aussi utiliser `START.bat`. Pour compiler un exécutab
 | Ajouter des programmes | Faites glisser dans la fenêtre des fichiers, dossiers, raccourcis, bundles `.app` sous macOS ou lanceurs `.desktop` sous Linux ; les fichiers Windows `.lnk` pointant vers des fichiers `.exe` ou des dossiers sont résolus vers leur cible d’origine |
 | Organiser les onglets | Barre d’outils > "New Tab", double-cliquez pour renommer |
 | Changer de vue | Barre d’outils > Tiles / List |
-| Lancer un programme | Double-clic ou clic droit > Open/Start |
+| Lancer un programme | Double-clic ou clic droit > Open/Launch |
 | Supprimer des entrées | Clic droit > Delete (supprime uniquement le raccourci) |
 | Exporter un profil | `File > Export Profile` ou l’action de la barre d’outils |
 | Importer un profil | `File > Import Profile` ou l’action de la barre d’outils ; remplace le profil actuel |

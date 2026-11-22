@@ -246,7 +246,7 @@ No Windows, você também pode usar `START.bat`. Para compilar um executável lo
 | Adicionar programas | Arraste arquivos, pastas, atalhos, pacotes `.app` no macOS ou inicializadores `.desktop` no Linux para a janela; arquivos Windows `.lnk` que apontam para arquivos `.exe` ou pastas são resolvidos para o destino original |
 | Organizar abas | Toolbar > "New Tab"; dê um clique duplo para renomear |
 | Alternar visualização | Toolbar > Tiles / List |
-| Iniciar programas | Clique duplo ou clique com o botão direito > Open/Start |
+| Iniciar programas | Clique duplo ou clique com o botão direito > Open/Launch |
 | Remover entradas | Clique com o botão direito > Delete (remove somente o atalho) |
 | Exportar perfil | `File > Export Profile` ou a ação da barra de ferramentas |
 | Importar perfil | `File > Import Profile` ou a ação da barra de ferramentas; substitui o perfil atual |

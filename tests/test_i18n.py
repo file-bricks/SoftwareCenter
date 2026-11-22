@@ -228,3 +228,57 @@ def test_mainwindow_language_persists_in_settings(tmp_path):
     finally:
         win2.close()
 
+
+def test_context_menu_translates_with_active_language(tmp_path):
+    import os
+    from unittest.mock import patch
+
+    from PySide6.QtCore import QPoint
+    from PySide6.QtWidgets import QApplication
+
+    import SoftwareCenter as sc
+
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+    _ = QApplication.instance() or QApplication([])
+
+    f = tmp_path / "app.exe"
+    f.write_text("dummy", encoding="utf-8")
+
+    widget = sc.SoftwareListWidget()
+    widget.board_provider = lambda: [(1, "Board 2")]
+    widget.add_paths([str(f)])
+    widget.item(0).setSelected(True)
+
+    tr = get_translator()
+    original_lang = tr.get_language()
+
+    expected_by_lang = {
+        "de": ("Öffnen/Starten", "Pfad kopieren", "Eintrag bearbeiten...", "Alphabetisch sortieren (A-Z)", "Löschen", "Senden an", "Duplizieren auf"),
+        "en": ("Open/Launch", "Copy path", "Edit entry...", "Sort alphabetically (A-Z)", "Delete", "Send to", "Duplicate to"),
+        "es": ("Abrir/Iniciar", "Copiar ruta", "Editar entrada...", "Ordenar alfabéticamente (A-Z)", "Eliminar", "Enviar a", "Duplicar en"),
+        "ja": ("開く/起動", "パスをコピー", "エントリを編集...", "アルファベット順に並べ替え (A-Z)", "削除", "送信先", "次に複製"),
+        "ru": ("Открыть/Запустить", "Копировать путь", "Редактировать запись...", "Сортировать по алфавиту (А-Я)", "Удалить", "Отправить в", "Дублировать в"),
+        "zh": ("打开/启动", "复制路径", "编辑条目...", "按字母排序 (A-Z)", "删除", "发送到", "复制到"),
+    }
+
+    try:
+        for lang, expected_labels in expected_by_lang.items():
+            tr.set_language(lang)
+            captured = []
+
+            def intercept_exec(menu_self, pos=None, target=captured):
+                for act in menu_self.actions():
+                    if not act.isSeparator():
+                        target.append(act.text())
+                return None
+
+            with patch.object(sc.SoftwareListWidget, "_exec_context_menu", side_effect=intercept_exec):
+                widget._on_context_menu(QPoint(10, 10))
+
+            for label in expected_labels:
+                assert label in captured, f"{label!r} missing in {lang} context menu: {captured}"
+    finally:
+        tr.set_language(original_lang)
+        widget.close()
+
+

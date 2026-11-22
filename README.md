@@ -235,7 +235,7 @@ On Windows, you can also use `START.bat`. For building a local executable, `buil
 | Add programs | Drag files, folders, shortcuts, `.app` bundles on macOS, or `.desktop` launchers on Linux into the window; Windows `.lnk` files pointing to `.exe` files or folders are resolved to the original target |
 | Organize tabs | Toolbar > "New Tab", double-click to rename |
 | Switch view | Toolbar > Tiles / List |
-| Launch programs | Double-click or right-click > Open/Start |
+| Launch programs | Double-click or right-click > Open/Launch |
 | Remove entries | Right-click > Delete (removes shortcut only) |
 | Export profile | `File > Export Profile` or the toolbar action |
 | Import profile | `File > Import Profile` or the toolbar action; replaces the current profile |
