@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-11-22 (Eleven-Language World Set Documentation & Metadata Parity)
+
+### Documentation and localization
+- Add complete Bengali and Portuguese guides, completing the eleven World Set documentation languages with reciprocal navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete Arabic guide with reciprocal nine-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete Hindi guide with reciprocal eight-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete French guide with reciprocal seven-language documentation navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 unchanged.
+- Add the complete Russian guide, reciprocal six-language navigation and discovery indexing. Documentation languages and the existing six runtime UI languages remain distinct; no runtime or version change.
+- Add the complete Japanese README against the corrected source, with reciprocal five-language navigation and discovery indexing. Runtime UI remains six locales; runtime and version1.2.0 are unchanged.
+- Correct EN/DE/ES/ZH source descriptions before further translations: describe confirmed profile replacement, user-controlled export fields, platform launch and network limits, QSettings persistence, product separation, actual CI scope, and separate dependency licenses. Replace unsupported competitor guarantees with project capabilities and limits; align discovery text and existing metadata checks. No runtime or version change.
+- Added the Simplified Chinese README (`README_zh.md`) and synchronized the EN/DE/ES language selectors and `llms.txt` index. The runtime UI language set remains six locales (`de`, `en`, `es`, `zh`, `ja`, `ru`).
+
 ## [Unreleased] - 2026-11-08 (Tier-2 6-Sprachen Windows Store Packaging & Preflight-Linter / TW-SC-15)
 
 ### Windows Store Packaging & Policy P-006 Tier-2 Harmonization

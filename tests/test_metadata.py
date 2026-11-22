@@ -1,6 +1,7 @@
 """Contract test suite certifying discoverability, metadata, documentation parity, and security invariants for SoftwareCenter."""
 
 import re
+import unicodedata
 from pathlib import Path
 
 try:
@@ -10,43 +11,60 @@ except ModuleNotFoundError:
 
 ROOT = Path(__file__).resolve().parents[1]
 
+ALL_READMES = (
+    "README.md",
+    "README_de.md",
+    "README.es.md",
+    "README_ar.md",
+    "README_bn.md",
+    "README_fr.md",
+    "README_hi.md",
+    "README_ja.md",
+    "README_pt.md",
+    "README_ru.md",
+    "README_zh.md",
+)
+
+
+LANGUAGE_SWITCH_LINKS = (
+    "[English](README.md)",
+    "[Deutsch](README_de.md)",
+    "[Español](README.es.md)",
+    "[简体中文](README_zh.md)",
+    "[日本語](README_ja.md)",
+    "[Русский](README_ru.md)",
+    "[Français](README_fr.md)",
+    "[हिन्दी](README_hi.md)",
+    "[العربية](README_ar.md)",
+    "[বাংলা](README_bn.md)",
+    "[Português](README_pt.md)",
+)
+
 
 def test_readme_files_exist_and_language_switch():
-    readme_en = ROOT / "README.md"
-    readme_de = ROOT / "README_de.md"
-    readme_es = ROOT / "README.es.md"
+    for filename in ALL_READMES:
+        readme = ROOT / filename
+        assert readme.exists(), f"{filename} must exist"
+        text = readme.read_text(encoding="utf-8")
+        for link in LANGUAGE_SWITCH_LINKS:
+            assert link in text, f"Missing language link {link} in {filename}"
 
-    assert readme_en.exists(), "README.md must exist"
-    assert readme_de.exists(), "README_de.md must exist"
-    assert readme_es.exists(), "README.es.md must exist"
 
-    text_en = readme_en.read_text(encoding="utf-8")
-    text_de = readme_de.read_text(encoding="utf-8")
-    text_es = readme_es.read_text(encoding="utf-8")
-
-    assert "[English](README.md)" in text_en
-    assert "[Deutsch](README_de.md)" in text_en
-    assert "[Español](README.es.md)" in text_en
-    assert "[English](README.md)" in text_de
-    assert "[Deutsch](README_de.md)" in text_de
-    assert "[Español](README.es.md)" in text_de
-    assert "[English](README.md)" in text_es
-    assert "[Deutsch](README_de.md)" in text_es
-    assert "[Español](README.es.md)" in text_es
+def _gh_heading_slug(heading: str) -> str:
+    s = heading.strip().lower()
+    s = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", s)
+    s = s.replace("`", "")
+    out = []
+    for ch in s:
+        if ch == " ":
+            out.append("-")
+        elif ch in ("-", "_") or unicodedata.category(ch)[0] in ("L", "N", "M"):
+            out.append(ch)
+    return "".join(out)
 
 
 def test_readme_quick_navigation_anchors():
-    readme_en = ROOT / "README.md"
-    readme_de = ROOT / "README_de.md"
-
-    text_en = readme_en.read_text(encoding="utf-8")
-    text_de = readme_de.read_text(encoding="utf-8")
-
-    assert "## Quick Navigation" in text_en
-    assert "## Schnellnavigation" in text_de
-
-    # Verify key sections exist in English
-    for anchor in [
+    english_anchors = [
         "#quick-reference",
         "#features",
         "#target-personas--discoverability",
@@ -65,10 +83,37 @@ def test_readme_quick_navigation_anchors():
         "#security-policy",
         "#third-party-licenses--governance",
         "#license",
-    ]:
-        assert f"({anchor})" in text_en, f"Missing anchor {anchor} in README.md"
+    ]
+
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        links = set(re.findall(r"\(#([^)]+)\)", text))
+        assert links, f"Expected navigation anchor links in {filename}"
+        ids = set(re.findall(r"""<a\s+id=["']([^"']+)["']""", text))
+        slugs = {_gh_heading_slug(h) for h in re.findall(r"^#{1,6}\s+(.+)$", text, re.M)}
+        targets = ids | slugs
+        missing_targets = sorted(links - targets)
+        assert not missing_targets, f"Unresolved anchor targets in {filename}: {missing_targets}"
+
+    for filename in (
+        "README.md",
+        "README_ar.md",
+        "README_bn.md",
+        "README_fr.md",
+        "README_hi.md",
+        "README_ja.md",
+        "README_pt.md",
+        "README_ru.md",
+    ):
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        for anchor in english_anchors:
+            assert f"({anchor})" in text, f"Missing anchor {anchor} in {filename}"
+
+    assert "## Quick Navigation" in (ROOT / "README.md").read_text(encoding="utf-8")
 
     # Verify key sections exist in German
+    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
+    assert "## Schnellnavigation" in text_de
     for anchor in [
         "#einstieg",
         "#funktionen",
@@ -92,8 +137,7 @@ def test_readme_quick_navigation_anchors():
         assert f"({anchor})" in text_de, f"Missing anchor {anchor} in README_de.md"
 
     # Verify key sections exist in Spanish
-    readme_es = ROOT / "README.es.md"
-    text_es = readme_es.read_text(encoding="utf-8")
+    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
     assert "## Navegación rápida" in text_es
     for anchor in [
         "#referencia-rápida",
@@ -117,20 +161,37 @@ def test_readme_quick_navigation_anchors():
     ]:
         assert f"({anchor})" in text_es, f"Missing anchor {anchor} in README.es.md"
 
+    # Verify key sections exist in Simplified Chinese
+    text_zh = (ROOT / "README_zh.md").read_text(encoding="utf-8")
+    assert "## 快速导航" in text_zh or "## 快速参考" in text_zh
+    for anchor in [
+        "#快速参考",
+        "#功能",
+        "#目标用户与搜索发现",
+        "#与替代方案的对比矩阵",
+        "#系统架构",
+        "#生命周期顺序流程",
+        "#核心能力与安全不变量",
+        "#关联生态与姐妹产品",
+        "#搜索发现背景",
+        "#系统要求",
+        "#安装",
+        "#运行",
+        "#使用",
+        "#构建可执行文件",
+        "#质量检查",
+        "#安全策略",
+        "#第三方许可证与治理",
+        "#许可证",
+    ]:
+        assert f"({anchor})" in text_zh, f"Missing anchor {anchor} in README_zh.md"
+
 
 def test_readme_contains_mermaid_diagrams():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    assert "```mermaid\ngraph TD" in text_en
-    assert "```mermaid\nsequenceDiagram" in text_en
-
-    assert "```mermaid\ngraph TD" in text_de
-    assert "```mermaid\nsequenceDiagram" in text_de
-
-    assert "```mermaid\ngraph TD" in text_es
-    assert "```mermaid\nsequenceDiagram" in text_es
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        assert "```mermaid\ngraph TD" in text, f"Missing graph TD diagram in {filename}"
+        assert "```mermaid\nsequenceDiagram" in text, f"Missing sequenceDiagram in {filename}"
 
 
 def test_readme_badges_parity_and_test_count():
@@ -221,11 +282,7 @@ def test_pyproject_pep621_metadata_and_urls():
 
 
 def test_sibling_ecosystem_table_links():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    for sibling in [
+    siblings = [
         "https://github.com/file-bricks/ProFiler",
         "https://github.com/file-bricks/ExplorerPro",
         "https://github.com/file-bricks/CloudLockFixer",
@@ -236,10 +293,11 @@ def test_sibling_ecosystem_table_links():
         "https://github.com/dev-bricks/MethodenAnalyser",
         "https://github.com/ellmos-ai/connectors",
         "https://github.com/open-bricks",
-    ]:
-        assert sibling in text_en, f"Missing sibling {sibling} in README.md"
-        assert sibling in text_de, f"Missing sibling {sibling} in README_de.md"
-        assert sibling in text_es, f"Missing sibling {sibling} in README.es.md"
+    ]
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        for sibling in siblings:
+            assert sibling in text, f"Missing sibling {sibling} in {filename}"
 
 
 def test_llms_txt_structure_and_timestamp():
@@ -308,24 +366,90 @@ def test_marketing_log_contract_and_invariants():
 
 
 def test_target_personas_present_in_all_readmes():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
+    expected_markers = {
+        "README.md": ("Persona 1:", "Persona 2:", "Persona 3:", "Persona 4:"),
+        "README_de.md": ("Persona 1:", "Persona 2:", "Persona 3:", "Persona 4:"),
+        "README.es.md": ("Persona 1:", "Persona 2:", "Persona 3:", "Persona 4:"),
+        "README_ar.md": ("**الفئة 1:", "**الفئة 2:", "**الفئة 3:", "**الفئة 4:"),
+        "README_bn.md": ("**গোষ্ঠী 1:", "**গোষ্ঠী 2:", "**গোষ্ঠী 3:", "**গোষ্ঠী 4:"),
+        "README_fr.md": ("**Profil 1 :", "**Profil 2 :", "**Profil 3 :", "**Profil 4 :"),
+        "README_hi.md": ("**प्रोफ़ाइल 1:", "**प्रोफ़ाइल 2:", "**प्रोफ़ाइल 3:", "**प्रोफ़ाइल 4:"),
+        "README_ja.md": ("**ペルソナ1：", "**ペルソナ2：", "**ペルソナ3：", "**ペルソナ4："),
+        "README_pt.md": ("**Perfil 1:", "**Perfil 2:", "**Perfil 3:", "**Perfil 4:"),
+        "README_ru.md": ("**Группа 1:", "**Группа 2:", "**Группа 3:", "**Группа 4:"),
+        "README_zh.md": ("**用户类型 1：", "**用户类型 2：", "**用户类型 3：", "**用户类型 4："),
+    }
+    assert set(expected_markers) == set(ALL_READMES)
+    for filename, markers in expected_markers.items():
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        for marker in markers:
+            assert marker in text, f"Missing persona marker {marker!r} in {filename}"
 
-    assert "Persona 1:" in text_en and "Persona 2:" in text_en and "Persona 3:" in text_en and "Persona 4:" in text_en
-    assert "Persona 1:" in text_de and "Persona 2:" in text_de and "Persona 3:" in text_de and "Persona 4:" in text_de
-    assert "Persona 1:" in text_es and "Persona 2:" in text_es and "Persona 3:" in text_es and "Persona 4:" in text_es
 
-
-def test_comparative_matrix_present_in_all_readmes():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    for text in [text_en, text_de, text_es]:
-        assert "Stardock Fences" in text
-        assert "SyMenu" in text
-        assert "Launchy / Flow Launcher" in text
+def test_capability_boundaries_present_in_all_readmes():
+    required_anchor_ids = (
+        "quick-reference",
+        "features",
+        "target-personas--discoverability",
+        "comparative-matrix-vs-alternatives",
+        "system-architecture",
+        "lifecycle-sequence-flow",
+        "core-capabilities--safety-invariants",
+        "sibling-ecosystem--sister-products",
+        "discovery-context",
+        "requirements",
+        "installation",
+        "run",
+        "usage",
+        "build-executable",
+        "quality-checks",
+        "security-policy",
+        "third-party-licenses--governance",
+        "license",
+    )
+    anchor_readmes = {
+        "README_ar.md",
+        "README_bn.md",
+        "README_fr.md",
+        "README_hi.md",
+        "README_ja.md",
+        "README_pt.md",
+        "README_ru.md",
+    }
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        for token in (
+            "QSettings",
+            "softwarecenter-profile-v1.json",
+            "CI_CONTRACT.md",
+            "scripts/verify_product_boundaries.py",
+            "open_file",
+            ".lnk",
+            ".desktop",
+        ):
+            assert token in text, f"Missing {token} in {filename}"
+        if filename in anchor_readmes:
+            for anchor_id in required_anchor_ids:
+                assert f'<a id="{anchor_id}"></a>' in text, (
+                    f"Missing section anchor {anchor_id!r} in {filename}"
+                )
+        cap_headings = {
+            "README.md": "## Core Capabilities & Evidence Boundaries",
+            "README_de.md": "## Kernfähigkeiten und Beleggrenzen",
+            "README.es.md": "## Capacidades centrales y límites de evidencia",
+            "README_zh.md": "## 核心能力与证据边界",
+        }
+        if filename in anchor_readmes:
+            anchor_idx = text.index('<a id="core-capabilities--safety-invariants"></a>')
+        else:
+            anchor_idx = text.index(cap_headings[filename])
+        cap_tail = text[anchor_idx:]
+        next_h2 = cap_tail.find("\n## ", cap_tail.find("\n## ") + 4)
+        cap_section = cap_tail if next_h2 == -1 else cap_tail[:next_h2]
+        cap_table_rows = re.findall(r"^\| \*\*.+\|$", cap_section, re.M)
+        assert len(cap_table_rows) >= 8, (
+            f"Expected >= 8 capability rows in {filename}, found {len(cap_table_rows)}"
+        )
 
 
 def test_third_party_licenses_md_contract_and_invariants():
@@ -356,12 +480,11 @@ def test_third_party_licenses_md_contract_and_invariants():
 
 
 def test_third_party_licenses_referenced_in_all_readmes():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    for text in [text_en, text_de, text_es]:
-        assert "[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)" in text
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        assert "[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)" in text, (
+            f"Missing THIRD_PARTY_LICENSES.md link in {filename}"
+        )
 
 
 def test_git_hygiene_no_sync_conflicts():
@@ -391,11 +514,9 @@ def test_notice_attribution_contract():
 
 
 def test_notice_referenced_in_readmes_and_pyproject():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-    for text in [text_en, text_de, text_es]:
-        assert "(NOTICE)" in text
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        assert "(NOTICE)" in text, f"Missing NOTICE reference in {filename}"
 
     pyproject_file = ROOT / "pyproject.toml"
     assert pyproject_file.exists(), "pyproject.toml must exist"

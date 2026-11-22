@@ -175,12 +175,12 @@ class TestSoftwareListWidgetEnhancements:
         with patch.object(sc.SoftwareListWidget, "_exec_context_menu", side_effect=intercept_exec):
             widget._on_context_menu(QPoint(10, 10))
 
-        assert "Öffnen/Starten" in created_actions
+        assert sc.t("Öffnen/Starten") in created_actions
         assert sc.get_file_manager_action_title() in created_actions
-        assert "Pfad kopieren" in created_actions
-        assert "Eintrag bearbeiten..." in created_actions
-        assert "Alphabetisch sortieren (A-Z)" in created_actions
-        assert "Löschen" in created_actions
+        assert sc.t("Pfad kopieren") in created_actions
+        assert sc.t("Eintrag bearbeiten...") in created_actions
+        assert sc.t("Alphabetisch sortieren (A-Z)") in created_actions
+        assert sc.t("Löschen") in created_actions
 
     def test_copy_path_to_clipboard(self, tmp_path):
         f = _make_dummy_file(tmp_path, "app.exe")
@@ -195,7 +195,7 @@ class TestSoftwareListWidgetEnhancements:
 
         def intercept_exec(menu_self, pos=None):
             for act in menu_self.actions():
-                if act.text() == "Pfad kopieren":
+                if act.text() == sc.t("Pfad kopieren"):
                     return act
             return None
 

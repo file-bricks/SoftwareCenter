@@ -46,7 +46,7 @@ def test_context_menu_copy_path_null_clipboard_guarded(tmp_path: Path):
 
     def intercept_exec(menu_self, pos=None):
         for act in menu_self.actions():
-            if act.text() == "Pfad kopieren":
+            if act.text() == sc.t("Pfad kopieren"):
                 return act
         return None
 
