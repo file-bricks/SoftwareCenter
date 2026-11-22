@@ -231,7 +231,7 @@ En Windows, también puede utilizar `START.bat`. Para compilar un ejecutable loc
 
 | Acción | Instrucciones |
 |--------|-------------|
-| Añadir programas | Arrastre archivos, carpetas, accesos directos, paquetes `.app` en macOS o lanzadores `.desktop` en Linux a la ventana; los archivos `.lnk` de Windows se resuelven automáticamente a su destino original |
+| Añadir programas | Arrastre archivos, carpetas, accesos directos, paquetes `.app` en macOS o lanzadores `.desktop` en Linux a la ventana; los archivos `.lnk` de Windows que apuntan a archivos `.exe` o carpetas existentes se resuelven a su destino original |
 | Organizar pestañas | Barra de herramientas > "Nueva pestaña", doble clic para renombrar |
 | Cambiar vista | Barra de herramientas > Mosaicos / Lista |
 | Ejecutar programas | Doble clic o clic derecho > Abrir/Iniciar |

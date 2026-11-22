@@ -188,18 +188,10 @@ def test_readme_quick_navigation_anchors():
 
 
 def test_readme_contains_mermaid_diagrams():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    assert "```mermaid\ngraph TD" in text_en
-    assert "```mermaid\nsequenceDiagram" in text_en
-
-    assert "```mermaid\ngraph TD" in text_de
-    assert "```mermaid\nsequenceDiagram" in text_de
-
-    assert "```mermaid\ngraph TD" in text_es
-    assert "```mermaid\nsequenceDiagram" in text_es
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        assert "```mermaid\ngraph TD" in text, f"Missing graph TD diagram in {filename}"
+        assert "```mermaid\nsequenceDiagram" in text, f"Missing sequenceDiagram in {filename}"
 
 
 def test_readme_badges_parity_and_test_count():
@@ -290,11 +282,7 @@ def test_pyproject_pep621_metadata_and_urls():
 
 
 def test_sibling_ecosystem_table_links():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    for sibling in [
+    siblings = [
         "https://github.com/file-bricks/ProFiler",
         "https://github.com/file-bricks/ExplorerPro",
         "https://github.com/file-bricks/CloudLockFixer",
@@ -305,10 +293,11 @@ def test_sibling_ecosystem_table_links():
         "https://github.com/dev-bricks/MethodenAnalyser",
         "https://github.com/ellmos-ai/connectors",
         "https://github.com/open-bricks",
-    ]:
-        assert sibling in text_en, f"Missing sibling {sibling} in README.md"
-        assert sibling in text_de, f"Missing sibling {sibling} in README_de.md"
-        assert sibling in text_es, f"Missing sibling {sibling} in README.es.md"
+    ]
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        for sibling in siblings:
+            assert sibling in text, f"Missing sibling {sibling} in {filename}"
 
 
 def test_llms_txt_structure_and_timestamp():
@@ -377,21 +366,90 @@ def test_marketing_log_contract_and_invariants():
 
 
 def test_target_personas_present_in_all_readmes():
-    text_en = (ROOT / "README.md").read_text(encoding="utf-8")
-    text_de = (ROOT / "README_de.md").read_text(encoding="utf-8")
-    text_es = (ROOT / "README.es.md").read_text(encoding="utf-8")
-
-    assert "Persona 1:" in text_en and "Persona 2:" in text_en and "Persona 3:" in text_en and "Persona 4:" in text_en
-    assert "Persona 1:" in text_de and "Persona 2:" in text_de and "Persona 3:" in text_de and "Persona 4:" in text_de
-    assert "Persona 1:" in text_es and "Persona 2:" in text_es and "Persona 3:" in text_es and "Persona 4:" in text_es
+    expected_markers = {
+        "README.md": ("Persona 1:", "Persona 2:", "Persona 3:", "Persona 4:"),
+        "README_de.md": ("Persona 1:", "Persona 2:", "Persona 3:", "Persona 4:"),
+        "README.es.md": ("Persona 1:", "Persona 2:", "Persona 3:", "Persona 4:"),
+        "README_ar.md": ("**الفئة 1:", "**الفئة 2:", "**الفئة 3:", "**الفئة 4:"),
+        "README_bn.md": ("**গোষ্ঠী 1:", "**গোষ্ঠী 2:", "**গোষ্ঠী 3:", "**গোষ্ঠী 4:"),
+        "README_fr.md": ("**Profil 1 :", "**Profil 2 :", "**Profil 3 :", "**Profil 4 :"),
+        "README_hi.md": ("**प्रोफ़ाइल 1:", "**प्रोफ़ाइल 2:", "**प्रोफ़ाइल 3:", "**प्रोफ़ाइल 4:"),
+        "README_ja.md": ("**ペルソナ1：", "**ペルソナ2：", "**ペルソナ3：", "**ペルソナ4："),
+        "README_pt.md": ("**Perfil 1:", "**Perfil 2:", "**Perfil 3:", "**Perfil 4:"),
+        "README_ru.md": ("**Группа 1:", "**Группа 2:", "**Группа 3:", "**Группа 4:"),
+        "README_zh.md": ("**用户类型 1：", "**用户类型 2：", "**用户类型 3：", "**用户类型 4："),
+    }
+    assert set(expected_markers) == set(ALL_READMES)
+    for filename, markers in expected_markers.items():
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        for marker in markers:
+            assert marker in text, f"Missing persona marker {marker!r} in {filename}"
 
 
 def test_capability_boundaries_present_in_all_readmes():
+    required_anchor_ids = (
+        "quick-reference",
+        "features",
+        "target-personas--discoverability",
+        "comparative-matrix-vs-alternatives",
+        "system-architecture",
+        "lifecycle-sequence-flow",
+        "core-capabilities--safety-invariants",
+        "sibling-ecosystem--sister-products",
+        "discovery-context",
+        "requirements",
+        "installation",
+        "run",
+        "usage",
+        "build-executable",
+        "quality-checks",
+        "security-policy",
+        "third-party-licenses--governance",
+        "license",
+    )
+    anchor_readmes = {
+        "README_ar.md",
+        "README_bn.md",
+        "README_fr.md",
+        "README_hi.md",
+        "README_ja.md",
+        "README_pt.md",
+        "README_ru.md",
+    }
     for filename in ALL_READMES:
         text = (ROOT / filename).read_text(encoding="utf-8")
-        assert "QSettings" in text, f"Missing QSettings in {filename}"
-        assert "softwarecenter-profile-v1.json" in text, f"Missing profile schema in {filename}"
-        assert "CI_CONTRACT.md" in text, f"Missing CI_CONTRACT.md in {filename}"
+        for token in (
+            "QSettings",
+            "softwarecenter-profile-v1.json",
+            "CI_CONTRACT.md",
+            "scripts/verify_product_boundaries.py",
+            "open_file",
+            ".lnk",
+            ".desktop",
+        ):
+            assert token in text, f"Missing {token} in {filename}"
+        if filename in anchor_readmes:
+            for anchor_id in required_anchor_ids:
+                assert f'<a id="{anchor_id}"></a>' in text, (
+                    f"Missing section anchor {anchor_id!r} in {filename}"
+                )
+        cap_headings = {
+            "README.md": "## Core Capabilities & Evidence Boundaries",
+            "README_de.md": "## Kernfähigkeiten und Beleggrenzen",
+            "README.es.md": "## Capacidades centrales y límites de evidencia",
+            "README_zh.md": "## 核心能力与证据边界",
+        }
+        if filename in anchor_readmes:
+            anchor_idx = text.index('<a id="core-capabilities--safety-invariants"></a>')
+        else:
+            anchor_idx = text.index(cap_headings[filename])
+        cap_tail = text[anchor_idx:]
+        next_h2 = cap_tail.find("\n## ", cap_tail.find("\n## ") + 4)
+        cap_section = cap_tail if next_h2 == -1 else cap_tail[:next_h2]
+        cap_table_rows = re.findall(r"^\| \*\*.+\|$", cap_section, re.M)
+        assert len(cap_table_rows) >= 8, (
+            f"Expected >= 8 capability rows in {filename}, found {len(cap_table_rows)}"
+        )
 
 
 def test_third_party_licenses_md_contract_and_invariants():

@@ -241,6 +241,8 @@ Sous Windows, vous pouvez aussi utiliser `START.bat`. Pour compiler un exécutab
 <a id="usage"></a>
 ## Utilisation
 
+> Remarque : le français est uniquement une langue de documentation et ne fait pas partie des 6 langues d’interface prises en charge à l’exécution (`de`, `en`, `es`, `ja`, `ru`, `zh`) ; par défaut, l’application démarre en allemand (`de`) lorsqu’aucune locale système prise en charge ne correspond. Pour afficher les libellés anglais indiqués dans le tableau ci-dessous (`New Tab`, `Tiles / List`, `Open/Launch`, `Delete`, `File > Export Profile`, `File > Import Profile`), passez l’interface en anglais via `Datei > Sprache > English (en)`.
+
 | Action | Instructions |
 |--------|-------------|
 | Ajouter des programmes | Faites glisser dans la fenêtre des fichiers, dossiers, raccourcis, bundles `.app` sous macOS ou lanceurs `.desktop` sous Linux ; les fichiers Windows `.lnk` pointant vers des fichiers `.exe` ou des dossiers sont résolus vers leur cible d’origine |

@@ -241,6 +241,8 @@ No Windows, você também pode usar `START.bat`. Para compilar um executável lo
 <a id="usage"></a>
 ## Uso
 
+> Observação: o português é apenas um idioma de documentação e não faz parte dos 6 idiomas de interface suportados em tempo de execução (`de`, `en`, `es`, `ja`, `ru`, `zh`); por padrão, o aplicativo inicia em alemão (`de`) quando a localidade do sistema não corresponde a um idioma suportado. Para exibir os rótulos em inglês mostrados na tabela abaixo (`New Tab`, `Tiles / List`, `Open/Launch`, `Delete`, `File > Export Profile`, `File > Import Profile`), altere o idioma da interface para inglês em `Datei > Sprache > English (en)`.
+
 | Ação | Instruções |
 |--------|-------------|
 | Adicionar programas | Arraste arquivos, pastas, atalhos, pacotes `.app` no macOS ou inicializadores `.desktop` no Linux para a janela; arquivos Windows `.lnk` que apontam para arquivos `.exe` ou pastas são resolvidos para o destino original |

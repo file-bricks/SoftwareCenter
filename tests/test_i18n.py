@@ -280,5 +280,3 @@ def test_context_menu_translates_with_active_language(tmp_path):
     finally:
         tr.set_language(original_lang)
         widget.close()
-
-
