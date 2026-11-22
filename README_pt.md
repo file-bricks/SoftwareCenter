@@ -16,7 +16,7 @@
 
 [English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md) · [العربية](README_ar.md) · [বাংলা](README_bn.md) · [Português](README_pt.md)
 
-Um organizador de desktop leve e multiplataforma para gerenciar atalhos de programas em abas.
+Um organizador de desktop leve e multiplataforma para gerenciar atalhos de programas em abas. A interface do aplicativo oferece atualmente 6 idiomas em tempo de execução (`de`, `en`, `es`, `ja`, `ru`, `zh`).
 
 > [!NOTE]
 > **Integração com LLM / IA e índice legível por máquina:** o SoftwareCenter fornece metadados estruturados e legíveis por máquina em [`llms.txt`](llms.txt) e oferece suporte à migração de perfis por meio de JSON versionado (`softwarecenter-profile-v1.json`).

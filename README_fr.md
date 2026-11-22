@@ -16,7 +16,7 @@
 
 [English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md) · [العربية](README_ar.md) · [বাংলা](README_bn.md) · [Português](README_pt.md)
 
-Un organiseur de bureau léger et multiplateforme pour gérer des raccourcis logiciels au moyen d’une classification par onglets.
+Un organiseur de bureau léger et multiplateforme pour gérer des raccourcis logiciels au moyen d’une classification par onglets. L’interface de l’application prend actuellement en charge 6 langues d’exécution (`de`, `en`, `es`, `ja`, `ru`, `zh`).
 
 > [!NOTE]
 > **Intégration IA / LLM et index lisible par machine :** SoftwareCenter fournit des métadonnées structurées et lisibles par machine dans [`llms.txt`](llms.txt), et prend en charge la migration de profils au format JSON versionné (`softwarecenter-profile-v1.json`).

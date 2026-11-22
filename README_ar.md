@@ -16,7 +16,7 @@
 
 [English](README.md) · [Deutsch](README_de.md) · [Español](README.es.md) · [简体中文](README_zh.md) · [日本語](README_ja.md) · [Русский](README_ru.md) · [Français](README_fr.md) · [हिन्दी](README_hi.md) · [العربية](README_ar.md) · [বাংলা](README_bn.md) · [Português](README_pt.md)
 
-منظّم سطح مكتب خفيف ومتعدد المنصات لإدارة اختصارات البرامج باستخدام تصنيف قائم على علامات التبويب.
+منظّم سطح مكتب خفيف ومتعدد المنصات لإدارة اختصارات البرامج باستخدام تصنيف قائم على علامات التبويب. وتوفّر واجهة التطبيق حاليًا ست لغات وقت التشغيل (`de`، `en`، `es`، `ja`، `ru`، `zh`).
 
 > [!NOTE]
 > **تكامل LLM / AI وفهرس قابل للقراءة آليًا:** يوفّر SoftwareCenter بيانات وصفية منظّمة وقابلة للقراءة آليًا في [`llms.txt`](llms.txt)، ويدعم ترحيل الملفات الشخصية عبر JSON ذي إصدار (`softwarecenter-profile-v1.json`).

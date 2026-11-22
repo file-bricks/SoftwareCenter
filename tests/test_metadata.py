@@ -1,6 +1,7 @@
 """Contract test suite certifying discoverability, metadata, documentation parity, and security invariants for SoftwareCenter."""
 
 import re
+import unicodedata
 from pathlib import Path
 
 try:
@@ -49,6 +50,19 @@ def test_readme_files_exist_and_language_switch():
             assert link in text, f"Missing language link {link} in {filename}"
 
 
+def _gh_heading_slug(heading: str) -> str:
+    s = heading.strip().lower()
+    s = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", s)
+    s = s.replace("`", "")
+    out = []
+    for ch in s:
+        if ch == " ":
+            out.append("-")
+        elif ch in ("-", "_") or unicodedata.category(ch)[0] in ("L", "N", "M"):
+            out.append(ch)
+    return "".join(out)
+
+
 def test_readme_quick_navigation_anchors():
     english_anchors = [
         "#quick-reference",
@@ -70,6 +84,16 @@ def test_readme_quick_navigation_anchors():
         "#third-party-licenses--governance",
         "#license",
     ]
+
+    for filename in ALL_READMES:
+        text = (ROOT / filename).read_text(encoding="utf-8")
+        links = set(re.findall(r"\(#([^)]+)\)", text))
+        assert links, f"Expected navigation anchor links in {filename}"
+        ids = set(re.findall(r"""<a\s+id=["']([^"']+)["']""", text))
+        slugs = {_gh_heading_slug(h) for h in re.findall(r"^#{1,6}\s+(.+)$", text, re.M)}
+        targets = ids | slugs
+        missing_targets = sorted(links - targets)
+        assert not missing_targets, f"Unresolved anchor targets in {filename}: {missing_targets}"
 
     for filename in (
         "README.md",
