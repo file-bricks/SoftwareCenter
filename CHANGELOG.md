@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-11-23 (Full Runtime UI Localization & Live `retranslate_ui()` Coverage, I18N-SC-01/02)
+
+### Changed & Fixed
+- **Full Runtime UI Localization (`I18N-SC-01`, `SoftwareCenter.py`, `locales/translations.json`):** Wired all remaining hardcoded German UI strings (file-manager titles, launch/missing-file/profile/close/delete/tray dialogs, `SoftwareListItemDelegate` missing-target badge, entry note tooltips, `BoardsPanel` status tooltips & context menu, tab bar accessibility metadata, toolbar/dock titles, and system tray menu actions/search placeholder) through `t(...)`. Expanded `locales/translations.json` from 148 to 166 keys with 100% 6-language parity (`de`, `en`, `es`, `zh`, `ja`, `ru`).
+- **Complete Live `retranslate_ui()` (`I18N-SC-02`, `SoftwareCenter.py`):** Extended `MainWindow.retranslate_ui()` along with `BoardsPanel.retranslate_ui()` and `SoftwareListWidget.retranslate_ui()` so switching languages dynamically updates sidebar tabs (`Verlauf`/`Alphabetisch`), `clear_history_btn`, board item tooltips, toolbar/dock titles and tooltips, `act_toggle_boards_panel` icon text and accessible name, `search_edit` metadata/placeholder/tooltip, tab bar accessibility/tooltips, entry tooltips, and the live system tray menu.
+- **Tests (`tests/test_i18n.py`):** Added headless tests verifying live language switching across sidebar, toolbar tooltips, dialogs, file-manager titles, and tray menu, and fixed translator singleton state restoration across tests (version `1.2.0` unchanged).
+
 ## [Unreleased] - 2026-11-22 (Eleven-Language World Set Documentation & Metadata Parity)
 
 ### Documentation and localization

@@ -64,6 +64,8 @@ def test_placeholder_translations_available_in_all_tier2_languages():
 
 def test_main_window_help_menu_and_about_dialog(tmp_path):
     _ensure_app()
+    tr = get_translator()
+    original_lang = tr.get_language()
     s = sc.QSettings(str(tmp_path / "settings.ini"), sc.QSettings.Format.IniFormat)
     win = sc.MainWindow(settings=s, profile=sc.PROFILE_SOFTWARECENTER)
     try:
@@ -80,4 +82,5 @@ def test_main_window_help_menu_and_about_dialog(tmp_path):
         assert win.help_menu.title() == "Help"
         assert win.act_about.text() == "About SoftwareCenter"
     finally:
+        tr.set_language(original_lang)
         win.close()

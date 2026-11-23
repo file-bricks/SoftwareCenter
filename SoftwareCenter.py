@@ -467,22 +467,22 @@ def profile_export_data(window: "MainWindow") -> dict:
 
 def validate_profile_payload(payload: dict) -> list[dict]:
     if not isinstance(payload, dict):
-        raise ValueError("Das Profil ist kein JSON-Objekt.")
+        raise ValueError(t("Das Profil ist kein JSON-Objekt."))
 
     payload_format = payload.get("format")
     payload_version = payload.get("format_version")
     if payload_format != PROFILE_FORMAT or payload_version != PROFILE_FORMAT_VERSION:
-        raise ValueError("Unbekanntes Profilformat.")
+        raise ValueError(t("Unbekanntes Profilformat."))
 
     raw_tabs = payload.get("tabs")
     if not isinstance(raw_tabs, list) or not raw_tabs:
-        raise ValueError("Das Profil enthält keine Tabs.")
+        raise ValueError(t("Das Profil enthält keine Tabs."))
 
     tabs = []
     for raw_tab in raw_tabs:
         if not isinstance(raw_tab, dict):
             continue
-        name = str(raw_tab.get("name") or "Tab").strip() or "Tab"
+        name = str(raw_tab.get("name") or t("Tab")).strip() or t("Tab")
         view_mode = "list" if str(raw_tab.get("view_mode")).strip().lower() == "list" else "tiles"
         entries = []
         raw_entries = raw_tab.get("entries", [])
@@ -495,7 +495,7 @@ def validate_profile_payload(payload: dict) -> list[dict]:
         tabs.append({"name": name, "view_mode": view_mode, "entries": entries})
 
     if not tabs:
-        raise ValueError("Das Profil enthält keine lesbaren Tabs.")
+        raise ValueError(t("Das Profil enthält keine lesbaren Tabs."))
     return tabs
 
 def _startfile_in_dir(path: str, workdir: str | None) -> None:
@@ -534,11 +534,11 @@ def open_file(path: str) -> None:
             webbrowser.open(path)
             return
         except Exception as e:
-            QMessageBox.critical(None, t("Fehler beim Starten"), f"Konnte nicht starten:\n{path}\n\n{e}")
+            QMessageBox.critical(None, t("Fehler beim Starten"), f"{t('Konnte nicht starten:')}\n{path}\n\n{e}")
             return
 
     if not os.path.exists(path):
-        QMessageBox.warning(None, "Datei nicht gefunden", f"Pfad existiert nicht:\n{path}")
+        QMessageBox.warning(None, t("Datei nicht gefunden"), f"{t('Pfad existiert nicht:')}\n{path}")
         return
     try:
         if sys.platform.startswith("win"):
@@ -560,7 +560,7 @@ def open_file(path: str) -> None:
             else:
                 subprocess.Popen(["xdg-open", path])
     except Exception as e:
-        QMessageBox.critical(None, "Fehler beim Starten", f"Konnte nicht starten:\n{path}\n\n{e}")
+        QMessageBox.critical(None, t("Fehler beim Starten"), f"{t('Konnte nicht starten:')}\n{path}\n\n{e}")
 
 
 def get_file_manager_action_title(path: str | None = None) -> str:
@@ -568,10 +568,10 @@ def get_file_manager_action_title(path: str | None = None) -> str:
     if path and is_web_url(path):
         return t("Im Browser öffnen")
     if sys.platform.startswith("win"):
-        return "Im Explorer anzeigen"
+        return t("Im Explorer anzeigen")
     elif sys.platform == "darwin":
-        return "Im Finder anzeigen"
-    return "Im Dateimanager anzeigen"
+        return t("Im Finder anzeigen")
+    return t("Im Dateimanager anzeigen")
 
 
 def show_in_file_manager(path: str) -> None:
@@ -582,7 +582,7 @@ def show_in_file_manager(path: str) -> None:
         open_file(path)
         return
     if not os.path.exists(path):
-        QMessageBox.warning(None, "Datei nicht gefunden", f"Pfad existiert nicht:\n{path}")
+        QMessageBox.warning(None, t("Datei nicht gefunden"), f"{t('Pfad existiert nicht:')}\n{path}")
         return
     try:
         norm_path = os.path.normpath(os.path.abspath(path))
@@ -598,7 +598,7 @@ def show_in_file_manager(path: str) -> None:
             subprocess.Popen(["xdg-open", target_dir])
     except Exception as e:
         QMessageBox.critical(
-            None, "Fehler beim Öffnen des Dateimanagers", f"Konnte Dateimanager nicht öffnen:\n{path}\n\n{e}"
+            None, t("Fehler beim Öffnen des Dateimanagers"), f"{t('Konnte Dateimanager nicht öffnen:')}\n{path}\n\n{e}"
         )
 
 
@@ -719,7 +719,7 @@ class SoftwareListItemDelegate(QStyledItemDelegate):
 
         secondary_text = ""
         if is_missing:
-            secondary_text = f"[Nicht gefunden: {path}]"
+            secondary_text = f"[{t('Nicht gefunden')}: {path}]"
         elif notes:
             secondary_text = notes
         elif path:
@@ -1014,7 +1014,7 @@ class SoftwareListWidget(QListWidget):
                 item.setText(new_label)
             metadata["notes"] = new_notes
             path = metadata.get("path") or ""
-            item.setToolTip(f"{path}\n\nNotizen: {new_notes}" if new_notes else path)
+            item.setToolTip(f"{path}\n\n{t('Notizen')}: {new_notes}" if new_notes else path)
             item.setData(ENTRY_METADATA_ROLE, metadata)
             self.entriesChanged.emit()
 
@@ -1187,7 +1187,7 @@ class SoftwareListWidget(QListWidget):
         name = entry["label"]
         item = QListWidgetItem(icon, name)
         notes = entry.get("notes")
-        item.setToolTip(f"{path}\n\nNotizen: {notes}" if notes else path)
+        item.setToolTip(f"{path}\n\n{t('Notizen')}: {notes}" if notes else path)
         item.setData(Qt.ItemDataRole.UserRole, path)
         item.setData(ENTRY_METADATA_ROLE, entry)
         if getattr(self, "_current_filter", ""):
@@ -1239,6 +1239,24 @@ class SoftwareListWidget(QListWidget):
     def set_all_entries(self, entries: list[str | dict]):
         self.add_entries(entries)
 
+    def retranslate_ui(self):
+        self.setAccessibleName(t("Software- und Dokumentenliste"))
+        self.setAccessibleDescription(
+            t("Verknüpfungen des aktuellen Boards. Mit Pfeiltasten navigieren, Eingabetaste zum Starten, F2 zum Bearbeiten, Entf zum Entfernen.")
+        )
+        for i in range(self.count()):
+            item = self.item(i)
+            if not item:
+                continue
+            metadata = item.data(ENTRY_METADATA_ROLE)
+            if isinstance(metadata, dict):
+                path = metadata.get("path") or item.data(Qt.ItemDataRole.UserRole) or ""
+                notes = metadata.get("notes")
+            else:
+                path = item.data(Qt.ItemDataRole.UserRole) or ""
+                notes = None
+            item.setToolTip(f"{path}\n\n{t('Notizen')}: {notes}" if notes else path)
+
 class TabPage(QWidget):
     entriesChanged = Signal()
 
@@ -1279,10 +1297,10 @@ class TabPage(QWidget):
         if not paths:
             return
         if len(paths) == 1:
-            msg = f"Diese Verknüpfung entfernen?\n\n{paths[0]}"
+            msg = f"{t('Diese Verknüpfung entfernen?')}\n\n{paths[0]}"
         else:
-            msg = f"{len(paths)} Verknüpfungen aus dieser Ansicht entfernen?"
-        ret = QMessageBox.question(self, "Löschen bestätigen", msg)
+            msg = t("{count} Verknüpfungen aus dieser Ansicht entfernen?").format(count=len(paths))
+        ret = QMessageBox.question(self, t("Löschen bestätigen"), msg)
         if ret == QMessageBox.StandardButton.Yes:
             self.list.remove_paths(paths)
             self.entriesChanged.emit()
@@ -1344,7 +1362,7 @@ class BoardsPanel(QWidget):
         if simple and alpha_present:
             self.view_tabs.removeTab(self.view_tabs.indexOf(self.alpha_list))
         elif not simple and not alpha_present:
-            self.view_tabs.addTab(self.alpha_list, "Alphabetisch")
+            self.view_tabs.addTab(self.alpha_list, t("Alphabetisch"))
         self.view_tabs.tabBar().setVisible(not simple)
         self.clear_history_btn.setVisible(simple)
 
@@ -1361,6 +1379,33 @@ class BoardsPanel(QWidget):
         if not simple:
             self._populate(self.alpha_list, sort_boards_alphabetical(boards), simple)
 
+    def retranslate_ui(self):
+        self.view_tabs.setAccessibleName(t("Board-Katalog"))
+        self.view_tabs.setAccessibleDescription(
+            t("Reiter zur Anzeige aller Boards als Verlauf oder alphabetisch.")
+        )
+        self.history_list.setAccessibleName(t("Zuletzt geschlossene und aktive Boards"))
+        self.history_list.setAccessibleDescription(
+            t("Liste der Boards nach letzter Nutzung.")
+        )
+        self.alpha_list.setAccessibleName(t("Alphabetische Board-Liste"))
+        self.alpha_list.setAccessibleDescription(
+            t("Liste aller Boards in alphabetischer Reihenfolge.")
+        )
+        hist_idx = self.view_tabs.indexOf(self.history_list)
+        if hist_idx != -1:
+            self.view_tabs.setTabText(hist_idx, t("Verlauf"))
+        alpha_idx = self.view_tabs.indexOf(self.alpha_list)
+        if alpha_idx != -1:
+            self.view_tabs.setTabText(alpha_idx, t("Alphabetisch"))
+        self.clear_history_btn.setText(t("Verlauf leeren"))
+        self.clear_history_btn.setAccessibleName(t("Verlauf leeren"))
+        self.clear_history_btn.setAccessibleDescription(
+            t("Entfernt alle geschlossenen Boards aus dem Verlauf.")
+        )
+        self.clear_history_btn.setToolTip(t("Entfernt alle geschlossenen Boards aus dem Verlauf."))
+        self.refresh()
+
     def _populate(self, list_widget: QListWidget, boards: list[dict], simple: bool):
         list_widget.clear()
         for board in boards:
@@ -1369,9 +1414,9 @@ class BoardsPanel(QWidget):
             item.setData(Qt.ItemDataRole.UserRole, board["id"])
             if board["closed_at"]:
                 item.setForeground(QColor(Qt.GlobalColor.gray))
-                item.setToolTip(f"Geschlossen: {board['closed_at']}")
+                item.setToolTip(f"{t('Geschlossen')}: {board['closed_at']}")
             else:
-                item.setToolTip("Aktiv")
+                item.setToolTip(t("Aktiv"))
             list_widget.addItem(item)
 
     def _on_item_activated(self, item: QListWidgetItem):
@@ -1394,9 +1439,9 @@ class BoardsPanel(QWidget):
         act_fav = None
         if not simple:
             is_fav = board_id in self.window.favorites
-            act_fav = menu.addAction("Favorit entfernen" if is_fav else "Favorit")
+            act_fav = menu.addAction(t("Favorit entfernen") if is_fav else t("Favorit"))
         icon = self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon)
-        act_del = menu.addAction(icon, "Löschen")
+        act_del = menu.addAction(icon, t("Löschen"))
         action = _exec_menu(menu, list_widget.viewport().mapToGlobal(pos))
         if action is None:
             return
@@ -1600,20 +1645,29 @@ class MainWindow(QMainWindow):
             self.lang_menu.setTitle(t("Sprache"))
         if hasattr(self, "act_export_profile"):
             self.act_export_profile.setText(t("Profil exportieren"))
+            self.act_export_profile.setToolTip(t("Boards und Einträge als JSON-Profil exportieren"))
         if hasattr(self, "act_import_profile"):
             self.act_import_profile.setText(t("Profil importieren"))
+            self.act_import_profile.setToolTip(t("Boards und Einträge aus JSON-Profil importieren"))
         if hasattr(self, "act_minimize_to_tray"):
             self.act_minimize_to_tray.setText(t("Beim Schließen in Systemtray minimieren"))
         if hasattr(self, "act_simple_mode"):
             self.act_simple_mode.setText(t("Einfacher Modus (Board-Verlauf ohne Favoriten)"))
         if hasattr(self, "act_quit"):
             self.act_quit.setText(t("Beenden"))
+        if hasattr(self, "main_toolbar"):
+            self.main_toolbar.setWindowTitle(t("Hauptleiste"))
         if hasattr(self, "act_view_tiles"):
             self.act_view_tiles.setText(t("Kacheln"))
+            self.act_view_tiles.setToolTip(t("Kachelansicht mit großen Symbolen"))
         if hasattr(self, "act_view_list"):
             self.act_view_list.setText(t("Liste"))
+            self.act_view_list.setToolTip(t("Kompakte Listenansicht"))
         if hasattr(self, "act_toggle_boards_panel"):
+            self.act_toggle_boards_panel.setIconText(t("Board-Verwaltung"))
             self.act_toggle_boards_panel.setToolTip(t("Board-Verwaltung ein-/ausblenden (Strg+B)"))
+        if getattr(self, "btn_toggle_boards_panel", None) is not None:
+            self.btn_toggle_boards_panel.setAccessibleName(t("Board-Verwaltung"))
         if hasattr(self, "help_menu"):
             self.help_menu.setTitle(t("Hilfe"))
         if hasattr(self, "act_shortcuts"):
@@ -1626,23 +1680,44 @@ class MainWindow(QMainWindow):
             self.act_new_tab.setToolTip(t("Neues Board erstellen (Strg+T)"))
         if hasattr(self, "act_rename_tab"):
             self.act_rename_tab.setText(t("Tab umbenennen"))
+            self.act_rename_tab.setToolTip(t("Aktuelles Board umbenennen"))
         if hasattr(self, "act_duplicate_tab"):
             self.act_duplicate_tab.setText(t("Tab duplizieren"))
+            self.act_duplicate_tab.setToolTip(t("Aktuelles Board duplizieren (Kopie erstellen)"))
         if hasattr(self, "search_edit"):
+            self.search_edit.setAccessibleName(t("Schnellsuche"))
+            self.search_edit.setAccessibleDescription(
+                t("Filtert die Einträge im aktuellen Board nach Name oder Pfad.")
+            )
             self.search_edit.setPlaceholderText(t("Einträge im Board filtern… (Strg+F)"))
+            self.search_edit.setToolTip(
+                t("Schnellfilter für Einträge im aktuellen Board (Strg+F, Esc zum Leeren)")
+            )
+        if hasattr(self, "boards_dock"):
+            self.boards_dock.setWindowTitle(t("Boards"))
+        if hasattr(self, "boards_panel"):
+            self.boards_panel.retranslate_ui()
         if hasattr(self, "tabs"):
+            self._refresh_tab_accessibility()
             for i in range(self.tabs.count()):
                 page = self.tabs.widget(i)
+                if hasattr(page, "list") and hasattr(page.list, "retranslate_ui"):
+                    page.list.retranslate_ui()
                 if hasattr(page, "list") and hasattr(page.list, "viewport"):
                     page.list.viewport().update()
+        if self.tray is not None:
+            tray_menu = self.tray.contextMenu()
+            if tray_menu is not None:
+                self._populate_tray_menu(tray_menu)
 
     def _build_toolbar(self):
-        tb = QToolBar("Hauptleiste")
+        tb = QToolBar(t("Hauptleiste"))
         # BUGSWEEP-40: objectName setzen — saveState()/restoreState() (unten genutzt) brauchen einen
         # eindeutigen objectName je Toolbar, sonst Qt-Warnung + windowState wird nicht zuverlässig restauriert.
         tb.setObjectName("Hauptleiste")
         tb.setMovable(False)
         self.addToolBar(tb)
+        self.main_toolbar = tb
         act_new_tab = QAction(t("Neuer Tab"), self)
         act_new_tab.setShortcut(QKeySequence("Ctrl+T"))
         act_new_tab.setToolTip(t("Neues Board erstellen (Strg+T)"))
@@ -1714,11 +1789,12 @@ class MainWindow(QMainWindow):
         self.act_toggle_boards_panel.toggled.connect(self._on_toggle_boards_panel)
         tb.addAction(self.act_toggle_boards_panel)
         btn = tb.widgetForAction(self.act_toggle_boards_panel)
+        self.btn_toggle_boards_panel = btn
         if btn is not None:
             btn.setAccessibleName(t("Board-Verwaltung"))
 
     def _build_boards_panel(self):
-        self.boards_dock = QDockWidget("Boards", self)
+        self.boards_dock = QDockWidget(t("Boards"), self)
         self.boards_dock.setObjectName("BoardsDock")
         self.boards_dock.setAllowedAreas(Qt.DockWidgetArea.RightDockWidgetArea)
         self.boards_panel = BoardsPanel(self)
@@ -1852,22 +1928,23 @@ class MainWindow(QMainWindow):
 
     def _refresh_tab_accessibility(self):
         tab_bar = self.tabs.tabBar()
-        tab_bar.setAccessibleName("Board-Leiste")
+        tab_bar.setAccessibleName(t("Board-Leiste"))
         tab_bar.setAccessibleDescription(
-            "Wechselt zwischen Boards. Tabs lassen sich per Doppelklick umbenennen."
+            t("Wechselt zwischen Boards. Tabs lassen sich per Doppelklick umbenennen.")
         )
         closable = self.tabs.tabsClosable() and self.tabs.count() > 1
         for index in range(self.tabs.count()):
-            tab_name = self.tabs.tabText(index).strip() or f"Board {index + 1}"
-            self.tabs.setTabToolTip(index, f'Board "{tab_name}"')
+            tab_name = self.tabs.tabText(index).strip() or f"{t('Board')} {index + 1}"
+            self.tabs.setTabToolTip(index, f'{t("Board")} "{tab_name}"')
             for side in (QTabBar.ButtonPosition.LeftSide, QTabBar.ButtonPosition.RightSide):
                 button = tab_bar.tabButton(index, side)
                 if button is None:
                     continue
                 if closable:
-                    button.setToolTip(f'Board "{tab_name}" schließen')
-                    button.setAccessibleName(f'Board "{tab_name}" schließen')
-                    button.setAccessibleDescription("Schließt dieses Board.")
+                    close_label = t('Board "{name}" schließen').format(name=tab_name)
+                    button.setToolTip(close_label)
+                    button.setAccessibleName(close_label)
+                    button.setAccessibleDescription(t("Schließt dieses Board."))
                 else:
                     button.setToolTip("")
                     button.setAccessibleName("")
@@ -1893,7 +1970,7 @@ class MainWindow(QMainWindow):
         page.list.requestCopyToBoard.connect(self.copy_entries_to_board)
         page.entriesChanged.connect(self.save_settings)
         page.entriesChanged.connect(self._refresh_boards_panel)
-        idx = self.tabs.addTab(page, name or "Neuer Tab")
+        idx = self.tabs.addTab(page, name or t("Neuer Tab"))
         self._update_tab_closable_state()
         self.tabs.setCurrentIndex(idx)
         self._refresh_tab_accessibility()
@@ -1938,9 +2015,9 @@ class MainWindow(QMainWindow):
         default_name = os.path.join(os.path.expanduser("~"), f"{PROFILE_FORMAT}.json")
         target, _selected_filter = QFileDialog.getSaveFileName(
             self,
-            "Profil exportieren",
+            t("Profil exportieren"),
             default_name,
-            "JSON-Dateien (*.json)",
+            t("JSON-Dateien (*.json)"),
         )
         if not target:
             return
@@ -1949,23 +2026,23 @@ class MainWindow(QMainWindow):
                 json.dump(profile_export_data(self), handle, ensure_ascii=False, indent=2)
                 handle.write("\n")
         except OSError as exc:
-            QMessageBox.critical(self, "Export fehlgeschlagen", f"Profil konnte nicht gespeichert werden:\n{exc}")
+            QMessageBox.critical(self, t("Export fehlgeschlagen"), f"{t('Profil konnte nicht gespeichert werden:')}\n{exc}")
             return
-        QMessageBox.information(self, "Export abgeschlossen", f"Profil gespeichert:\n{target}")
+        QMessageBox.information(self, t("Export abgeschlossen"), f"{t('Profil gespeichert:')}\n{target}")
 
     def import_profile(self):
         source, _selected_filter = QFileDialog.getOpenFileName(
             self,
-            "Profil importieren",
+            t("Profil importieren"),
             "",
-            "JSON-Dateien (*.json)",
+            t("JSON-Dateien (*.json)"),
         )
         if not source:
             return
         replace = QMessageBox.question(
             self,
-            "Profil importieren",
-            "Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?",
+            t("Profil importieren"),
+            t("Das aktuelle Profil wird durch den Import ersetzt. Fortfahren?"),
         )
         if replace != QMessageBox.StandardButton.Yes:
             return
@@ -1974,9 +2051,9 @@ class MainWindow(QMainWindow):
                 payload = json.load(handle)
             self.apply_profile_payload(payload)
         except (OSError, json.JSONDecodeError, ValueError) as exc:
-            QMessageBox.critical(self, "Import fehlgeschlagen", f"Profil konnte nicht importiert werden:\n{exc}")
+            QMessageBox.critical(self, t("Import fehlgeschlagen"), f"{t('Profil konnte nicht importiert werden:')}\n{exc}")
             return
-        QMessageBox.information(self, "Import abgeschlossen", f"Profil geladen:\n{source}")
+        QMessageBox.information(self, t("Import abgeschlossen"), f"{t('Profil geladen:')}\n{source}")
 
     def apply_profile_payload(self, payload: dict):
         tabs = validate_profile_payload(payload)
@@ -2000,9 +2077,9 @@ class MainWindow(QMainWindow):
         self.save_settings()
 
     def on_new_tab(self):
-        name, ok = QInputDialog.getText(self, "Neuer Tab", "Tab-Name:")
+        name, ok = QInputDialog.getText(self, t("Neuer Tab"), t("Tab-Name:"))
         if ok:
-            name = name.strip() or "Neuer Tab"
+            name = name.strip() or t("Neuer Tab")
             self.add_new_tab(name)
             self.save_settings()  # BUG 6: Settings nach Tab-Erstellung sofort speichern
 
@@ -2010,7 +2087,7 @@ class MainWindow(QMainWindow):
         if index < 0:
             return
         current_name = self.tabs.tabText(index)
-        name, ok = QInputDialog.getText(self, "Tab umbenennen", "Neuer Tab-Name:", text=current_name)
+        name, ok = QInputDialog.getText(self, t("Tab umbenennen"), t("Neuer Tab-Name:"), text=current_name)
         if ok:
             name = name.strip() or current_name
             self.tabs.setTabText(index, name)
@@ -2031,7 +2108,7 @@ class MainWindow(QMainWindow):
         `closed_at` gesetzt. Ein spaeteres Reaktivieren (siehe reactivate_board) stellt genau
         diesen Stand wieder her -- Schliessen loescht niemals Daten."""
         if self.tabs.count() == 1:
-            QMessageBox.information(self, "Nicht möglich", "Der letzte Tab kann nicht geschlossen werden.")
+            QMessageBox.information(self, t("Nicht möglich"), t("Der letzte Tab kann nicht geschlossen werden."))
             return
         page = self.tabs.widget(index)
         if isinstance(page, TabPage):
@@ -2112,7 +2189,7 @@ class MainWindow(QMainWindow):
         self.favorites.discard(board_id)
         if self.tabs.count() == 0:
             # Sicherheitsnetz: die App braucht immer mindestens ein aktives Board.
-            self.add_new_tab("Allgemein")
+            self.add_new_tab(t("Allgemein"))
         self._update_tab_closable_state()
         self.save_settings()
         self._refresh_boards_panel()
@@ -2124,10 +2201,12 @@ class MainWindow(QMainWindow):
             return
         if board["favorite"]:
             ret = QMessageBox.question(
-                self, "Board endgültig löschen",
-                f'Board "{board["name"]}" ist als Favorit markiert und wird ENDGÜLTIG gelöscht '
-                f'(inkl. {board["entry_count"]} Einträgen). Dieser Vorgang kann nicht rückgängig '
-                f'gemacht werden. Fortfahren?'
+                self, t("Board endgültig löschen"),
+                t(
+                    'Board "{name}" ist als Favorit markiert und wird ENDGÜLTIG gelöscht '
+                    '(inkl. {count} Einträgen). Dieser Vorgang kann nicht rückgängig '
+                    'gemacht werden. Fortfahren?'
+                ).format(name=board["name"], count=board["entry_count"]),
             )
             if ret != QMessageBox.StandardButton.Yes:
                 return
@@ -2152,8 +2231,10 @@ class MainWindow(QMainWindow):
             return False
         entry_count = sum(len(b["entries"]) for b in victims)
         ret = QMessageBox.question(
-            self, "Verlauf leeren",
-            f'{len(victims)} geschlossene Boards mit insgesamt {entry_count} Einträgen endgültig löschen?'
+            self, t("Verlauf leeren"),
+            t("{boards} geschlossene Boards mit insgesamt {entries} Einträgen endgültig löschen?").format(
+                boards=len(victims), entries=entry_count
+            ),
         )
         if ret != QMessageBox.StandardButton.Yes:
             return False
@@ -2278,7 +2359,7 @@ class MainWindow(QMainWindow):
             elif self.tabs.count() > 0:
                 self.tabs.setCurrentIndex(0)
         else:
-            self.add_new_tab("Allgemein")
+            self.add_new_tab(t("Allgemein"))
         settings.endArray()
         self._update_tab_closable_state()
         self._sync_view_actions()
@@ -2294,7 +2375,8 @@ class MainWindow(QMainWindow):
             event.ignore()
             self.hide()
             self.tray.showMessage(
-                self.profile.name, "Läuft weiter im Systemtray. Zum Beenden: Tray-Menü > Beenden.",
+                self.profile.name,
+                t("Läuft weiter im Systemtray. Zum Beenden: Tray-Menü > Beenden."),
                 QSystemTrayIcon.MessageIcon.Information, 2500)
             return
         if self.tray is not None:
@@ -2376,8 +2458,10 @@ class MainWindow(QMainWindow):
     def _notify_tray_unavailable(self):
         QMessageBox.warning(
             self, self.profile.name,
-            f"Der Systemtray ist auf diesem System nicht verfügbar. {self.profile.name} läuft "
-            "ohne Tray-Symbol -- Schließen beendet die App vollständig.",
+            t(
+                "Der Systemtray ist auf diesem System nicht verfügbar. {app} läuft "
+                "ohne Tray-Symbol -- Schließen beendet die App vollständig."
+            ).format(app=self.profile.name),
         )
 
     def _on_tray_activated(self, reason):
@@ -2499,7 +2583,8 @@ class MainWindow(QMainWindow):
         menu.clear()
 
         search_edit = QLineEdit()
-        search_edit.setPlaceholderText("Board oder Eintrag suchen …")
+        search_edit.setAccessibleName(t("Schnellsuche"))
+        search_edit.setPlaceholderText(t("Board oder Eintrag suchen …"))
         search_edit.textChanged.connect(lambda text, m=menu: self._rebuild_tray_dynamic_section(m, text))
         search_edit.returnPressed.connect(
             lambda m=menu, e=search_edit: self._on_tray_search_enter(m, e.text()))
@@ -2511,9 +2596,9 @@ class MainWindow(QMainWindow):
         # Marker-Trenner: dynamischer Board-/Suchtreffer-Block wird VOR diesen Marker eingefuegt,
         # die Fuss-Aktionen danach bleiben Menue-weit stabil (keine Neuanlage pro Tastendruck).
         self._tray_footer_marker = menu.addSeparator()
-        act_open = menu.addAction("Öffnen/Anzeigen")
+        act_open = menu.addAction(t("Öffnen/Anzeigen"))
         act_open.triggered.connect(self._show_from_tray)
-        menu.addAction("Beenden", self.quit_app)
+        menu.addAction(t("Beenden"), self.quit_app)
 
         self._tray_dynamic_actions = []
         self._rebuild_tray_dynamic_section(menu, "")
@@ -2538,7 +2623,7 @@ class MainWindow(QMainWindow):
     def _tray_board_actions(self, menu: QMenu) -> list:
         boards = self.tray_navigation_entries()
         if not boards:
-            act = QAction("Keine aktiven Boards", menu)
+            act = QAction(t("Keine aktiven Boards"), menu)
             act.setEnabled(False)
             return [act]
 
@@ -2548,7 +2633,7 @@ class MainWindow(QMainWindow):
             label = self._tray_board_label(board)
             if stage2 and board["entries"]:
                 sub = QMenu(label, menu)
-                open_act = sub.addAction("Board öffnen")
+                open_act = sub.addAction(t("Board öffnen"))
                 open_act.triggered.connect(
                     lambda checked=False, bid=board["id"]: self.open_board_from_tray(bid))
                 sub.addSeparator()
@@ -2559,7 +2644,7 @@ class MainWindow(QMainWindow):
                         self.launch_entry_from_tray(bid, p))
                 if board["entries_truncated"]:
                     remaining = board["entries_total"] - len(board["entries"])
-                    more_act = sub.addAction(f"… {remaining} weitere")
+                    more_act = sub.addAction(t("… {count} weitere").format(count=remaining))
                     more_act.setEnabled(False)
                 actions.append(sub.menuAction())
             else:
@@ -2571,7 +2656,7 @@ class MainWindow(QMainWindow):
     def _tray_search_result_actions(self, menu: QMenu, query: str) -> list:
         hits = self.tray_search(query)[:TRAY_SEARCH_RESULT_LIMIT]
         if not hits:
-            act = QAction("Keine Treffer", menu)
+            act = QAction(t("Keine Treffer"), menu)
             act.setEnabled(False)
             return [act]
         actions = []
