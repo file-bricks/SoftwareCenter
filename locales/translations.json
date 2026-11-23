@@ -71,6 +71,14 @@
     "ru": "Все файлы (*.*)",
     "zh": "所有文件 (*.*)"
   },
+  "Allgemein": {
+    "de": "Allgemein",
+    "en": "General",
+    "es": "General",
+    "ja": "一般",
+    "ru": "Общее",
+    "zh": "常规"
+  },
   "Alphabetisch": {
     "de": "Alphabetisch",
     "en": "Alphabetical",
@@ -190,6 +198,22 @@
     "ja": "ボード",
     "ru": "Доска",
     "zh": "面板"
+  },
+  "Board \"{name}\" ist als Favorit markiert und wird ENDGÜLTIG gelöscht (inkl. {count} Einträgen). Dieser Vorgang kann nicht rückgängig gemacht werden. Fortfahren?": {
+    "de": "Board \"{name}\" ist als Favorit markiert und wird ENDGÜLTIG gelöscht (inkl. {count} Einträgen). Dieser Vorgang kann nicht rückgängig gemacht werden. Fortfahren?",
+    "en": "Board \"{name}\" is marked as a favorite and will be PERMANENTLY deleted (including {count} entries). This action cannot be undone. Continue?",
+    "es": "El panel \"{name}\" está marcado como favorito y se eliminará PERMANENTEMENTE (incluidas {count} entradas). Esta acción no se puede deshacer. ¿Continuar?",
+    "ja": "ボード「{name}」はお気に入りに登録されており、{count} 件のエントリを含めて完全に削除されます。この操作は元に戻せません。続行しますか？",
+    "ru": "Доска «{name}» отмечена как избранная и будет УДАЛЕНА НАВСЕГДА (включая {count} записей). Это действие нельзя отменить. Продолжить?",
+    "zh": "面板“{name}”已标记为收藏，将被永久删除（包含 {count} 个条目）。此操作无法撤销。是否继续？"
+  },
+  "Board \"{name}\" schließen": {
+    "de": "Board \"{name}\" schließen",
+    "en": "Close board \"{name}\"",
+    "es": "Cerrar panel \"{name}\"",
+    "ja": "ボード「{name}」を閉じる",
+    "ru": "Закрыть доску «{name}»",
+    "zh": "关闭面板“{name}”"
   },
   "Board endgültig löschen": {
     "de": "Board endgültig löschen",
@@ -343,6 +367,14 @@
     "ru": "Системный трей недоступен в этой системе.",
     "zh": "系统托盘在此系统上不可用。"
   },
+  "Der Systemtray ist auf diesem System nicht verfügbar. {app} läuft ohne Tray-Symbol -- Schließen beendet die App vollständig.": {
+    "de": "Der Systemtray ist auf diesem System nicht verfügbar. {app} läuft ohne Tray-Symbol -- Schließen beendet die App vollständig.",
+    "en": "System tray is not available on this system. {app} runs without a tray icon -- closing quits the app completely.",
+    "es": "La bandeja del sistema no está disponible en este sistema. {app} se ejecuta sin icono en la bandeja; al cerrar se saldrá por completo.",
+    "ja": "このシステムではシステムトレイが利用できません。{app} はトレイアイコンなしで動作し、閉じるとアプリが完全に終了します。",
+    "ru": "Системный трей недоступен в этой системе. {app} работает без значка в трее — закрытие полностью завершит приложение.",
+    "zh": "此系统上不可用系统托盘。{app} 将在无托盘图标的情况下运行——关闭窗口将完全退出应用。"
+  },
   "Der letzte Tab kann nicht geschlossen werden.": {
     "de": "Der letzte Tab kann nicht geschlossen werden.",
     "en": "The last tab cannot be closed.",
@@ -358,6 +390,14 @@
     "ja": "エントリの名前とメモを調整するダイアログ。",
     "ru": "Диалог для настройки имени и заметок записи.",
     "zh": "用于调整条目名称和备注的对话框。"
+  },
+  "Diese Verknüpfung entfernen?": {
+    "de": "Diese Verknüpfung entfernen?",
+    "en": "Remove this shortcut?",
+    "es": "¿Eliminar este acceso directo?",
+    "ja": "このショートカットを削除しますか？",
+    "ru": "Удалить этот ярлык?",
+    "zh": "移除此快捷方式？"
   },
   "Diese Übersicht zu Tastaturkürzeln und Barrierefreiheit anzeigen": {
     "de": "Diese Übersicht zu Tastaturkürzeln und Barrierefreiheit anzeigen",
@@ -519,6 +559,14 @@
     "ru": "Функция",
     "zh": "功能"
   },
+  "Geschlossen": {
+    "de": "Geschlossen",
+    "en": "Closed",
+    "es": "Cerrado",
+    "ja": "閉じた日時",
+    "ru": "Закрыто",
+    "zh": "已关闭"
+  },
   "Hauptleiste": {
     "de": "Hauptleiste",
     "en": "Main Toolbar",
@@ -566,6 +614,14 @@
     "ja": "ファイルマネージャーで表示",
     "ru": "Показать в проводнике",
     "zh": "在文件管理器中显示"
+  },
+  "Im Explorer anzeigen": {
+    "de": "Im Explorer anzeigen",
+    "en": "Show in Explorer",
+    "es": "Mostrar en el Explorador",
+    "ja": "エクスプローラーで表示",
+    "ru": "Показать в проводнике",
+    "zh": "在资源管理器中显示"
   },
   "Im Finder anzeigen": {
     "de": "Im Finder anzeigen",
@@ -663,6 +719,14 @@
     "ru": "Не удалось открыть проводник:",
     "zh": "无法打开文件管理器："
   },
+  "Konnte nicht starten:": {
+    "de": "Konnte nicht starten:",
+    "en": "Could not launch:",
+    "es": "No se pudo iniciar:",
+    "ja": "起動できませんでした:",
+    "ru": "Не удалось запустить:",
+    "zh": "无法启动："
+  },
   "Kopie": {
     "de": "Kopie",
     "en": "Copy",
@@ -694,6 +758,14 @@
     "ja": "最終使用順のボード一覧。",
     "ru": "Список досок по последнему использованию.",
     "zh": "按最近使用顺序列出的面板列表。"
+  },
+  "Läuft weiter im Systemtray. Zum Beenden: Tray-Menü > Beenden.": {
+    "de": "Läuft weiter im Systemtray. Zum Beenden: Tray-Menü > Beenden.",
+    "en": "Still running in the system tray. To quit: Tray menu > Quit.",
+    "es": "Sigue ejecutándose en la bandeja del sistema. Para salir: Menú de bandeja > Salir.",
+    "ja": "システムトレイで実行を継続します。終了するには: トレイメニュー > 終了。",
+    "ru": "Работа продолжается в системном трее. Для выхода: меню трея > Выход.",
+    "zh": "仍在系统托盘中运行。要退出：托盘菜单 > 退出。"
   },
   "Löschen": {
     "de": "Löschen",
@@ -759,6 +831,14 @@
     "ru": "Создать новую доску (Ctrl+T)",
     "zh": "创建新面板 (Ctrl+T)"
   },
+  "Nicht gefunden": {
+    "de": "Nicht gefunden",
+    "en": "Not found",
+    "es": "No encontrado",
+    "ja": "見つかりません",
+    "ru": "Не найдено",
+    "zh": "未找到"
+  },
   "Nicht möglich": {
     "de": "Nicht möglich",
     "en": "Not possible",
@@ -783,6 +863,14 @@
     "ru": "Примечание:",
     "zh": "备注："
   },
+  "Notizen": {
+    "de": "Notizen",
+    "en": "Notes",
+    "es": "Notas",
+    "ja": "メモ",
+    "ru": "Заметки",
+    "zh": "备注"
+  },
   "OK": {
     "de": "OK",
     "en": "OK",
@@ -806,6 +894,14 @@
     "ja": "このエントリの任意のメモまたは説明。",
     "ru": "Необязательная заметка или описание для этой записи.",
     "zh": "此条目的可选备注或描述。"
+  },
+  "Pfad existiert nicht:": {
+    "de": "Pfad existiert nicht:",
+    "en": "Path does not exist:",
+    "es": "La ruta no existe:",
+    "ja": "パスが存在しません:",
+    "ru": "Путь не существует:",
+    "zh": "路径不存在："
   },
   "Pfad kopieren": {
     "de": "Pfad kopieren",
@@ -910,6 +1006,14 @@
     "ja": "閉じる",
     "ru": "Закрыть",
     "zh": "关闭"
+  },
+  "Schließt dieses Board.": {
+    "de": "Schließt dieses Board.",
+    "en": "Closes this board.",
+    "es": "Cierra este panel.",
+    "ja": "このボードを閉じます。",
+    "ru": "Закрывает эту доску.",
+    "zh": "关闭此面板。"
   },
   "Schnellfilter für Einträge im aktuellen Board (Strg+F, Esc zum Leeren)": {
     "de": "Schnellfilter für Einträge im aktuellen Board (Strg+F, Esc zum Leeren)",
@@ -1063,6 +1167,14 @@
     "ru": "Сочетание",
     "zh": "快捷键"
   },
+  "Unbekanntes Profilformat.": {
+    "de": "Unbekanntes Profilformat.",
+    "en": "Unknown profile format.",
+    "es": "Formato de perfil desconocido.",
+    "ja": "不明なプロファイル形式です。",
+    "ru": "Неизвестный формат профиля.",
+    "zh": "未知的配置文件格式。"
+  },
   "Universeller Ordnungslayer außerhalb des Dateisystems.\n\nOrganisieren Sie beliebig viele Programme, Dokumente, Ordner und Verknüpfungen in übersichtlichen Boards.": {
     "de": "Universeller Ordnungslayer außerhalb des Dateisystems.\n\nOrganisieren Sie beliebig viele Programme, Dokumente, Ordner und Verknüpfungen in übersichtlichen Boards.",
     "en": "Universal organization layer beyond the file system.\n\nOrganize apps, documents, folders, and shortcuts in customizable boards.",
@@ -1103,6 +1215,14 @@
     "ru": "Предупреждение",
     "zh": "警告"
   },
+  "Wechselt zwischen Boards. Tabs lassen sich per Doppelklick umbenennen.": {
+    "de": "Wechselt zwischen Boards. Tabs lassen sich per Doppelklick umbenennen.",
+    "en": "Switches between boards. Double-click tabs to rename.",
+    "es": "Cambia entre paneles. Haz doble clic en las pestañas para renombrar.",
+    "ja": "ボードを切り替えます。タブをダブルクリックして名前を変更できます。",
+    "ru": "Переключение между досками. Дважды щелкните вкладку для переименования.",
+    "zh": "在面板之间切换。双击标签页可重命名。"
+  },
   "Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.": {
     "de": "Ziehen Sie beliebige Apps, Dokumente, Ordner oder Verknüpfungen hierher.",
     "en": "Drag and drop any apps, documents, folders, or shortcuts here.",
@@ -1134,6 +1254,22 @@
     "ja": "コントロール間を切り替え",
     "ru": "Переключение между элементами управления",
     "zh": "在控件之间切换"
+  },
+  "{boards} geschlossene Boards mit insgesamt {entries} Einträgen endgültig löschen?": {
+    "de": "{boards} geschlossene Boards mit insgesamt {entries} Einträgen endgültig löschen?",
+    "en": "Permanently delete {boards} closed boards with {entries} entries in total?",
+    "es": "¿Eliminar permanentemente {boards} paneles cerrados con {entries} entradas en total?",
+    "ja": "{boards} 件の閉じたボード（合計 {entries} エントリ）を完全に削除しますか？",
+    "ru": "Удалить навсегда закрытые доски ({boards}) с общим числом записей {entries}?",
+    "zh": "永久删除 {boards} 个已关闭的面板（共 {entries} 个条目）？"
+  },
+  "{count} Verknüpfungen aus dieser Ansicht entfernen?": {
+    "de": "{count} Verknüpfungen aus dieser Ansicht entfernen?",
+    "en": "Remove {count} shortcuts from this view?",
+    "es": "¿Eliminar {count} accesos directos de esta vista?",
+    "ja": "{count} 件のショートカットをこのビューから削除しますか？",
+    "ru": "Удалить ярлыки ({count}) из этого представления?",
+    "zh": "从此视图中移除 {count} 个快捷方式？"
   },
   "Änderungen speichern": {
     "de": "Änderungen speichern",
@@ -1182,5 +1318,13 @@
     "ja": "アクセシブルな操作のための利用可能なすべてのキーボードショートカットの概要。",
     "ru": "Обзор всех доступных сочетаний клавиш для удобного управления.",
     "zh": "用于无障碍操作的所有可用键盘快捷键概览。"
+  },
+  "… {count} weitere": {
+    "de": "… {count} weitere",
+    "en": "… {count} more",
+    "es": "… {count} más",
+    "ja": "… 他 {count} 件",
+    "ru": "… еще {count}",
+    "zh": "… 还有 {count} 项"
   }
 }

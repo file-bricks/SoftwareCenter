@@ -214,19 +214,26 @@ def test_mainwindow_language_persists_in_settings(tmp_path):
     _ = QApplication.instance() or QApplication([])
 
     ini_path = str(tmp_path / "persist_test.ini")
-    s1 = QSettings(ini_path, QSettings.Format.IniFormat)
-    win1 = sc.MainWindow(settings=s1)
-    win1.set_language("es")
-    win1.save_settings()
-    win1.close()
-
-    s2 = QSettings(ini_path, QSettings.Format.IniFormat)
-    win2 = sc.MainWindow(settings=s2)
+    tr = get_translator()
+    original_lang = tr.get_language()
     try:
-        assert win2.translator.get_language() == "es"
-        assert win2.act_quit.text() == "Salir"
+        s1 = QSettings(ini_path, QSettings.Format.IniFormat)
+        win1 = sc.MainWindow(settings=s1)
+        try:
+            win1.set_language("es")
+            win1.save_settings()
+        finally:
+            win1.close()
+
+        s2 = QSettings(ini_path, QSettings.Format.IniFormat)
+        win2 = sc.MainWindow(settings=s2)
+        try:
+            assert win2.translator.get_language() == "es"
+            assert win2.act_quit.text() == "Salir"
+        finally:
+            win2.close()
     finally:
-        win2.close()
+        tr.set_language(original_lang)
 
 
 def test_context_menu_translates_with_active_language(tmp_path):
@@ -280,3 +287,177 @@ def test_context_menu_translates_with_active_language(tmp_path):
     finally:
         tr.set_language(original_lang)
         widget.close()
+
+
+def test_file_manager_titles_and_error_dialogs_translate(tmp_path):
+    from unittest.mock import patch
+
+    from PySide6.QtWidgets import QMessageBox
+
+    import SoftwareCenter as sc
+
+    tr = get_translator()
+    original_lang = tr.get_language()
+    try:
+        tr.set_language("en")
+        with patch("sys.platform", "win32"):
+            assert sc.get_file_manager_action_title() == "Show in Explorer"
+        with patch("sys.platform", "darwin"):
+            assert sc.get_file_manager_action_title() == "Show in Finder"
+        with patch("sys.platform", "linux"):
+            assert sc.get_file_manager_action_title() == "Show in file manager"
+        assert sc.get_file_manager_action_title("https://example.com") == "Open in browser"
+
+        missing = str(tmp_path / "missing_tool.exe")
+        with patch.object(QMessageBox, "warning") as mock_warn:
+            sc.open_file(missing)
+            assert mock_warn.call_args[0][1] == "File not found"
+            assert "Path does not exist:" in mock_warn.call_args[0][2]
+
+        with patch.object(QMessageBox, "warning") as mock_warn_fm:
+            sc.show_in_file_manager(missing)
+            assert mock_warn_fm.call_args[0][1] == "File not found"
+            assert "Path does not exist:" in mock_warn_fm.call_args[0][2]
+    finally:
+        tr.set_language(original_lang)
+
+
+def test_retranslate_ui_updates_sidebar_toolbar_tooltips_and_tray(tmp_path):
+    import os
+    from unittest.mock import patch
+
+    from PySide6.QtCore import QSettings
+    from PySide6.QtWidgets import QApplication, QLineEdit, QSystemTrayIcon, QWidgetAction
+
+    import SoftwareCenter as sc
+
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+    _ = QApplication.instance() or QApplication([])
+
+    tr = get_translator()
+    original_lang = tr.get_language()
+    tool = tmp_path / "demo.exe"
+    tool.write_text("x", encoding="utf-8")
+
+    s = QSettings(str(tmp_path / "retranslate_full.ini"), QSettings.Format.IniFormat)
+    s.setValue("minimize_to_tray", True)
+    with patch.object(QSystemTrayIcon, "isSystemTrayAvailable", return_value=True):
+        win = sc.MainWindow(settings=s)
+
+    try:
+        win.current_page().list.add_entries([{"path": str(tool), "label": "Demo", "notes": "My note"}])
+        win.add_new_tab("Second")
+        win.on_close_tab(1)
+        win.set_language("en")
+
+        # Sidebar (BoardsPanel) + Dock
+        panel = win.boards_panel
+        assert win.boards_dock.windowTitle() == "Boards"
+        assert panel.view_tabs.tabText(panel.view_tabs.indexOf(panel.history_list)) == "History"
+        assert panel.view_tabs.tabText(panel.view_tabs.indexOf(panel.alpha_list)) == "Alphabetical"
+        assert panel.view_tabs.accessibleName() == "Board Catalog"
+        assert panel.history_list.accessibleName() == "Recently closed and active boards"
+        assert panel.alpha_list.accessibleName() == "Alphabetical board list"
+        assert panel.clear_history_btn.text() == "Clear history"
+        assert panel.clear_history_btn.accessibleName() == "Clear history"
+        assert "closed boards" in panel.clear_history_btn.toolTip().lower()
+        hist_tooltips = [panel.history_list.item(i).toolTip() for i in range(panel.history_list.count())]
+        assert any(tt.startswith("Closed:") for tt in hist_tooltips)
+        assert "Active" in hist_tooltips
+
+        # Toolbar, Tooltips, Search, Board Bar & List Item Tooltips
+        assert win.main_toolbar.windowTitle() == "Main Toolbar"
+        assert win.act_rename_tab.toolTip() == "Rename current board"
+        assert win.act_duplicate_tab.toolTip() == "Duplicate current board (create copy)"
+        assert win.act_view_tiles.toolTip() == "Tile view with large icons"
+        assert win.act_view_list.toolTip() == "Compact list view"
+        assert win.act_export_profile.toolTip() == "Export boards and entries as JSON profile"
+        assert win.act_import_profile.toolTip() == "Import boards and entries from JSON profile"
+        assert win.act_toggle_boards_panel.iconText() == "Board Management"
+        assert win.act_toggle_boards_panel.toolTip() == "Toggle board management (Ctrl+B)"
+        if win.btn_toggle_boards_panel is not None:
+            assert win.btn_toggle_boards_panel.accessibleName() == "Board Management"
+        assert win.search_edit.accessibleName() == "Quick search"
+        assert "Filters entries" in win.search_edit.accessibleDescription()
+        assert win.search_edit.placeholderText() == "Filter entries in board… (Ctrl+F)"
+        assert "Ctrl+F" in win.search_edit.toolTip()
+        assert win.tabs.tabBar().accessibleName() == "Board Bar"
+        assert "Notes: My note" in win.current_page().list.item(0).toolTip()
+        assert win.current_page().list.accessibleName() == "Software and document list"
+
+        # Live Tray Menu
+        assert win.tray is not None
+        tray_menu = win.tray.contextMenu()
+        assert tray_menu is not None
+        tray_texts = [a.text() for a in tray_menu.actions() if not a.isSeparator()]
+        assert "Open/Show" in tray_texts
+        assert "Quit" in tray_texts
+        widget_actions = [a for a in tray_menu.actions() if isinstance(a, QWidgetAction)]
+        search_widgets = [a.defaultWidget() for a in widget_actions if isinstance(a.defaultWidget(), QLineEdit)]
+        assert search_widgets and search_widgets[0].placeholderText() == "Search board or entry …"
+        assert win._tray_dynamic_actions[0].menu() is not None
+        assert win._tray_dynamic_actions[0].menu().actions()[0].text() == "Open board"
+    finally:
+        tr.set_language(original_lang)
+        win.close()
+
+
+def test_dialogs_and_panel_context_menu_translate_in_english(tmp_path):
+    import os
+    from unittest.mock import patch
+
+    from PySide6.QtCore import QPoint, QSettings
+    from PySide6.QtWidgets import QApplication, QFileDialog, QInputDialog, QMenu, QMessageBox
+
+    import SoftwareCenter as sc
+
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+    _ = QApplication.instance() or QApplication([])
+
+    tr = get_translator()
+    original_lang = tr.get_language()
+    s = QSettings(str(tmp_path / "dialogs_en.ini"), QSettings.Format.IniFormat)
+    win = sc.MainWindow(settings=s)
+    try:
+        win.set_language("en")
+
+        with patch.object(QMessageBox, "information") as mock_info:
+            win.on_close_tab(0)
+            assert mock_info.call_args[0][1] == "Not possible"
+            assert mock_info.call_args[0][2] == "The last tab cannot be closed."
+
+        with patch.object(QInputDialog, "getText", return_value=("", False)) as mock_new:
+            win.on_new_tab()
+            assert mock_new.call_args[0][1] == "New tab"
+            assert mock_new.call_args[0][2] == "Tab name:"
+
+        with patch.object(QInputDialog, "getText", return_value=("", False)) as mock_ren:
+            win.on_rename_tab(0)
+            assert mock_ren.call_args[0][1] == "Rename tab"
+            assert mock_ren.call_args[0][2] == "New tab name:"
+
+        with patch.object(QFileDialog, "getSaveFileName", return_value=("", "")) as mock_exp:
+            win.export_profile()
+            assert mock_exp.call_args[0][1] == "Export profile"
+            assert mock_exp.call_args[0][3] == "JSON files (*.json)"
+
+        with patch.object(QMessageBox, "question", return_value=QMessageBox.StandardButton.No) as mock_del:
+            win.current_page().on_request_delete(["C:/a.exe", "C:/b.exe"])
+            assert mock_del.call_args[0][1] == "Confirm deletion"
+            assert "Remove 2 shortcuts from this view?" in mock_del.call_args[0][2]
+
+        # BoardsPanel context menu
+        win.boards_panel.refresh()
+        captured_panel_actions = []
+
+        def intercept_panel_menu(menu_self, pos=None):
+            captured_panel_actions.extend(a.text() for a in menu_self.actions() if not a.isSeparator())
+            return None
+
+        with patch.object(QMenu, "exec", side_effect=intercept_panel_menu):
+            win.boards_panel._on_context_menu(win.boards_panel.history_list, QPoint(5, 5))
+        assert "Favorite" in captured_panel_actions
+        assert "Delete" in captured_panel_actions
+    finally:
+        tr.set_language(original_lang)
+        win.close()
