@@ -19,7 +19,7 @@
 Un organizador de escritorio ligero y multiplataforma para gestionar accesos directos de software mediante categorización basada en pestañas.
 
 > [!NOTE]
-> **Integración de IA / LLM e índice legible por máquinas:** SoftwareCenter proporciona metadatos estructurados en [`llms.txt`](llms.txt) y admite migraciones de perfiles a través de JSON versionado (`softwarecenter-profile-v1.json`).
+> **Integración de IA / LLM e índice legible por máquinas:** SoftwareCenter proporciona metadatos estructurados en [`llms.txt`](llms.txt) (puntero de compatibilidad: [`llm.txt`](llm.txt)), guía operativa para agentes en [`SKILL.md`](SKILL.md), una CLI sin interfaz gráfica con `--json` (`python SoftwareCenter.py --help`) y migraciones de perfiles a través de JSON versionado (`softwarecenter-profile-v1.json`).
 
 ![Ventana principal de SoftwareCenter](README/screenshots/store/main-window.png)
 
@@ -238,6 +238,18 @@ En Windows, también puede utilizar `START.bat`. Para compilar un ejecutable loc
 | Eliminar accesos directos | Clic derecho > Eliminar (elimina solo el acceso directo, no el archivo original) |
 | Exportar perfil | `Archivo > Exportar perfil` o el botón en la barra de herramientas |
 | Importar perfil | `Archivo > Importar perfil` o el botón en la barra de herramientas; sustituye el perfil actual |
+
+### CLI sin interfaz gráfica (uso dual para humanos y LLMs)
+
+```bash
+python SoftwareCenter.py --version --json
+python SoftwareCenter.py --json --settings-file ./profile.ini boards list --include-closed
+python SoftwareCenter.py --json --settings-file ./profile.ini entries add "Allgemein" "https://example.org" --label "Docs"
+python SoftwareCenter.py --json --settings-file ./profile.ini search "Docs"
+python SoftwareCenter.py --json --settings-file ./profile.ini profile export ./softwarecenter-profile-v1.json
+```
+
+Consulte [`SKILL.md`](SKILL.md) para ver todos los subcomandos (`boards`, `entries`, `search`, `profile`, `launch`), confirmaciones (`--yes`) y códigos de salida.
 
 ## Compilar ejecutable
 

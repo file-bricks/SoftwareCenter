@@ -1,36 +1,42 @@
 # SoftwareCenter
 
-## Last-checked: 2026-09-23
+## Last-checked: 2026-11-24
 
 Canonical repository: https://github.com/file-bricks/SoftwareCenter
 Owner: file-bricks
 Primary language: Python
 Primary UI stack: PySide6
 License: MIT for project source; dependencies have separate terms
+Agent skill: SKILL.md
+Compatibility pointer: llm.txt
 
 ## Summary
 
-SoftwareCenter is a lightweight, cross-platform desktop organizer for software shortcuts. It organizes files and apps into renamable tabs using a clean PySide6 UI, saves view/tab states dynamically, and supports profile import/export (`softwarecenter-profile-v1.json`).
+SoftwareCenter is a lightweight, cross-platform desktop organizer for software shortcuts. It organizes files and apps into renamable tabs using a clean PySide6 UI, exposes a headless dual-use CLI (`softwarecenter_cli.py` via `SoftwareCenter.py` / `launchboards.py`), saves view/tab states dynamically, and supports profile import/export (`softwarecenter-profile-v1.json`).
 
-Discovery positioning: local-first PySide6 app launcher, desktop shortcut organizer, tab-based program organizer, profile export and confirmed replacement import.
+Discovery positioning: local-first PySide6 app launcher, headless CLI shortcut manager, desktop shortcut organizer, tab-based program organizer, profile export and confirmed replacement import.
 
 ## Current Scope
 
 - Primary platform: Cross-platform desktop (Windows, macOS, Linux).
 - Build targets: PyInstaller standalone executables.
 - Runtime UI languages: German, English, Spanish, Chinese (zh), Japanese, and Russian (six); README editions describe documentation availability and do not add UI locales.
+- Headless CLI: `--version`, `--json`, `--profile {softwarecenter,launchboards}`, `--settings-file <ini>`, `boards` (`list|create|rename|close|reactivate|favorite`), `entries` (`list|add|remove`), `search`, `profile` (`export|validate|import --yes`), and `launch [--dry-run]`.
 - Non-goals: Network package installation, automatic software updates, cloud-account synchronizations.
 
 ## Important Files
 
+- `SKILL.md`: Operational agent skill describing human and CLI dual-use workflows, flags, guardrails, exit codes, and readback checks.
+- `llm.txt`: Compatibility pointer referencing `llms.txt` and `SKILL.md`.
 - `README.md`: English canonical GitHub entry point and source of truth; `README_de.md`: German documentation; `README.es.md`: Spanish documentation; `README_zh.md`: Simplified Chinese documentation. `README_ja.md`: Japanese documentation. `README_ru.md`: Russian documentation. `README_fr.md`: French documentation. `README_hi.md`: Hindi documentation. `README_ar.md`: Arabic documentation. `README_bn.md`: Bengali documentation. `README_pt.md`: Portuguese documentation.
-- `SoftwareCenter.py`: Main PySide6 application.
+- `SoftwareCenter.py`: Main PySide6 application and CLI dispatch entrypoint (`launchboards.py` for the LaunchBoards profile).
+- `softwarecenter_cli.py`: Headless dual-use CLI implementation sharing core `QSettings` and profile normalization logic.
 - `NOTICE`: Open-source attribution notice (Lukas Geiger, file-bricks, open-bricks umbrella).
 - `SECURITY.md`: Bilingual security policy, supported versions, reporting channels, and published response commitments.
 - `THIRD_PARTY_LICENSES.md`: Dependency metadata and license inventory; not a blanket permissive-license or packaged-build compliance guarantee.
 - `EXPORTFORMAT.md`: Schema definition for versioned profile JSON.
 - `MARKETING-LOG.txt`: Target personas, dual-language search term matrices, competitive comparison, and governance invariants.
-- `tests/`: Regression and metadata tests for named fixtures and contracts, including persistence, product separation, six UI languages, and WACK tool discovery; tests are not certification.
+- `tests/`: Regression and metadata tests for named fixtures and contracts, including CLI/P-022 dual-use behavior, persistence, product separation, six UI languages, and WACK tool discovery; tests are not certification.
 
 ## Verification
 
@@ -38,7 +44,7 @@ Use these local checks before publishing changes:
 
 ```bash
 python -m pytest -q
-python -m compileall -q SoftwareCenter.py manage_translations.py translator.py
+python -m compileall -q SoftwareCenter.py softwarecenter_cli.py launchboards.py manage_translations.py translator.py
 ruff check .
 ```
 
@@ -47,7 +53,7 @@ The GitHub workflow runs PySide6 regression tests on Python 3.10, 3.11, and
 `web_companion/` has no npm test; if reintroduced, CI runs `npm test` and
 `node --check` for `app.js`, `library.js`, and `sw.js`.
 
-The 2026-09-23 local verification passed all tests (260+ passed) plus compile, multi-rule ruff lint,
+The 2026-11-24 local verification passed all tests (278+ existing plus CLI/P-022 tests) plus compile, multi-rule ruff lint,
 dependency, NOTICE attribution, and CI lifecycle guardrails. No signed/WACK-verified Store
 submission candidate is claimed; the local v1.2.0 EXE remains an unsigned, non-submission artifact.
 
@@ -63,12 +69,13 @@ SoftwareCenter is a local desktop application (PySide6/Python) for shortcut mana
 
 - **Network:** The inspected organizer code has no account, telemetry, or cloud-sync implementation. URLs and launched programs can use the network; no runtime egress guarantee is made.
 - **Launch context:** Platform APIs open targets; child-process privileges are not enforced or verified by the organizer.
-- **Entry removal and import:** Removing an entry removes its saved reference without deleting the target. Import replaces the current profile after confirmation. Exported labels, paths, and notes can contain private details.
+- **Entry removal and import:** Removing an entry removes its saved reference without deleting the target. Import replaces the current profile after confirmation (GUI prompt or CLI `--yes`). Exported labels, paths, and notes can contain private details.
 - **Platform handlers:** Windows shortcut lookup uses COM with a PowerShell fallback; Linux desktop commands and external applications may execute. Target behavior is not sandboxed.
 
 ## Audience
 
 - Power users on Windows, macOS, or Linux who want a lightweight, local-first desktop organizer for software shortcuts and app launchers
+- AI agents and automation scripts using the headless `--json` CLI and `SKILL.md`
 - Developers looking for a PySide6 reference with QSettings-based state persistence, profile export/import, and cross-platform smoke CI
 - IT admins managing repeatable software environments who want a portable, JSON-based profile migration path
 
