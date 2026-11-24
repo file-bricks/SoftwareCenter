@@ -19,7 +19,7 @@
 Ein leichtgewichtiger, plattformübergreifender Desktop-Organizer für Software-Verknüpfungen mit Tab-basierter Kategorisierung.
 
 > [!NOTE]
-> **KI / LLM Integration & Maschinelles Register:** SoftwareCenter bietet maschinenlesbare Metadaten in [`llms.txt`](llms.txt) und unterstützt Profil-Migrationen über versioniertes JSON (`softwarecenter-profile-v1.json`).
+> **KI / LLM Integration & Maschinelles Register:** SoftwareCenter bietet maschinenlesbare Metadaten in [`llms.txt`](llms.txt) (Kompatibilitätsverweis: [`llm.txt`](llm.txt)), eine operative Agenten-Anleitung in [`SKILL.md`](SKILL.md), eine Headless-`--json`-CLI (`python SoftwareCenter.py --help`) sowie Profil-Migrationen über versioniertes JSON (`softwarecenter-profile-v1.json`).
 
 ![SoftwareCenter Hauptfenster](README/screenshots/store/main-window.png)
 
@@ -239,6 +239,18 @@ Unter Windows auch per `START.bat`. Für eine lokale EXE-Aktualisierung ist zus�
 | Einträge entfernen | Rechtsklick > Löschen (entfernt nur die Verknüpfung) |
 | Profil exportieren | `Datei > Profil exportieren` oder Toolbar-Aktion |
 | Profil importieren | `Datei > Profil importieren` oder Toolbar-Aktion; ersetzt das aktuelle Profil |
+
+### Headless-CLI (Dual-Use für Menschen & LLMs)
+
+```bash
+python SoftwareCenter.py --version --json
+python SoftwareCenter.py --json --settings-file ./profile.ini boards list --include-closed
+python SoftwareCenter.py --json --settings-file ./profile.ini entries add "Allgemein" "https://example.org" --label "Docs"
+python SoftwareCenter.py --json --settings-file ./profile.ini search "Docs"
+python SoftwareCenter.py --json --settings-file ./profile.ini profile export ./softwarecenter-profile-v1.json
+```
+
+Details zu allen Unterbefehlen (`boards`, `entries`, `search`, `profile`, `launch`), Sicherheitsbestätigungen (`--yes`) und Exit-Codes stehen in [`SKILL.md`](SKILL.md).
 
 ## EXE erstellen
 

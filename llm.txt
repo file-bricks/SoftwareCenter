@@ -1,0 +1,6 @@
+# Compatibility pointer to llms.txt (see Policy P-022).
+# Canonical LLM entry point: llms.txt
+# Agent operational skill: SKILL.md
+See: llms.txt
+Skill: SKILL.md
+Repository: https://github.com/file-bricks/SoftwareCenter

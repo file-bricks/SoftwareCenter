@@ -19,7 +19,7 @@
 A lightweight, cross-platform desktop organizer for managing software shortcuts with tab-based categorization.
 
 > [!NOTE]
-> **LLM / AI Integration & Machine-Readable Index:** SoftwareCenter provides structured machine-readable metadata in [`llms.txt`](llms.txt) and supports profile migrations via versioned JSON (`softwarecenter-profile-v1.json`).
+> **LLM / AI Integration & Machine-Readable Index:** SoftwareCenter provides structured machine-readable metadata in [`llms.txt`](llms.txt) (compatibility pointer: [`llm.txt`](llm.txt)), operational agent instructions in [`SKILL.md`](SKILL.md), a headless `--json` CLI (`python SoftwareCenter.py --help`), and profile migrations via versioned JSON (`softwarecenter-profile-v1.json`).
 
 ![SoftwareCenter main window](README/screenshots/store/main-window.png)
 
@@ -239,6 +239,18 @@ On Windows, you can also use `START.bat`. For building a local executable, `buil
 | Remove entries | Right-click > Delete (removes shortcut only) |
 | Export profile | `File > Export Profile` or the toolbar action |
 | Import profile | `File > Import Profile` or the toolbar action; replaces the current profile |
+
+### Headless CLI (Dual-Use for Humans & LLMs)
+
+```bash
+python SoftwareCenter.py --version --json
+python SoftwareCenter.py --json --settings-file ./profile.ini boards list --include-closed
+python SoftwareCenter.py --json --settings-file ./profile.ini entries add "Allgemein" "https://example.org" --label "Docs"
+python SoftwareCenter.py --json --settings-file ./profile.ini search "Docs"
+python SoftwareCenter.py --json --settings-file ./profile.ini profile export ./softwarecenter-profile-v1.json
+```
+
+See [`SKILL.md`](SKILL.md) for all subcommands (`boards`, `entries`, `search`, `profile`, `launch`), safety confirmations (`--yes`), and exit codes.
 
 ## Build Executable
 

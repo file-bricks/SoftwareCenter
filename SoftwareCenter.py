@@ -471,7 +471,11 @@ def validate_profile_payload(payload: dict) -> list[dict]:
 
     payload_format = payload.get("format")
     payload_version = payload.get("format_version")
-    if payload_format != PROFILE_FORMAT or payload_version != PROFILE_FORMAT_VERSION:
+    if (
+        payload_format != PROFILE_FORMAT
+        or isinstance(payload_version, bool)
+        or payload_version != PROFILE_FORMAT_VERSION
+    ):
         raise ValueError(t("Unbekanntes Profilformat."))
 
     raw_tabs = payload.get("tabs")
@@ -2058,7 +2062,9 @@ class MainWindow(QMainWindow):
     def apply_profile_payload(self, payload: dict):
         tabs = validate_profile_payload(payload)
         current_tab = payload.get("current_tab", 0)
-        if not isinstance(current_tab, int):
+        if isinstance(current_tab, bool):
+            current_tab = 0
+        elif not isinstance(current_tab, int):
             try:
                 current_tab = int(current_tab)
             except (TypeError, ValueError):
@@ -2366,6 +2372,7 @@ class MainWindow(QMainWindow):
 
         panel_view = settings.value("boards_panel_view", "history")
         self._boards_panel_view = panel_view if panel_view in ("history", "alphabetical") else "history"
+        self._refresh_boards_panel()
 
     def closeEvent(self, event):
         self.save_settings()
@@ -2704,7 +2711,16 @@ class MainWindow(QMainWindow):
         else:
             event.ignore()
 
-def main(profile: AppProfile = PROFILE_SOFTWARECENTER):
+def main(profile: AppProfile = PROFILE_SOFTWARECENTER, argv=None):
+    args_list = list(sys.argv[1:] if argv is None else argv)
+    from softwarecenter_cli import cli_main, should_dispatch_cli
+
+    if should_dispatch_cli(args_list):
+        exit_code = cli_main(args_list, default_profile=profile)
+        if argv is not None:
+            return exit_code
+        sys.exit(exit_code)
+
     app = QApplication(sys.argv)
     # Systemtray: App nicht automatisch beenden, wenn das Fenster (in den Tray)
     # versteckt wird. Das Beenden steuert MainWindow.closeEvent/quit_app explizit.

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-11-24 (P-022 Dual-Use Headless CLI, Product Skill & Profile Hardening)
+
+### Added
+- **Headless Dual-Use CLI (`softwarecenter_cli.py`, `SoftwareCenter.py`, `launchboards.py`, `pyproject.toml`):** Added a non-GUI CLI supporting `--version`, `--json`, `--profile {softwarecenter,launchboards}`, `--settings-file <ini>`, `boards` (`list|create|rename|close|reactivate|favorite`), `entries` (`list|add|remove`), `search`, `profile` (`export|validate|import --yes`), and `launch [--dry-run]`, sharing `SoftwareCenter`'s exact `QSettings` schema and entry/profile validation logic. Registered console entrypoints (`softwarecenter`, `launchboards`) in `pyproject.toml` while preserving `version = "1.2.0"`.
+- **P-022 Product Skill & LLM Entry Points (`SKILL.md`, `llm.txt`, `llms.txt`, `README.md`, `README_de.md`, `README.es.md`):** Added standalone `SKILL.md` (with dual-use guide, CLI workflows, `--yes` safety guardrails, exit codes, and readback checks) and `llm.txt` compatibility pointer, updated `llms.txt` (`Last-checked: 2026-11-24`), and linked them from `pyproject.toml` and documentation.
+- **Tests (`tests/test_cli_and_p022.py`):** Added unit, subprocess, GUI/CLI `QSettings` roundtrip, bool-guard regression, and P-022 contract tests.
+
+### Fixed
+- **Profile Boolean Type Guards (`SoftwareCenter.py`):** Rejected boolean values for `format_version` in `validate_profile_payload()` (`True == 1` Python edge case) and ignored boolean `current_tab` values in `apply_profile_payload()`.
+- **Settings Reload Panel Refresh (`SoftwareCenter.py`):** Called `self._refresh_boards_panel()` at the end of `MainWindow.load_settings()` so favorites loaded on active tabs are reflected immediately when `load_settings()` is invoked directly.
+
 ## [Unreleased] - 2026-11-23 (Full Runtime UI Localization & Live `retranslate_ui()` Coverage, I18N-SC-01/02)
 
 ### Changed & Fixed

@@ -266,6 +266,7 @@ def test_pyproject_pep621_metadata_and_urls():
     assert urls["Parent Organization"] == "https://github.com/file-bricks"
     assert urls["Umbrella Ecosystem"] == "https://github.com/open-bricks"
     assert urls["LLM Ready"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/llms.txt"
+    assert urls["Agent Skill"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/SKILL.md"
     assert urls["Marketing Log"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/MARKETING-LOG.txt"
     assert urls["Third-Party Licenses"] == "https://github.com/file-bricks/SoftwareCenter/blob/master/THIRD_PARTY_LICENSES.md"
 
@@ -305,7 +306,9 @@ def test_llms_txt_structure_and_timestamp():
     assert llms_file.exists(), "llms.txt must exist"
     content = llms_file.read_text(encoding="utf-8")
 
-    assert "## Last-checked: 2026-09-23" in content
+    assert "## Last-checked: 2026-11-24" in content
+    assert "SKILL.md" in content
+    assert "llm.txt" in content
     assert "https://github.com/file-bricks/SoftwareCenter" in content
     assert "THIRD_PARTY_LICENSES.md" in content
     assert "Disambiguation" in content
